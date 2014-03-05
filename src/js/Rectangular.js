@@ -166,16 +166,12 @@ angular.module('Rectangular',[])
 	this.skin = function(body, options) {
 
 		var defaults = {
-			height: 2,
-			width: 2,
-			x: 10,
-			scaleX: 1,
-			scaleY: 1,
-			regY: 0,
-			regX: 0,
+			height: 100,
+			width: 100,
 			snapToPixel: false,
 			mouseEnabled: false,
 			y: 1,
+			x: 10,
 			angle: 0,
 			src: "img/globe.png",
 		};
@@ -209,15 +205,25 @@ angular.module('Rectangular',[])
 			var img = imgData.image;
 			console.log("Width, height?",img.width,img.height);
 
+			var scaleY = options.height / img.height;
+			var scaleX = options.width / img.width;
+
+			var regY = (img.height) / 2;
+			var regX = (img.width) / 2;
+
 			imgData.x = options.x;
 			imgData.y = options.y;
+			imgData.scaleX = scaleX;
+			imgData.scaleY = scaleY;
 
-			imgData.regX = options.regX;   // important to set origin point to center of your bitmap
-			imgData.regY = options.regY; 
+			imgData.regX = regX;
+			imgData.regY = regY;
+
 			imgData.snapToPixel = options.snapToPixel;
 			imgData.mouseEnabled = options.mouseEnabled;
 			stage.addChild(imgData);
-			window.imgData = imgData;
+			
+			console.log("Imgdata?",imgData);
 
 			var actor = new actorObject(body, imgData);
 			ngWorld.actors.push(actor);
