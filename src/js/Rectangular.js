@@ -1,36 +1,23 @@
 angular.module('Rectangular',[])
-.directive('ngStage',function(ngWorld, ngBox){
+.directive('ngStage',function(ngWorld, ngBox, ngrDebug){
 	console.log("Compinling directive");
 	return {
 		restrict: 'AE',
 		link: function(scope, elem, attrs) {
+			console.log("New stage",elem, attrs)
 			var ctx = $(elem).get(0).getContext('2d');
-			//console.log("Context?",scope.ctx);
-			var world = ngWorld.getWorld(0,0,true);
-			console.log("World?",world);
-			var box = ngBox.getBox(world, 1, 1, 2,2);
-			console.log('Box?',box);
 
-			if (attrs.debug || true) {
-				console.log("Debugging");
-				var debugDraw = new b2DebugDraw();
-				var scale = 30;
-				debugDraw.SetSprite(ctx);
-				debugDraw.SetDrawScale(scale);
-				debugDraw.SetFillAlpha(0.5);
-				debugDraw.SetLineThickness(1.0);
-				debugDraw.SetFlags(b2DebugDraw.e_shapeBit | b2DebugDraw.e_jointBit);
-				 
-				world.SetDebugDraw(debugDraw);
-				 
-			//	ngBox.getBox(world, 3, 3, 2, 2);
-				//createBox(world , game.screen_width -1  , game.screen_height / 2 , 0.1 , game.screen_height/2 -1 , { 'type' : b2Body.b2_staticBody , 'restitution' : 0.5 });
-				 
-				//few lightweight boxes
-				//var free = {'restitution' : 1.0 , 'linearDamping' : 1.0 , 'angularDamping' : 1.0 , 'density' : 0.2};
-				//createBox(world , 2 , 2 , 0.5 , 0.5 , free);
-				//createBox(world , 5 , 2 , 0.5 , 0.5 , free);
-			}
+			// create world
+			var world = ngWorld.setWorld(0,0,true);
+
+			// demo box function
+			var box = ngBox.getBox(1, 1, 2,2);
+
+			// debugging block
+
+			ngrDebug.debug(ctx);
+
+				
 
 			ctx.save();
 			ctx.translate(0 , 200);
@@ -44,18 +31,38 @@ angular.module('Rectangular',[])
 
 angular.module('Rectangular')
 .service("ngWorld",function(){
-	 this.getWorld = function(gravityX, gravityY, sleep) {
+	 var world = {};
+	 this.setWorld = function(gravityX, gravityY, sleep) {
 
 		 	var gravity = new b2Vec2(gravityX, gravityY);
 		 	var doSleep = sleep;
 		 	 
-		 	var world = new b2World(gravity , doSleep);
-
+		 	world = new b2World(gravity , doSleep);
 		 	return world;
 	 }
+
+	 this.getWorld = function() {
+	 	return world;
+	 }
+	 
 })
-.service("ngBox",function(){
-	 this.getBox = function(world, x, y, width, height, options) {
+.service('ngrDebug',function(ngWorld){
+	this.debug = function(ctx) {
+	console.log("Debugging");
+		var world = ngWorld.getWorld();
+			var debugDraw = new b2DebugDraw();
+			var scale = 30;
+			debugDraw.SetSprite(ctx);
+			debugDraw.SetDrawScale(scale);
+			debugDraw.SetFillAlpha(0.5);
+			debugDraw.SetLineThickness(1.0);
+			debugDraw.SetFlags(b2DebugDraw.e_shapeBit | b2DebugDraw.e_jointBit);
+			world.SetDebugDraw(debugDraw);
+
+		}
+})
+.service("ngBox",function(ngWorld){
+	 this.getBox = function(x, y, width, height, options) {
 
 		 //default setting
 		     var options = {
@@ -69,6 +76,8 @@ angular.module('Rectangular')
 		         'gravityScale' : 1.0 ,
 		         'type' : b2Body.b2_dynamicBody
 		     };
+
+		     var world = ngWorld.getWorld();
 
 		     var body_def = new b2BodyDef();
 		     var fix_def = new b2FixtureDef;
