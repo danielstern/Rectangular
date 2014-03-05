@@ -1,12 +1,42 @@
 angular.module('Rectangular',[])
 
-.service('ngrEnvironment',function(ngWorld,ngStage,ngBox,ngrLoop,display){
+.service('ngrEnvironment',function(ngWorld,ngStage,ngBox,ngrDebug,ngrLoop,display){
 
 	var world = ngWorld.setWorld(0,30,true);
+	var envHeight;
+	var envWidth;
+	var canvas;
 	// create world
 
-	this.init = function(){
+	this.init = function(_canvas){
 		ngrLoop.initWorld(60);
+		//console.log("Canvas?",canvas,canvas.width);
+		envHeight = _canvas.height;
+		envWidth = _canvas.width;
+		canvas = _canvas;
+	}
+
+	this.room = function() {
+		var world = ngWorld.getWorld();
+		var SCALE = ngWorld.SCALE;
+
+	
+		var shape = ngBox.shape('box',{
+			width:envWidth / SCALE,
+			height: 10 / SCALE,
+			position:'static',
+			y: envHeight / SCALE,
+		});
+		var body = ngWorld.addElement(shape);
+		var actor = display.skin(body,{
+			height: 10 / SCALE
+		});
+		//body.SetUserData(actor); 
+	}
+
+	this.debug = function(_debugCanvas) {
+		var ctx = _debugCanvas.getContext('2d');
+    ngrDebug.debug(ctx);
 	}
 
 })

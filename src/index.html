@@ -44,7 +44,7 @@ CAN HAZ ANGULOR + BUX2d?
 <a href='ballagent.html'>BALL AGENT</a>
 
 <div class='main' >
-<!-- <canvas ng-stage id='canvas' width='500' height='400' style="background-color:#333;"></canvas>-->
+ <canvas ng-stage id='canvas' width='500' height='400' style="background-color:#333;"></canvas>
  <canvas ng-stage id='debugCanvas' debug=true width='500' height='400' style="background-color:#333;"></canvas>
 
  <ng-box
@@ -62,40 +62,18 @@ CAN HAZ ANGULOR + BUX2d?
 </body>
  
 </html>
-<style>
-  .wow {
-    border: 2px solid gray;
-  }
-</style>
+
 
 <!-- ZOR -->
 <script>
 angular.module("demoApp",['Rectangular'])
 
-.controller('myDemoCtrl',function($scope,$element, ngrEnvironment, ngrDebug, $compile){
+.controller('myDemoCtrl',function($scope,$element, ngrEnvironment, $compile){
 
-    // only boilerplate
-   /* var world = ngWorld.setWorld(0,26,true);
-
-    // create world
-    var floor = ngBox.shape('box',{
-        position:'static',
-        width: 500,
-        height: 0.2,
-        y: 10,
-        angle:0.01
-        
-    });
-    var body = ngWorld.addElement(floor);
-    display.skin(body,{width: 60, height: 0.3});
-*/
-
-    ngrEnvironment.init();
-
-    // debug;
-    var elem = document.getElementById('debugCanvas');
-    var ctx = $(elem).get(0).getContext('2d');
-    ngrDebug.debug(ctx);
+    ngrEnvironment.init($('canvas')[0]);
+    ngrEnvironment.room({floor:true});
+    ngrEnvironment.debug($('#debugCanvas')[0])
+    
 
     //ngrLoop.initWorld(ctx,world, 60);
 
