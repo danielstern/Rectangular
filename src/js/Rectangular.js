@@ -160,27 +160,43 @@ angular.module('Rectangular',[])
 	}
 })
 
-.directive('ngBox',function(ngWorld, ngBox){
-	return {
-		restrict: 'AE',
-		link: function(scope, elem, attrs) {
-  		var box = ngBox.shape("box",attrs)
-  		ngWorld.addElement(box);
-		}
+
+
+.service('display',function(ngWorld){
+	this.skin = function(body, options) {
+
+		var defaults = {
+			height: 2,
+			width: 2,
+			x: 10,
+			y: 1,
+			angle: 0,
+			src: "img/globe.png",
+		};
+
+		options = _.extend(defaults,options);
+
+		var stage = ngWorld.stage;
+
+		var imgData = new Bitmap(options.src);
+		imgData.x = 256;
+		imgData.y = 256;
+		imgData.scaleX = 0.5;
+		imgData.scaleY = 0.5;
+		imgData.regX = 128;   // important to set origin point to center of your bitmap
+		imgData.regY = 128; 
+		imgData.snapToPixel = true;
+		imgData.mouseEnabled = false;
+		stage.addChild(imgData);
+
+		var actor = new actorObject(body, imgData);
+		ngWorld.actors.push(actor);
+
+		return actor;
+
 	}
-})
 
-.directive('ngCircle',function(ngWorld, ngBox){
-	var bodies = [];
-
-
-	return {
-		restrict: 'AE',
-		link: function(scope, elem, attrs) {
-  		var circle = ngBox.shape("ellipse",attrs);
-  		var body = ngWorld.addElement(circle);
-
-  		var actorObject = function(body, skin) {
+	var actorObject = function(body, skin) {
   			this.body = body;
   			this.skin = skin;
   			this.update = function() {  // translate box2d positions to pixels
@@ -188,30 +204,32 @@ angular.module('Rectangular',[])
   				this.skin.x = this.body.GetWorldCenter().x * ngWorld.SCALE;
   				this.skin.y = this.body.GetWorldCenter().y * ngWorld.SCALE;
   			}
-  			ngWorld.actors.push(this);
   		}
 
 
+})
 
-  		body.SetUserData(actor);  // set the actor as user data of the body so we can use it later: body.GetUserData()
-			bodies.push(body);
+.directive('ngCircle',function(ngWorld, ngBox,display){
 
-  		var stage = ngWorld.stage;
 
-  		var birdBMP = new Bitmap("img/globe.png");
-  		console.log("Bitmap info?",birdBMP);
-  		birdBMP.x = 256;
-  		birdBMP.y = 256;
-  		birdBMP.scaleX = 0.5;
-  		birdBMP.scaleY = 0.5;
-  		birdBMP.regX = 128;   // important to set origin point to center of your bitmap
-  		birdBMP.regY = 128; 
-  		birdBMP.snapToPixel = true;
-  		birdBMP.mouseEnabled = false;
-  		stage.addChild(birdBMP);
+	return {
+		restrict: 'AE',
+		link: function(scope, elem, attrs) {
+  		var circle = ngBox.shape("ellipse",attrs);
+  		var body = ngWorld.addElement(circle);
+  		var actor = display.skin(body);
+  		body.SetUserData(actor); 
+		}
+	}
+})
 
-  		var actor = new actorObject(body, birdBMP);
-  		ngWorld.actors.push(actor);
+.directive('ngBox',function(ngWorld, ngBox,display){
+	return {
+		restrict: 'AE',
+		link: function(scope, elem, attrs) {
+  		var box = ngBox.shape("box",attrs)
+  		var body = ngWorld.addElement(box);
+  		var actor = display.skin(body,{src:'img/hi.png'});
 		}
 	}
 })
