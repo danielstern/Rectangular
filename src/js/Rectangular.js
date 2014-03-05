@@ -79,11 +79,11 @@ angular.module('Rectangular',[])
 
 		//default options
 		var defaults = {
-			height: 2,
-			width: 2,
+			height: 1.5,
+			width: 1.5,
 			x: 10,
 			y: 1,
-			radius: 2,
+			radius: 1.5,
 			density : 1.0 ,
 			'friction' : 0.2 ,
 			'restitution' : 0.6 ,
@@ -203,7 +203,7 @@ angular.module('Rectangular',[])
 		function initImg() {
 
 			var img = imgData.image;
-			console.log("Width, height?",img.width,img.height);
+//			console.log("Width, height?",img.width,img.height);
 
 			var scaleY = options.height / img.height;
 			var scaleX = options.width / img.width;
