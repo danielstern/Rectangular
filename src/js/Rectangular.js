@@ -202,6 +202,8 @@ angular.module('Rectangular',[])
   		console.log("Bitmap info?",birdBMP);
   		birdBMP.x = 256;
   		birdBMP.y = 256;
+  		birdBMP.scaleX = 0.5;
+  		birdBMP.scaleY = 0.5;
   		birdBMP.regX = 128;   // important to set origin point to center of your bitmap
   		birdBMP.regY = 128; 
   		birdBMP.snapToPixel = true;

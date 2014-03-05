@@ -60,22 +60,26 @@ angular.module("demoApp",['Rectangular'])
 
 .controller('myDemoCtrl',function($scope,$element,ngWorld, ngBox, ngrDebug, ngrLoop, $compile){
 
-    var elem = document.getElementById('debugCanvas');
-    var ctx = $(elem).get(0).getContext('2d');
+    // only boilerplate
+    var world = ngWorld.setWorld(0,26,true);
 
     // create world
-    var world = ngWorld.setWorld(0,26,true);
 
 
     var floor = ngBox.shape('box',{
         position:'static',
-        width: 300,
+        width: 500,
         height: 0.2,
-        y: 15,
-        angle: 0.2
+        y: 10,
+        angle:0.01
+        
     });
     ngWorld.addElement(floor);
 
+
+    // debug;
+    var elem = document.getElementById('debugCanvas');
+    var ctx = $(elem).get(0).getContext('2d');
     ngrDebug.debug(ctx);
 
     ngrLoop.initWorld(ctx,world, 60);
