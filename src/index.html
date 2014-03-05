@@ -6,6 +6,7 @@
      
     <script src="lib/angular.js"></script>
     <script src="lib/jquery.js"></script>
+    <script src="lib/underscore.js"></script>
     <script src="lib/Box2dWeb-2.1.a.3.js"></script>
     <script src="js/Rectangular.js"></script>
 
@@ -37,9 +38,10 @@ CAN HAZ ANGULOR + BUX2d?
 <a href='cardemo.html'>CARDEMO</a>
 
 <div class='main' >
- <canvas ng-stage id='canvas' debug=true width='640' height='480' style="background-color:#333;"></canvas>
+ <canvas ng-stage id='canvas' debug=true width='700' height='540' style="background-color:#333;"></canvas>
 </div>
 <button ng-click='createBox()'>BOX</button>
+<button ng-click='createCircle()'>CIRCLO</button>
 </body>
  
 </html>
@@ -49,23 +51,21 @@ CAN HAZ ANGULOR + BUX2d?
 angular.module("demoApp",['Rectangular'])
 
 .controller('myDemoCtrl',function($scope,$element,ngWorld, ngBox, ngrDebug, ngrLoop, $compile){
-    //console.log("Demo inited",$scope,$element);
-    var elem = $($element.find('canvas'));
 
+    var elem = $($element.find('canvas'));
     var ctx = $(elem).get(0).getContext('2d');
-    console.log("Ctx?",ctx);
 
     // create world
     var world = ngWorld.setWorld(0,26,true);
 
-    // demo box function
-    var box = ngBox.getBox(5, 5, 2,2);
-    ngWorld.addElement(box);
 
-    var ball = ngBox.getBall(2,3,1)
-    ngWorld.addElement(ball);    
-
-    var floor = ngBox.getFloor();
+    var floor = ngBox.shape('box',{
+        position:'static',
+        width: 300,
+        height: 0.2,
+        y: 15,
+        angle: 0.2
+    });
     ngWorld.addElement(floor);
 
     ngrDebug.debug(ctx);
@@ -78,8 +78,14 @@ angular.module("demoApp",['Rectangular'])
          var el = $compile( box )( $scope );
 
          angular.element(document.body).append(box);
+    }
 
-         $scope.box = el;
+    $scope.createCircle = function(){
+        
+        var circle = angular.element(document.createElement('ng-circle'));
+         var el = $compile( circle )( $scope );
+
+         angular.element(document.body).append(circle);
     }
 
 
