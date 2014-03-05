@@ -16,7 +16,7 @@ angular.module('Rectangular',[])
 	 }
 
 	 this.setWorld = function(gravityX, gravityY, sleep) {
-	 		console.log("setting world", canvas);
+
 		 	var gravity = new b2Vec2(gravityX, gravityY);
 		 	var doSleep = sleep;
 		 	 
@@ -45,7 +45,7 @@ angular.module('Rectangular',[])
 		ctx.restore();
 		ngWorld.stage.update();
 		_.each(ngWorld.actors,function(actor){
-			actor.update();
+				actor.update();
 		})
 	}
 
@@ -162,7 +162,7 @@ angular.module('Rectangular',[])
 
 
 
-.service('display',function(ngWorld){
+.service('display',function(ngWorld,ngActor){
 	this.skin = function(body, options) {
 
 		var defaults = {
@@ -236,7 +236,7 @@ angular.module('Rectangular',[])
 			imgData.mouseEnabled = options.mouseEnabled;
 			stage.addChild(imgData);
 
-			var actor = new actorObject(body, imgData);
+			var actor = ngActor.newActor(body, imgData);
 			ngWorld.actors.push(actor);
 
 			return actor;
@@ -244,15 +244,25 @@ angular.module('Rectangular',[])
 
 	}
 
-	var actorObject = function(body, skin) {
-  			this.body = body;
-  			this.skin = skin;
-  			this.update = function() {  // translate box2d positions to pixels
-  				this.skin.rotation = this.body.GetAngle() * (180 / Math.PI);
-  				this.skin.x = this.body.GetWorldCenter().x * ngWorld.SCALE;
-  				this.skin.y = this.body.GetWorldCenter().y * ngWorld.SCALE;
-  			}
-  		}
+	
+
+})
+
+.service('ngActor',function(ngWorld){
+	this.newActor = function(body, skin) {
+		return new actorObject(body,skin);
+	}
+
+		var actorObject = function(body, skin) {
+	  			this.body = body;
+	  			this.skin = skin;
+	  			this.update = function() {  // translate box2d positions to pixels
+	  				this.skin.rotation = this.body.GetAngle() * (180 / Math.PI);
+	  				this.skin.x = this.body.GetWorldCenter().x * ngWorld.SCALE;
+	  				this.skin.y = this.body.GetWorldCenter().y * ngWorld.SCALE;
+	  			}
+	  		}
+
 
 
 })
@@ -266,7 +276,8 @@ angular.module('Rectangular',[])
   		var circle = ngBox.shape("ellipse",attrs);
   		var body = ngWorld.addElement(circle);
   		var radius = circle.f.shape.m_radius;
-  		var actor = display.skin(body,{radius:radius,src: "img/globe.png"});
+  		attrs.radius = radius;
+  		var actor = display.skin(body,attrs);
   		body.SetUserData(actor); 
 		}
 	}
@@ -283,7 +294,12 @@ angular.module('Rectangular',[])
   		var width = vertices[1].x - vertices[0].x;
   		var height = vertices[1].y- vertices[3].y;
 
-  		var actor = display.skin(body,{src:'img/hi.png', height:height,width:width});
+  		attrs.height = height;
+  		attrs.width = width;
+
+  		console.log("Attrs?",attrs);
+
+  		var actor = display.skin(body,attrs);
 		}
 	}
 })
