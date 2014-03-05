@@ -1,5 +1,5 @@
 angular.module('Rectangular',[])
-.directive('ngStage',function(ngWorld, ngBox, ngrDebug){
+.directive('ngStage',function(ngWorld, ngBox, ngrDebug, ngrLoop){
 	console.log("Compinling directive");
 	return {
 		restrict: 'AE',
@@ -8,22 +8,18 @@ angular.module('Rectangular',[])
 			var ctx = $(elem).get(0).getContext('2d');
 
 			// create world
-			var world = ngWorld.setWorld(0,0,true);
+			var world = ngWorld.setWorld(0,-8,true);
 
 			// demo box function
 			var box = ngBox.getBox(1, 1, 2,2);
 
 			// debugging block
-
 			ngrDebug.debug(ctx);
+
+			ngrLoop.initWorld(ctx,world, 60);
 
 				
 
-			ctx.save();
-			ctx.translate(0 , 200);
-			ctx.scale(1 , -1);
-			world.DrawDebugData();
-			ctx.restore();
 
 		}
 	}
@@ -45,6 +41,32 @@ angular.module('Rectangular')
 	 	return world;
 	 }
 	 
+})
+.service('ngrLoop', function(){
+	var l = this;
+	var ctx = {};
+	var world = {};
+	var speed = 60;
+	var loop;
+
+	this.tick = function() {
+		ctx.save();
+		ctx.translate(0 , 200);
+		ctx.scale(1 , -1);
+		world.Step(1/60,10,10)
+		world.DrawDebugData();
+		ctx.restore();
+	//	console.log("ticking");
+	}
+
+	this.initWorld = function(_context,_world,_speed) {
+		ctx = _context;
+		world = _world;
+		speed = _speed;
+		console.log("initng");
+
+		loop = setInterval(l.tick, 1000 / speed)
+	}
 })
 .service('ngrDebug',function(ngWorld){
 	this.debug = function(ctx) {
