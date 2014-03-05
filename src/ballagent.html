@@ -9,6 +9,9 @@
     <script src="lib/underscore.js"></script>
     <script src="lib/Box2dWeb-2.1.a.3.js"></script>
     <script src="js/Rectangular.js"></script>
+    <script src="js/ngrModel.js"></script>
+    <script src="js/ngrStage.js"></script>
+    <script src="js/ngrWorld.js"></script>
     <script type="text/javascript" src="lib/easel.js"></script>
     <script type="text/javascript" src="lib/create.js"></script>
 
@@ -33,10 +36,11 @@
 
 </head>
 <body >
-
+<h2>BALL AGENT</h2>
+<h3>DO YOU HAVE THE BALLS?</h3>
 <div class='main' >
-<!-- <canvas ng-stage id='canvas' width='500' height='400' style="background-color:#333;"></canvas>-->
- <canvas ng-stage id='canvas' debug=true width='500' height='400' style="background-color:black;"></canvas>
+ <canvas ng-stage style='display:none' id='canvas' width='500' height='400' style="background-color:#333;"></canvas>
+ <canvas ng-stage id='debugCanvas' debug=true width='500' height='400' style="background-color:black;"></canvas>
 </body>
  
 </html>
@@ -50,10 +54,21 @@
 <script>
 angular.module("demoApp",['Rectangular'])
 
-.controller('myDemoCtrl',function($scope,$element,ngrEnvironment, $compile){
+.controller('myDemoCtrl',function($scope,$element,ngrEnvironment, ngBox, ngWorld, $compile){
    // var world = ngWorld.setWorld(0,26,true);
-   ngrEnvironment.init();
+   ngrEnvironment.init($('canvas')[0]);
+   ngrEnvironment.room({floor:true});
+   ngrEnvironment.debug($('#debugCanvas')[0]);
 
+   console.log("BEGINNING GAME: BALL AGENT");
+
+   var heroBox = ngBox.shape("ellipse",{radius:1,x:1.2});
+   var heroBody = ngWorld.addElement(heroBox);
+
+   window.heroBody = heroBody;
+
+
+   
 
 });
 

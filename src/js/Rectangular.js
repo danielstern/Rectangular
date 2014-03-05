@@ -49,8 +49,6 @@ angular.module('Rectangular',[])
 	var loop;
 	var world;
 
-	console.log("CTX, world?",ctx,world)
-
 	this.tick = function() {
 		world = ngWorld.getWorld();
 		ctx.save();

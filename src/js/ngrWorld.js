@@ -13,7 +13,8 @@ angular.module('Rectangular')
 
 	 this.addElement = function(definition) {
 	 	 var b = world.CreateBody(definition.b);
-		 b.CreateFixture(definition.f);
+		 var f =b.CreateFixture(definition.f);
+		 window.f = f;
 		 return b;
 	 }
 
