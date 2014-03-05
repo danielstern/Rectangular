@@ -1,20 +1,23 @@
 angular.module('Rectangular',[])
 .directive('ngStage',function(ngWorld, ngBox, ngrDebug, ngrLoop){
-	console.log("Compinling directive");
+	//console.log("Compinling directive");
 	return {
 		restrict: 'AE',
 		link: function(scope, elem, attrs) {
 			console.log("New stage",elem, attrs)
 			var ctx = $(elem).get(0).getContext('2d');
+			console.log("Ctx?",ctx);
 
 			// create world
-			var world = ngWorld.setWorld(0,-8,true);
+			var world = ngWorld.setWorld(0,26,true);
 
 			// demo box function
-			var box = ngBox.getBox(1, 1, 2,2);
+			var box = ngBox.getBox(5, 5, 2,2);
 
 			// debugging block
-			ngrDebug.debug(ctx);
+			if (attrs.debug) {
+				ngrDebug.debug(ctx);
+			}
 
 			ngrLoop.initWorld(ctx,world, 60);
 
@@ -29,11 +32,36 @@ angular.module('Rectangular')
 .service("ngWorld",function(){
 	 var world = {};
 	 this.setWorld = function(gravityX, gravityY, sleep) {
-
+	 		console.log("setting world", canvas);
 		 	var gravity = new b2Vec2(gravityX, gravityY);
 		 	var doSleep = sleep;
 		 	 
 		 	world = new b2World(gravity , doSleep);
+
+		 	var SCALE = 30;
+		 	   
+ 	     var fixDef = new b2FixtureDef;
+ 	     fixDef.density = 1.0;
+ 	     fixDef.friction = 0.5;
+ 	     fixDef.restitution = 0.2;
+ 	   
+ 	     var bodyDef = new b2BodyDef;
+ 	   
+ 	     //create ground
+ 	     bodyDef.type = b2Body.b2_staticBody;
+ 	     
+ 	     // positions the center of the object (not upper left!)
+ 	     bodyDef.position.x = 300 / 2 / SCALE;
+ 	     bodyDef.position.y = 350 / SCALE;
+
+ 	     bodyDef.angle = 0.01*Math.PI;
+ 	     
+ 	     fixDef.shape = new b2PolygonShape;
+ 	     
+ 	     // half width, half height. eg actual height here is 1 unit
+ 	     fixDef.shape.SetAsBox((600 / SCALE) / 2, (10/SCALE) / 2);
+ 	     world.CreateBody(bodyDef).CreateFixture(fixDef);
+
 		 	return world;
 	 }
 
@@ -51,9 +79,10 @@ angular.module('Rectangular')
 
 	this.tick = function() {
 		ctx.save();
-		ctx.translate(0 , 200);
-		ctx.scale(1 , -1);
+		//ctx.translate(0 , 200);
+		//ctx.scale(1 , -1);
 		world.Step(1/60,10,10)
+		world.ClearForces();
 		world.DrawDebugData();
 		ctx.restore();
 	//	console.log("ticking");
