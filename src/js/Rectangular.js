@@ -1,6 +1,5 @@
-angular.module('Rectangular',[]);
+angular.module('Rectangular',[])
 
-angular.module('Rectangular')
 .service("ngWorld",function(){
 	 var world = {};
 	 this.scale = 30;
@@ -74,7 +73,7 @@ angular.module('Rectangular')
 			width: 2,
 			x: 10,
 			y: 1,
-			radius: 1,
+			radius: 2,
 			density : 1.0 ,
 			'friction' : 0.2 ,
 			'restitution' : 0.6 ,
@@ -86,6 +85,12 @@ angular.module('Rectangular')
 		};
 
 		options = _.extend(defaults,options);
+		options = _.each(options,function(value,key){
+			console.log("Checking,",key,value)
+			if(!isNaN(Number(value))) options[key] = Number(value);
+		})
+
+		console.log("Options?",options)
 
 		switch(type) {
 			case 'box':
@@ -121,7 +126,6 @@ angular.module('Rectangular')
    			fix_def.shape.SetRadius( options.radius );
    		}
 
-   		console.log("Options?", options)
 
    		body_def.position.Set(options.x , options.y);
 
@@ -147,32 +151,14 @@ angular.module('Rectangular')
 
 		return s;
 	}
-
-
-	 this.getFloor = function() {
-	 	 	var SCALE = ngWorld.scale;
-		 	   
- 	     var fixDef = new b2FixtureDef;
- 	     var bodyDef = new b2BodyDef;
- 	   
- 	     bodyDef.type = b2Body.b2_staticBody;
- 	    
- 	     bodyDef.position.x = 300 / 2 / SCALE;
- 	     bodyDef.position.y = 350 / SCALE;
- 	     
- 	     fixDef.shape = new b2PolygonShape;
- 	    
- 	     fixDef.shape.SetAsBox((600 / SCALE) / 2, (10/SCALE) / 2);
-
- 	 	  return {b:bodyDef, f:fixDef};
-	 }
 })
 
 .directive('ngBox',function(ngWorld, ngBox){
 	return {
 		restrict: 'AE',
 		link: function(scope, elem, attrs) {
-  		var box = ngBox.shape("box")
+			console.log("Attrs?",attrs);
+  		var box = ngBox.shape("box",attrs)
   		ngWorld.addElement(box);
 		}
 	}
@@ -181,7 +167,8 @@ angular.module('Rectangular')
 	return {
 		restrict: 'AE',
 		link: function(scope, elem, attrs) {
-  		var circle = ngBox.shape("ellipse");
+			console.log("Attrs?",attrs);
+  		var circle = ngBox.shape("ellipse",attrs);
   		ngWorld.addElement(circle);
 		}
 	}

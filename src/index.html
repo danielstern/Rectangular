@@ -39,6 +39,11 @@ CAN HAZ ANGULOR + BUX2d?
 
 <div class='main' >
  <canvas ng-stage id='canvas' debug=true width='700' height='540' style="background-color:#333;"></canvas>
+ <ng-box></ng-box>
+ <ng-circle
+    x='0'
+    radius='1'
+ ></ng-circle>
 </div>
 <button ng-click='createBox()'>BOX</button>
 <button ng-click='createCircle()'>CIRCLO</button>
@@ -73,19 +78,16 @@ angular.module("demoApp",['Rectangular'])
     ngrLoop.initWorld(ctx,world, 60);
 
     $scope.createBox = function(){
-        console.log("Creating box...");
-        var box = angular.element(document.createElement('ng-box'));
-         var el = $compile( box )( $scope );
-
-         angular.element(document.body).append(box);
+       var box = angular.element(document.createElement('ng-box'));
+       var el = $compile( box )( $scope );
+       angular.element(document.body).append(box);
     }
 
     $scope.createCircle = function(){
         
         var circle = angular.element(document.createElement('ng-circle'));
-         var el = $compile( circle )( $scope );
-
-         angular.element(document.body).append(circle);
+        var el = $compile( circle )( $scope );
+        angular.element(document.body).append(circle);
     }
 
 
