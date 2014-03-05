@@ -1,34 +1,9 @@
-angular.module('Rectangular',[])
-
-.controller('myDemoCtrl',function($scope,$element,ngWorld, ngBox, ngrDebug, ngrLoop){
-	//console.log("Demo inited",$scope,$element);
-	var elem = $($element.find('canvas'));
-
-	var ctx = $(elem).get(0).getContext('2d');
-	console.log("Ctx?",ctx);
-
-	// create world
-	var world = ngWorld.setWorld(0,26,true);
-
-	// demo box function
-	var box = ngBox.getBox(5, 5, 2,2);
-	ngWorld.addElement(box);
-
-	var floor = ngBox.getFloor();
-	ngWorld.addElement(floor);
-
-	ngrDebug.debug(ctx);
-
-	ngrLoop.initWorld(ctx,world, 60);
-
-
-	
-
-});
+angular.module('Rectangular',[]);
 
 angular.module('Rectangular')
 .service("ngWorld",function(){
 	 var world = {};
+	 this.scale = 30;
 
 	 this.addElement = function(definition) {
 	 	 world.CreateBody(definition.b)
@@ -58,27 +33,22 @@ angular.module('Rectangular')
 
 	this.tick = function() {
 		ctx.save();
-		//ctx.translate(0 , 200);
-		//ctx.scale(1 , -1);
 		world.Step(1/60,10,10)
 		world.ClearForces();
 		world.DrawDebugData();
 		ctx.restore();
-	//	console.log("ticking");
 	}
 
 	this.initWorld = function(_context,_world,_speed) {
 		ctx = _context;
 		world = _world;
 		speed = _speed;
-		console.log("initng");
-
 		loop = setInterval(l.tick, 1000 / speed)
 	}
 })
 .service('ngrDebug',function(ngWorld){
 	this.debug = function(ctx) {
-	console.log("Debugging");
+
 		var world = ngWorld.getWorld();
 			var debugDraw = new b2DebugDraw();
 			var scale = 30;
@@ -91,6 +61,7 @@ angular.module('Rectangular')
 
 		}
 })
+
 .service("ngBox",function(ngWorld){
 	 this.getBox = function(x, y, width, height, options) {
 
@@ -128,13 +99,49 @@ angular.module('Rectangular')
 		     body_def.type = options.type;
 
 		     return {b:body_def,f:fix_def};
-		      
-		     //var b = world.CreateBody( body_def );
-		     //var f = b.CreateFixture(fix_def);
-		      
-		     //return b;
+
 
 	 };
+
+	  this.getBall = function(x,y,radius) {
+
+	 	 //default setting
+	 	     var options = {
+	 	         'density' : 1.0 ,
+	 	         'friction' : 0.2 ,
+	 	         'restitution' : 0.2 ,
+	 	          
+	 	         'linearDamping' : 0.0 ,
+	 	         'angularDamping' : 0.0 ,
+	 	          
+	 	         'gravityScale' : 1.0 ,
+	 	         'type' : b2Body.b2_dynamicBody
+	 	     };
+
+	 	     var world = ngWorld.getWorld();
+
+	 	     var body_def = new b2BodyDef();
+	 	     var fix_def = new b2FixtureDef;
+	 	      
+	 	     fix_def.density = options.density;
+	 	     fix_def.friction = options.friction;
+	 	     fix_def.restitution = options.restitution;
+	 	      
+	 	     fix_def.shape = new b2CircleShape();
+	 	      
+	 	     fix_def.shape.SetRadius( radius );
+	 	      
+	 	     body_def.position.Set(x , y);
+	 	      
+	 	     body_def.linearDamping = options.linearDamping;
+	 	     body_def.angularDamping = options.angularDamping;
+	 	      
+	 	     body_def.type = options.type;
+
+	 	     return {b:body_def,f:fix_def};
+
+
+	  };
 
 	 this.getFloor = function() {
 	 	 	var SCALE = 30;
@@ -165,11 +172,21 @@ angular.module('Rectangular')
 	 }
 })
 .directive('ngStage',function(ngWorld, ngBox, ngrDebug, ngrLoop){
-	//console.log("Compinling directive");
 	return {
 		restrict: 'AE',
 		link: function(scope, elem, attrs) {
 			console.log("New stage",elem, attrs)
+			// debugging block
+		}
+	}
+})
+.directive('ngBox',function(ngWorld, ngBox){
+	return {
+		restrict: 'AE',
+		link: function(scope, elem, attrs) {
+			console.log("New stage",elem, attrs);
+			 var box = ngBox.getBox(5, 5, 2,2);
+    		ngWorld.addElement(box);
 			// debugging block
 		}
 	}

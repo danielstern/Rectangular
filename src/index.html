@@ -1,6 +1,6 @@
 <doctype HTML>
 
-<html ng-app='demoApp'>
+<html ng-app='demoApp' ng-controller='myDemoCtrl'>
 <head>
     <title>Racing Car in Box2d</title>
      
@@ -29,21 +29,62 @@
     </script>
 
 </head>
-<body style="margin:0px;">
+<body >
  
 <h2>RectAngular.js</h2>
 
 CAN HAZ ANGULOR + BUX2d?
 <a href='cardemo.html'>CARDEMO</a>
 
-<div ng-controller='myDemoCtrl'>
+<div class='main' >
  <canvas ng-stage id='canvas' debug=true width='640' height='480' style="background-color:#333;"></canvas>
 </div>
+<button ng-click='createBox()'>BOX</button>
 </body>
  
 </html>
 
 <!-- ZOR -->
 <script>
-angular.module("demoApp",['Rectangular']);
+angular.module("demoApp",['Rectangular'])
+
+.controller('myDemoCtrl',function($scope,$element,ngWorld, ngBox, ngrDebug, ngrLoop, $compile){
+    //console.log("Demo inited",$scope,$element);
+    var elem = $($element.find('canvas'));
+
+    var ctx = $(elem).get(0).getContext('2d');
+    console.log("Ctx?",ctx);
+
+    // create world
+    var world = ngWorld.setWorld(0,26,true);
+
+    // demo box function
+    var box = ngBox.getBox(5, 5, 2,2);
+    ngWorld.addElement(box);
+
+    var ball = ngBox.getBall(2,3,1)
+    ngWorld.addElement(ball);    
+
+    var floor = ngBox.getFloor();
+    ngWorld.addElement(floor);
+
+    ngrDebug.debug(ctx);
+
+    ngrLoop.initWorld(ctx,world, 60);
+
+    $scope.createBox = function(){
+        console.log("Creating box...");
+        var box = angular.element(document.createElement('ng-box'));
+         var el = $compile( box )( $scope );
+
+         angular.element(document.body).append(box);
+
+         $scope.box = el;
+    }
+
+
+    
+
+});
+
 </script>
