@@ -48,6 +48,7 @@ angular.module('Rectangular',[])
 	var speed = 60;
 	var loop;
 	var world;
+	var hooks = [];
 
 	this.tick = function() {
 		world = ngWorld.getWorld();
@@ -60,6 +61,14 @@ angular.module('Rectangular',[])
 		_.each(ngWorld.actors,function(actor){
 				actor.update();
 		})
+
+		_.each(hooks,function(hook){
+			hook();
+		})
+	}
+
+	this.addHook = function(func) {
+		hooks.push(func);
 	}
 
 	this.initWorld = function(_speed) {

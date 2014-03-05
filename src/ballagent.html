@@ -7,6 +7,7 @@
     <script src="lib/angular.js"></script>
     <script src="lib/jquery.js"></script>
     <script src="lib/underscore.js"></script>
+    <script src="lib/mousetrap.js"></script>
     <script src="lib/Box2dWeb-2.1.a.3.js"></script>
     <script src="js/Rectangular.js"></script>
     <script src="js/ngrModel.js"></script>
@@ -38,9 +39,10 @@
 <body >
 <h2>BALL AGENT</h2>
 <h3>DO YOU HAVE THE BALLS?</h3>
+<p>CONTROLS: WASD</p>
 <div class='main' >
- <canvas ng-stage style='display:none' id='canvas' width='500' height='400' style="background-color:#333;"></canvas>
- <canvas ng-stage id='debugCanvas' debug=true width='500' height='400' style="background-color:black;"></canvas>
+ <canvas ng-stage style='display:none' id='canvas' width='850' height='400' style="background-color:#333;"></canvas>
+ <canvas ng-stage id='debugCanvas' debug=true width='750' height='400' style="background-color:black;"></canvas>
 </body>
  
 </html>
@@ -54,7 +56,7 @@
 <script>
 angular.module("demoApp",['Rectangular'])
 
-.controller('myDemoCtrl',function($scope,$element,ngrEnvironment, ngBox, ngWorld, $compile){
+.controller('myDemoCtrl',function($scope,$element,ngrEnvironment, ngrLoop, ngBox, ngWorld, $compile){
    // var world = ngWorld.setWorld(0,26,true);
    ngrEnvironment.init($('canvas')[0]);
    ngrEnvironment.room({floor:true});
@@ -66,6 +68,89 @@ angular.module("demoApp",['Rectangular'])
    var heroBody = ngWorld.addElement(heroBox);
 
    window.heroBody = heroBody;
+
+   Mousetrap.bind('d',goRight,'keydown');
+   Mousetrap.bind('d',goRightStop,'keyup');
+
+   Mousetrap.bind('a',function(){
+        heroState.goingLeft = true;
+   }, 'keydown');
+
+   Mousetrap.bind('a',function(){
+        heroState.goingLeft = false;
+   }, 'keyup');
+
+   Mousetrap.bind('w',function(){
+        heroState.isJumping = true;
+   },'keydown');
+
+   Mousetrap.bind('w',function(){
+        heroState.isJumping = false;
+   },'keyup');
+
+
+   heroState = {
+        goingRight:false,
+        goingLeft:false,
+        isJumping:false,
+        cantJump:true
+   };
+
+   var jumpTimeout = 0;
+
+   ngrLoop.addHook(function(){
+   // console.log("TICK HOOK")
+
+    var contacts = heroBody.GetContactList();
+   // console.log("Contacts?",contacts);
+
+    if (contacts && contacts.contact) {
+        var contact = contacts.contact;
+        //console.log("contact?",contact);
+        window.contact = contact;
+        //return;
+        if (contact.IsTouching()) {
+            heroState.cantJump = false;
+        }
+    }
+
+
+    if (jumpTimeout) jumpTimeout --;
+
+     if (heroState.goingRight) {
+        heroBody.ApplyForce(new b2Vec2(100,0),heroBody.GetWorldCenter())  
+     }
+
+     if (heroState.goingLeft) {
+        heroBody.ApplyForce(new b2Vec2(-100,0),heroBody.GetWorldCenter())  
+     }
+
+     if (heroState.isJumping) {
+
+
+        console.log('contacts?',contacts);
+
+        if (!heroState.cantJump && !jumpTimeout) {
+         //   jumpTimeout = 10;
+            heroState.cantJump = true;
+
+            var y = heroBody.GetLinearVelocity().y;
+
+            // reverse inertia;
+            //heroBody.ApplyForce(new b2Vec2(0,-y),heroBody.GetWorldCenter())  ;
+            heroBody.ApplyForce(new b2Vec2(0,-1000),heroBody.GetWorldCenter()) ;  
+        }
+     }
+   })
+
+   function goRight(){
+      heroState.goingRight = true;
+  //  heroBody.ApplyForce(new b2Vec2(500,0),heroBody.GetWorldCenter())
+   }
+    function goRightStop(){
+       heroState.goingRight = false;
+   //  heroBody.ApplyForce(new b2Vec2(500,0),heroBody.GetWorldCenter())
+    }
 
 
    
