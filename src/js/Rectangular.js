@@ -3,10 +3,16 @@ angular.module('Rectangular',[])
 .service("ngWorld",function(){
 	 var world = {};
 	 this.scale = 30;
+	 this.SCALE = 30;
+	 this.actors = [];
+
+	  this.stage = new Stage(document.getElementById('canvas'));
+		this.stage.snapPixelsEnabled = true;
 
 	 this.addElement = function(definition) {
-	 	 world.CreateBody(definition.b)
-		 .CreateFixture(definition.f);
+	 	 var b = world.CreateBody(definition.b);
+		 b.CreateFixture(definition.f);
+		 return b;
 	 }
 
 	 this.setWorld = function(gravityX, gravityY, sleep) {
@@ -24,7 +30,7 @@ angular.module('Rectangular',[])
 	 }
 })
 
-.service('ngrLoop', function(){
+.service('ngrLoop', function(ngWorld){
 	var l = this;
 	var ctx = {};
 	var world = {};
@@ -37,6 +43,10 @@ angular.module('Rectangular',[])
 		world.ClearForces();
 		world.DrawDebugData();
 		ctx.restore();
+		ngWorld.stage.update();
+		_.each(ngWorld.actors,function(actor){
+			actor.update();
+		})
 	}
 
 	this.initWorld = function(_context,_world,_speed) {
@@ -86,11 +96,8 @@ angular.module('Rectangular',[])
 
 		options = _.extend(defaults,options);
 		options = _.each(options,function(value,key){
-			console.log("Checking,",key,value)
 			if(!isNaN(Number(value))) options[key] = Number(value);
 		})
-
-		console.log("Options?",options)
 
 		switch(type) {
 			case 'box':
@@ -157,19 +164,52 @@ angular.module('Rectangular',[])
 	return {
 		restrict: 'AE',
 		link: function(scope, elem, attrs) {
-			console.log("Attrs?",attrs);
   		var box = ngBox.shape("box",attrs)
   		ngWorld.addElement(box);
 		}
 	}
 })
+
 .directive('ngCircle',function(ngWorld, ngBox){
+	var bodies = [];
+
+
 	return {
 		restrict: 'AE',
 		link: function(scope, elem, attrs) {
-			console.log("Attrs?",attrs);
   		var circle = ngBox.shape("ellipse",attrs);
-  		ngWorld.addElement(circle);
+  		var body = ngWorld.addElement(circle);
+
+  		var actorObject = function(body, skin) {
+  			this.body = body;
+  			this.skin = skin;
+  			this.update = function() {  // translate box2d positions to pixels
+  				this.skin.rotation = this.body.GetAngle() * (180 / Math.PI);
+  				this.skin.x = this.body.GetWorldCenter().x * ngWorld.SCALE;
+  				this.skin.y = this.body.GetWorldCenter().y * ngWorld.SCALE;
+  			}
+  			ngWorld.actors.push(this);
+  		}
+
+
+
+  		body.SetUserData(actor);  // set the actor as user data of the body so we can use it later: body.GetUserData()
+			bodies.push(body);
+
+  		var stage = ngWorld.stage;
+
+  		var birdBMP = new Bitmap("img/globe.png");
+  		console.log("Bitmap info?",birdBMP);
+  		birdBMP.x = 256;
+  		birdBMP.y = 256;
+  		birdBMP.regX = 128;   // important to set origin point to center of your bitmap
+  		birdBMP.regY = 128; 
+  		birdBMP.snapToPixel = true;
+  		birdBMP.mouseEnabled = false;
+  		stage.addChild(birdBMP);
+
+  		var actor = new actorObject(body, birdBMP);
+  		ngWorld.actors.push(actor);
 		}
 	}
 })

@@ -9,6 +9,7 @@
     <script src="lib/underscore.js"></script>
     <script src="lib/Box2dWeb-2.1.a.3.js"></script>
     <script src="js/Rectangular.js"></script>
+    <script type="text/javascript" src="lib/easel.js"></script>
 
     <script>
     	var b2Vec2 = Box2D.Common.Math.b2Vec2
@@ -38,7 +39,9 @@ CAN HAZ ANGULOR + BUX2d?
 <a href='cardemo.html'>CARDEMO</a>
 
 <div class='main' >
- <canvas ng-stage id='canvas' debug=true width='700' height='540' style="background-color:#333;"></canvas>
+ <canvas ng-stage id='canvas' width='500' height='400' style="background-color:#333;"></canvas>
+ <canvas ng-stage id='debugCanvas' debug=true width='500' height='400' style="background-color:#333;"></canvas>
+
  <ng-box></ng-box>
  <ng-circle
     x='0'
@@ -57,7 +60,7 @@ angular.module("demoApp",['Rectangular'])
 
 .controller('myDemoCtrl',function($scope,$element,ngWorld, ngBox, ngrDebug, ngrLoop, $compile){
 
-    var elem = $($element.find('canvas'));
+    var elem = document.getElementById('debugCanvas');
     var ctx = $(elem).get(0).getContext('2d');
 
     // create world
@@ -94,5 +97,7 @@ angular.module("demoApp",['Rectangular'])
     
 
 });
+
+
 
 </script>
