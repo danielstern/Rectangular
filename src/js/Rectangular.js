@@ -185,6 +185,9 @@ angular.module('Rectangular',[])
 		if (options.radius) {
 			options.width = options.radius * 2 * ngWorld.scale;
 			options.height = options.radius * 2 * ngWorld.scale;
+		} else {
+			options.width = options.width * ngWorld.scale;
+			options.height = options.height * ngWorld.scale;
 		}
 
 
@@ -256,9 +259,7 @@ angular.module('Rectangular',[])
 		link: function(scope, elem, attrs) {
   		var circle = ngBox.shape("ellipse",attrs);
   		var body = ngWorld.addElement(circle);
-  		console.log("Body?",body,circle);
   		var radius = circle.f.shape.m_radius;
-  //		console.log("Radius?",radius,circle.f.shape, circle.f.shape.m_radius);
   		var actor = display.skin(body,{radius:radius});
   		body.SetUserData(actor); 
 		}
@@ -271,7 +272,16 @@ angular.module('Rectangular',[])
 		link: function(scope, elem, attrs) {
   		var box = ngBox.shape("box",attrs)
   		var body = ngWorld.addElement(box);
-  		var actor = display.skin(body,{src:'img/hi.png'});
+//  		console.log("Shape?",box.f.shape)
+ 		//var height = box.f.shape.m_height;
+  		//var width = box.f.shape.m_width;
+  		var vertices = box.f.shape.m_vertices;
+  		var width = vertices[1].x - vertices[0].x ;
+  		var height = vertices[1].y- vertices[3].y;
+
+  		console.log("HW?",height,width);
+  		console.log("Vertices?",vertices)
+  		var actor = display.skin(body,{src:'img/hi.png', height:height,width:width});
 		}
 	}
 })
