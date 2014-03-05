@@ -45,7 +45,7 @@ CAN HAZ ANGULOR + BUX2d?
  <ng-box></ng-box>
  <ng-circle
     x='0'
-    radius='1'
+    radius='3'
  ></ng-circle>
 </div>
 <button ng-click='createBox()'>BOX</button>
@@ -95,10 +95,7 @@ angular.module("demoApp",['Rectangular'])
         var circle = angular.element(document.createElement('ng-circle'));
         var el = $compile( circle )( $scope );
         angular.element(document.body).append(circle);
-    }
-
-
-    
+    }  
 
 });
 

@@ -181,7 +181,12 @@ angular.module('Rectangular',[])
 		var stage = ngWorld.stage;
 
 		var imgData = new Bitmap(options.src);
-		//var img = imgData.image;
+
+		if (options.radius) {
+			options.width = options.radius * 2 * ngWorld.scale;
+			options.height = options.radius * 2 * ngWorld.scale;
+		}
+
 
 		function checkImageReady() {
 			 var img = imgData.image;
@@ -194,7 +199,7 @@ angular.module('Rectangular',[])
 
 		var imgInt = setInterval(function(){
 			if (checkImageReady()){
-				console.log("READY!");
+
 				clearInterval(imgInt);
 				initImg();
 			}
@@ -203,7 +208,6 @@ angular.module('Rectangular',[])
 		function initImg() {
 
 			var img = imgData.image;
-//			console.log("Width, height?",img.width,img.height);
 
 			var scaleY = options.height / img.height;
 			var scaleX = options.width / img.width;
@@ -222,8 +226,6 @@ angular.module('Rectangular',[])
 			imgData.snapToPixel = options.snapToPixel;
 			imgData.mouseEnabled = options.mouseEnabled;
 			stage.addChild(imgData);
-			
-			console.log("Imgdata?",imgData);
 
 			var actor = new actorObject(body, imgData);
 			ngWorld.actors.push(actor);
@@ -254,7 +256,10 @@ angular.module('Rectangular',[])
 		link: function(scope, elem, attrs) {
   		var circle = ngBox.shape("ellipse",attrs);
   		var body = ngWorld.addElement(circle);
-  		var actor = display.skin(body);
+  		console.log("Body?",body,circle);
+  		var radius = circle.f.shape.m_radius;
+  //		console.log("Radius?",radius,circle.f.shape, circle.f.shape.m_radius);
+  		var actor = display.skin(body,{radius:radius});
   		body.SetUserData(actor); 
 		}
 	}
