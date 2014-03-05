@@ -93,7 +93,7 @@ angular.module("demoApp",['Rectangular'])
         goingRight:false,
         goingLeft:false,
         isJumping:false,
-        cantJump:true
+        airborne:true
    };
 
    var jumpTimeout = 0;
@@ -110,7 +110,9 @@ angular.module("demoApp",['Rectangular'])
         window.contact = contact;
         //return;
         if (contact.IsTouching()) {
-            heroState.cantJump = false;
+            heroState.airborne = false;
+        } else {
+            heroState.airborne = true;
         }
     }
 
@@ -118,21 +120,23 @@ angular.module("demoApp",['Rectangular'])
     if (jumpTimeout) jumpTimeout --;
 
      if (heroState.goingRight) {
-        heroBody.ApplyForce(new b2Vec2(100,0),heroBody.GetWorldCenter())  
+        var force = heroState.airborne ? 25 : 50; 
+        heroBody.ApplyForce(new b2Vec2(force,0),heroBody.GetWorldCenter())  
      }
 
      if (heroState.goingLeft) {
-        heroBody.ApplyForce(new b2Vec2(-100,0),heroBody.GetWorldCenter())  
+        var force = heroState.airborne ? 25 : 50; 
+        heroBody.ApplyForce(new b2Vec2(-force,0),heroBody.GetWorldCenter())  
      }
 
      if (heroState.isJumping) {
 
 
-        console.log('contacts?',contacts);
+//        console.log('contacts?',contacts);
 
-        if (!heroState.cantJump && !jumpTimeout) {
+        if (!heroState.airborne && !jumpTimeout) {
          //   jumpTimeout = 10;
-            heroState.cantJump = true;
+          //  heroState.cantJump = true;
 
             var y = heroBody.GetLinearVelocity().y;
 
