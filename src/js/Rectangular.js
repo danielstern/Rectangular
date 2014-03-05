@@ -1,58 +1,42 @@
 angular.module('Rectangular',[])
 
-.service("ngWorld",function(){
-	 var world = {};
-	 this.scale = 30;
-	 this.SCALE = 30;
-	 this.actors = [];
+.service('ngrEnvironment',function(ngWorld,ngStage,ngBox,ngrLoop,display){
 
-	  this.stage = new Stage(document.getElementById('canvas'));
-		this.stage.snapPixelsEnabled = true;
+	var world = ngWorld.setWorld(0,30,true);
+	// create world
 
-	 this.addElement = function(definition) {
-	 	 var b = world.CreateBody(definition.b);
-		 b.CreateFixture(definition.f);
-		 return b;
-	 }
+	this.init = function(){
+		ngrLoop.initWorld(60);
+	}
 
-	 this.setWorld = function(gravityX, gravityY, sleep) {
-
-		 	var gravity = new b2Vec2(gravityX, gravityY);
-		 	var doSleep = sleep;
-		 	 
-		 	world = new b2World(gravity , doSleep);
-
-		 	return world;
-	 }
-
-	 this.getWorld = function() {
-	 	return world;
-	 }
 })
 
-.service('ngrLoop', function(ngWorld){
+
+.service('ngrLoop', function(ngWorld, ngStage){
 	var l = this;
-	var ctx = {};
-	var world = {};
+	var ctx = ngStage.context;
 	var speed = 60;
 	var loop;
+	var world;
+
+	console.log("CTX, world?",ctx,world)
 
 	this.tick = function() {
+		world = ngWorld.getWorld();
 		ctx.save();
 		world.Step(1/60,10,10)
 		world.ClearForces();
 		world.DrawDebugData();
 		ctx.restore();
-		ngWorld.stage.update();
+		ngStage.stage.update();
 		_.each(ngWorld.actors,function(actor){
 				actor.update();
 		})
 	}
 
-	this.initWorld = function(_context,_world,_speed) {
-		ctx = _context;
-		world = _world;
+	this.initWorld = function(_speed) {
 		speed = _speed;
+//		console.log("Initigin world")
 		loop = setInterval(l.tick, 1000 / speed)
 	}
 })
@@ -62,244 +46,32 @@ angular.module('Rectangular',[])
 
 		var world = ngWorld.getWorld();
 			var debugDraw = new b2DebugDraw();
-			var scale = 30;
+			var scale = ngWorld.SCALE;
 			debugDraw.SetSprite(ctx);
 			debugDraw.SetDrawScale(scale);
 			debugDraw.SetFillAlpha(0.5);
 			debugDraw.SetLineThickness(1.0);
 			debugDraw.SetFlags(b2DebugDraw.e_shapeBit | b2DebugDraw.e_jointBit);
 			world.SetDebugDraw(debugDraw);
-
 		}
 })
 
-.service("ngBox",function(ngWorld){
 
-	this.shape = function(type, options) {
-
-		//default options
-		var defaults = {
-			height: 1.5,
-			width: 1.5,
-			x: 10,
-			y: 1,
-			radius: 1.5,
-			density : 1.0 ,
-			'friction' : 0.2 ,
-			'restitution' : 0.6 ,
-			'linearDamping' : 0.0 ,
-			'angularDamping' : 0.0 ,
-			gravityScale : 1.0 ,
-			position : 'dynamic' ,
-			angle: 0,
-		};
-
-		options = _.extend(defaults,options);
-		options = _.each(options,function(value,key){
-			if(!isNaN(Number(value))) options[key] = Number(value);
-		})
-
-		switch(type) {
-			case 'box':
-			case 'rectangle':
-			case 'square':
-				options.type = 'box';
-				break;
-			case 'circle':
-			case 'ellipse':
-				options.type = 'circle';
-				break;
-			default:
-			console.log("Can't do that");
-			return;
-		}
-
-		function NgShape(options) {
-			var _shape = this;
-
-			_shape.b = new b2BodyDef();
-   		_shape.f = new b2FixtureDef;
-
-   		var fix_def = _shape.f;
-   		var body_def = _shape.b;
-
-   		if (options.type == 'box') {
-   			fix_def.shape = new b2PolygonShape();
-   			fix_def.shape.SetAsBox( options.width , options.height );
-   		}
-
-   		if (options.type == 'circle') {
-   			fix_def.shape = new b2CircleShape();
-   			fix_def.shape.SetRadius( options.radius );
-   		}
-
-
-   		body_def.position.Set(options.x , options.y);
-
-
-   		fix_def.density = options.density;
-   		fix_def.friction = options.friction;
-   		fix_def.restitution = options.restitution;
-
-
-   		if (options.position == 'dynamic') {
-   			body_def.type = b2Body.b2_dynamicBody;
-   		}
-
-   		body_def.angle = options.angle;
-
-
-   		body_def.linearDamping = options.linearDamping;
-   		body_def.angularDamping = options.angularDamping;
-		}
-
-		var s = new NgShape(options);
-
-
-		return s;
-	}
-})
-
-
-
-.service('display',function(ngWorld,ngActor){
-	this.skin = function(body, options) {
-
-		var defaults = {
-			height: 100,
-			width: 100,
-			snapToPixel: false,
-			mouseEnabled: false,
-			y: 1,
-			x: 10,
-			angle: 0,
-			src:''
-		};
-
-		options = _.extend(defaults,options);
-
-		var stage = ngWorld.stage;
-		var imgData;
-
-		if (options.src) {
-			imgData = new Bitmap(options.src);
-		} else {
-			imgData = new Bitmap('data:image/gif;base64,R0lGODlhAQABAIAAAAAAAAAAACH5BAAAAAAALAAAAAABAAEAAAICTAEAOw==');
-		}
-
-		if (options.radius) {
-			options.width = options.radius * 2 * ngWorld.scale;
-			options.height = options.radius * 2 * ngWorld.scale;
-		} else {
-			options.width = options.width * ngWorld.scale;
-			options.height = options.height * ngWorld.scale;
-		}
-
-
-		function checkImageReady() {
-
-			 var img = imgData.image;
-			 if (img.width) {
-			 		return true;
-			 } else {
-			 		return false;
-			 }
-		};
-
-		var imgInt = setInterval(function(){
-			if (checkImageReady()){
-
-				clearInterval(imgInt);
-				initImg();
-			}
-		}, 1);
-
-		function initImg() {
-
-			var img = imgData.image;
-
-			var scaleY = options.height / img.height;
-			var scaleX = options.width / img.width;
-
-			var regY = (img.height) / 2;
-			var regX = (img.width) / 2;
-
-			imgData.x = options.x;
-			imgData.y = options.y;
-			imgData.scaleX = scaleX;
-			imgData.scaleY = scaleY;
-
-			imgData.regX = regX;
-			imgData.regY = regY;
-
-			imgData.snapToPixel = options.snapToPixel;
-			imgData.mouseEnabled = options.mouseEnabled;
-			stage.addChild(imgData);
-
-			var actor = ngActor.newActor(body, imgData);
-			ngWorld.actors.push(actor);
-
-			return actor;
-		}
-
-	}
-
-	
-
-})
 
 .service('ngActor',function(ngWorld){
 	this.newActor = function(body, skin) {
 		return new actorObject(body,skin);
 	}
 
-		var actorObject = function(body, skin) {
-	  			this.body = body;
-	  			this.skin = skin;
-	  			this.update = function() {  // translate box2d positions to pixels
-	  				this.skin.rotation = this.body.GetAngle() * (180 / Math.PI);
-	  				this.skin.x = this.body.GetWorldCenter().x * ngWorld.SCALE;
-	  				this.skin.y = this.body.GetWorldCenter().y * ngWorld.SCALE;
-	  			}
-	  		}
-
-
-
-})
-
-.directive('ngCircle',function(ngWorld, ngBox,display){
-
-
-	return {
-		restrict: 'AE',
-		link: function(scope, elem, attrs) {
-  		var circle = ngBox.shape("ellipse",attrs);
-  		var body = ngWorld.addElement(circle);
-  		var radius = circle.f.shape.m_radius;
-  		attrs.radius = radius;
-  		var actor = display.skin(body,attrs);
-  		body.SetUserData(actor); 
+	var actorObject = function(body, skin) {
+		this.body = body;
+		this.skin = skin;
+		this.update = function() {  // translate box2d positions to pixels
+			this.skin.rotation = this.body.GetAngle() * (180 / Math.PI);
+			this.skin.x = this.body.GetWorldCenter().x * ngWorld.SCALE;
+			this.skin.y = this.body.GetWorldCenter().y * ngWorld.SCALE;
+			}
 		}
-	}
+
 })
 
-.directive('ngBox',function(ngWorld, ngBox,display){
-	return {
-		restrict: 'AE',
-		link: function(scope, elem, attrs) {
-  		var box = ngBox.shape("box",attrs)
-  		var body = ngWorld.addElement(box);
-
-  		var vertices = box.f.shape.m_vertices;
-  		var width = vertices[1].x - vertices[0].x;
-  		var height = vertices[1].y- vertices[3].y;
-
-  		attrs.height = height;
-  		attrs.width = width;
-
-  		console.log("Attrs?",attrs);
-
-  		var actor = display.skin(body,attrs);
-		}
-	}
-})
