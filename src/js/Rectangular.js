@@ -169,6 +169,12 @@ angular.module('Rectangular',[])
 			height: 2,
 			width: 2,
 			x: 10,
+			scaleX: 1,
+			scaleY: 1,
+			regY: 0,
+			regX: 0,
+			snapToPixel: false,
+			mouseEnabled: false,
 			y: 1,
 			angle: 0,
 			src: "img/globe.png",
@@ -179,20 +185,45 @@ angular.module('Rectangular',[])
 		var stage = ngWorld.stage;
 
 		var imgData = new Bitmap(options.src);
-		imgData.x = 256;
-		imgData.y = 256;
-		imgData.scaleX = 0.5;
-		imgData.scaleY = 0.5;
-		imgData.regX = 128;   // important to set origin point to center of your bitmap
-		imgData.regY = 128; 
-		imgData.snapToPixel = true;
-		imgData.mouseEnabled = false;
-		stage.addChild(imgData);
+		//var img = imgData.image;
 
-		var actor = new actorObject(body, imgData);
-		ngWorld.actors.push(actor);
+		function checkImageReady() {
+			 var img = imgData.image;
+			 if (img.width) {
+			 		return true;
+			 } else {
+			 		return false;
+			 }
+		};
 
-		return actor;
+		var imgInt = setInterval(function(){
+			if (checkImageReady()){
+				console.log("READY!");
+				clearInterval(imgInt);
+				initImg();
+			}
+		}, 1);
+
+		function initImg() {
+
+			var img = imgData.image;
+			console.log("Width, height?",img.width,img.height);
+
+			imgData.x = options.x;
+			imgData.y = options.y;
+
+			imgData.regX = options.regX;   // important to set origin point to center of your bitmap
+			imgData.regY = options.regY; 
+			imgData.snapToPixel = options.snapToPixel;
+			imgData.mouseEnabled = options.mouseEnabled;
+			stage.addChild(imgData);
+			window.imgData = imgData;
+
+			var actor = new actorObject(body, imgData);
+			ngWorld.actors.push(actor);
+
+			return actor;
+		}
 
 	}
 
