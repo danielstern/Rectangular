@@ -10,6 +10,7 @@
     <script src="lib/Box2dWeb-2.1.a.3.js"></script>
     <script src="js/Rectangular.js"></script>
     <script type="text/javascript" src="lib/easel.js"></script>
+    <script type="text/javascript" src="lib/create.js"></script>
 
     <script>
     	var b2Vec2 = Box2D.Common.Math.b2Vec2
@@ -53,12 +54,17 @@ CAN HAZ ANGULOR + BUX2d?
 </body>
  
 </html>
+<style>
+  .wow {
+    border: 2px solid gray;
+  }
+</style>
 
 <!-- ZOR -->
 <script>
 angular.module("demoApp",['Rectangular'])
 
-.controller('myDemoCtrl',function($scope,$element,ngWorld, ngBox, ngrDebug, ngrLoop, $compile){
+.controller('myDemoCtrl',function($scope,$element,ngWorld, ngBox, display, ngrDebug, ngrLoop, $compile){
 
     // only boilerplate
     var world = ngWorld.setWorld(0,26,true);
@@ -74,7 +80,8 @@ angular.module("demoApp",['Rectangular'])
         angle:0.01
         
     });
-    ngWorld.addElement(floor);
+    var body = ngWorld.addElement(floor);
+    display.skin(body,{width: 60, height: 0.3});
 
 
     // debug;
