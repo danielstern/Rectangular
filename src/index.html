@@ -9,6 +9,25 @@
     <script src="lib/Box2dWeb-2.1.a.3.js"></script>
     <script src="js/Rectangular.js"></script>
 
+    <script>
+    	var b2Vec2 = Box2D.Common.Math.b2Vec2
+    	    ,   b2AABB = Box2D.Collision.b2AABB
+    	    ,   b2BodyDef = Box2D.Dynamics.b2BodyDef
+    	    ,   b2Body = Box2D.Dynamics.b2Body
+    	    ,   b2FixtureDef = Box2D.Dynamics.b2FixtureDef
+    	    ,   b2Fixture = Box2D.Dynamics.b2Fixture
+    	    ,   b2World = Box2D.Dynamics.b2World
+    	    ,   b2PolygonShape = Box2D.Collision.Shapes.b2PolygonShape
+    	    ,   b2CircleShape = Box2D.Collision.Shapes.b2CircleShape
+    	    ,   b2DebugDraw = Box2D.Dynamics.b2DebugDraw
+    	    ,   b2MouseJointDef =  Box2D.Dynamics.Joints.b2MouseJointDef
+    	    ,   b2Shape = Box2D.Collision.Shapes.b2Shape
+    	    ,   b2RevoluteJointDef = Box2D.Dynamics.Joints.b2RevoluteJointDef
+    	    ,   b2Joint = Box2D.Dynamics.Joints.b2Joint
+    	    ,   b2PrismaticJointDef = Box2D.Dynamics.Joints.b2PrismaticJointDef
+    	    ;
+    </script>
+
 </head>
 <body style="margin:0px;">
  
@@ -18,7 +37,7 @@ CAN HAZ ANGULOR + BUX2d?
 <a href='cardemo.html'>CARDEMO</a>
 
 <div>
- <canvas ng-rt-stage id="canvas" width='640' height='480' style="background-color:#333;"></canvas>
+ <canvas ng-stage id="canvas" width='640' height='480' style="background-color:#333;"></canvas>
 </div>
 </body>
  
