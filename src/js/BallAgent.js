@@ -25,7 +25,8 @@ angular.module("BallAgent",['Rectangular'])
    function createHero() {
    var heroBox = ngBox.shape("ellipse",{radius:0.5,x:1.2});
    var heroBody = ngWorld.addElement(heroBox);
-   heroBody.SetUserData({isHero:true})
+   heroBody.SetUserData({isHero:true});
+   window.heroBody = heroBody;
 
    return heroBody;
  	}
@@ -33,7 +34,7 @@ angular.module("BallAgent",['Rectangular'])
 	function createExit(options) {
     console.log("eXT Options,",options)
     var defaults = {src:'img/hi.png', x:20,
-      density:50,
+      mass:0,
       position:'static',
       y: 4,
       height: 0.7,
@@ -48,6 +49,7 @@ angular.module("BallAgent",['Rectangular'])
 		exitBox.f.isSensor = true;
 		var exitBody = ngWorld.addElement(exitBox);
 		exitBody.SetUserData({exit:true})
+   // exitBody.SetLinearDamping('float');
 
 		return exitBody;
 	}
@@ -169,9 +171,11 @@ angular.module("BallAgent",['Rectangular'])
       	heroBody = createHero();
    			exit = createExit(l.exit);
    			var controls = bindControls();
+    //    activateTargeter();
 
     }
 
+    function activateTargeter() {
     var targeter = new MouseTargeter(debugCanvas, ngWorld.SCALE);
     console.log("Targeter?",targeter);
     var targetingWindow = null;
@@ -180,10 +184,15 @@ angular.module("BallAgent",['Rectangular'])
     targeter.onmove(function(e){
       //console.log("USER HOVERING AT ", e.worldPosX, e.worldPosY);
        //var aabb = new b2AABB();
-        //aabb.lowerBound.Set(e.worldPosX - 0.001, e.worldPosY - 0.001);
-        //aabb.upperBound.Set(e.worldPosX + 0.001, e.worldPosY + 0.001);
+       //aabb.lowerBound.Set(e.worldPosX - 0.001, e.worldPosY - 0.001);
+       //aabb.upperBound.Set(e.worldPosX + 0.001, e.worldPosY + 0.001);
 
-        if (targetingWindow) ngWorld.removeElement(targetingWindow);
+       var world = ngWorld.getWorld();
+
+        /*if (targetingWindow) {
+          ngWorld.removeElement(targetingWindow);
+          targetingWindow = null;
+        }*/
         var shape = {};
        //  var shapes = [];
 
@@ -191,11 +200,34 @@ angular.module("BallAgent",['Rectangular'])
         shape.f = new b2FixtureDef;
         shape.f.shape = new b2PolygonShape();
         shape.f.shape.SetAsBox( 1 , 1 );
-
-
+        shape.f.isSensor = false;
+        shape.b.type = 'static';
         shape.b.position.Set(e.worldPosX - 0.5 , e.worldPosY - 0.5);
 
-        targetingWindow = ngWorld.addElement(shape);
+
+
+        if (!targetingWindow) {
+          targetingWindow = ngWorld.addElement(shape);
+          targetingWindow.SetUserData({isFloor:true})
+        } else {
+          targetingWindow.SetPosition(new b2Vec2(e.worldPosX - 0.5,e.worldPosY - 0.5) )
+        }
+
+      /*  ngWorld.getWorld().QueryShape(function(k){
+          console.log("Query?",k);
+        },targetingWindow);*/
+
+       window.world = world;
+       window.targetingWindow = targetingWindow;
+
+       //world.update();
+
+      console.log(targetingWindow.GetContactList());
+
+   //   ngWorld.getWorld().QueryShape(function(k){
+     //     console.log("Query?",k);
+      //},targetingWindow);
+      //console.log(world.GetContactList());
 
        /*
          ngWorld.getWorld().QueryAABB(function(k){
@@ -217,7 +249,10 @@ angular.module("BallAgent",['Rectangular'])
         }, aabb);
         
           })*/
+
     })
+
+      }
 
    
 
