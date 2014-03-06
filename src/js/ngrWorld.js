@@ -2,6 +2,7 @@ angular.module('Rectangular')
 .service("ngWorld",function(ngBox,ngStage){
 	var _ngWorld = this;
 	 var world = {};
+	 var bodies = [];
 	 
 	 this.SCALE = 30;
 	 this.actors = [];
@@ -14,8 +15,15 @@ angular.module('Rectangular')
 	 this.addElement = function(definition) {
 	 	 var b = world.CreateBody(definition.b);
 		 var f =b.CreateFixture(definition.f);
-		 window.f = f;
+		 bodies.push(b);
 		 return b;
+	 }
+
+	 this.clearAll = function() {
+	 	_.each(bodies,function(body){
+	 		world.DestroyBody(body);
+	 	})
+
 	 }
 
 	 this.setWorld = function(gravityX, gravityY, sleep) {
@@ -48,7 +56,7 @@ angular.module('Rectangular')
 			radius: 1.5,
 			density : 0.5 ,
 			'friction' : 0.2 ,
-			'restitution' : 0.01,
+			'restitution' : 0.1,
 			'linearDamping' : 0.0 ,
 			'angularDamping' : 0.0 ,
 			gravityScale : 1.0 ,

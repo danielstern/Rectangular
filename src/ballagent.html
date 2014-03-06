@@ -10,6 +10,7 @@
     <script src="lib/mousetrap.js"></script>
     <script src="lib/Box2dWeb-2.1.a.3.js"></script>
     <script src="js/Rectangular.js"></script>
+    <script src="js/BallAgent.js"></script>
     <script src="js/ngrModel.js"></script>
     <script src="js/ngrStage.js"></script>
     <script src="js/ngrWorld.js"></script>
@@ -54,110 +55,11 @@
 
 <!-- ZOR -->
 <script>
-angular.module("demoApp",['Rectangular'])
+angular.module("demoApp",['BallAgent'])
 
-.controller('myDemoCtrl',function($scope,$element,ngrEnvironment, ngrLoop, ngBox, ngWorld, $compile){
-   // var world = ngWorld.setWorld(0,26,true);
-   ngrEnvironment.init($('canvas')[0]);
-   ngrEnvironment.room({floor:true});
-   ngrEnvironment.debug($('#debugCanvas')[0]);
+.controller('myDemoCtrl',function($scope,$element,BallAgent){
 
-   console.log("BEGINNING GAME: BALL AGENT");
-
-   var heroBox = ngBox.shape("ellipse",{radius:1,x:1.2});
-   var heroBody = ngWorld.addElement(heroBox);
-
-   window.heroBody = heroBody;
-
-   Mousetrap.bind('d',goRight,'keydown');
-   Mousetrap.bind('d',goRightStop,'keyup');
-
-   Mousetrap.bind('a',function(){
-        heroState.goingLeft = true;
-   }, 'keydown');
-
-   Mousetrap.bind('a',function(){
-        heroState.goingLeft = false;
-   }, 'keyup');
-
-   Mousetrap.bind('w',function(){
-        heroState.isJumping = true;
-   },'keydown');
-
-   Mousetrap.bind('w',function(){
-        heroState.isJumping = false;
-   },'keyup');
-
-
-   heroState = {
-        goingRight:false,
-        goingLeft:false,
-        isJumping:false,
-        airborne:true
-   };
-
-   var jumpTimeout = 0;
-
-   ngrLoop.addHook(function(){
-   // console.log("TICK HOOK")
-
-    var contacts = heroBody.GetContactList();
-   // console.log("Contacts?",contacts);
-
-    if (contacts && contacts.contact) {
-        var contact = contacts.contact;
-        //console.log("contact?",contact);
-        window.contact = contact;
-        //return;
-        if (contact.IsTouching()) {
-            heroState.airborne = false;
-        } else {
-            heroState.airborne = true;
-        }
-    }
-
-
-    if (jumpTimeout) jumpTimeout --;
-
-     if (heroState.goingRight) {
-        var force = heroState.airborne ? 25 : 50; 
-        heroBody.ApplyForce(new b2Vec2(force,0),heroBody.GetWorldCenter())  
-     }
-
-     if (heroState.goingLeft) {
-        var force = heroState.airborne ? 25 : 50; 
-        heroBody.ApplyForce(new b2Vec2(-force,0),heroBody.GetWorldCenter())  
-     }
-
-     if (heroState.isJumping) {
-
-
-//        console.log('contacts?',contacts);
-
-        if (!heroState.airborne && !jumpTimeout) {
-         //   jumpTimeout = 10;
-          //  heroState.cantJump = true;
-
-            var y = heroBody.GetLinearVelocity().y;
-
-            // reverse inertia;
-            //heroBody.ApplyForce(new b2Vec2(0,-y),heroBody.GetWorldCenter())  ;
-            heroBody.ApplyForce(new b2Vec2(0,-1000),heroBody.GetWorldCenter()) ;  
-        }
-     }
-   })
-
-   function goRight(){
-      heroState.goingRight = true;
-  //  heroBody.ApplyForce(new b2Vec2(500,0),heroBody.GetWorldCenter())
-   }
-    function goRightStop(){
-       heroState.goingRight = false;
-   //  heroBody.ApplyForce(new b2Vec2(500,0),heroBody.GetWorldCenter())
-    }
-
-
-   
+   BallAgent.init($('canvas')[0],$('#debugCanvas')[0]);   
 
 });
 
