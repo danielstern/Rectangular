@@ -28,7 +28,8 @@ angular.module('Rectangular')
 	 this.clearAll = function() {
 	 	_.each(bodies,function(body){
 	 		world.DestroyBody(body);
-	 	})
+	 		ngStage.stage.removeAllChildren();
+	 	});
 
 	 }
 
@@ -159,7 +160,7 @@ angular.module('Rectangular')
 		if (options.src) {
 			imgData = new Bitmap(options.src);
 		} else {
-			imgData = new Bitmap('data:image/gif;base64,R0lGODlhAQABAIAAAAAAAAAAACH5BAAAAAAALAAAAAABAAEAAAICTAEAOw==');
+			imgData = new Bitmap('img/null.png');
 		}
 
 		if (options.radius) {

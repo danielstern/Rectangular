@@ -1,5 +1,5 @@
 angular.module("BallAgent",['Rectangular'])
-.service('BallAgent',function(BallAgentLevels, ngrEnvironment, ngrLoop, ngBox, ngWorld, $compile){
+.service('BallAgent',function(BallAgentLevels, ngrEnvironment, display, ngrLoop, ngBox, ngWorld, $compile){
    // var world = ngWorld.setWorld(0,26,true);
    this.state = {};
    var state = this.state;
@@ -53,6 +53,12 @@ angular.module("BallAgent",['Rectangular'])
    heroBody.SetUserData({isHero:true});
    window.heroBody = heroBody;
 
+   var radius = 0.5;
+   var attrs = {};
+   attrs.radius = radius;
+   attrs.src = 'img/hero.png';
+   var actor = display.skin(heroBody,attrs);
+
    return heroBody;
  	}
 
@@ -71,7 +77,14 @@ angular.module("BallAgent",['Rectangular'])
 
 		exitBox.f.isSensor = true;
 		var exitBody = ngWorld.addElement(exitBox);
-		exitBody.SetUserData({exit:true})
+		exitBody.SetUserData({exit:true});
+
+    var attrs = {};
+
+    attrs.src = 'img/exit.png';
+    attrs.height = 2;
+    attrs.width = 2;
+    var actor = display.skin(exitBody,attrs);
 
 		return exitBody;
 	}
@@ -90,6 +103,12 @@ angular.module("BallAgent",['Rectangular'])
     var platform = ngBox.shape("box",options);
     var pBody = ngWorld.addElement(platform);
     pBody.SetUserData({isFloor:true});
+    display.skin(pBody,{
+      y:options.y,
+      x:options.x,
+      width:options.width * 2,
+      height: 0.5
+    });
 
     options.y += 0.2;
     var platformUnder = ngBox.shape("box",options);
@@ -97,6 +116,8 @@ angular.module("BallAgent",['Rectangular'])
 
     return platform;
   }
+
+
 
   function createColumn(options) {
     
@@ -120,6 +141,14 @@ angular.module("BallAgent",['Rectangular'])
        pBody.SetPosition(new b2Vec2(currentX, newY));
     })
     */
+
+    display.skin(pBody,{
+      y:options.y,
+      x:options.x,
+      width:options.width * 2,
+      height: options.height * 2
+    });
+
 
 
     

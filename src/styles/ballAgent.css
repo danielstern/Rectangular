@@ -28,3 +28,9 @@
 	position: relative;
 	width: 750px;
 }
+
+#debugCanvas {
+	position: absolute;
+	top: 0;
+
+}

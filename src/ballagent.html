@@ -44,8 +44,8 @@
 </head>
 <body >
 
- <canvas ng-stage id='gameCanvas' width='750' height='500' style="background-color:#333;"></canvas>
 <div class='main' >
+ <canvas ng-stage id='gameCanvas' width='750' height='500' style="background-color:#333;"></canvas>
  <canvas ng-stage id='debugCanvas' width='750' height='500' style="background-color:black;"></canvas>
  <div class='splash-screen'>
  <div class='blinder'></div>
@@ -107,13 +107,14 @@ angular.module("BallAgentApp",['BallAgent'])
 
    BallAgent.onGameOver(function(){
         //$('.splash-screen').show();
-        $('.splash-screen').removeClass();
-        $('.splash-screen').addClass('animated fadeIn');
+        $('.splash-screen').removeClass('fadeOut')
+        .addClass('animated fadeIn');
    });
 
    $scope.newGame = function() {
        // $('.splash-screen').hide();
-        $('.splash-screen').addClass('animated fadeOut');
+        $('.splash-screen').removeClass('fadeIn')
+        .addClass('animated fadeOut');
         BallAgent.newGame();
    }
    /*

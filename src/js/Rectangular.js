@@ -34,21 +34,25 @@ angular.module('Rectangular',[])
 		//body.SetUserData(actor); 
 	}
 
-	this.floor = function() {
-		var shape = ngBox.shape('box',{
+	this.floor = function(options) {
+		var defaults = {
 			width:envWidth / SCALE,
 			height: 10 / SCALE,
 			position:'static',
 			y: envHeight / SCALE,
-		});
+		};
+
+		options = _.extend(defaults,options);
+		
+		var shape = ngBox.shape('box',options);
 		var body = ngWorld.addElement(shape);
 		body.SetUserData({isFloor:true})
 		var actor = display.skin(body,{
-			height: 10 / SCALE
+			height: 20 / SCALE
 		});
 	}
 
-	this.leftWall = function() {
+	this.leftWall = function(options) {
 
 		var leftWall = ngBox.shape('box',{
 			width: 10 / SCALE,
@@ -58,12 +62,11 @@ angular.module('Rectangular',[])
 		});
 		var lBody = ngWorld.addElement(leftWall);
 		display.skin(lBody,{
-			height: 10 / SCALE,
-			width: 10 / SCALE,
+			width: 20 / SCALE,
 		});
 	}
 
-	this.rightWall = function() {
+	this.rightWall = function(options) {
 		var rightWall = ngBox.shape('box',{
 			width: 10 / SCALE,
 			height: envHeight / SCALE,
@@ -72,8 +75,7 @@ angular.module('Rectangular',[])
 		});
 		var rBody = ngWorld.addElement(rightWall);
 		display.skin(rBody,{
-			height: 10 / SCALE,
-			width: 10 / SCALE,
+			width: 20 / SCALE,
 		});
 
 	}
