@@ -1,9 +1,28 @@
 angular.module("BallAgent",['Rectangular'])
 .service('BallAgent',function(BallAgentLevels, ngrEnvironment, ngrLoop, ngBox, ngWorld, $compile){
    // var world = ngWorld.setWorld(0,26,true);
+   this.state = {};
+   var state = this.state;
+   var stateChangeListeners = [];
+
+   this.onStateChange = function(listener) {
+     stateChangeListeners.push(listener);
+   }
+
+   var updateState = function() {
+    _.each(stateChangeListeners,function(l){
+      l(state);
+    })
+   }
+
+   
    this.init = function(canvas,debugCanvas) {
 
-   	var currentLevel = 0;
+
+
+    state.currentLevel = 0;
+    state.lives = 3;
+    state.score = 0;
 
 
    ngrEnvironment.init(canvas);
@@ -18,7 +37,7 @@ angular.module("BallAgent",['Rectangular'])
    nextLevel();
 
    this.gotoLevel = function(level) {
-     currentLevel = level - 1;
+     state.currentLevel = level - 1;
      nextLevel();
    }
 
@@ -104,6 +123,7 @@ angular.module("BallAgent",['Rectangular'])
    ngrLoop.addHook(function(){
    
     var contacts = heroBody.GetContactList();
+    heroState.airborne = true;
 
 
     if (contacts && contacts.contact) {
@@ -123,7 +143,7 @@ angular.module("BallAgent",['Rectangular'])
         if (contact.IsTouching() && contacts.other.GetUserData() && contacts.other.GetUserData().isFloor)  {
             heroState.airborne = false;
         } else {
-            heroState.airborne = true;
+            //heroState.airborne = true;
         }
        contacts = contacts.next;
      }
@@ -148,6 +168,12 @@ angular.module("BallAgent",['Rectangular'])
             var y = heroBody.GetLinearVelocity().y * heroBody.GetInertia();
             heroBody.ApplyForce(new b2Vec2(0,-150),heroBody.GetWorldCenter()) ;  
         }
+     };
+
+     var position = heroBody.GetPosition();
+     if (position.y > 75) {
+      console.log("Hero dead!");
+      handleDeath();
      }
 
    });
@@ -169,11 +195,33 @@ angular.module("BallAgent",['Rectangular'])
     ]
    }*/
 
+   function handleDeath() {
+     state.lives --;
+
+     if (state.lives >= 0) {
+       state.currentLevel--;
+       nextLevel();
+     } else {
+       gameOver();
+     }
+   }
+
+   function gameOver() {
+     // todo, score screen...
+     newGame();
+   }
+
+   function newGame() {
+     state.lives = 3;
+     state.currentLevel = 0;
+     nextLevel();
+   }
+
    
    function nextLevel() {
 
-   			currentLevel++;
-   			var l = BallAgentLevels.levels[currentLevel - 1];
+   			state.currentLevel++;
+   			var l = BallAgentLevels.levels[state.currentLevel - 1];
    	//		console.log("Levels?",BallAgentLevels, l, currentLevel)
         ngrLoop.stop();
         ngrLoop.clearHooks();
@@ -197,7 +245,9 @@ angular.module("BallAgent",['Rectangular'])
         _.each(l.platforms, function(platform){
           createPlatform(platform);
 
-        })
+        });
+
+        updateState(state);
 
     }
 

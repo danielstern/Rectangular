@@ -56,7 +56,8 @@
  <button ng-click="gotoLevel(7)">LVL 7</button>
  <button ng-click="gotoLevel(8)">LVL 8</button>
  <button ng-click="gotoLevel(9)">LVL 9</button>
- <p>{{level}}</p>
+ <p>Level: {{level}}</p>
+ <p>Lives: {{lives}}</p>
 </div>
 </body>
  
@@ -73,6 +74,20 @@ angular.module("BallAgentApp",['BallAgent'])
    $scope.gotoLevel = function(level) {
      BallAgent.gotoLevel(level);
    }
+
+   BallAgent.onStateChange(function(){
+        $scope.level = BallAgent.state.currentLevel;
+        $scope.lives = BallAgent.state.lives;
+        $scope.$apply();
+   })
+   /*
+   $scope.$watchCollection(BallAgent.state,function(){
+      console.log("State change",BallAgent.state)
+     $scope.level = BallAgent.state.currentLevel;
+  //   $scope.$apply();
+   });*/
+
+
 
 });
 
