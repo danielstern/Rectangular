@@ -172,6 +172,53 @@ angular.module("BallAgent",['Rectangular'])
 
     }
 
+    var targeter = new MouseTargeter(debugCanvas, ngWorld.SCALE);
+    console.log("Targeter?",targeter);
+    var targetingWindow = null;
+
+    //window.world = ngWorld.getWorld();
+    targeter.onmove(function(e){
+      //console.log("USER HOVERING AT ", e.worldPosX, e.worldPosY);
+       //var aabb = new b2AABB();
+        //aabb.lowerBound.Set(e.worldPosX - 0.001, e.worldPosY - 0.001);
+        //aabb.upperBound.Set(e.worldPosX + 0.001, e.worldPosY + 0.001);
+
+        if (targetingWindow) ngWorld.removeElement(targetingWindow);
+        var shape = {};
+       //  var shapes = [];
+
+        shape.b = new b2BodyDef();
+        shape.f = new b2FixtureDef;
+        shape.f.shape = new b2PolygonShape();
+        shape.f.shape.SetAsBox( 1 , 1 );
+
+
+        shape.b.position.Set(e.worldPosX - 0.5 , e.worldPosY - 0.5);
+
+        targetingWindow = ngWorld.addElement(shape);
+
+       /*
+         ngWorld.getWorld().QueryAABB(function(k){
+          shapes = k;
+          var body = null;
+
+          _.each(shapes,function(shape){
+            console.log("Shape?",shape);
+            window.fixture = shape;
+            if (shape.m_body.IsStatic() == false || includeStatic) {
+                var tShape = shape;
+                var inside = tShape.TestPoint(tShape.m_body.GetXForm(), mousePVec);
+                if (inside) {
+                    body = tShape.m_body;
+                }
+            }
+
+          console.log("Body?",body);
+        }, aabb);
+        
+          })*/
+    })
+
    
 
 }

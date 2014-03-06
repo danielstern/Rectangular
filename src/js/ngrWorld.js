@@ -19,6 +19,10 @@ angular.module('Rectangular')
 		 return b;
 	 }
 
+	 this.removeElement = function(body) {
+	 	 world.DestroyBody(body);
+	 }
+
 	 this.clearAll = function() {
 	 	_.each(bodies,function(body){
 	 		world.DestroyBody(body);
