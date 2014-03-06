@@ -36,9 +36,9 @@ angular.module("BallAgent",['Rectangular'])
     var defaults = {src:'img/hi.png', x:20,
       mass:0,
       position:'static',
-      y: 4,
-      height: 0.7,
-      width: 0.7
+      y: 15.5,
+      height: 1,
+      width: 1,
     }
 
     options = _.extend(defaults, options);
@@ -53,6 +53,28 @@ angular.module("BallAgent",['Rectangular'])
 
 		return exitBody;
 	}
+
+    function createPlatform(options) {
+      
+      var defaults = {
+        mass:0,
+        position:'static',
+        height: 0.3,
+
+      }
+
+      options = _.extend(defaults, options);
+
+      var platform = ngBox.shape("box",options);
+      var pBody = ngWorld.addElement(platform);
+      pBody.SetUserData({isFloor:true});
+
+      options.y += 0.5;
+      var platformUnder = ngBox.shape("box",options);
+      var pSubBody = ngWorld.addElement(platformUnder);
+
+      return platform;
+    }
 
 	function bindControls() {
 
@@ -109,13 +131,13 @@ angular.module("BallAgent",['Rectangular'])
     }
 
      if (heroState.goingRight) {
-        var force = heroState.airborne ? 10 : 50; 
+        var force = heroState.airborne ? 5 : 15; 
         heroBody.ApplyForce(new b2Vec2(force,0),heroBody.GetWorldCenter())  
         heroBody.ApplyTorque(5) 
      }
 
      if (heroState.goingLeft) {
-        var force = heroState.airborne ? 10 : 50; 
+        var force = heroState.airborne ? 5 : 15; 
         heroBody.ApplyForce(new b2Vec2(-force,0),heroBody.GetWorldCenter())  
         heroBody.ApplyTorque(-5) 
      }
@@ -125,7 +147,7 @@ angular.module("BallAgent",['Rectangular'])
         if (!heroState.airborne) {
 
             var y = heroBody.GetLinearVelocity().y * heroBody.GetInertia();
-            heroBody.ApplyForce(new b2Vec2(0,-300),heroBody.GetWorldCenter()) ;  
+            heroBody.ApplyForce(new b2Vec2(0,-150),heroBody.GetWorldCenter()) ;  
         }
      }
    });
@@ -173,16 +195,20 @@ angular.module("BallAgent",['Rectangular'])
    			var controls = bindControls();
     //    activateTargeter();
 
+        _.each(l.platforms, function(platform){
+          createPlatform(platform);
+
+        })
+
     }
 
     function activateTargeter() {
-    var targeter = new MouseTargeter(debugCanvas, ngWorld.SCALE);
-    console.log("Targeter?",targeter);
-    var targetingWindow = null;
+      var targeter = new MouseTargeter(debugCanvas, ngWorld.SCALE);
+      var targetingWindow = null;
 
-    //window.world = ngWorld.getWorld();
-    targeter.onmove(function(e){
-      //console.log("USER HOVERING AT ", e.worldPosX, e.worldPosY);
+      targeter.onmove(function(e){
+      
+       //console.log("USER HOVERING AT ", e.worldPosX, e.worldPosY);
        //var aabb = new b2AABB();
        //aabb.lowerBound.Set(e.worldPosX - 0.001, e.worldPosY - 0.001);
        //aabb.upperBound.Set(e.worldPosX + 0.001, e.worldPosY + 0.001);
@@ -272,17 +298,209 @@ angular.module("BallAgent",['Rectangular'])
 		},
 		{
 			lWall:true,
-			rWall:false,
+			rWall:true,
 			floor:true,
       exit:{
-        y:0,
-        x:10
-      }
+        y:12,
+        x:4
+      },
+      platforms:[
+        {
+          x: 4,
+          y: 13,
+          width: 2
+        },
+        {
+          x: 17,
+          y: 15,
+          width: 2
+        }
+      ]
 		},
 		{
-			lWall:false,
-			rWall:false,
-			floor:true
-		}
+      // level 3
+      lWall:true,
+      rWall:true,
+      floor:true,
+      exit:{
+        y:9 ,
+        x:17
+      },
+      platforms:[
+        {
+          x: 4,
+          y: 13,
+          width: 2.5
+        },
+        {
+          x: 17,
+          y: 15,
+          width: 2
+        },
+        {
+          x: 17,
+          y: 11,
+          width: 2
+        }
+      ]
+    },
+    {
+      // level 4
+      lWall:false,
+      rWall:false,
+      floor:false,
+      exit:{
+        y:10,
+        x:17
+      },
+      platforms:[
+        {
+          x: 3,
+          y: 13,
+          width: 2
+        },
+        {
+          x: 10,
+          y: 12,
+          width: 2
+        },
+        {
+          x: 17,
+          y: 11,
+          width: 2
+        }
+      ]
+    },
+    {
+      // level 5
+      lWall:false,
+      rWall:false,
+      floor:false,
+      exit:{
+        y:9,
+        x:20
+      },
+      platforms:[
+        {
+          x: 3,
+          y: 13,
+          width: 1.8
+        },
+        {
+          x: 9,
+          y: 12,
+          width: 1.8
+        },
+        {
+          x: 14,
+          y: 11,
+          width: 1.8
+        },
+        {
+          x: 20,
+          y: 10,
+          width: 2.3
+        }
+      ]
+    },
+    {
+      // level 6
+      lWall:true,
+      rWall:false,
+      floor:false,
+      exit:{
+        y:9.3,
+        x:19
+      },
+      platforms:[
+        {
+          x: 2.5,
+          y: 13,
+          width: 2.1
+        },
+        
+      ]
+    },
+    {
+      // level 7
+      lWall:false,
+      rWall:false,
+      floor:false,
+      exit:{
+        y:9.3,
+        x:19
+      },
+      platforms:[
+        {
+          x: 2.5,
+          y: 4,
+          width: 2.1
+        },
+        {
+          x: 19,
+          y: 7,
+          width: 1.5
+        },
+        {
+          x: 12,
+          y: 11,
+          width: 2
+        },
+        
+      ]
+    },
+    {
+      // level 8
+      lWall:false,
+      rWall:false,
+      floor:false,
+      exit:{
+        y:11.3,
+        x:19
+      },
+      platforms:[
+        {
+          x: 2.5,
+          y: 4,
+          width: 2.1
+        },
+        
+        
+      ]
+    },
+    {
+      // level 9
+      lWall:false,
+      rWall:false,
+      floor:false,
+      exit:{
+        y:12,
+        x:20
+      },
+      platforms:[
+        {
+          x: 2,
+          y: 15,
+          width: 1.2
+        },
+        {
+          x: 7,
+          y: 13,
+          width: 1.2
+        },
+        {
+          x: 12,
+          y: 11,
+          width: 1.2
+        },
+        {
+          x: 17,
+          y: 9,
+          width: 1.2
+        },
+        
+        
+      ]
+    },
 	]
 })
