@@ -85,12 +85,29 @@ angular.module("BallAgent",['Rectangular'])
     var pBody = ngWorld.addElement(platform);
     pBody.SetUserData({isFloor:true});
 
-    options.y += 0.5;
+    options.y += 0.2;
     var platformUnder = ngBox.shape("box",options);
     var pSubBody = ngWorld.addElement(platformUnder);
 
     return platform;
   }
+
+  function createColumn(options) {
+    
+    var defaults = {
+      position:'static',
+      width: 0.3,
+      friction: 3,
+    }
+
+    options = _.extend(defaults, options);
+
+    var platform = ngBox.shape("box",options);
+    var pBody = ngWorld.addElement(platform);
+    
+    return platform;
+  }
+
 
 	function bindControls() {
 
@@ -111,19 +128,28 @@ angular.module("BallAgent",['Rectangular'])
         heroState.goingLeft = false;
    }, 'keyup');
 
+   var jumpReleased = true;
+
    Mousetrap.bind('w',function(){
+        if (!jumpReleased) return;
         heroState.isJumping = true;
+        jumpReleased = false;
    },'keydown');
 
    Mousetrap.bind('w',function(){
         heroState.isJumping = false;
+        jumpReleased = true;
    },'keyup');
 
 
+   var airborneTimer = 3;
    ngrLoop.addHook(function(){
    
     var contacts = heroBody.GetContactList();
-    heroState.airborne = true;
+    if (airborneTimer) airborneTimer--;
+    if (!airborneTimer) {
+     heroState.airborne = true;
+    }
 
 
     if (contacts && contacts.contact) {
@@ -142,6 +168,7 @@ angular.module("BallAgent",['Rectangular'])
 
         if (contact.IsTouching() && contacts.other.GetUserData() && contacts.other.GetUserData().isFloor)  {
             heroState.airborne = false;
+            airborneTimer = 3;
         } else {
             //heroState.airborne = true;
         }
@@ -166,7 +193,9 @@ angular.module("BallAgent",['Rectangular'])
         if (!heroState.airborne) {
 
             var y = heroBody.GetLinearVelocity().y * heroBody.GetInertia();
-            heroBody.ApplyForce(new b2Vec2(0,-150),heroBody.GetWorldCenter()) ;  
+            heroBody.ApplyForce(new b2Vec2(0,-300),heroBody.GetWorldCenter()) ;  
+            heroState.airborne = true;
+            heroState.isJumping = false;
         }
      };
 
@@ -244,7 +273,10 @@ angular.module("BallAgent",['Rectangular'])
 
         _.each(l.platforms, function(platform){
           createPlatform(platform);
+        });
 
+        _.each(l.columns, function(column){
+          createColumn(column);
         });
 
         updateState(state);

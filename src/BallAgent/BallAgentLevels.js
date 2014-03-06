@@ -125,7 +125,7 @@ angular.module('BallAgent')
       platforms:[
         {
           x: 2.5,
-          y: 13,
+          y: 11,
           width: 2.1
         },
         
@@ -212,5 +212,128 @@ angular.module('BallAgent')
         
       ]
     },
+    {
+      // level 10
+      lWall:true,
+      rWall:true,
+      floor:true,
+      exit:{
+        y:12,
+        x:20
+      },
+      platforms:[
+        {
+          x: 2,
+          y: 15,
+          width: 1.2
+        },    
+       ],
+      columns:[
+        {
+          x: 10,
+          y: 15,
+          width: 0.3,
+          height: 10,
+          friction: 25,
+        }
+      ]      
+     },
+     {
+       // level 11
+       lWall:true,
+       rWall:false,
+       floor:false,
+       exit:{
+         y:10,
+         x:20
+       },
+       platforms:[
+         {
+           x: 2,
+           y: 15,
+           width: 2
+         },    
+        ],
+       columns:[
+         {
+           x: 10,
+           y: 15,
+           width: 0.3,
+           height: 9,
+           friction: 25,
+         }
+       ]      
+      },
+      {
+        // level 12
+        lWall:false,
+        rWall:false,
+        floor:false,
+        exit:{
+          y:4,
+          x:18
+        },
+        platforms:[
+          {
+            x: 2,
+            y: 15,
+            width: 2
+          },    
+         ],
+        columns:[
+          {
+            x: 10,
+            y: 15,
+            width: 0.3,
+            height: 3,
+            friction: 25,
+          },
+          {
+            x: 15,
+            y: 8,
+            width: 0.3,
+            height: 3,
+            friction: 25,
+          }
+        ]      
+       },
+       {
+         // level 13
+         lWall:false,
+         rWall:false,
+         floor:false,
+         exit:{
+           y:3,
+           x:20
+         },
+         platforms:[
+           {
+             x: 2,
+             y: 15,
+             width: 2
+           },    
+           {
+             x: 12,
+             y: 10,
+             width: 3
+           },    
+          ],
+         columns:[
+           {
+             x: 8,
+             y: 15,
+             width: 0.3,
+             height: 3,
+             friction: 25,
+           },
+           {
+             x: 17,
+             y: 6,
+             width: 0.3,
+             height: 3,
+             friction: 25,
+           }
+         ]      
+        }
 	]
 })
