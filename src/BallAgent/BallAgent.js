@@ -1,5 +1,5 @@
-angular.module("BallAgent",['Rectangular'])
-.service('BallAgent',function(BallAgentLevels, ngrEnvironment, display, ngrLoop, ngBox, ngWorld, $compile){
+angular.module("BallAgent",['Rectangular','ngAudio'])
+.service('BallAgent',function(BallAgentLevels, ngAudio, ngrEnvironment, display, ngrLoop, ngBox, ngWorld, $compile){
    // var world = ngWorld.setWorld(0,26,true);
    this.state = {};
    var state = this.state;
@@ -208,6 +208,8 @@ angular.module("BallAgent",['Rectangular'])
 
             if (data.exit) {
 
+                ngAudio.play('exit');
+
                 nextLevel();
 
             }
@@ -239,16 +241,22 @@ angular.module("BallAgent",['Rectangular'])
 
         if (!heroState.airborne) {
 
+
             var y = heroBody.GetLinearVelocity().y * heroBody.GetInertia();
             heroBody.ApplyForce(new b2Vec2(0,-300),heroBody.GetWorldCenter()) ;  
             heroState.airborne = true;
             heroState.isJumping = false;
+
+            ngAudio.play('jump');
         }
      };
 
      var position = heroBody.GetPosition();
+
+
      if (position.y > 75) {
-      console.log("Hero dead!");
+      //console.log("Hero dead!");
+      ngAudio.play('die');
       handleDeath();
      }
 
