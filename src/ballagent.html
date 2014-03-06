@@ -1,6 +1,6 @@
 <doctype HTML>
 
-<html ng-app='demoApp' ng-controller='myDemoCtrl'>
+<html ng-app='BallAgentApp' ng-controller='myDemoCtrl'>
 <head>
     <title>Racing Car in Box2d</title>
      
@@ -11,7 +11,8 @@
     <script src="js/util.js"></script>
     <script src="lib/Box2dWeb-2.1.a.3.js"></script>
     <script src="js/Rectangular.js"></script>
-    <script src="js/BallAgent.js"></script>
+    <script src="BallAgent/BallAgent.js"></script>
+    <script src="BallAgent/BallAgentLevels.js"></script>
     <script src="js/ngrModel.js"></script>
     <script src="js/ngrStage.js"></script>
     <script src="js/ngrWorld.js"></script>
@@ -59,15 +60,10 @@
 </body>
  
 </html>
-<style>
-  .wow {
-    border: 2px solid gray;
-  }
-</style>
 
 <!-- ZOR -->
 <script>
-angular.module("demoApp",['BallAgent'])
+angular.module("BallAgentApp",['BallAgent'])
 
 .controller('myDemoCtrl',function($scope,$element,BallAgent){
 
