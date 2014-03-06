@@ -45,6 +45,12 @@ Use ngrEnvironment to initialize a 3D world on a canvas element.
 // creates an empty world with nothing in it, and outputs the debug information to your debug canvas.
 ```
 
+#### Methods
+
+##### ngrEnvironment.init(_canvas:canvas)
+
+Creates the world on the target canvas. Automatically sizes to the canvas. Effectively initialize ngrWorld, ngrLoop and ngrStage.
+
 ### ngrWorld
 
 Contains an instance of a world. Used as an interface for adding and removing objects, as well as accessing the b2World object.	
@@ -172,9 +178,10 @@ Specifies if the box should be dynamic (a sprite) or static (the terrain.)
 Specifies the angle of the object, in radians. Useful for terrain.
 
 And the rest...
-density : Number,
-'friction' : Number ,
-'restitution' : Number,
-'linearDamping' : Number,
-'angularDamping' : Number,
-gravityScale : Number ,
+
+- density : Number,
+- friction : Number ,
+- restitution : Number,
+- linearDamping : Number,
+- angularDamping : Number,
+- gravityScale : Number ,
