@@ -51,6 +51,32 @@ Use ngrEnvironment to initialize a 3D world on a canvas element.
 
 Creates the world on the target canvas. Automatically sizes to the canvas. Effectively initialize ngrWorld, ngrLoop and ngrStage.
 
+
+```javascript
+.controller('myDemoCtrl',function($scope, ngrEnvironment){
+
+    ngrEnvironment.init($('canvas')[0]);
+
+    //Mission Accomplished.
+
+});
+```
+
+##### ngrEnvironment.debug(_debugCanvas:canvas)
+
+Outputs the Box2D physics world visualization to a seperate canvas. Very useful for development, as Box2D objects have no avatar by default.
+
+```javascript
+.controller('myDemoCtrl',function($scope, ngrEnvironment){
+
+    ngrEnvironment.init($('canvas')[0]);
+    ngrEnvironment.debug($('#debugCanvas')[0])
+
+    // Debug information is outputting. Of course, you will see nothing.
+
+});
+```
+
 ### ngrWorld
 
 Contains an instance of a world. Used as an interface for adding and removing objects, as well as accessing the b2World object.	
@@ -185,3 +211,30 @@ And the rest...
 - linearDamping : Number,
 - angularDamping : Number,
 - gravityScale : Number ,
+
+
+### Directives (not fully supported)
+
+Use directives to add box2d elements with HTML.
+
+
+```html
+
+<div ngController='myDemoController'>
+ <canvas ng-stage id='canvas' width='500' height='400' style="background-color:pink;"></canvas>
+
+ <ng-box></ng-box>
+
+ <ng-circle
+    x='0'
+    radius='2'
+    src='img/globe.png'
+ ></ng-circle>
+</div>
+
+<!-- Creates a box and a circle in the canvas world. -->
+
+
+```
+
+
