@@ -1,4 +1,6 @@
 angular.module('Rectangular')
+/* Creates an instance of the world of the simulation, 
+   and provides an interface for it. */
 .service("ngWorld",function(ngBox,ngStage){
 	var _ngWorld = this;
 	 var world = {};

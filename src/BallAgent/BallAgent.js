@@ -32,7 +32,6 @@ angular.module("BallAgent",['Rectangular'])
  	}
 
 	function createExit(options) {
-    console.log("eXT Options,",options)
     var defaults = {src:'img/hi.png', x:20,
       mass:0,
       position:'static',
@@ -45,36 +44,34 @@ angular.module("BallAgent",['Rectangular'])
 
 		var exitBox = ngBox.shape("box",options);
 
-		console.log("exitbox?",exitBox);
 		exitBox.f.isSensor = true;
 		var exitBody = ngWorld.addElement(exitBox);
 		exitBody.SetUserData({exit:true})
-   // exitBody.SetLinearDamping('float');
 
 		return exitBody;
 	}
 
-    function createPlatform(options) {
-      
-      var defaults = {
-        mass:0,
-        position:'static',
-        height: 0.3,
+  function createPlatform(options) {
+    
+    var defaults = {
+      mass:0,
+      position:'static',
+      height: 0.3,
 
-      }
-
-      options = _.extend(defaults, options);
-
-      var platform = ngBox.shape("box",options);
-      var pBody = ngWorld.addElement(platform);
-      pBody.SetUserData({isFloor:true});
-
-      options.y += 0.5;
-      var platformUnder = ngBox.shape("box",options);
-      var pSubBody = ngWorld.addElement(platformUnder);
-
-      return platform;
     }
+
+    options = _.extend(defaults, options);
+
+    var platform = ngBox.shape("box",options);
+    var pBody = ngWorld.addElement(platform);
+    pBody.SetUserData({isFloor:true});
+
+    options.y += 0.5;
+    var platformUnder = ngBox.shape("box",options);
+    var pSubBody = ngWorld.addElement(platformUnder);
+
+    return platform;
+  }
 
 	function bindControls() {
 
@@ -112,15 +109,14 @@ angular.module("BallAgent",['Rectangular'])
     if (contacts && contacts.contact) {
       while(contacts) {   
         var contact = contacts.contact;
-        window.contacts = contacts;
 
         if (contact.IsTouching() && contacts.other.GetUserData()) {
             var data = contacts.other.GetUserData();
-            //console.log("Contact has data", data);
+
             if (data.exit) {
-                console.log("You reached the exit!");
+
                 nextLevel();
-       //         $('html').append('congratulations!');
+
             }
         }
 
@@ -175,14 +171,13 @@ angular.module("BallAgent",['Rectangular'])
 
    
    function nextLevel() {
-   			//console.log("currentLevel?", currentLevel);
+
    			currentLevel++;
    			var l = BallAgentLevels.levels[currentLevel - 1];
-   			console.log("Levels?",BallAgentLevels, l, currentLevel)
+   	//		console.log("Levels?",BallAgentLevels, l, currentLevel)
         ngrLoop.stop();
         ngrLoop.clearHooks();
         ngWorld.clearAll();
-    //    alert('Entering next level!');
 
         ngrEnvironment.init($('canvas')[0]);
         if (l.floor) ngrEnvironment.floor();
@@ -211,30 +206,12 @@ angular.module("BallAgent",['Rectangular'])
       var targetingWindow = null;
 
       targeter.onmove(function(e){
-      
-       //console.log("USER HOVERING AT ", e.worldPosX, e.worldPosY);
-       //var aabb = new b2AABB();
-       //aabb.lowerBound.Set(e.worldPosX - 0.001, e.worldPosY - 0.001);
-       //aabb.upperBound.Set(e.worldPosX + 0.001, e.worldPosY + 0.001);
-
+    
        var world = ngWorld.getWorld();
 
-        /*if (targetingWindow) {
-          ngWorld.removeElement(targetingWindow);
-          targetingWindow = null;
-        }*/
-        var shape = {};
-       //  var shapes = [];
+        var shape = ngBox.shape('box');
 
-        shape.b = new b2BodyDef();
-        shape.f = new b2FixtureDef;
-        shape.f.shape = new b2PolygonShape();
-        shape.f.shape.SetAsBox( 1 , 1 );
-        shape.f.isSensor = false;
-        shape.b.type = 'static';
         shape.b.position.Set(e.worldPosX - 0.5 , e.worldPosY - 0.5);
-
-
 
         if (!targetingWindow) {
           targetingWindow = ngWorld.addElement(shape);
@@ -243,9 +220,6 @@ angular.module("BallAgent",['Rectangular'])
           targetingWindow.SetPosition(new b2Vec2(e.worldPosX - 0.5,e.worldPosY - 0.5) )
         }
 
-      /*  ngWorld.getWorld().QueryShape(function(k){
-          console.log("Query?",k);
-        },targetingWindow);*/
 
        window.world = world;
        window.targetingWindow = targetingWindow;
@@ -254,35 +228,10 @@ angular.module("BallAgent",['Rectangular'])
 
       console.log(targetingWindow.GetContactList());
 
-   //   ngWorld.getWorld().QueryShape(function(k){
-     //     console.log("Query?",k);
-      //},targetingWindow);
-      //console.log(world.GetContactList());
-
-       /*
-         ngWorld.getWorld().QueryAABB(function(k){
-          shapes = k;
-          var body = null;
-
-          _.each(shapes,function(shape){
-            console.log("Shape?",shape);
-            window.fixture = shape;
-            if (shape.m_body.IsStatic() == false || includeStatic) {
-                var tShape = shape;
-                var inside = tShape.TestPoint(tShape.m_body.GetXForm(), mousePVec);
-                if (inside) {
-                    body = tShape.m_body;
-                }
-            }
-
-          console.log("Body?",body);
-        }, aabb);
-        
-          })*/
 
     })
 
-      }
+  }
 
    
 
