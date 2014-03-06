@@ -4,6 +4,7 @@ angular.module("BallAgent",['Rectangular'])
    this.state = {};
    var state = this.state;
    var stateChangeListeners = [];
+   var gameOverListeners = [];
 
    this.onStateChange = function(listener) {
      stateChangeListeners.push(listener);
@@ -15,6 +16,11 @@ angular.module("BallAgent",['Rectangular'])
     })
    }
 
+   this.onGameOver = function(listener) {
+     gameOverListeners.push(listener);
+   }
+
+
    
    this.init = function(canvas,debugCanvas) {
 
@@ -25,16 +31,16 @@ angular.module("BallAgent",['Rectangular'])
     state.score = 0;
 
 
-   ngrEnvironment.init(canvas);
-   ngrEnvironment.room({floor:true});
-   ngrEnvironment.debug(debugCanvas);
+   //ngrEnvironment.init(canvas);
+  // ngrEnvironment.room({floor:true});
+  // ngrEnvironment.debug(debugCanvas);
 
 
    var heroBody;// = createHero();
    var exit;// = createExit();
    var controls;// = bindControls();
 
-   nextLevel();
+ // nextLevel();
 
    this.gotoLevel = function(level) {
      state.currentLevel = level - 1;
@@ -104,6 +110,18 @@ angular.module("BallAgent",['Rectangular'])
 
     var platform = ngBox.shape("box",options);
     var pBody = ngWorld.addElement(platform);
+
+    // optional hook for a moving platform
+    /*
+    ngrLoop.addHook(function(){
+       var currentY = pBody.GetPosition().y;
+       var currentX = pBody.GetPosition().x;
+       var newY = currentY - 0.01;
+       pBody.SetPosition(new b2Vec2(currentX, newY));
+    })
+    */
+
+
     
     return platform;
   }
@@ -237,7 +255,11 @@ angular.module("BallAgent",['Rectangular'])
 
    function gameOver() {
      // todo, score screen...
-     newGame();
+        ngrEnvironment.stop();
+      _.each(gameOverListeners,function(l){
+        l(state);
+      })
+    // newGame();
    }
 
    function newGame() {
@@ -245,6 +267,8 @@ angular.module("BallAgent",['Rectangular'])
      state.currentLevel = 0;
      nextLevel();
    }
+
+   this.newGame = newGame;
 
    
    function nextLevel() {

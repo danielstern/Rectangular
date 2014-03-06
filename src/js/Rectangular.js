@@ -12,10 +12,14 @@ angular.module('Rectangular',[])
 
 	this.init = function(_canvas){
 		ngrLoop.initWorld(60);
-		//console.log("Canvas?",canvas,canvas.width);
+		console.log("Canvas?",_canvas,_canvas.width);
 		envHeight = _canvas.height;
 		envWidth = _canvas.width;
 		canvas = _canvas;
+	}
+
+	this.stop = function() {
+		ngrLoop.stop();
 	}
 
 	this.room = function() {
@@ -64,7 +68,7 @@ angular.module('Rectangular',[])
 			width: 10 / SCALE,
 			height: envHeight / SCALE,
 			position:'static',
-			x: (envWidth / SCALE) - 100 / SCALE,
+			x: (envWidth / SCALE),
 		});
 		var rBody = ngWorld.addElement(rightWall);
 		display.skin(rBody,{

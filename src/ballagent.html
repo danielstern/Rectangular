@@ -38,14 +38,27 @@
             ;
     </script>
 
+    <link rel="stylesheet" type="text/css" href="styles/ballAgent.css">
+    <link rel="stylesheet" type="text/css" href="styles/animate.css">
+
 </head>
 <body >
-<h2>BALL AGENT</h2>
-<h3>DO YOU HAVE THE BALLS?</h3>
-<p>CONTROLS: WASD</p>
+
+ <canvas ng-stage id='gameCanvas' width='750' height='500' style="background-color:#333;"></canvas>
 <div class='main' >
- <canvas ng-stage style='display:none' id='canvas' width='850' height='500' style="background-color:#333;"></canvas>
- <canvas ng-stage id='debugCanvas' debug=true width='750' height='500' style="background-color:black;"></canvas>
+ <canvas ng-stage id='debugCanvas' width='750' height='500' style="background-color:black;"></canvas>
+ <div class='splash-screen'>
+ <div class='blinder'></div>
+ <div class='main-menu'>
+    <h2>BALL AGENT</h2>
+    <h3>DO YOU HAVE THE BALLS?</h3>
+
+    <p>CONTROLS: WASD</p>
+
+    <button ng-click="newGame()">NEW GAME</button>
+
+</div>
+</div>
  <div>
     <div>
 <button ng-click="gotoLevel(1)">LVL 1</button>
@@ -80,7 +93,7 @@ angular.module("BallAgentApp",['BallAgent'])
 
 .controller('myDemoCtrl',function($scope,$element,BallAgent){
 
-   BallAgent.init($('canvas')[0],$('#debugCanvas')[0]);   
+   BallAgent.init($('#gameCanvas')[0],$('#debugCanvas')[0]);   
 
    $scope.gotoLevel = function(level) {
      BallAgent.gotoLevel(level);
@@ -90,7 +103,19 @@ angular.module("BallAgentApp",['BallAgent'])
         $scope.level = BallAgent.state.currentLevel;
         $scope.lives = BallAgent.state.lives;
         $scope.$apply();
-   })
+   });
+
+   BallAgent.onGameOver(function(){
+        //$('.splash-screen').show();
+        $('.splash-screen').removeClass();
+        $('.splash-screen').addClass('animated fadeIn');
+   });
+
+   $scope.newGame = function() {
+       // $('.splash-screen').hide();
+        $('.splash-screen').addClass('animated fadeOut');
+        BallAgent.newGame();
+   }
    /*
    $scope.$watchCollection(BallAgent.state,function(){
       console.log("State change",BallAgent.state)

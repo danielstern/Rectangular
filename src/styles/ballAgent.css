@@ -1,0 +1,30 @@
+.blinder {
+	display: block;
+	background-color: gray;
+	width: 750px;
+	height: 500px;
+	position: absolute;
+	top: 0;
+	left: 0;
+	bottom: 0;
+	right: 0;
+}
+
+.main-menu {
+	position: absolute;
+	top: 0;
+	left: 0;	
+	right: 0;
+	bottom: 0;
+	margin: auto;
+	width: 300px;
+	height: 300px;
+	color: white;
+	font-family: arial;
+	text-align: center;
+}
+
+.main {
+	position: relative;
+	width: 750px;
+}
