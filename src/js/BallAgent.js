@@ -17,6 +17,11 @@ angular.module("BallAgent",['Rectangular'])
 
    nextLevel();
 
+   this.gotoLevel = function(level) {
+     currentLevel = level - 1;
+     nextLevel();
+   }
+
    function createHero() {
    var heroBox = ngBox.shape("ellipse",{radius:0.5,x:1.2});
    var heroBody = ngWorld.addElement(heroBox);
@@ -25,14 +30,19 @@ angular.module("BallAgent",['Rectangular'])
    return heroBody;
  	}
 
-	function createExit() {
-		var exitBox = ngBox.shape("box",{src:'img/hi.png', x:20,
-		  density:50,
-		  position:'static',
-		  y: 4,
-		  height: 0.7,
-		  width: 0.7
-		});
+	function createExit(options) {
+    console.log("eXT Options,",options)
+    var defaults = {src:'img/hi.png', x:20,
+      density:50,
+      position:'static',
+      y: 4,
+      height: 0.7,
+      width: 0.7
+    }
+
+    options = _.extend(defaults, options);
+
+		var exitBox = ngBox.shape("box",options);
 
 		console.log("exitbox?",exitBox);
 		exitBox.f.isSensor = true;
@@ -150,12 +160,14 @@ angular.module("BallAgent",['Rectangular'])
         if (l.floor) ngrEnvironment.floor();
         if (l.lWall) ngrEnvironment.leftWall();
         if (l.rWall) ngrEnvironment.rightWall();
+
+
         ngrEnvironment.debug($('#debugCanvas')[0]);
 
         console.log("NEXT LVL: BALL AGENT");
 
       	heroBody = createHero();
-   			exit = createExit();
+   			exit = createExit(l.exit);
    			var controls = bindControls();
 
     }
@@ -179,7 +191,11 @@ angular.module("BallAgent",['Rectangular'])
 		{
 			lWall:true,
 			rWall:false,
-			floor:true
+			floor:true,
+      exit:{
+        y:0,
+        x:10
+      }
 		},
 		{
 			lWall:false,

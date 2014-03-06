@@ -7,6 +7,7 @@
     <script src="lib/angular.js"></script>
     <script src="lib/jquery.js"></script>
     <script src="lib/underscore.js"></script>
+    <script src="js/util.js"></script>
     <script src="lib/mousetrap.js"></script>
     <script src="lib/Box2dWeb-2.1.a.3.js"></script>
     <script src="js/Rectangular.js"></script>
@@ -44,6 +45,12 @@
 <div class='main' >
  <canvas ng-stage style='display:none' id='canvas' width='850' height='400' style="background-color:#333;"></canvas>
  <canvas ng-stage id='debugCanvas' debug=true width='750' height='400' style="background-color:black;"></canvas>
+ <div>
+<button ng-click="gotoLevel(2)">LVL 2</button>
+ <button ng-click="gotoLevel(3)">LVL 3</button>
+ <button ng-click="gotoLevel(4)">LVL 4</button>
+ <p>{{level}}</p>
+</div>
 </body>
  
 </html>
@@ -60,6 +67,10 @@ angular.module("demoApp",['BallAgent'])
 .controller('myDemoCtrl',function($scope,$element,BallAgent){
 
    BallAgent.init($('canvas')[0],$('#debugCanvas')[0]);   
+
+   $scope.gotoLevel = function(level) {
+     BallAgent.gotoLevel(level);
+   }
 
 });
 
