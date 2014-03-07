@@ -114,7 +114,6 @@ angular.module("BallAgent", ['Rectangular', 'ngAudio','BallAgentHero'])
       var platform = ngBox.shape("box", options);
       var pBody = ngWorld.addElement(platform);
 
-      // optional hook for a moving platform
 /*
     ngrLoop.addHook(function(){
        var currentY = pBody.GetPosition().y;
