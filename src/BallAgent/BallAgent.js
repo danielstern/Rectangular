@@ -1,11 +1,12 @@
-angular.module("BallAgent", ['Rectangular', 'ngAudio','BallAgentHero'])
-.service('BallAgent', function (BallAgentLevels, BallAgentHero, ngAudio, ngrEnvironment, display, ngrLoop, ngBox, ngWorld, $compile) {
+angular.module("BallAgent", ['Rectangular', 'ngAudio','BallAgentHero','BallAgentModels'])
+.service('BallAgent', function (BallAgentLevels, BallAgentHero, BallAgentModels, ngAudio, ngrEnvironment, display, ngrLoop, ngBox, ngWorld, $compile) {
 
   this.state = {};
   var state = this.state;
   var stateChangeListeners = [];
   var gameOverListeners = [];
   var airborneTimer = 3;
+  var m = BallAgentModels;
 
   this.onStateChange = function (listener) {
     stateChangeListeners.push(listener);
@@ -36,102 +37,6 @@ angular.module("BallAgent", ['Rectangular', 'ngAudio','BallAgentHero'])
     this.gotoLevel = function (level) {
       state.currentLevel = level - 1;
       nextLevel();
-    }
-
-    function createExit(options) {
-      var defaults = {
-        src: 'img/hi.png',
-        x: 20,
-        mass: 0,
-        position: 'static',
-        y: 15.5,
-        height: 1,
-        width: 1,
-      }
-
-      options = _.extend(defaults, options);
-
-      var exitBox = ngBox.shape("box", options);
-      exitBox.f.isSensor = true;
-
-      var exitBody = ngWorld.addElement(exitBox);
-      exitBody.SetUserData({
-        exit: true
-      });
-
-      var attrs = {};
-
-      attrs.src = 'img/exit.png';
-      attrs.height = 2;
-      attrs.width = 2;
-      var actor = display.skin(exitBody, attrs);
-
-      return exitBody;
-    }
-
-    function createPlatform(options) {
-
-      var defaults = {
-        mass: 0,
-        position: 'static',
-        height: 0.3,
-      }
-
-      options = _.extend(defaults, options);
-
-      var platform = ngBox.shape("box", options);
-      var pBody = ngWorld.addElement(platform);
-
-      pBody.SetUserData({
-        isFloor: true
-      });
-      display.skin(pBody, {
-        y: options.y,
-        x: options.x,
-        width: options.width * 2,
-        height: 0.5
-      });
-
-      options.y += 0.2;
-      var platformUnder = ngBox.shape("box", options);
-      var pSubBody = ngWorld.addElement(platformUnder);
-
-      return platform;
-    }
-
-
-
-    function createColumn(options) {
-
-      var defaults = {
-        position: 'static',
-        width: 0.3,
-        friction: 3,
-      }
-
-      options = _.extend(defaults, options);
-
-      var platform = ngBox.shape("box", options);
-      var pBody = ngWorld.addElement(platform);
-
-/*
-    ngrLoop.addHook(function(){
-       var currentY = pBody.GetPosition().y;
-       var currentX = pBody.GetPosition().x;
-       var newY = currentY - 0.01;
-       pBody.SetPosition(new b2Vec2(currentX, newY));
-    })
-    */
-
-      display.skin(pBody, {
-        y: options.y,
-        x: options.x,
-        width: options.width * 2,
-        height: options.height * 2
-      });
-
-
-      return platform;
     }
 
 
@@ -254,12 +159,12 @@ angular.module("BallAgent", ['Rectangular', 'ngAudio','BallAgentHero'])
 
       
       hero = BallAgentHero.createNewHero();
-      exit = createExit(l.exit);
+      exit = m.createExit(l.exit);
       var controls = bindControls();
 
 
-      _.each(l.platforms, createPlatform);
-      _.each(l.columns, createColumn);
+      _.each(l.platforms, m.createPlatform);
+      _.each(l.columns, m.createColumn);
 
 
       
