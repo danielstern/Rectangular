@@ -439,6 +439,126 @@ angular.module('BallAgent')
              width: 2
            },    
          ]       
-        }
+        },
+      {
+        // level 17
+        lWall:true,
+        rWall:true,
+        floor:false,
+        exit:{
+          y:4,
+          x:22
+        },
+        platforms:[
+          {
+            x: 12,
+            y: 15,
+            width: 2.5,
+            height: 0.2,
+            friction: 100,
+            moves:true,
+            movement: {
+             shiftY:0,
+             shiftX:1,
+             period:2,
+             phaseShift: 2,
+           }
+          },
+          {
+            x: 2,
+            y: 4,
+            width: 2
+          },    
+        ]  ,
+        columns:[
+          {
+            x: 17,
+            y: 8,
+            width: 0.3,
+            height: 4,
+            friction: 25,
+          }
+        ]           
+       },
+       {
+         // level 18
+         lWall:false,
+         rWall:false,
+         floor:false,
+         exit:{
+           y:4,
+           x:22
+         },
+         platforms:[
+           {
+             x: 15,
+             y: 6,
+             width: 3,
+             height: 0.2,
+             friction: 100,
+             moves:true,
+             movement: {
+              shiftY:0,
+              shiftX:1,
+              period:2,
+              phaseShift: 2,
+            }
+           },
+           {
+             x: 2,
+             y: 13,
+             width: 2
+           },    
+         ]  ,
+         columns:[
+           {
+             x: 6,
+             y: 8,
+             width: 0.3,
+             height: 4,
+             friction: 25,
+           }
+         ]           
+        },
+        {
+          // level 19
+          lWall:false,
+          rWall:true,
+          floor:false,
+          exit:{
+            y:12,
+            x:22
+          },
+          platforms:[
+            {
+              x: 15,
+              y: 6,
+              width: 3,
+              height: 0.2,
+              friction: 100,
+              moves:true,
+              movement: {
+               shiftY:0,
+               shiftX:1,
+               period:2,
+               phaseShift: 2,
+             }
+            },
+            {
+              x: 2,
+              y: 13,
+              width: 2
+            },    
+          ]  ,
+          columns:[
+            {
+              x: 6,
+              y: 8,
+              width: 0.3,
+              height: 4,
+              friction: 25,
+            }
+          ]           
+         },
 	]
 })
