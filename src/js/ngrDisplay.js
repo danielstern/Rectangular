@@ -106,9 +106,9 @@ angular.module('Rectangular')
 				var regY = (img.height) / 2;
 				var regX = (img.width) / 2;
 
-				var iterations = regY * 2;
+				var iterations = options.height / ngrState.SCALE * 3;
 
-				for (iterations; iterations >= 0; iterations--) {
+				for (iterations; iterations >= -1; iterations--) {
 
 					console.log("Iterating...");
 
@@ -117,7 +117,7 @@ angular.module('Rectangular')
 				  _imgData.scaleY = 2;
 
 				  _imgData.regX = regX;
-				  _imgData.regY = (options.height / 2) - (iterations * 10);
+				  _imgData.regY = (options.height / 2) - (iterations * 8) - img.height;
 
 				  container.addChild(_imgData);
 
