@@ -29,6 +29,10 @@ angular.module("BallAgentHero", ['Rectangular', 'ngAudio'])
 		return hero;
 	}
 
+	this.getState = function() {
+		return heroState;
+	}
+
 	
 	this.createHero = function(options) {
 

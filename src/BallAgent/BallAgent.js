@@ -5,6 +5,7 @@ angular.module("BallAgent", ['Rectangular', 'ngAudio','BallAgentHero'])
   var state = this.state;
   var stateChangeListeners = [];
   var gameOverListeners = [];
+  var airborneTimer = 3;
 
   this.onStateChange = function (listener) {
     stateChangeListeners.push(listener);
@@ -169,55 +170,6 @@ angular.module("BallAgent", ['Rectangular', 'ngAudio','BallAgentHero'])
       }, 'keyup');
 
 
-      var airborneTimer = 3;
-    
-      ngrLoop.addHook(function () {
-
-        //console.log("Entity?",BallAgentHero.entity);
-        //return;
-        var contacts = BallAgentHero.entity.GetContactList();
-        if (airborneTimer) airborneTimer--;
-        if (!airborneTimer) {
-          heroState.airborne = true;
-        }
-
-        if (contacts && contacts.contact) {
-          while (contacts) {
-            var contact = contacts.contact;
-
-            if (contact.IsTouching() && contacts.other.GetUserData()) {
-              var data = contacts.other.GetUserData();
-
-              if (data.exit) {
-
-                ngAudio.play('exit');
-                nextLevel();
-
-              }
-            }
-
-            if (contact.IsTouching() && contacts.other.GetUserData() && contacts.other.GetUserData().isFloor) {
-              heroState.airborne = false;
-              airborneTimer = 3;
-            } else {
-              //heroState.airborne = true;
-            }
-            contacts = contacts.next;
-          }
-        }
-
-        
-
-        var position = BallAgentHero.entity.GetPosition();
-
-
-        if (position.y > 50) {
-          //console.log("Hero dead!");
-          ngAudio.play('die');
-          handleDeath();
-        }
-
-      });
 
 
     }
@@ -249,6 +201,7 @@ angular.module("BallAgent", ['Rectangular', 'ngAudio','BallAgentHero'])
       })
       // newGame();
     }
+
 
     function newGame() {
       state.lives = 3;
@@ -291,7 +244,57 @@ angular.module("BallAgent", ['Rectangular', 'ngAudio','BallAgentHero'])
         createColumn(column);
       });
 
-      updateState(state);
+
+      
+      ngrLoop.addHook(function () {
+
+        var heroState = BallAgentHero.getState();
+        
+        var contacts = BallAgentHero.entity.GetContactList();
+        if (airborneTimer) airborneTimer--;
+        if (!airborneTimer) {
+          heroState.airborne = true;
+        }
+
+        if (contacts && contacts.contact) {
+          while (contacts) {
+            var contact = contacts.contact;
+
+            if (contact.IsTouching() && contacts.other.GetUserData()) {
+              var data = contacts.other.GetUserData();
+
+              if (data.exit) {
+
+                ngAudio.play('exit');
+                nextLevel();
+
+              }
+            }
+
+            if (contact.IsTouching() && contacts.other.GetUserData() && contacts.other.GetUserData().isFloor) {
+              heroState.airborne = false;
+              airborneTimer = 3;
+            } else {
+              //heroState.airborne = true;
+            }
+            contacts = contacts.next;
+          }
+        }
+
+        
+
+        var position = BallAgentHero.entity.GetPosition();
+
+
+        if (position.y > 50) {
+          //console.log("Hero dead!");
+          ngAudio.play('die');
+          handleDeath();
+        }
+        
+        updateState(state);
+
+      });
 
     }
 

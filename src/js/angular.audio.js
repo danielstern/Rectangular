@@ -25,6 +25,8 @@ angular.module('ngAudio',[])
 		var $sound = document.getElementById(id);
 
 		/* Play the sound. */
+		$sound.pause();
+		$sound.currentTime = 0;
 		$sound.play();
 
 	};
@@ -33,7 +35,8 @@ angular.module('ngAudio',[])
 		var $sound = document.getElementById(id);
 
 		/* stop the sound. */
-		$sound.stop();
+		$sound.pause();
+		$sound.currentTime = 0;
 
 	};
 
