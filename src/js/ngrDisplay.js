@@ -101,23 +101,25 @@ angular.module('Rectangular')
 
 
 				var container = new createjs.Container();
+				var SCALE = ngrState.SCALE;
 
-				
 				var regY = (img.height) / 2;
 				var regX = (img.width) / 2;
 
-				var iterations = options.height / ngrState.SCALE * 3;
+				console.log("Options, img",options,img)
 
-				for (iterations; iterations >= -1; iterations--) {
+				var iterations = options.height / img.height * 2;
+
+				for (iterations; iterations > 0; iterations--) {
 
 					console.log("Iterating...");
 
 				  var	_imgData = new createjs.Bitmap(options.src || 'img/null.png');
-				  _imgData.scaleX = 2;
-				  _imgData.scaleY = 2;
+				  //_imgData.scaleX = 2;
+				  //_imgData.scaleY = 2;
 
 				  _imgData.regX = regX;
-				  _imgData.regY = (options.height / 2) - (iterations * 8) - img.height;
+				  _imgData.regY = (options.height) - ((iterations - 1) * img.height);
 
 				  container.addChild(_imgData);
 
