@@ -2,12 +2,12 @@ angular.module('Rectangular')
 .service('ngrDisplay',function(ngrStage,ngrState,ngrActor){
 	this.skin = function(body, options) {
 
-		console.log("Skinning",body);
+		//console.log("Skinning",body);
 
 		 var f = body.GetFixtureList();
 		 var s = f.GetShape();
 
-		 console.log('s?',s);
+		 //console.log('s?',s);
 
 
 		var defaults = {
@@ -22,15 +22,15 @@ angular.module('Rectangular')
 		};
 
 		 if (s.constructor == b2CircleShape) {
-		 	console.log("it's a circle");
+		 	//console.log("it's a circle");
 		 	defaults.radius = s.GetRadius();
 		 } else {
-		 	 console.log("it's a square.");
-		 	 window.square = s;
+		 	 //console.log("it's a square.");
+		 	 //window.square = s;
 		 	 var v = s.GetVertices();
 		 	 var height = v[2].y - v[0].y;
 		 	 var width = v[1].x - v[0].x;
-		 	 console.log("HW?",height,width);
+		 	 //console.log("HW?",height,width);
 		 	 defaults.height = height;
 		 	 defaults.width = width;
 		 }
