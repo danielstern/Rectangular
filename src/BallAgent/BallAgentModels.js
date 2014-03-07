@@ -48,6 +48,7 @@ angular.module('BallAgentModels',[])
       pBody.SetUserData({
         isFloor: true
       });
+
       display.skin(pBody, {
         y: options.y,
         x: options.x,
@@ -56,6 +57,7 @@ angular.module('BallAgentModels',[])
       });
 
       var cycle = 0;
+      var defaultY = options.y;
 
       if (options.moves) {
 
@@ -67,10 +69,23 @@ angular.module('BallAgentModels',[])
 		       var newX = currentX - (Math.sin(cycle) / 50)  * options.movement.shiftX;
 
 		       pBody.SetPosition(new b2Vec2(newX, newY));
+		       pSubBody.SetPosition(new b2Vec2(newX, newY + 0.3));
 		    })
 
 
 		  }
+
+		  ngrLoop.addHook(function(){
+        var lVector = pSubBody.GetWorldCenter().x - 10;
+        var rVector = pSubBody.GetWorldCenter().x + 10;
+        var yVector = pSubBody.GetWorldCenter().y;
+
+        if (pSubBody.GetPosition().y > defaultY) {
+          if (pSubBody) pSubBody.ApplyForce(new b2Vec2(0, - pSubBody.GetMass() * 30), new b2Vec2(lVector,yVector));
+		     	if (pSubBody) pSubBody.ApplyForce(new b2Vec2(0, - pSubBody.GetMass() * 30), new b2Vec2(rVector,yVector));
+        }
+
+		  })
 
       options.y += 0.2;
       var platformUnder = ngBox.shape("box", options);

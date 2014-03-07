@@ -341,7 +341,7 @@ angular.module('BallAgent')
        rWall:true,
        floor:true,
        exit:{
-         y:3,
+         y:13,
          x:20
        },
        columns:[
@@ -361,11 +361,11 @@ angular.module('BallAgent')
        ],
        platforms:[
          {
-           x: 8,
-           y: 12,
+           x: 9,
+           y: 15,
            width: 2,
            height: 0.2,
-           friction: 40,
+           friction: 100,
            moves:true,
            movement: {
             shiftY:0,
