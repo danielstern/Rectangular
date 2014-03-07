@@ -1,10 +1,13 @@
 angular.module('Rectangular')
 /* Creates an instance of the world of the simulation, 
    and provides an interface for it. */
-.service("ngWorld",function(ngBox,ngStage){
+.service("ngWorld",function(ngBox,ngStage,ngrState,display){
 	var _ngWorld = this;
 	 var world = {};
 	 var bodies = [];
+	 var properties = {};
+	 var ngWorld = this;
+	 var env;
 	 
 	 this.SCALE = 30;
 	 this.actors = [];
@@ -37,6 +40,7 @@ angular.module('Rectangular')
 
 		 	var gravity = new b2Vec2(gravityX, gravityY);
 		 	var doSleep = sleep;
+	 		env = ngrState.getProperties();
 		 	 
 		 	world = new b2World(gravity , doSleep);
 
@@ -47,12 +51,85 @@ angular.module('Rectangular')
 	 	return world;
 	 }
 
+	 this.room = function() {
+	 	var world = ngWorld.getWorld();
+	 
+	 	ngBox.floor();
+	 	ngBox.leftWall();
+	 	ngBox.rightWall();
+
+	 }
+
+	 this.floor = function(options) {
+	 	var defaults = {
+	 		width:env.width / env.SCALE,
+	 		height: 0.3,
+	 		position:'static',
+	 		y: env.height / env.SCALE,
+	 	};
+
+	 	options = _.extend(defaults,options);
+	 	
+	 	var shape = ngBox.shape('box',options);
+	 	var body = ngWorld.addElement(shape);
+	 	body.SetUserData({isFloor:true})
+	 	var actor = display.skin(body,{
+	 		height: options.height * 2
+	 	});
+	 }
+
+	 this.leftWall = function(options) {
+
+	 	var defaults = {
+	 		width: 0.3,
+	 		height: env.height / env.SCALE,
+	 		position:'static',
+	 		x:0
+	 	};
+
+	 	options = _.extend(defaults,options);
+
+	 	var leftWall = ngBox.shape('box',options);
+	 	var lBody = ngWorld.addElement(leftWall);
+	 	display.skin(lBody,{
+	 		width: options.width * 2,
+	 	});
+	 }
+
+	 this.rightWall = function(options) {
+	 	var defaults = {
+	 		width: 0.3,
+	 		height: env.height / env.SCALE,
+	 		position:'static',
+	 		x: env.width / env.SCALE,
+	 	};
+
+	 	options = _.extend(defaults,options);
+	 	var rightWall = ngBox.shape('box',options);
+	 	var rBody = ngWorld.addElement(rightWall);
+	 	display.skin(rBody,{
+	 		width: options.width * 2,
+	 	});
+
+	 }
+
+
+
 })
 
 
-.service("ngBox",function(){
+.service("ngBox",function(ngrState){
 
+		var env;
+		
+		var ngBox = this;
+
+
+
+	
 	this.shape = function(type, options) {
+		env = ngrState.getProperties();
+//		console.log("Env?",env);
 
 		//default options
 		var defaults = {
@@ -138,88 +215,3 @@ angular.module('Rectangular')
 })
 
 
-.service('display',function(ngStage,ngWorld,ngActor){
-	this.skin = function(body, options) {
-
-		var defaults = {
-			height: 100,
-			width: 100,
-			snapToPixel: true,
-			mouseEnabled: false,
-			y: 1,
-			x: 10,
-			angle: 0,
-			src:''
-		};
-
-		options = _.extend(defaults,options);
-
-		var stage = ngStage.stage;
-		var imgData;
-
-		if (options.src) {
-			imgData = new Bitmap(options.src);
-		} else {
-			imgData = new Bitmap('img/null.png');
-		}
-
-		if (options.radius) {
-			options.width = options.radius * 2 * ngWorld.SCALE;
-			options.height = options.radius * 2 * ngWorld.SCALE;
-		} else {
-			options.width = options.width * ngWorld.SCALE;
-			options.height = options.height * ngWorld.SCALE;
-		}
-
-
-		function checkImageReady() {
-
-			 var img = imgData.image;
-			 if (img.width) {
-			 		return true;
-			 } else {
-			 		return false;
-			 }
-		};
-
-		var imgInt = setInterval(function(){
-			if (checkImageReady()){
-
-				clearInterval(imgInt);
-				initImg();
-			}
-		}, 1);
-
-		function initImg() {
-
-			var img = imgData.image;
-
-			var scaleY = options.height / img.height;
-			var scaleX = options.width / img.width;
-
-			var regY = (img.height) / 2;
-			var regX = (img.width) / 2;
-
-			imgData.x = options.x;
-			imgData.y = options.y;
-			imgData.scaleX = scaleX;
-			imgData.scaleY = scaleY;
-
-			imgData.regX = regX;
-			imgData.regY = regY;
-
-			imgData.snapToPixel = options.snapToPixel;
-			imgData.mouseEnabled = options.mouseEnabled;
-			stage.addChild(imgData);
-
-			var actor = ngActor.newActor(body, imgData);
-			ngWorld.actors.push(actor);
-
-			return actor;
-		}
-
-	}
-
-	
-
-})

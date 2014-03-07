@@ -1,94 +1,65 @@
 angular.module('Rectangular',[])
-.service('ngrEnvironment',function(ngWorld,ngStage,ngBox,ngrDebug,ngrLoop,display){
+.service('ngrEnvironment',function(ngWorld,ngStage,ngrState,ngBox,ngrDebug,ngrLoop,display){
 
-	var world = ngWorld.setWorld(0,30,true);
+	var world;
+
 	var envHeight;
 	var envWidth;
 	var canvas;
 	var env = {};
 	var ngEnv = this;
-	var SCALE = ngWorld.SCALE;
+	var SCALE = 30;
+
 
 	this.init = function(_canvas){
-		ngrLoop.initWorld(60);
 		env.height = _canvas.height;
 		env.width = _canvas.width;
+		env.SCALE = SCALE;
+		ngrState.setProperties(env);
 		canvas = _canvas;
+		world = ngWorld.setWorld(0,30,true);
+		ngrLoop.initWorld(60,env);
 	}
 
 	this.stop = function() {
 		ngrLoop.stop();
 	}
 
-	this.room = function() {
-		var world = ngWorld.getWorld();
-	
-		ngEnv.floor();
-		ngEnv.leftWall();
-		ngEnv.rightWall();
-
-	}
-
 	this.addHook = ngrLoop.addHook;
 	this.clearHooks = ngrLoop.clearHooks;
 
-	this.floor = function(options) {
-		var defaults = {
-			width:env.width / SCALE,
-			height: 0.3,
-			position:'static',
-			y: env.height / SCALE,
-		};
-
-		options = _.extend(defaults,options);
-		
-		var shape = ngBox.shape('box',options);
-		var body = ngWorld.addElement(shape);
-		body.SetUserData({isFloor:true})
-		var actor = display.skin(body,{
-			height: options.height * 2
-		});
-	}
-
-	this.leftWall = function(options) {
-
-		var defaults = {
-			width: 0.3,
-			height: env.height / SCALE,
-			position:'static',
-			x:0
-		};
-
-		options = _.extend(defaults,options);
-
-		var leftWall = ngBox.shape('box',options);
-		var lBody = ngWorld.addElement(leftWall);
-		display.skin(lBody,{
-			width: options.width * 2,
-		});
-	}
-
-	this.rightWall = function(options) {
-		var defaults = {
-			width: 0.3,
-			height: env.height / SCALE,
-			position:'static',
-			x: env.width / SCALE,
-		};
-
-		options = _.extend(defaults,options);
-		var rightWall = ngBox.shape('box',options);
-		var rBody = ngWorld.addElement(rightWall);
-		display.skin(rBody,{
-			width: options.width * 2,
-		});
-
-	}
+	this.floor = ngWorld.floor;
+	this.room = ngWorld.room;
+	this.leftWall = ngWorld.leftWall;
+	this.rightWall = ngWorld.rightWall;
+	
 
 	this.debug = function(_debugCanvas) {
 		var ctx = _debugCanvas.getContext('2d');
     ngrDebug.debug(ctx);
 	}
+
+})
+
+.service('ngrState',function(){
+	 var properties;
+	 var state = this;
+	 this.state = properties;
+	 this.SCALE = 30;
+
+	 this.setProperties = function(_properties) {
+	 		properties = _properties;
+	 		state.SCALE = properties.SCALE;
+
+	 }
+
+	 this.getProperties = function() {
+	 		if (!properties) {
+	 			throw new Error("Attempting to access undefined properties.")
+	 		}
+	 		return properties;
+	 }
+
 
 })
 
@@ -109,7 +80,7 @@ angular.module('Rectangular',[])
 		world.DrawDebugData();
 		ctx.restore();
 		ngStage.stage.update();
-		_.each(ngWorld.actors,function(actor){
+		_.each(ngStage.actors,function(actor){
 				actor.update();
 		})
 
@@ -154,20 +125,93 @@ angular.module('Rectangular',[])
 
 
 
-.service('ngActor',function(ngWorld){
-	this.newActor = function(body, skin) {
-		return new actorObject(body,skin);
-	}
 
-	var actorObject = function(body, skin) {
-		this.body = body;
-		this.skin = skin;
-		this.update = function() {  // translate box2d positions to pixels
-			this.skin.rotation = this.body.GetAngle() * (180 / Math.PI);
-			this.skin.x = this.body.GetWorldCenter().x * ngWorld.SCALE;
-			this.skin.y = this.body.GetWorldCenter().y * ngWorld.SCALE;
-			}
+
+.service('display',function(ngStage,ngrState,ngActor){
+	this.skin = function(body, options) {
+
+		var defaults = {
+			height: 100,
+			width: 100,
+			snapToPixel: true,
+			mouseEnabled: false,
+			y: 1,
+			x: 10,
+			angle: 0,
+			src:''
+		};
+
+		options = _.extend(defaults,options);
+
+		var env = ngrState.getProperties();
+		console.log("env:display?",env)
+
+		var stage = ngStage.stage;
+		var imgData;
+
+		if (options.src) {
+			imgData = new Bitmap(options.src);
+		} else {
+			imgData = new Bitmap('img/null.png');
 		}
 
-})
+		if (options.radius) {
+			options.width = options.radius * 2 * env.SCALE;
+			options.height = options.radius * 2 * env.SCALE;
+		} else {
+			options.width = options.width * env.SCALE;
+			options.height = options.height * env.SCALE;
+		}
 
+
+		function checkImageReady() {
+
+			 var img = imgData.image;
+			 if (img.width) {
+			 		return true;
+			 } else {
+			 		return false;
+			 }
+		};
+
+		var imgInt = setInterval(function(){
+			if (checkImageReady()){
+
+				clearInterval(imgInt);
+				initImg();
+			}
+		}, 1);
+
+		function initImg() {
+
+			var img = imgData.image;
+
+			var scaleY = options.height / img.height;
+			var scaleX = options.width / img.width;
+
+			var regY = (img.height) / 2;
+			var regX = (img.width) / 2;
+
+			imgData.x = options.x;
+			imgData.y = options.y;
+			imgData.scaleX = scaleX;
+			imgData.scaleY = scaleY;
+
+			imgData.regX = regX;
+			imgData.regY = regY;
+
+			imgData.snapToPixel = options.snapToPixel;
+			imgData.mouseEnabled = options.mouseEnabled;
+			stage.addChild(imgData);
+
+			var actor = ngActor.newActor(body, imgData);
+			ngStage.actors.push(actor);
+
+			return actor;
+		}
+
+	}
+
+	
+
+})

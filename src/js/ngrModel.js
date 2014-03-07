@@ -1,36 +1,35 @@
 angular.module('Rectangular')
-.directive('ngCircle',function(ngWorld, ngBox,display){
+.service('ngrModels',function(){
+  this.floor = function(options) {
+    var defaults = {
+      width:envWidth / SCALE,
+      height: 10 / SCALE,
+      position:'static',
+      y: envHeight / SCALE,
+    };
 
-	return {
-		restrict: 'AE',
-		link: function(scope, elem, attrs) {
-  		var circle = ngBox.shape("ellipse",attrs);
-  		var body = ngWorld.addElement(circle);
-  		var radius = circle.f.shape.m_radius;
-  		attrs.radius = radius;
-  		var actor = display.skin(body,attrs);
-  		body.SetUserData(actor); 
-		}
-	}
-})
+    options = _.extend(defaults,options);
+    
+    var shape = ngBox.shape('box',options);
+    return shape;
+  }
 
-.directive('ngBox',function(ngWorld, ngBox,display){
-	return {
-		restrict: 'AE',
-		link: function(scope, elem, attrs) {
-  		var box = ngBox.shape("box",attrs)
-  		var body = ngWorld.addElement(box);
+  this.leftWall = function(options) {
 
-  		var vertices = box.f.shape.m_vertices;
-  		var width = vertices[1].x - vertices[0].x;
-  		var height = vertices[1].y- vertices[3].y;
+    return ngBox.shape('box',{
+      width: 10 / SCALE,
+      height: envHeight / SCALE,
+      position:'static',
+      x:0
+    });
+  }
 
-  		attrs.height = height;
-  		attrs.width = width;
-
-  		console.log("Attrs?",attrs);
-
-  		var actor = display.skin(body,attrs);
-		}
-	}
+  this.rightWall = function(options) {
+    return ngBox.shape('box',{
+      width: 10 / SCALE,
+      height: envHeight / SCALE,
+      position:'static',
+      x: (envWidth / SCALE),
+    });
+  }
 })
