@@ -11,6 +11,8 @@ angular.module('Rectangular')
 
 		this.context = ctx;
 
+		window._stage = this.stage;
+
 		this.actors = [];
 
 })

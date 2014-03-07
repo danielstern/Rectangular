@@ -35,7 +35,6 @@ angular.module('BallAgentModels',[])
     this.createPlatform = function(options) {
 
       var defaults = {
-        mass: 0,
         position: 'static',
         height: 0.3,
       }
@@ -91,6 +90,8 @@ angular.module('BallAgentModels',[])
         position: 'static',
         width: 0.3,
         friction: 3,
+        src:'img/tile.png',
+        bg:'tiled'
       }
 
       options = _.extend(defaults, options);
@@ -99,12 +100,7 @@ angular.module('BallAgentModels',[])
       var pBody = ngrWorld.addElement(platform);
       var cycle = 0;
 
-      ngrDisplay.skin(pBody, {
-        y: options.y,
-        x: options.x,
-        width: options.width * 2,
-        height: options.height * 2
-      });
+      ngrDisplay.skin(pBody, options);
 
 
       return platform;

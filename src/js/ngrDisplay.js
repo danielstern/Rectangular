@@ -43,12 +43,8 @@ angular.module('Rectangular')
 		var stage = ngrStage.stage;
 		var imgData;
 
-		if (options.src) {
-			imgData = new Bitmap(options.src);
-		} else {
-			imgData = new Bitmap('img/null.png');
-		}
-
+		imgData = new createjs.Bitmap(options.src || 'img/null.png');
+		
 		if (options.radius) {
 			options.width = options.radius * 2 * env.SCALE;
 			options.height = options.radius * 2 * env.SCALE;
@@ -80,28 +76,62 @@ angular.module('Rectangular')
 
 			var img = imgData.image;
 
-			var scaleY = options.height / img.height;
-			var scaleX = options.width / img.width;
+			if (options.bg != 'tiled') {
 
-			var regY = (img.height) / 2;
-			var regX = (img.width) / 2;
+				var scaleY = options.height / img.height;
+				var scaleX = options.width / img.width;
 
-			imgData.x = options.x;
-			imgData.y = options.y;
-			imgData.scaleX = scaleX;
-			imgData.scaleY = scaleY;
+				var regY = (img.height) / 2;
+				var regX = (img.width) / 2;
 
-			imgData.regX = regX;
-			imgData.regY = regY;
+				imgData.scaleX = scaleX;
+				imgData.scaleY = scaleY;
 
-			imgData.snapToPixel = options.snapToPixel;
-			imgData.mouseEnabled = options.mouseEnabled;
-			stage.addChild(imgData);
+				imgData.regX = regX;
+				imgData.regY = regY;
 
-			var actor = ngrActor.newActor(body, imgData);
-			ngrStage.actors.push(actor);
+				imgData.snapToPixel = options.snapToPixel;
+				imgData.mouseEnabled = options.mouseEnabled;
+				stage.addChild(imgData);
+
+				var actor = ngrActor.newActor(body, imgData);
+				ngrStage.actors.push(actor);
+
+			} else {
+
+
+				var container = new createjs.Container();
+
+				container.addChild(imgData);
+
+				var regY = (img.height) / 2;
+				var regX = (img.width) / 2;
+
+				//imgData = new createjs.Bitmap(options.src || 'img/null.png');
+
+				imgData.scaleX = 2;
+				imgData.scaleY = 2;
+
+				imgData.regX = regX;
+				imgData.regY = regY;
+
+				imgData.snapToPixel = options.snapToPixel;
+
+				imgData.image.y = -100;
+
+
+				//stage.addChild(imgData)
+				stage.addChild(container);
+
+				var actor = ngrActor.newActor(body, container);
+				ngrStage.actors.push(actor);
+
+				window.imgData = imgData;
+
+			}
 
 			return actor;
+
 		}
 	}
 })
