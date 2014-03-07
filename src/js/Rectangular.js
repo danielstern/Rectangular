@@ -12,7 +12,7 @@ angular.module('Rectangular',[])
 
 	this.init = function(_canvas){
 		ngrLoop.initWorld(60);
-		console.log("Canvas?",_canvas,_canvas.width);
+	//	console.log("Canvas?",_canvas,_canvas.width);
 		envHeight = _canvas.height;
 		envWidth = _canvas.width;
 		canvas = _canvas;

@@ -1,4 +1,5 @@
-angular.module("BallAgent", ['Rectangular', 'ngAudio']).service('BallAgent', function (BallAgentLevels, ngAudio, ngrEnvironment, display, ngrLoop, ngBox, ngWorld, $compile) {
+angular.module("BallAgent", ['Rectangular', 'ngAudio','BallAgentHero'])
+.service('BallAgent', function (BallAgentLevels, BallAgentHero, ngAudio, ngrEnvironment, display, ngrLoop, ngBox, ngWorld, $compile) {
 
   this.state = {};
   var state = this.state;
@@ -28,32 +29,12 @@ angular.module("BallAgent", ['Rectangular', 'ngAudio']).service('BallAgent', fun
     state.score = 0;
 
 
-    var heroBody; // = createHero();
+    var hero; // = createHero();
     var exit; // = createExit();
     var controls; // = bindControls();
     this.gotoLevel = function (level) {
       state.currentLevel = level - 1;
       nextLevel();
-    }
-
-    function createHero() {
-      var heroBox = ngBox.shape("ellipse", {
-        radius: 0.5,
-        x: 1.2
-      });
-      var heroBody = ngWorld.addElement(heroBox);
-      heroBody.SetUserData({
-        isHero: true
-      });
-      window.heroBody = heroBody;
-
-      var radius = 0.5;
-      var attrs = {};
-      attrs.radius = radius;
-      attrs.src = 'img/hero.png';
-      var actor = display.skin(heroBody, attrs);
-
-      return heroBody;
     }
 
     function createExit(options) {
@@ -93,13 +74,13 @@ angular.module("BallAgent", ['Rectangular', 'ngAudio']).service('BallAgent', fun
         mass: 0,
         position: 'static',
         height: 0.3,
-
       }
 
       options = _.extend(defaults, options);
 
       var platform = ngBox.shape("box", options);
       var pBody = ngWorld.addElement(platform);
+
       pBody.SetUserData({
         isFloor: true
       });
@@ -156,6 +137,8 @@ angular.module("BallAgent", ['Rectangular', 'ngAudio']).service('BallAgent', fun
 
     function bindControls() {
 
+      var heroState = BallAgentHero.heroState;
+
       // window.heroBody = heroBody;
       Mousetrap.bind('d', function () {
         heroState.goingRight = true;
@@ -187,14 +170,16 @@ angular.module("BallAgent", ['Rectangular', 'ngAudio']).service('BallAgent', fun
 
 
       var airborneTimer = 3;
+    
       ngrLoop.addHook(function () {
 
-        var contacts = heroBody.GetContactList();
+        //console.log("Entity?",BallAgentHero.entity);
+        //return;
+        var contacts = BallAgentHero.entity.GetContactList();
         if (airborneTimer) airborneTimer--;
         if (!airborneTimer) {
           heroState.airborne = true;
         }
-
 
         if (contacts && contacts.contact) {
           while (contacts) {
@@ -206,7 +191,6 @@ angular.module("BallAgent", ['Rectangular', 'ngAudio']).service('BallAgent', fun
               if (data.exit) {
 
                 ngAudio.play('exit');
-
                 nextLevel();
 
               }
@@ -222,36 +206,12 @@ angular.module("BallAgent", ['Rectangular', 'ngAudio']).service('BallAgent', fun
           }
         }
 
-        if (heroState.goingRight) {
-          var force = heroState.airborne ? 5 : 15;
-          heroBody.ApplyForce(new b2Vec2(force, 0), heroBody.GetWorldCenter())
-          heroBody.ApplyTorque(5)
-        }
+        
 
-        if (heroState.goingLeft) {
-          var force = heroState.airborne ? 5 : 15;
-          heroBody.ApplyForce(new b2Vec2(-force, 0), heroBody.GetWorldCenter())
-          heroBody.ApplyTorque(-5)
-        }
-
-        if (heroState.isJumping) {
-
-          if (!heroState.airborne) {
+        var position = BallAgentHero.entity.GetPosition();
 
 
-            var y = heroBody.GetLinearVelocity().y * heroBody.GetInertia();
-            heroBody.ApplyForce(new b2Vec2(0, -300), heroBody.GetWorldCenter());
-            heroState.airborne = true;
-            heroState.isJumping = false;
-
-            ngAudio.play('jump');
-          }
-        };
-
-        var position = heroBody.GetPosition();
-
-
-        if (position.y > 75) {
+        if (position.y > 50) {
           //console.log("Hero dead!");
           ngAudio.play('die');
           handleDeath();
@@ -263,12 +223,6 @@ angular.module("BallAgent", ['Rectangular', 'ngAudio']).service('BallAgent', fun
     }
 
 
-    heroState = {
-      goingRight: false,
-      goingLeft: false,
-      isJumping: false,
-      airborne: true
-    };
 
 /*var level1 = {
     objects:[
@@ -324,7 +278,8 @@ angular.module("BallAgent", ['Rectangular', 'ngAudio']).service('BallAgent', fun
 
       console.log("NEXT LVL: BALL AGENT");
 
-      heroBody = createHero();
+      //heroBody = BallAgentHero.();
+      hero = BallAgentHero.createNewHero();
       exit = createExit(l.exit);
       var controls = bindControls();
       //    activateTargeter();
