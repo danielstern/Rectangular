@@ -138,7 +138,7 @@ angular.module("BallAgent", ['Rectangular', 'ngAudio','BallAgentHero'])
 
     function bindControls() {
 
-      var heroState = BallAgentHero.heroState;
+      var heroState = BallAgentHero.getState();
 
       // window.heroBody = heroBody;
       Mousetrap.bind('d', function () {
@@ -249,7 +249,7 @@ angular.module("BallAgent", ['Rectangular', 'ngAudio','BallAgentHero'])
       ngrLoop.addHook(function () {
 
         var heroState = BallAgentHero.getState();
-        
+
         var contacts = BallAgentHero.entity.GetContactList();
         if (airborneTimer) airborneTimer--;
         if (!airborneTimer) {

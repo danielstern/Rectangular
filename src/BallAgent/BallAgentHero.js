@@ -4,16 +4,20 @@ angular.module("BallAgentHero", ['Rectangular', 'ngAudio'])
 	var heroBody = {};
 	var hero = this;
 	
-	hero.state = {
+	var state = {
 	  goingRight: false,
 	  goingLeft: false,
 	  isJumping: false,
 	  airborne: true,
+	  stats: {
+	  	directionalAgilityStanding: 15,
+	  	rotationalAgilityStanding: 5,
+	  	directionalAgilityAirborne: 5,
+	  	rotationalAgilityAirborne: 5,
+	  	jumpPower: 300,
+	  	radius: 0.5,
+	  }
 	};
-
-	this.heroState = hero.state;
-
-	var heroState = hero.state;
 
 
 	/*this.getNewHero = function() {
@@ -30,23 +34,24 @@ angular.module("BallAgentHero", ['Rectangular', 'ngAudio'])
 	}
 
 	this.getState = function() {
-		return heroState;
+		return state;
 	}
 
 	
 	this.createHero = function(options) {
 
 	  var heroBox = ngBox.shape("ellipse", {
-	    radius: 0.5,
+	    radius: state.stats.radius,
 	    x: 1.2
 	  });
 	  var heroBody = ngWorld.addElement(heroBox);
 	  heroBody.SetUserData({
 	    isHero: true
 	  });
+	  
 	  window.heroBody = heroBody;
 
-	  var radius = 0.5;
+	  var radius = state.stats.radius;
 	  var attrs = {};
 	  attrs.radius = radius;
 	  attrs.src = 'img/hero.png';
@@ -55,22 +60,18 @@ angular.module("BallAgentHero", ['Rectangular', 'ngAudio'])
 
 
 	  ngrLoop.addHook(function(){
-	  	var position = heroBody.GetPosition();
-	  	heroState.position = position;
-
-//	  	console.log("Hero looping",heroState);
-
-	  	if (heroState.goingRight) {
+	  	
+	  	if (state.goingRight) {
 	  	  hero.goRight();
 	  	}
 
-	  	if (heroState.goingLeft) {
+	  	if (state.goingLeft) {
 	  	  hero.goLeft();
 	  	}
 
-	  	if (heroState.isJumping) {
+	  	if (state.isJumping) {
 
-	  	  if (!heroState.airborne) {
+	  	  if (!state.airborne) {
 
 	  	    hero.jump();
 	  	    ngAudio.play('jump');
@@ -80,30 +81,29 @@ angular.module("BallAgentHero", ['Rectangular', 'ngAudio'])
 
 	  })
 
-
-
 	  return heroBody;
 	};
 
-
-
 	this.goRight = function() {
-		var force = heroState.airborne ? 5 : 15;
-		heroBody.ApplyForce(new b2Vec2(force, 0), heroBody.GetWorldCenter())
-		heroBody.ApplyTorque(5)
+		var s = state.stats;
+		var force = state.airborne ? s.directionalAgilityAirborne : s.directionalAgilityStanding;
+		heroBody.ApplyForce(new b2Vec2(force, 0), heroBody.GetWorldCenter());
+		heroBody.ApplyTorque(s.rotationalAgilityStanding);
 	}
 
 	this.goLeft = function() {
-		var force = heroState.airborne ? 5 : 15;
-		heroBody.ApplyForce(new b2Vec2(-force, 0), heroBody.GetWorldCenter())
-		heroBody.ApplyTorque(-5)
+		var s = state.stats;
+		var force = state.airborne ? s.directionalAgilityAirborne : s.directionalAgilityStanding;
+		heroBody.ApplyForce(new b2Vec2(-force, 0), heroBody.GetWorldCenter());
+		heroBody.ApplyTorque(-s.rotationalAgilityStanding);
 	}
 
 	this.jump = function() {
+		var s = state.stats;
 		var y = heroBody.GetLinearVelocity().y * heroBody.GetInertia();
-		heroBody.ApplyForce(new b2Vec2(0, -300), heroBody.GetWorldCenter());
-		heroState.airborne = true;
-		heroState.isJumping = false;
+		heroBody.ApplyForce(new b2Vec2(0, -s.jumpPower), heroBody.GetWorldCenter());
+		state.airborne = true;
+		state.isJumping = false;
 	}
 
 })
