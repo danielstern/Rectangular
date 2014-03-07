@@ -1,139 +1,139 @@
-angular.module("BallAgent",['Rectangular','ngAudio'])
-.service('BallAgent',function(BallAgentLevels, ngAudio, ngrEnvironment, display, ngrLoop, ngBox, ngWorld, $compile){
-   // var world = ngWorld.setWorld(0,26,true);
-   this.state = {};
-   var state = this.state;
-   var stateChangeListeners = [];
-   var gameOverListeners = [];
+angular.module("BallAgent", ['Rectangular', 'ngAudio']).service('BallAgent', function (BallAgentLevels, ngAudio, ngrEnvironment, display, ngrLoop, ngBox, ngWorld, $compile) {
 
-   this.onStateChange = function(listener) {
-     stateChangeListeners.push(listener);
-   }
+  this.state = {};
+  var state = this.state;
+  var stateChangeListeners = [];
+  var gameOverListeners = [];
 
-   var updateState = function() {
-    _.each(stateChangeListeners,function(l){
-      l(state);
-    })
-   }
+  this.onStateChange = function (listener) {
+    stateChangeListeners.push(listener);
+  }
 
-   this.onGameOver = function(listener) {
-     gameOverListeners.push(listener);
-   }
+  var updateState = function () {
+      _.each(stateChangeListeners, function (l) {
+        l(state);
+      })
+    }
 
-
-   
-   this.init = function(canvas,debugCanvas) {
+  this.onGameOver = function (listener) {
+    gameOverListeners.push(listener);
+  }
 
 
+
+  this.init = function (canvas, debugCanvas) {
 
     state.currentLevel = 0;
     state.lives = 3;
     state.score = 0;
 
 
-   //ngrEnvironment.init(canvas);
-  // ngrEnvironment.room({floor:true});
-  // ngrEnvironment.debug(debugCanvas);
-
-
-   var heroBody;// = createHero();
-   var exit;// = createExit();
-   var controls;// = bindControls();
-
- // nextLevel();
-
-   this.gotoLevel = function(level) {
-     state.currentLevel = level - 1;
-     nextLevel();
-   }
-
-   function createHero() {
-   var heroBox = ngBox.shape("ellipse",{radius:0.5,x:1.2});
-   var heroBody = ngWorld.addElement(heroBox);
-   heroBody.SetUserData({isHero:true});
-   window.heroBody = heroBody;
-
-   var radius = 0.5;
-   var attrs = {};
-   attrs.radius = radius;
-   attrs.src = 'img/hero.png';
-   var actor = display.skin(heroBody,attrs);
-
-   return heroBody;
- 	}
-
-	function createExit(options) {
-    var defaults = {src:'img/hi.png', x:20,
-      mass:0,
-      position:'static',
-      y: 15.5,
-      height: 1,
-      width: 1,
+    var heroBody; // = createHero();
+    var exit; // = createExit();
+    var controls; // = bindControls();
+    this.gotoLevel = function (level) {
+      state.currentLevel = level - 1;
+      nextLevel();
     }
 
-    options = _.extend(defaults, options);
+    function createHero() {
+      var heroBox = ngBox.shape("ellipse", {
+        radius: 0.5,
+        x: 1.2
+      });
+      var heroBody = ngWorld.addElement(heroBox);
+      heroBody.SetUserData({
+        isHero: true
+      });
+      window.heroBody = heroBody;
 
-		var exitBox = ngBox.shape("box",options);
+      var radius = 0.5;
+      var attrs = {};
+      attrs.radius = radius;
+      attrs.src = 'img/hero.png';
+      var actor = display.skin(heroBody, attrs);
 
-		exitBox.f.isSensor = true;
-		var exitBody = ngWorld.addElement(exitBox);
-		exitBody.SetUserData({exit:true});
-
-    var attrs = {};
-
-    attrs.src = 'img/exit.png';
-    attrs.height = 2;
-    attrs.width = 2;
-    var actor = display.skin(exitBody,attrs);
-
-		return exitBody;
-	}
-
-  function createPlatform(options) {
-    
-    var defaults = {
-      mass:0,
-      position:'static',
-      height: 0.3,
-
+      return heroBody;
     }
 
-    options = _.extend(defaults, options);
+    function createExit(options) {
+      var defaults = {
+        src: 'img/hi.png',
+        x: 20,
+        mass: 0,
+        position: 'static',
+        y: 15.5,
+        height: 1,
+        width: 1,
+      }
 
-    var platform = ngBox.shape("box",options);
-    var pBody = ngWorld.addElement(platform);
-    pBody.SetUserData({isFloor:true});
-    display.skin(pBody,{
-      y:options.y,
-      x:options.x,
-      width:options.width * 2,
-      height: 0.5
-    });
+      options = _.extend(defaults, options);
 
-    options.y += 0.2;
-    var platformUnder = ngBox.shape("box",options);
-    var pSubBody = ngWorld.addElement(platformUnder);
+      var exitBox = ngBox.shape("box", options);
+      exitBox.f.isSensor = true;
 
-    return platform;
-  }
+      var exitBody = ngWorld.addElement(exitBox);
+      exitBody.SetUserData({
+        exit: true
+      });
 
+      var attrs = {};
 
+      attrs.src = 'img/exit.png';
+      attrs.height = 2;
+      attrs.width = 2;
+      var actor = display.skin(exitBody, attrs);
 
-  function createColumn(options) {
-    
-    var defaults = {
-      position:'static',
-      width: 0.3,
-      friction: 3,
+      return exitBody;
     }
 
-    options = _.extend(defaults, options);
+    function createPlatform(options) {
 
-    var platform = ngBox.shape("box",options);
-    var pBody = ngWorld.addElement(platform);
+      var defaults = {
+        mass: 0,
+        position: 'static',
+        height: 0.3,
 
-    // optional hook for a moving platform
-    /*
+      }
+
+      options = _.extend(defaults, options);
+
+      var platform = ngBox.shape("box", options);
+      var pBody = ngWorld.addElement(platform);
+      pBody.SetUserData({
+        isFloor: true
+      });
+      display.skin(pBody, {
+        y: options.y,
+        x: options.x,
+        width: options.width * 2,
+        height: 0.5
+      });
+
+      options.y += 0.2;
+      var platformUnder = ngBox.shape("box", options);
+      var pSubBody = ngWorld.addElement(platformUnder);
+
+      return platform;
+    }
+
+
+
+    function createColumn(options) {
+
+      var defaults = {
+        position: 'static',
+        width: 0.3,
+        friction: 3,
+      }
+
+      options = _.extend(defaults, options);
+
+      var platform = ngBox.shape("box", options);
+      var pBody = ngWorld.addElement(platform);
+
+      // optional hook for a moving platform
+/*
     ngrLoop.addHook(function(){
        var currentY = pBody.GetPosition().y;
        var currentX = pBody.GetPosition().x;
@@ -142,246 +142,204 @@ angular.module("BallAgent",['Rectangular','ngAudio'])
     })
     */
 
-    display.skin(pBody,{
-      y:options.y,
-      x:options.x,
-      width:options.width * 2,
-      height: options.height * 2
-    });
+      display.skin(pBody, {
+        y: options.y,
+        x: options.x,
+        width: options.width * 2,
+        height: options.height * 2
+      });
 
 
-
-    
-    return platform;
-  }
-
-
-	function bindControls() {
-
-  // window.heroBody = heroBody;
-
-   Mousetrap.bind('d',function(){
-        heroState.goingRight = true;
-   },'keydown');
-   Mousetrap.bind('d',function(){
-        heroState.goingRight = false;
-   },'keyup');
-
-   Mousetrap.bind('a',function(){
-        heroState.goingLeft = true;
-   }, 'keydown');
-
-   Mousetrap.bind('a',function(){
-        heroState.goingLeft = false;
-   }, 'keyup');
-
-   var jumpReleased = true;
-
-   Mousetrap.bind('w',function(){
-        if (!jumpReleased) return;
-        heroState.isJumping = true;
-        jumpReleased = false;
-   },'keydown');
-
-   Mousetrap.bind('w',function(){
-        heroState.isJumping = false;
-        jumpReleased = true;
-   },'keyup');
-
-
-   var airborneTimer = 3;
-   ngrLoop.addHook(function(){
-   
-    var contacts = heroBody.GetContactList();
-    if (airborneTimer) airborneTimer--;
-    if (!airborneTimer) {
-     heroState.airborne = true;
+      return platform;
     }
 
 
-    if (contacts && contacts.contact) {
-      while(contacts) {   
-        var contact = contacts.contact;
+    function bindControls() {
 
-        if (contact.IsTouching() && contacts.other.GetUserData()) {
-            var data = contacts.other.GetUserData();
+      // window.heroBody = heroBody;
+      Mousetrap.bind('d', function () {
+        heroState.goingRight = true;
+      }, 'keydown');
+      Mousetrap.bind('d', function () {
+        heroState.goingRight = false;
+      }, 'keyup');
 
-            if (data.exit) {
+      Mousetrap.bind('a', function () {
+        heroState.goingLeft = true;
+      }, 'keydown');
+
+      Mousetrap.bind('a', function () {
+        heroState.goingLeft = false;
+      }, 'keyup');
+
+      var jumpReleased = true;
+
+      Mousetrap.bind('w', function () {
+        if (!jumpReleased) return;
+        heroState.isJumping = true;
+        jumpReleased = false;
+      }, 'keydown');
+
+      Mousetrap.bind('w', function () {
+        heroState.isJumping = false;
+        jumpReleased = true;
+      }, 'keyup');
+
+
+      var airborneTimer = 3;
+      ngrLoop.addHook(function () {
+
+        var contacts = heroBody.GetContactList();
+        if (airborneTimer) airborneTimer--;
+        if (!airborneTimer) {
+          heroState.airborne = true;
+        }
+
+
+        if (contacts && contacts.contact) {
+          while (contacts) {
+            var contact = contacts.contact;
+
+            if (contact.IsTouching() && contacts.other.GetUserData()) {
+              var data = contacts.other.GetUserData();
+
+              if (data.exit) {
 
                 ngAudio.play('exit');
 
                 nextLevel();
 
+              }
             }
+
+            if (contact.IsTouching() && contacts.other.GetUserData() && contacts.other.GetUserData().isFloor) {
+              heroState.airborne = false;
+              airborneTimer = 3;
+            } else {
+              //heroState.airborne = true;
+            }
+            contacts = contacts.next;
+          }
         }
 
-        if (contact.IsTouching() && contacts.other.GetUserData() && contacts.other.GetUserData().isFloor)  {
-            heroState.airborne = false;
-            airborneTimer = 3;
-        } else {
-            //heroState.airborne = true;
+        if (heroState.goingRight) {
+          var force = heroState.airborne ? 5 : 15;
+          heroBody.ApplyForce(new b2Vec2(force, 0), heroBody.GetWorldCenter())
+          heroBody.ApplyTorque(5)
         }
-       contacts = contacts.next;
-     }
-    }
 
-     if (heroState.goingRight) {
-        var force = heroState.airborne ? 5 : 15; 
-        heroBody.ApplyForce(new b2Vec2(force,0),heroBody.GetWorldCenter())  
-        heroBody.ApplyTorque(5) 
-     }
+        if (heroState.goingLeft) {
+          var force = heroState.airborne ? 5 : 15;
+          heroBody.ApplyForce(new b2Vec2(-force, 0), heroBody.GetWorldCenter())
+          heroBody.ApplyTorque(-5)
+        }
 
-     if (heroState.goingLeft) {
-        var force = heroState.airborne ? 5 : 15; 
-        heroBody.ApplyForce(new b2Vec2(-force,0),heroBody.GetWorldCenter())  
-        heroBody.ApplyTorque(-5) 
-     }
+        if (heroState.isJumping) {
 
-     if (heroState.isJumping) {
-
-        if (!heroState.airborne) {
+          if (!heroState.airborne) {
 
 
             var y = heroBody.GetLinearVelocity().y * heroBody.GetInertia();
-            heroBody.ApplyForce(new b2Vec2(0,-300),heroBody.GetWorldCenter()) ;  
+            heroBody.ApplyForce(new b2Vec2(0, -300), heroBody.GetWorldCenter());
             heroState.airborne = true;
             heroState.isJumping = false;
 
             ngAudio.play('jump');
+          }
+        };
+
+        var position = heroBody.GetPosition();
+
+
+        if (position.y > 75) {
+          //console.log("Hero dead!");
+          ngAudio.play('die');
+          handleDeath();
         }
-     };
 
-     var position = heroBody.GetPosition();
-
-
-     if (position.y > 75) {
-      //console.log("Hero dead!");
-      ngAudio.play('die');
-      handleDeath();
-     }
-
-   });
+      });
 
 
- 	}
+    }
 
 
-   heroState = {
-        goingRight:false,
-        goingLeft:false,
-        isJumping:false,
-        airborne:true
-   };
+    heroState = {
+      goingRight: false,
+      goingLeft: false,
+      isJumping: false,
+      airborne: true
+    };
 
-   /*var level1 = {
+/*var level1 = {
     objects:[
 
     ]
    }*/
 
-   function handleDeath() {
-     state.lives --;
+    function handleDeath() {
+      state.lives--;
 
-     if (state.lives >= 0) {
-       state.currentLevel--;
-       nextLevel();
-     } else {
-       gameOver();
-     }
-   }
+      if (state.lives >= 0) {
+        state.currentLevel--;
+        nextLevel();
+      } else {
+        gameOver();
+      }
+    }
 
-   function gameOver() {
-     // todo, score screen...
-        ngrEnvironment.stop();
-      _.each(gameOverListeners,function(l){
+    function gameOver() {
+      // todo, score screen...
+      ngrEnvironment.stop();
+      _.each(gameOverListeners, function (l) {
         l(state);
       })
-    // newGame();
-   }
+      // newGame();
+    }
 
-   function newGame() {
-     state.lives = 3;
-     state.currentLevel = 0;
-     nextLevel();
-   }
+    function newGame() {
+      state.lives = 3;
+      state.currentLevel = 0;
+      nextLevel();
+    }
 
-   this.newGame = newGame;
-
-   
-   function nextLevel() {
-
-   			state.currentLevel++;
-   			var l = BallAgentLevels.levels[state.currentLevel - 1];
-   	//		console.log("Levels?",BallAgentLevels, l, currentLevel)
-        ngrLoop.stop();
-        ngrLoop.clearHooks();
-        ngWorld.clearAll();
-
-        ngrEnvironment.init($('canvas')[0]);
-        if (l.floor) ngrEnvironment.floor();
-        if (l.lWall) ngrEnvironment.leftWall();
-        if (l.rWall) ngrEnvironment.rightWall();
+    this.newGame = newGame;
 
 
-        ngrEnvironment.debug($('#debugCanvas')[0]);
+    function nextLevel() {
 
-        console.log("NEXT LVL: BALL AGENT");
+      state.currentLevel++;
+      var l = BallAgentLevels.levels[state.currentLevel - 1];
+      //    console.log("Levels?",BallAgentLevels, l, currentLevel)
+      ngrLoop.stop();
+      ngrLoop.clearHooks();
+      ngWorld.clearAll();
 
-      	heroBody = createHero();
-   			exit = createExit(l.exit);
-   			var controls = bindControls();
-    //    activateTargeter();
+      ngrEnvironment.init($('canvas')[0]);
+      if (l.floor) ngrEnvironment.floor();
+      if (l.lWall) ngrEnvironment.leftWall();
+      if (l.rWall) ngrEnvironment.rightWall();
 
-        _.each(l.platforms, function(platform){
-          createPlatform(platform);
-        });
 
-        _.each(l.columns, function(column){
-          createColumn(column);
-        });
+      ngrEnvironment.debug($('#debugCanvas')[0]);
 
-        updateState(state);
+      console.log("NEXT LVL: BALL AGENT");
+
+      heroBody = createHero();
+      exit = createExit(l.exit);
+      var controls = bindControls();
+      //    activateTargeter();
+      _.each(l.platforms, function (platform) {
+        createPlatform(platform);
+      });
+
+      _.each(l.columns, function (column) {
+        createColumn(column);
+      });
+
+      updateState(state);
 
     }
 
-    function activateTargeter() {
-      var targeter = new MouseTargeter(debugCanvas, ngWorld.SCALE);
-      var targetingWindow = null;
-
-      targeter.onmove(function(e){
-    
-       var world = ngWorld.getWorld();
-
-        var shape = ngBox.shape('box');
-
-        shape.b.position.Set(e.worldPosX - 0.5 , e.worldPosY - 0.5);
-
-        if (!targetingWindow) {
-          targetingWindow = ngWorld.addElement(shape);
-          targetingWindow.SetUserData({isFloor:true})
-        } else {
-          targetingWindow.SetPosition(new b2Vec2(e.worldPosX - 0.5,e.worldPosY - 0.5) )
-        }
-
-
-       window.world = world;
-       window.targetingWindow = targetingWindow;
-
-       //world.update();
-
-      console.log(targetingWindow.GetContactList());
-
-
-    })
-
   }
-
-   
-
-}
-
-
-
-   
 
 })
