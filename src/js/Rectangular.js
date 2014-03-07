@@ -35,7 +35,7 @@ angular.module('Rectangular',[])
 	this.floor = function(options) {
 		var defaults = {
 			width:env.width / SCALE,
-			height: 10 / SCALE,
+			height: 0.3,
 			position:'static',
 			y: env.height / SCALE,
 		};
@@ -52,28 +52,35 @@ angular.module('Rectangular',[])
 
 	this.leftWall = function(options) {
 
-		var leftWall = ngBox.shape('box',{
-			width: 10 / SCALE,
+		var defaults = {
+			width: 0.3,
 			height: env.height / SCALE,
 			position:'static',
 			x:0
-		});
+		};
+
+		options = _.extend(defaults,options);
+
+		var leftWall = ngBox.shape('box',options);
 		var lBody = ngWorld.addElement(leftWall);
 		display.skin(lBody,{
-			width: 20 / SCALE,
+			width: options.width * 2,
 		});
 	}
 
 	this.rightWall = function(options) {
-		var rightWall = ngBox.shape('box',{
-			width: 10 / SCALE,
+		var defaults = {
+			width: 0.3,
 			height: env.height / SCALE,
 			position:'static',
-			x: (env.width / SCALE),
-		});
+			x: env.width / SCALE,
+		};
+
+		options = _.extend(defaults,options);
+		var rightWall = ngBox.shape('box',options);
 		var rBody = ngWorld.addElement(rightWall);
 		display.skin(rBody,{
-			width: 20 / SCALE,
+			width: options.width * 2,
 		});
 
 	}
