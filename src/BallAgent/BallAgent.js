@@ -1,5 +1,5 @@
 angular.module("BallAgent", ['Rectangular', 'ngAudio', 'BallAgentHero', 'BallAgentModels'])
-.service('BallAgent', function (BallAgentLevels, BallAgentHero, BallAgentModels, ngAudio, ngrEnvironment, display, ngrLoop, ngBox, ngWorld) {
+.service('BallAgent', function (BallAgentLevels, BallAgentHero, BallAgentModels, ngAudio, ngrEnvironment, display, ngBox, ngWorld) {
 
   this.state = {};
   var state = this.state;
@@ -149,8 +149,8 @@ angular.module("BallAgent", ['Rectangular', 'ngAudio', 'BallAgentHero', 'BallAge
     state.currentLevel++;
     var l = BallAgentLevels.levels[state.currentLevel - 1];
 
-    ngrLoop.stop();
-    ngrLoop.clearHooks();
+    ngrEnvironment.stop();
+    ngrEnvironment.clearHooks();
     ngWorld.clearAll();
 
     ngrEnvironment.init($('canvas')[0]);
@@ -167,7 +167,7 @@ angular.module("BallAgent", ['Rectangular', 'ngAudio', 'BallAgentHero', 'BallAge
     _.each(l.platforms, m.createPlatform);
     _.each(l.columns, m.createColumn);
 
-    ngrLoop.addHook(tick);
+    ngrEnvironment.addHook(tick);
 
   }
 

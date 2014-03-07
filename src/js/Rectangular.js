@@ -1,20 +1,18 @@
 angular.module('Rectangular',[])
-
 .service('ngrEnvironment',function(ngWorld,ngStage,ngBox,ngrDebug,ngrLoop,display){
 
 	var world = ngWorld.setWorld(0,30,true);
 	var envHeight;
 	var envWidth;
 	var canvas;
-	var env = this;
+	var env = {};
+	var ngEnv = this;
 	var SCALE = ngWorld.SCALE;
-	// create world
 
 	this.init = function(_canvas){
 		ngrLoop.initWorld(60);
-	//	console.log("Canvas?",_canvas,_canvas.width);
-		envHeight = _canvas.height;
-		envWidth = _canvas.width;
+		env.height = _canvas.height;
+		env.width = _canvas.width;
 		canvas = _canvas;
 	}
 
@@ -24,22 +22,22 @@ angular.module('Rectangular',[])
 
 	this.room = function() {
 		var world = ngWorld.getWorld();
-
 	
-		env.floor();
-		env.leftWall();
-		env.rightWall();
+		ngEnv.floor();
+		ngEnv.leftWall();
+		ngEnv.rightWall();
 
-		
-		//body.SetUserData(actor); 
 	}
+
+	this.addHook = ngrLoop.addHook;
+	this.clearHooks = ngrLoop.clearHooks;
 
 	this.floor = function(options) {
 		var defaults = {
-			width:envWidth / SCALE,
+			width:env.width / SCALE,
 			height: 10 / SCALE,
 			position:'static',
-			y: envHeight / SCALE,
+			y: env.height / SCALE,
 		};
 
 		options = _.extend(defaults,options);
@@ -48,7 +46,7 @@ angular.module('Rectangular',[])
 		var body = ngWorld.addElement(shape);
 		body.SetUserData({isFloor:true})
 		var actor = display.skin(body,{
-			height: 20 / SCALE
+			height: options.height * 2
 		});
 	}
 
@@ -56,7 +54,7 @@ angular.module('Rectangular',[])
 
 		var leftWall = ngBox.shape('box',{
 			width: 10 / SCALE,
-			height: envHeight / SCALE,
+			height: env.height / SCALE,
 			position:'static',
 			x:0
 		});
@@ -69,9 +67,9 @@ angular.module('Rectangular',[])
 	this.rightWall = function(options) {
 		var rightWall = ngBox.shape('box',{
 			width: 10 / SCALE,
-			height: envHeight / SCALE,
+			height: env.height / SCALE,
 			position:'static',
-			x: (envWidth / SCALE),
+			x: (env.width / SCALE),
 		});
 		var rBody = ngWorld.addElement(rightWall);
 		display.skin(rBody,{

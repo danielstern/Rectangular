@@ -1,5 +1,5 @@
 angular.module('BallAgentModels',[])
-.service('BallAgentModels', function(display,ngBox,ngrLoop,ngWorld){
+.service('BallAgentModels', function(display,ngBox,ngrEnvironment,ngWorld){
 
     this.createExit = function(options) {
       var defaults = {
@@ -61,7 +61,7 @@ angular.module('BallAgentModels',[])
 
       if (options.moves) {
 
-		    ngrLoop.addHook(function(){
+		    ngrEnvironment.addHook(function(){
       		 cycle += Math.PI / 200 / options.movement.period;
 		       var currentY = pBody.GetPosition().y;
 		       var currentX = pBody.GetPosition().x;
@@ -75,7 +75,7 @@ angular.module('BallAgentModels',[])
 
 		  }
 
-		  ngrLoop.addHook(function(){
+		  ngrEnvironment.addHook(function(){
         var lVector = pSubBody.GetWorldCenter().x - 10;
         var rVector = pSubBody.GetWorldCenter().x + 10;
         var yVector = pSubBody.GetWorldCenter().y;
@@ -114,7 +114,7 @@ angular.module('BallAgentModels',[])
 
       if (options.moves) {
 
-		    ngrLoop.addHook(function(){
+		    ngrEnvironment.addHook(function(){
       		 cycle += Math.PI / 200 / options.movement.period;
 		       var currentY = pBody.GetPosition().y;
 		       var currentX = pBody.GetPosition().x;
