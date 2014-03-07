@@ -1,135 +1,142 @@
 angular.module('Rectangular')
 /* Creates an instance of the world of the simulation, 
    and provides an interface for it. */
-.service("ngrWorld",function(ngrBox,ngrStage,ngrState,ngrDisplay){
-	var _ngrWorld = this;
-	 var world = {};
-	 var bodies = [];
-	 var properties = {};
-	 var ngrWorld = this;
-	 var env;
-	 
-	 this.SCALE = 30;
-	 this.actors = [];
+.service("ngrWorld",function(ngrBox,ngrStage,ngrModels,ngrState,ngrDisplay){
 
-	 var gravity = new b2Vec2(0,0);
-	  
-	 world = new b2World(gravity , true);
+	var world = {};
+	var bodies = [];
+	var properties = {};
+	var ngrWorld = this;
+	var env;
+
+	this.SCALE = 30;
+	this.actors = [];
+
+	var gravity = new b2Vec2(0,0);
+
+	world = new b2World(gravity , true);
 
 
-	 this.addElement = function(definition) {
-	 	 var b = world.CreateBody(definition.b);
-		 var f =b.CreateFixture(definition.f);
-		 bodies.push(b);
-		 return b;
-	 }
+	this.addElement = function(definition) {
+		 var b = world.CreateBody(definition.b);
+	 var f =b.CreateFixture(definition.f);
+	 bodies.push(b);
+	 return b;
+	}
 
-	 this.removeElement = function(body) {
-	 	 world.DestroyBody(body);
-	 }
+	this.removeElement = function(body) {
+		 world.DestroyBody(body);
+	}
 
-	 this.clearAll = function() {
-	 	_.each(bodies,function(body){
-	 		world.DestroyBody(body);
-	 		ngrStage.stage.removeAllChildren();
-	 	});
+	this.clearAll = function() {
+		_.each(bodies,function(body){
+			world.DestroyBody(body);
+			ngrStage.stage.removeAllChildren();
+		});
 
-	 }
+	}
 
-	 this.setWorld = function(gravityX, gravityY, sleep) {
+	this.setWorld = function(gravityX, gravityY, sleep) {
 
-		 	var gravity = new b2Vec2(gravityX, gravityY);
-		 	var doSleep = sleep;
-	 		env = ngrState.getProperties();
-		 	 
-		 	world = new b2World(gravity , doSleep);
+	 	var gravity = new b2Vec2(gravityX, gravityY);
+	 	var doSleep = sleep;
+			env = ngrState.getProperties();
+	 	 
+	 	world = new b2World(gravity , doSleep);
 
-		 	return world;
-	 }
-
-	 this.getWorld = function() {
 	 	return world;
-	 }
+	}
 
-	 this.room = function() {
-	 	var world = ngrWorld.getWorld();
-	 
-	 	ngrBox.floor();
-	 	ngrBox.leftWall();
-	 	ngrBox.rightWall();
+	this.getWorld = function() {
+		return world;
+	}
 
-	 }
+	this.room = function() {
+		var world = ngrWorld.getWorld();
 
-	 this.floor = function(options) {
-	 	var defaults = {
-	 		width:env.width / env.SCALE,
-	 		height: 0.3,
-	 		position:'static',
-	 		y: env.height / env.SCALE,
-	 	};
+		ngrBox.floor();
+		ngrBox.leftWall();
+		ngrBox.rightWall();
 
-	 	options = _.extend(defaults,options);
-	 	
-	 	var shape = ngrBox.shape('box',options);
-	 	var body = ngrWorld.addElement(shape);
-	 	body.SetUserData({isFloor:true})
-	 	var actor = ngrDisplay.skin(body,{
-	 		height: options.height * 2
-	 	});
-	 }
+	}
 
-	 this.leftWall = function(options) {
+	this.floor = function(options) {
+		var defaults = {
+			width:env.width / env.SCALE,
+			height: 0.3,
+			position:'static',
+			y: env.height / env.SCALE,
+		};
 
-	 	var defaults = {
-	 		width: 0.3,
-	 		height: env.height / env.SCALE,
-	 		position:'static',
-	 		x:0
-	 	};
+		options = _.extend(defaults,options);
+		
+		var shape = ngrBox.shape('box',options);
+		var body = ngrWorld.addElement(shape);
+		body.SetUserData({isFloor:true})
+		var actor = ngrDisplay.skin(body,{
+			height: options.height * 2
+		});
+	}
 
-	 	options = _.extend(defaults,options);
+	this.leftWall = function(options) {
 
-	 	var leftWall = ngrBox.shape('box',options);
-	 	var lBody = ngrWorld.addElement(leftWall);
-	 	ngrDisplay.skin(lBody,{
-	 		width: options.width * 2,
-	 	});
-	 }
+		var leftWall = ngrModels.leftWall(options);
+		var lBody = ngrWorld.addElement(leftWall);
+		ngrDisplay.skin(lBody);
 
-	 this.rightWall = function(options) {
-	 	var defaults = {
-	 		width: 0.3,
-	 		height: env.height / env.SCALE,
-	 		position:'static',
-	 		x: env.width / env.SCALE,
-	 	};
+	}
 
-	 	options = _.extend(defaults,options);
-	 	var rightWall = ngrBox.shape('box',options);
-	 	var rBody = ngrWorld.addElement(rightWall);
-	 	ngrDisplay.skin(rBody,{
-	 		width: options.width * 2,
-	 	});
+	this.rightWall = function(options) {
+		var defaults = {
+			width: 0.3,
+			height: env.height / env.SCALE,
+			position:'static',
+			x: env.width / env.SCALE,
+		};
 
-	 }
+		options = _.extend(defaults,options);
+		var rightWall = ngrBox.shape('box',options);
+		var rBody = ngrWorld.addElement(rightWall);
+		ngrDisplay.skin(rBody,{
+			width: options.width * 2,
+		});
 
+	}
+})
 
+.service("ngrModels",function(ngrState, ngrBox	){
 
+	var env;
+
+	this.leftWall = function(options) {
+
+		env = ngrState.getProperties();
+
+		var defaults = {
+			width: 0.3,
+			height: env.height / env.SCALE,
+			position:'static',
+			x:0
+		};
+
+		options = _.extend(defaults,options);
+
+		var leftWall = ngrBox.shape('box',options);
+
+		return leftWall;
+
+	}
 })
 
 
 .service("ngrBox",function(ngrState){
 
-		var env;
-		
-		var ngrBox = this;
-
-
+	var env;		
+	var ngrBox = this;
 
 	
 	this.shape = function(type, options) {
 		env = ngrState.getProperties();
-//		console.log("Env?",env);
 
 		//default options
 		var defaults = {

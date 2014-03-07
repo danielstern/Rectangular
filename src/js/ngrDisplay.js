@@ -2,9 +2,17 @@ angular.module('Rectangular')
 .service('ngrDisplay',function(ngrStage,ngrState,ngrActor){
 	this.skin = function(body, options) {
 
+		console.log("Skinning",body);
+
+		 var f = body.GetFixtureList();
+		 var s = f.GetShape();
+
+		 console.log('s?',s);
+
+
 		var defaults = {
-			height: 100,
-			width: 100,
+			height: 1,
+			width: 1,
 			snapToPixel: true,
 			mouseEnabled: false,
 			y: 1,
@@ -12,6 +20,21 @@ angular.module('Rectangular')
 			angle: 0,
 			src:''
 		};
+
+		 if (s.constructor == b2CircleShape) {
+		 	console.log("it's a circle");
+		 	defaults.radius = s.GetRadius();
+		 } else {
+		 	 console.log("it's a square.");
+		 	 window.square = s;
+		 	 var v = s.GetVertices();
+		 	 var height = v[2].y - v[0].y;
+		 	 var width = v[1].x - v[0].x;
+		 	 console.log("HW?",height,width);
+		 	 defaults.height = height;
+		 	 defaults.width = width;
+		 }
+
 
 		options = _.extend(defaults,options);
 
@@ -80,6 +103,5 @@ angular.module('Rectangular')
 
 			return actor;
 		}
-
 	}
 })
