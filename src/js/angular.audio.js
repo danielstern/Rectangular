@@ -27,5 +27,15 @@ angular.module('ngAudio',[])
 		/* Play the sound. */
 		$sound.play();
 
-	}
+	};
+
+	this.stop = function(id) {
+		var $sound = document.getElementById(id);
+
+		/* stop the sound. */
+		$sound.stop();
+
+	};
+
+
 })

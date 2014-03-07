@@ -120,14 +120,14 @@ angular.module("BallAgentApp",['BallAgent','ngAudio'])
 
    BallAgent.onGameOver(function(){
         //$('.splash-screen').show();
-        $('.splash-screen').removeClass('fadeOut')
+        $('.splash-screen').removeClass('fadeOut untouchable')
         .addClass('animated fadeIn');
    });
 
    $scope.newGame = function() {
        // $('.splash-screen').hide();
         $('.splash-screen').removeClass('fadeIn')
-        .addClass('animated fadeOut');
+        .addClass('animated fadeOut untouchable');
         BallAgent.newGame();
         ngAudio.play('themesong');
    }
