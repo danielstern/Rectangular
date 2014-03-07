@@ -3,6 +3,7 @@ angular.module("BallAgentHero", ['Rectangular', 'ngAudio'])
 
 	var heroBody = {};
 	var hero = this;
+	this.entity = heroBody;
 	
 	var state = {
 	  goingRight: false,
@@ -19,13 +20,6 @@ angular.module("BallAgentHero", ['Rectangular', 'ngAudio'])
 	  }
 	};
 
-
-	/*this.getNewHero = function() {
-
-	}*/
-
-
-	this.entity = heroBody;
 
 	this.createNewHero = function() {
 		heroBody = this.createHero();
@@ -57,32 +51,30 @@ angular.module("BallAgentHero", ['Rectangular', 'ngAudio'])
 	  attrs.src = 'img/hero.png';
 	  var actor = display.skin(heroBody, attrs);
 
-
-
-	  ngrLoop.addHook(function(){
-	  	
-	  	if (state.goingRight) {
-	  	  hero.goRight();
-	  	}
-
-	  	if (state.goingLeft) {
-	  	  hero.goLeft();
-	  	}
-
-	  	if (state.isJumping) {
-
-	  	  if (!state.airborne) {
-
-	  	    hero.jump();
-	  	    ngAudio.play('jump');
-	  	  }
-	  	};
-
-
-	  })
+	  ngrLoop.addHook(tick);
 
 	  return heroBody;
 	};
+
+	function tick() {
+
+  	if (state.goingRight) {
+  	  hero.goRight();
+  	}
+
+  	if (state.goingLeft) {
+  	  hero.goLeft();
+  	}
+
+  	if (state.isJumping) {
+
+  	  if (!state.airborne) {
+
+  	    hero.jump();
+  	    ngAudio.play('jump');
+  	  }
+  	};
+	}
 
 	this.goRight = function() {
 		var s = state.stats;
