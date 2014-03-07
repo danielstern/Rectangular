@@ -1,5 +1,5 @@
 angular.module("BallAgentHero", ['Rectangular', 'ngAudio'])
-.service('BallAgentHero',function(ngrLoop, ngBox,ngAudio,ngWorld,display){
+.service('BallAgentHero',function(ngrLoop, ngrBox,ngAudio,ngrWorld,ngrDisplay){
 
 	var heroBody = {};
 	var hero = this;
@@ -34,11 +34,11 @@ angular.module("BallAgentHero", ['Rectangular', 'ngAudio'])
 	
 	this.createHero = function(options) {
 
-	  var heroBox = ngBox.shape("ellipse", {
+	  var heroBox = ngrBox.shape("ellipse", {
 	    radius: state.stats.radius,
 	    x: 1.2
 	  });
-	  var heroBody = ngWorld.addElement(heroBox);
+	  var heroBody = ngrWorld.addElement(heroBox);
 	  heroBody.SetUserData({
 	    isHero: true
 	  });
@@ -49,7 +49,7 @@ angular.module("BallAgentHero", ['Rectangular', 'ngAudio'])
 	  var attrs = {};
 	  attrs.radius = radius;
 	  attrs.src = 'img/hero.png';
-	  var actor = display.skin(heroBody, attrs);
+	  var actor = ngrDisplay.skin(heroBody, attrs);
 
 	  ngrLoop.addHook(tick);
 

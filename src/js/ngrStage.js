@@ -1,5 +1,5 @@
 angular.module('Rectangular')
-.service('ngStage',function(){
+.service('ngrStage',function(){
 
 		var canvas = $('canvas')[0];
 
@@ -15,7 +15,7 @@ angular.module('Rectangular')
 
 })
 
-.service('ngActor',function(ngrState){
+.service('ngrActor',function(ngrState){
 
 	this.newActor = function(body, skin) {
 		return new actorObject(body,skin);

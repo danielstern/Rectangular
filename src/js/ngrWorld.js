@@ -1,12 +1,12 @@
 angular.module('Rectangular')
 /* Creates an instance of the world of the simulation, 
    and provides an interface for it. */
-.service("ngWorld",function(ngBox,ngStage,ngrState,display){
-	var _ngWorld = this;
+.service("ngrWorld",function(ngrBox,ngrStage,ngrState,ngrDisplay){
+	var _ngrWorld = this;
 	 var world = {};
 	 var bodies = [];
 	 var properties = {};
-	 var ngWorld = this;
+	 var ngrWorld = this;
 	 var env;
 	 
 	 this.SCALE = 30;
@@ -31,7 +31,7 @@ angular.module('Rectangular')
 	 this.clearAll = function() {
 	 	_.each(bodies,function(body){
 	 		world.DestroyBody(body);
-	 		ngStage.stage.removeAllChildren();
+	 		ngrStage.stage.removeAllChildren();
 	 	});
 
 	 }
@@ -52,11 +52,11 @@ angular.module('Rectangular')
 	 }
 
 	 this.room = function() {
-	 	var world = ngWorld.getWorld();
+	 	var world = ngrWorld.getWorld();
 	 
-	 	ngBox.floor();
-	 	ngBox.leftWall();
-	 	ngBox.rightWall();
+	 	ngrBox.floor();
+	 	ngrBox.leftWall();
+	 	ngrBox.rightWall();
 
 	 }
 
@@ -70,10 +70,10 @@ angular.module('Rectangular')
 
 	 	options = _.extend(defaults,options);
 	 	
-	 	var shape = ngBox.shape('box',options);
-	 	var body = ngWorld.addElement(shape);
+	 	var shape = ngrBox.shape('box',options);
+	 	var body = ngrWorld.addElement(shape);
 	 	body.SetUserData({isFloor:true})
-	 	var actor = display.skin(body,{
+	 	var actor = ngrDisplay.skin(body,{
 	 		height: options.height * 2
 	 	});
 	 }
@@ -89,9 +89,9 @@ angular.module('Rectangular')
 
 	 	options = _.extend(defaults,options);
 
-	 	var leftWall = ngBox.shape('box',options);
-	 	var lBody = ngWorld.addElement(leftWall);
-	 	display.skin(lBody,{
+	 	var leftWall = ngrBox.shape('box',options);
+	 	var lBody = ngrWorld.addElement(leftWall);
+	 	ngrDisplay.skin(lBody,{
 	 		width: options.width * 2,
 	 	});
 	 }
@@ -105,9 +105,9 @@ angular.module('Rectangular')
 	 	};
 
 	 	options = _.extend(defaults,options);
-	 	var rightWall = ngBox.shape('box',options);
-	 	var rBody = ngWorld.addElement(rightWall);
-	 	display.skin(rBody,{
+	 	var rightWall = ngrBox.shape('box',options);
+	 	var rBody = ngrWorld.addElement(rightWall);
+	 	ngrDisplay.skin(rBody,{
 	 		width: options.width * 2,
 	 	});
 
@@ -118,11 +118,11 @@ angular.module('Rectangular')
 })
 
 
-.service("ngBox",function(ngrState){
+.service("ngrBox",function(ngrState){
 
 		var env;
 		
-		var ngBox = this;
+		var ngrBox = this;
 
 
 

@@ -1,5 +1,5 @@
 angular.module('Rectangular',[])
-.service('ngrEnvironment',function(ngWorld,ngStage,ngrState,ngBox,ngrDebug,ngrLoop,display){
+.service('ngrEnvironment',function(ngrWorld,ngrStage,ngrState,ngrBox,ngrDebug,ngrLoop,ngrDisplay){
 
 	var world;
 
@@ -17,7 +17,7 @@ angular.module('Rectangular',[])
 		env.SCALE = SCALE;
 		ngrState.setProperties(env);
 		canvas = _canvas;
-		world = ngWorld.setWorld(0,30,true);
+		world = ngrWorld.setWorld(0,30,true);
 		ngrLoop.initWorld(60,env);
 	}
 
@@ -28,10 +28,10 @@ angular.module('Rectangular',[])
 	this.addHook = ngrLoop.addHook;
 	this.clearHooks = ngrLoop.clearHooks;
 
-	this.floor = ngWorld.floor;
-	this.room = ngWorld.room;
-	this.leftWall = ngWorld.leftWall;
-	this.rightWall = ngWorld.rightWall;
+	this.floor = ngrWorld.floor;
+	this.room = ngrWorld.room;
+	this.leftWall = ngrWorld.leftWall;
+	this.rightWall = ngrWorld.rightWall;
 	
 
 	this.debug = function(_debugCanvas) {
@@ -64,23 +64,23 @@ angular.module('Rectangular',[])
 })
 
 
-.service('ngrLoop', function(ngWorld, ngStage){
+.service('ngrLoop', function(ngrWorld, ngrStage){
 	var l = this;
-	var ctx = ngStage.context;
+	var ctx = ngrStage.context;
 	var speed = 60;
 	var loop;
 	var world;
 	var hooks = [];
 
 	this.tick = function() {
-		world = ngWorld.getWorld();
+		world = ngrWorld.getWorld();
 		ctx.save();
 		world.Step(1/60,10,10)
 		world.ClearForces();
 		world.DrawDebugData();
 		ctx.restore();
-		ngStage.stage.update();
-		_.each(ngStage.actors,function(actor){
+		ngrStage.stage.update();
+		_.each(ngrStage.actors,function(actor){
 				actor.update();
 		})
 
@@ -108,12 +108,12 @@ angular.module('Rectangular',[])
 	};
 })
 
-.service('ngrDebug',function(ngWorld){
+.service('ngrDebug',function(ngrWorld){
 	this.debug = function(ctx) {
 
-		var world = ngWorld.getWorld();
+		var world = ngrWorld.getWorld();
 			var debugDraw = new b2DebugDraw();
-			var scale = ngWorld.SCALE;
+			var scale = ngrWorld.SCALE;
 			debugDraw.SetSprite(ctx);
 			debugDraw.SetDrawScale(scale);
 			debugDraw.SetFillAlpha(0.5);
@@ -126,92 +126,3 @@ angular.module('Rectangular',[])
 
 
 
-
-.service('display',function(ngStage,ngrState,ngActor){
-	this.skin = function(body, options) {
-
-		var defaults = {
-			height: 100,
-			width: 100,
-			snapToPixel: true,
-			mouseEnabled: false,
-			y: 1,
-			x: 10,
-			angle: 0,
-			src:''
-		};
-
-		options = _.extend(defaults,options);
-
-		var env = ngrState.getProperties();
-		console.log("env:display?",env)
-
-		var stage = ngStage.stage;
-		var imgData;
-
-		if (options.src) {
-			imgData = new Bitmap(options.src);
-		} else {
-			imgData = new Bitmap('img/null.png');
-		}
-
-		if (options.radius) {
-			options.width = options.radius * 2 * env.SCALE;
-			options.height = options.radius * 2 * env.SCALE;
-		} else {
-			options.width = options.width * env.SCALE;
-			options.height = options.height * env.SCALE;
-		}
-
-
-		function checkImageReady() {
-
-			 var img = imgData.image;
-			 if (img.width) {
-			 		return true;
-			 } else {
-			 		return false;
-			 }
-		};
-
-		var imgInt = setInterval(function(){
-			if (checkImageReady()){
-
-				clearInterval(imgInt);
-				initImg();
-			}
-		}, 1);
-
-		function initImg() {
-
-			var img = imgData.image;
-
-			var scaleY = options.height / img.height;
-			var scaleX = options.width / img.width;
-
-			var regY = (img.height) / 2;
-			var regX = (img.width) / 2;
-
-			imgData.x = options.x;
-			imgData.y = options.y;
-			imgData.scaleX = scaleX;
-			imgData.scaleY = scaleY;
-
-			imgData.regX = regX;
-			imgData.regY = regY;
-
-			imgData.snapToPixel = options.snapToPixel;
-			imgData.mouseEnabled = options.mouseEnabled;
-			stage.addChild(imgData);
-
-			var actor = ngActor.newActor(body, imgData);
-			ngStage.actors.push(actor);
-
-			return actor;
-		}
-
-	}
-
-	
-
-})

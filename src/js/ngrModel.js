@@ -10,13 +10,13 @@ angular.module('Rectangular')
 
     options = _.extend(defaults,options);
     
-    var shape = ngBox.shape('box',options);
+    var shape = ngrBox.shape('box',options);
     return shape;
   }
 
   this.leftWall = function(options) {
 
-    return ngBox.shape('box',{
+    return ngrBox.shape('box',{
       width: 10 / SCALE,
       height: envHeight / SCALE,
       position:'static',
@@ -25,7 +25,7 @@ angular.module('Rectangular')
   }
 
   this.rightWall = function(options) {
-    return ngBox.shape('box',{
+    return ngrBox.shape('box',{
       width: 10 / SCALE,
       height: envHeight / SCALE,
       position:'static',

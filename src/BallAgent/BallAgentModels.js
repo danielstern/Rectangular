@@ -1,5 +1,5 @@
 angular.module('BallAgentModels',[])
-.service('BallAgentModels', function(display,ngBox,ngrEnvironment,ngWorld){
+.service('BallAgentModels', function(ngrDisplay,ngrBox,ngrEnvironment,ngrWorld){
 
     this.createExit = function(options) {
       var defaults = {
@@ -14,10 +14,10 @@ angular.module('BallAgentModels',[])
 
       options = _.extend(defaults, options);
 
-      var exitBox = ngBox.shape("box", options);
+      var exitBox = ngrBox.shape("box", options);
       exitBox.f.isSensor = true;
 
-      var exitBody = ngWorld.addElement(exitBox);
+      var exitBody = ngrWorld.addElement(exitBox);
       exitBody.SetUserData({
         exit: true
       });
@@ -27,7 +27,7 @@ angular.module('BallAgentModels',[])
       attrs.src = 'img/exit.png';
       attrs.height = 2;
       attrs.width = 2;
-      var actor = display.skin(exitBody, attrs);
+      var actor = ngrDisplay.skin(exitBody, attrs);
 
       return exitBody;
     }
@@ -42,14 +42,14 @@ angular.module('BallAgentModels',[])
 
       options = _.extend(defaults, options);
 
-      var platform = ngBox.shape("box", options);
-      var pBody = ngWorld.addElement(platform);
+      var platform = ngrBox.shape("box", options);
+      var pBody = ngrWorld.addElement(platform);
 
       pBody.SetUserData({
         isFloor: true
       });
 
-      display.skin(pBody, {
+      ngrDisplay.skin(pBody, {
         y: options.y,
         x: options.x,
         width: options.width * 2,
@@ -88,8 +88,8 @@ angular.module('BallAgentModels',[])
 		  })
 
       options.y += 0.2;
-      var platformUnder = ngBox.shape("box", options);
-      var pSubBody = ngWorld.addElement(platformUnder);
+      var platformUnder = ngrBox.shape("box", options);
+      var pSubBody = ngrWorld.addElement(platformUnder);
 
       return platform;
     }
@@ -106,8 +106,8 @@ angular.module('BallAgentModels',[])
 
       options = _.extend(defaults, options);
 
-      var platform = ngBox.shape("box", options);
-      var pBody = ngWorld.addElement(platform);
+      var platform = ngrBox.shape("box", options);
+      var pBody = ngrWorld.addElement(platform);
       var cycle = 0;
 
     //  console.log("creating column... options..",options)
@@ -127,7 +127,7 @@ angular.module('BallAgentModels',[])
 
 		  }
 
-      display.skin(pBody, {
+      ngrDisplay.skin(pBody, {
         y: options.y,
         x: options.x,
         width: options.width * 2,
