@@ -106,41 +106,39 @@
 <script>
 angular.module("BallAgentApp",['BallAgent','ngAudio'])
 
-.controller('myDemoCtrl',function($scope,$element,ngAudio,BallAgent){
+.controller('myDemoCtrl',function($scope,$element,ngAudio,BallAgent) {
 
-   BallAgent.init($('#gameCanvas')[0],$('#debugCanvas')[0]);   
+    BallAgent.init($('#gameCanvas')[0],$('#debugCanvas')[0]);   
 
-   $scope.gotoLevel = function(level) {
+    $scope.gotoLevel = function(level) {
+
      BallAgent.gotoLevel(level);
-   }
 
-   BallAgent.onStateChange(function(){
+    }
+
+    BallAgent.onStateChange(function(){
+
         $scope.level = BallAgent.state.currentLevel;
         $scope.lives = BallAgent.state.lives;
         $scope.$apply();
-   });
 
-   BallAgent.onGameOver(function(){
-        //$('.splash-screen').show();
+    });
+
+    BallAgent.onGameOver(function(){
+
         $('.splash-screen').removeClass('fadeOut untouchable')
         .addClass('animated fadeIn');
-   });
 
-   $scope.newGame = function() {
-       // $('.splash-screen').hide();
+    });
+
+    $scope.newGame = function() {
+
         $('.splash-screen').removeClass('fadeIn')
         .addClass('animated fadeOut untouchable');
         BallAgent.newGame();
         ngAudio.play('themesong');
-   }
-   /*
-   $scope.$watchCollection(BallAgent.state,function(){
-      console.log("State change",BallAgent.state)
-     $scope.level = BallAgent.state.currentLevel;
-  //   $scope.$apply();
-   });*/
 
-
+    }
 
 });
 

@@ -334,6 +334,30 @@ angular.module('BallAgent')
              friction: 25,
            }
          ]      
-        }
+        },
+     {
+       // level 14
+       lWall:true,
+       rWall:true,
+       floor:true,
+       exit:{
+         y:3,
+         x:20
+       },
+       columns:[
+         {
+           x: 8,
+           y: 12,
+           width: 0.3,
+           height: 3,
+           friction: 25,
+           moves:true,
+           movement: {
+             shift:1,
+             period:2,
+           }
+         },
+       ]      
+      }
 	]
 })

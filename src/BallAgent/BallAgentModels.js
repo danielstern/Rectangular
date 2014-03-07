@@ -1,5 +1,5 @@
 angular.module('BallAgentModels',[])
-.service('BallAgentModels', function(display,ngBox,ngWorld){
+.service('BallAgentModels', function(display,ngBox,ngrLoop,ngWorld){
 
     this.createExit = function(options) {
       var defaults = {
@@ -76,15 +76,23 @@ angular.module('BallAgentModels',[])
 
       var platform = ngBox.shape("box", options);
       var pBody = ngWorld.addElement(platform);
+      var cycle = 0;
 
-/*
-    ngrLoop.addHook(function(){
-       var currentY = pBody.GetPosition().y;
-       var currentX = pBody.GetPosition().x;
-       var newY = currentY - 0.01;
-       pBody.SetPosition(new b2Vec2(currentX, newY));
-    })
-    */
+    //  console.log("creating column... options..",options)
+
+      if (options.moves) {
+
+		    ngrLoop.addHook(function(){
+      		 cycle += Math.PI / 200 / options.movement.period;
+		       var currentY = pBody.GetPosition().y;
+		       var currentX = pBody.GetPosition().x;
+		       var newY = currentY - (Math.sin(cycle) / 50)  * options.movement.shift;
+
+		       pBody.SetPosition(new b2Vec2(currentX, newY));
+		    })
+
+
+		  }
 
       display.skin(pBody, {
         y: options.y,
