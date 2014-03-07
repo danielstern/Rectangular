@@ -55,6 +55,23 @@ angular.module('BallAgentModels',[])
         height: 0.5
       });
 
+      var cycle = 0;
+
+      if (options.moves) {
+
+		    ngrLoop.addHook(function(){
+      		 cycle += Math.PI / 200 / options.movement.period;
+		       var currentY = pBody.GetPosition().y;
+		       var currentX = pBody.GetPosition().x;
+		       var newY = currentY - (Math.sin(cycle) / 50)  * options.movement.shiftY;
+		       var newX = currentX - (Math.sin(cycle) / 50)  * options.movement.shiftX;
+
+		       pBody.SetPosition(new b2Vec2(newX, newY));
+		    })
+
+
+		  }
+
       options.y += 0.2;
       var platformUnder = ngBox.shape("box", options);
       var pSubBody = ngWorld.addElement(platformUnder);
@@ -86,9 +103,10 @@ angular.module('BallAgentModels',[])
       		 cycle += Math.PI / 200 / options.movement.period;
 		       var currentY = pBody.GetPosition().y;
 		       var currentX = pBody.GetPosition().x;
-		       var newY = currentY - (Math.sin(cycle) / 50)  * options.movement.shift;
+		       var newY = currentY - (Math.sin(cycle) / 50)  * options.movement.shiftY;
+		       var newX = currentX - (Math.sin(cycle) / 50)  * options.movement.shiftX;
 
-		       pBody.SetPosition(new b2Vec2(currentX, newY));
+		       pBody.SetPosition(new b2Vec2(newX, newY));
 		    })
 
 

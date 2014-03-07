@@ -353,11 +353,27 @@ angular.module('BallAgent')
            friction: 25,
            moves:true,
            movement: {
-             shift:1,
+             shiftY:1,
+             shiftX:0,
              period:2,
            }
          },
-       ]      
+       ],
+       platforms:[
+         {
+           x: 8,
+           y: 12,
+           width: 2,
+           height: 0.2,
+           friction: 40,
+           moves:true,
+           movement: {
+            shiftY:0,
+            shiftX:1,
+            period:2,
+          }
+         },
+       ]       
       }
 	]
 })
