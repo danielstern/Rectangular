@@ -108,6 +108,7 @@ angular.module("BallAgent", ['Rectangular', 'ngAudio', 'BallAgentHero', 'BallAge
     if (airborneTimer) airborneTimer--;
     if (!airborneTimer) {
       heroState.airborne = true;
+    //  jumpReleased = true;
     }
 
     if (contacts && contacts.contact) {

@@ -63,10 +63,11 @@ angular.module('BallAgentModels',[])
 
 		    ngrEnvironment.addHook(function(){
       		 cycle += Math.PI / 200 / options.movement.period;
+           var phase = options.movement.phaseShift || 0;
 		       var currentY = pBody.GetPosition().y;
 		       var currentX = pBody.GetPosition().x;
-		       var newY = currentY - (Math.sin(cycle) / 50)  * options.movement.shiftY;
-		       var newX = currentX - (Math.sin(cycle) / 50)  * options.movement.shiftX;
+		       var newY = currentY - (Math.sin(cycle + phase) / 50)  * options.movement.shiftY;
+		       var newX = currentX - (Math.sin(cycle + phase) / 50)  * options.movement.shiftX;
 
 		       pBody.SetPosition(new b2Vec2(newX, newY));
 		       pSubBody.SetPosition(new b2Vec2(newX, newY + 0.3));
@@ -74,18 +75,6 @@ angular.module('BallAgentModels',[])
 
 
 		  }
-
-		  ngrEnvironment.addHook(function(){
-        var lVector = pSubBody.GetWorldCenter().x - 10;
-        var rVector = pSubBody.GetWorldCenter().x + 10;
-        var yVector = pSubBody.GetWorldCenter().y;
-
-        if (pSubBody.GetPosition().y > defaultY) {
-          if (pSubBody) pSubBody.ApplyForce(new b2Vec2(0, - pSubBody.GetMass() * 30), new b2Vec2(lVector,yVector));
-		     	if (pSubBody) pSubBody.ApplyForce(new b2Vec2(0, - pSubBody.GetMass() * 30), new b2Vec2(rVector,yVector));
-        }
-
-		  })
 
       options.y += 0.2;
       var platformUnder = ngrBox.shape("box", options);
@@ -109,23 +98,6 @@ angular.module('BallAgentModels',[])
       var platform = ngrBox.shape("box", options);
       var pBody = ngrWorld.addElement(platform);
       var cycle = 0;
-
-    //  console.log("creating column... options..",options)
-
-      if (options.moves) {
-
-		    ngrEnvironment.addHook(function(){
-      		 cycle += Math.PI / 200 / options.movement.period;
-		       var currentY = pBody.GetPosition().y;
-		       var currentX = pBody.GetPosition().x;
-		       var newY = currentY - (Math.sin(cycle) / 50)  * options.movement.shiftY;
-		       var newX = currentX - (Math.sin(cycle) / 50)  * options.movement.shiftX;
-
-		       pBody.SetPosition(new b2Vec2(newX, newY));
-		    })
-
-
-		  }
 
       ngrDisplay.skin(pBody, {
         y: options.y,
