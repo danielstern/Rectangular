@@ -123,40 +123,83 @@ angular.module('Rectangular')
 		var container = new createjs.Container();
 		var SCALE = ngrState.SCALE;
 
-		var regY = (img.height) / 2;
-		var regX = (img.width) / 2;
+		var regX = 0;
+		var regY = 0;
 
-		console.log("Options, img",options,img)
+		options.pixelsWidth = options.width// * SCALE;
+		options.pixelsHeight = options.height// * SCALE;
 
-		var iterationsY = options.height / img.height * 2;
+//		console.log("Options, img",options,img)
+
+		var iterationsY;
+		var iterationsX;
+
+		var config = {};
+		config.totalColumns = options.width * 2 / img.width;
+		config.totalRows = options.height * 2/ img.height;
+		config.totalTiles = config.totalColumns * config.totalRows;
+		config.tiles = [];
+		config.options = options;
+		config.img = img;
+
+		function Tile() {
+			this.x;
+			this.y;
+			this.width;
+			this.height;
+		}
+
+		for (var i = 0; i < config.totalColumns; i++) {
+			for (var k = 0; k < config.totalRows; k++) {
+					var t = new Tile();
+					t.x = i * config.img.width;
+					t.y = k * config.img.height;
+
+					t.width = config.img.width;
+					t.height = config.img.height;
+					t.src = config.options.src;
+					config.tiles.push(t);
+			}
+		}
+
+		console.log("Config?",config);
+
+		_.each(config.tiles,function(tile){
+			var	_imgData = new createjs.Bitmap(tile.src || 'img/null.png');
+
+			_imgData.regY = tile.x;
+			_imgData.regX = tile.y;
+
+			container.addChild(_imgData);
+		})
+
+		/*
+		iterationsY= options.height / img.height;
 
 		for (iterationsY; iterationsY > 0; iterationsY--) {
 
-			var iterationsX = options.width / img.width * 2;
-		//	console.log("Iterating...");
+			iterationsX = options.width / img.width;
 
 		  var	_imgData = new createjs.Bitmap(options.src || 'img/null.png');
 
 		  _imgData.regX = regX;
-		  _imgData.regY = (options.height) - ((iterationsY - 1) * img.height);
+		  _imgData.regY = regY - ((iterationsY - 1) * img.height);
+		  //_imgData.regY = (options.height) - ((iterationsY - 1) * img.height);
 
 		  container.addChild(_imgData);
 
-
 		  for (iterationsX; iterationsX > 0; iterationsX--) {
-
-		  	console.log("Iterating x...");
 
 		    var	_imgData = new createjs.Bitmap(options.src || 'img/null.png');
 
-		    _imgData.regY = (options.height) - ((iterationsY - 1) * img.height);
-		    _imgData.regX = (options.width) - ((iterationsX - 1) * img.width);
+		    _imgData.regY = regY; - ((iterationsY - 1) * img.height);
+		    _imgData.regX = regX - ((iterationsX - 1) * img.width);
 
 		    container.addChild(_imgData);
 
 		  }
 
-		}
+		}*/
 
 		return container;
 
