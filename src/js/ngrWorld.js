@@ -74,16 +74,26 @@ angular.module('Rectangular')
 
 	this.leftWall = function(options) {
 
+		options = options || {};
+
 		var leftWall = ngrModels.leftWall(options);
 		var lBody = ngrWorld.addElement(leftWall);
-		ngrDisplay.skin(lBody);
+		options.src = 'img/tile.png';
+		options.bg = 'tiled';
+		options.width = 0.3;
+		ngrDisplay.skin(lBody, options);
 
 	}
 
 	this.rightWall = function(options) {
+
+		options = options || {};
 		
 		var rBody = ngrWorld.addElement(ngrModels.rightWall(options));
-		ngrDisplay.skin(rBody);
+		options.src = 'img/tile.png';
+		options.bg = 'tiled';
+		options.width = 0.3;
+		ngrDisplay.skin(rBody, options);
 
 	}
 })

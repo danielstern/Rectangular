@@ -113,6 +113,8 @@ angular.module("BallAgentApp",['BallAgent','ngAudio'])
 
 .controller('myDemoCtrl',function($scope,$element,ngAudio,BallAgent) {
 
+    $scope.debug = true;
+
     BallAgent.init($('#gameCanvas')[0],$('#debugCanvas')[0]);   
 
     $scope.gotoLevel = function(level) {
