@@ -147,29 +147,40 @@ angular.module("BallAgent", ['Rectangular', 'ngAudio', 'BallAgentHero', 'BallAge
 
   function nextLevel() {
 
-    state.currentLevel++;
-    var l = BallAgentLevels.levels[state.currentLevel - 1];
+    console.log("NXT LEVEL");
 
-    ngrEnvironment.stop();
-    ngrEnvironment.clearHooks();
-    ngrWorld.clearAll();
+    $('.blocker-inner').addClass('slide');
+      ngrEnvironment.stop();
 
-    ngrEnvironment.init($('canvas')[0]);
-    if (l.floor) ngrEnvironment.floor();
-    if (l.lWall) ngrEnvironment.leftWall();
-    if (l.rWall) ngrEnvironment.rightWall();
+    setTimeout(function(){
+      state.currentLevel++;
+      var l = BallAgentLevels.levels[state.currentLevel - 1];
 
-    ngrEnvironment.debug($('#debugCanvas')[0]);
-    ngrDisplay.background(l.background || 'img/mountain-bg.jpg');
+      ngrEnvironment.clearHooks();
+      ngrWorld.clearAll();
 
-    hero = BallAgentHero.createNewHero();
-    exit = m.createExit(l.exit);
-    var controls = bindControls();
+      ngrEnvironment.init($('canvas')[0]);
+      if (l.floor) ngrEnvironment.floor();
+      if (l.lWall) ngrEnvironment.leftWall();
+      if (l.rWall) ngrEnvironment.rightWall();
 
-    _.each(l.platforms, m.createPlatform);
-    _.each(l.columns, m.createColumn);
+      ngrEnvironment.debug($('#debugCanvas')[0]);
+      ngrDisplay.background(l.background || 'img/mountain-bg.jpg');
 
-    ngrEnvironment.addHook(tick);
+      hero = BallAgentHero.createNewHero();
+      exit = m.createExit(l.exit);
+      var controls = bindControls();
+
+      _.each(l.platforms, m.createPlatform);
+      _.each(l.columns, m.createColumn);
+
+      ngrEnvironment.addHook(tick);
+
+    }, 500);
+
+    setTimeout(function(){
+      $('.blocker-inner').removeClass('slide');
+    }, 1000);
 
   }
 
