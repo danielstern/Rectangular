@@ -217,6 +217,7 @@ angular.module('BallAgent')
       lWall:true,
       rWall:true,
       floor:true,
+      background:'img/fog-bg.jpg',
       exit:{
         y:12,
         x:20
@@ -243,6 +244,7 @@ angular.module('BallAgent')
        lWall:true,
        rWall:false,
        floor:false,
+       background:'img/fog-bg.jpg',
        exit:{
          y:10,
          x:20
@@ -269,6 +271,7 @@ angular.module('BallAgent')
         lWall:false,
         rWall:false,
         floor:false,
+        background:'img/fog-bg.jpg',
         exit:{
           y:4,
           x:18
@@ -302,6 +305,7 @@ angular.module('BallAgent')
          lWall:false,
          rWall:false,
          floor:false,
+         background:'img/fog-bg.jpg',
          exit:{
            y:3,
            x:20
@@ -340,6 +344,7 @@ angular.module('BallAgent')
        lWall:true,
        rWall:true,
        floor:false,
+       background:'img/fog-bg.jpg',
        exit:{
          y:13,
          x:20
@@ -370,6 +375,7 @@ angular.module('BallAgent')
         lWall:true,
         rWall:true,
         floor:false,
+        background:'img/fog-bg.jpg',
         exit:{
           y:11,
           x:22
@@ -414,6 +420,7 @@ angular.module('BallAgent')
          lWall:true,
          rWall:true,
          floor:false,
+         background:'img/fog-bg.jpg',
          exit:{
            y:11,
            x:22
@@ -445,6 +452,7 @@ angular.module('BallAgent')
         lWall:true,
         rWall:true,
         floor:false,
+        background:'img/fog-bg.jpg',
         exit:{
           y:4,
           x:22
@@ -484,6 +492,7 @@ angular.module('BallAgent')
          // level 18
          lWall:false,
          rWall:false,
+         background:'img/fog-bg.jpg',
          floor:false,
          exit:{
            y:4,
@@ -525,6 +534,7 @@ angular.module('BallAgent')
           lWall:false,
           rWall:true,
           floor:false,
+          background:'img/fog-bg.jpg',
           exit:{
             y:12,
             x:22
