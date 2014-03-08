@@ -1,11 +1,14 @@
 angular.module('Rectangular')
 .service('ngrDisplay',function(ngrStage,ngrState,ngrActor){
+
+	var nd = this;
 	this.skin = function(body, options) {
 
 		//console.log("Skinning",body);
 
 		 var f = body.GetFixtureList();
 		 var s = f.GetShape();
+
 
 		 //console.log('s?',s);
 
@@ -99,50 +102,8 @@ angular.module('Rectangular')
 
 			} else {
 
+				var container = nd.tile(img, options) //new createjs.Container();
 
-				var container = new createjs.Container();
-				var SCALE = ngrState.SCALE;
-
-				var regY = (img.height) / 2;
-				var regX = (img.width) / 2;
-
-				console.log("Options, img",options,img)
-
-				var iterationsY = options.height / img.height * 2;
-
-				for (iterationsY; iterationsY > 0; iterationsY--) {
-
-					var iterationsX = options.width / img.width * 2;
-				//	console.log("Iterating...");
-
-				  var	_imgData = new createjs.Bitmap(options.src || 'img/null.png');
-
-				  _imgData.regX = regX;
-				  _imgData.regY = (options.height) - ((iterationsY - 1) * img.height);
-
-				  container.addChild(_imgData);
-
-
-				  for (iterationsX; iterationsX > 0; iterationsX--) {
-
-				  	console.log("Iterating x...");
-
-				    var	_imgData = new createjs.Bitmap(options.src || 'img/null.png');
-
-				    _imgData.regY = (options.height) - ((iterationsY - 1) * img.height);
-				    _imgData.regX = (options.width) - ((iterationsX - 1) * img.width);
-
-				    container.addChild(_imgData);
-
-				  }
-
-				}
-
-
-
-				imgData.snapToPixel = options.snapToPixel;
-
-				//stage.addChild(imgData)
 				stage.addChild(container);
 
 				var actor = ngrActor.newActor(body, container);
@@ -155,5 +116,49 @@ angular.module('Rectangular')
 			return actor;
 
 		}
+	};
+
+	this.tile = function(img, options) {
+
+		var container = new createjs.Container();
+		var SCALE = ngrState.SCALE;
+
+		var regY = (img.height) / 2;
+		var regX = (img.width) / 2;
+
+		console.log("Options, img",options,img)
+
+		var iterationsY = options.height / img.height * 2;
+
+		for (iterationsY; iterationsY > 0; iterationsY--) {
+
+			var iterationsX = options.width / img.width * 2;
+		//	console.log("Iterating...");
+
+		  var	_imgData = new createjs.Bitmap(options.src || 'img/null.png');
+
+		  _imgData.regX = regX;
+		  _imgData.regY = (options.height) - ((iterationsY - 1) * img.height);
+
+		  container.addChild(_imgData);
+
+
+		  for (iterationsX; iterationsX > 0; iterationsX--) {
+
+		  	console.log("Iterating x...");
+
+		    var	_imgData = new createjs.Bitmap(options.src || 'img/null.png');
+
+		    _imgData.regY = (options.height) - ((iterationsY - 1) * img.height);
+		    _imgData.regX = (options.width) - ((iterationsX - 1) * img.width);
+
+		    container.addChild(_imgData);
+
+		  }
+
+		}
+
+		return container;
+
 	}
 })
