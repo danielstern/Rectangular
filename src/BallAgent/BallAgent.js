@@ -147,36 +147,33 @@ angular.module("BallAgent", ['Rectangular', 'ngAudio', 'BallAgentHero', 'BallAge
 
   function nextLevel() {
 
-    console.log("NXT LEVEL");
+    ngrEnvironment.stop();
+    ngrEnvironment.blocker()
+    .then(function(){
+      state.currentLevel++;
+      var l = BallAgentLevels.levels[state.currentLevel - 1];
 
-      
-      ngrEnvironment.stop();
-      ngrEnvironment.blocker()
-      .then(function(){
-        state.currentLevel++;
-        var l = BallAgentLevels.levels[state.currentLevel - 1];
+      ngrEnvironment.clearHooks();
+      ngrWorld.clearAll();
 
-        ngrEnvironment.clearHooks();
-        ngrWorld.clearAll();
+      ngrEnvironment.init($('canvas')[0]);
+      if (l.floor) ngrEnvironment.floor();
+      if (l.lWall) ngrEnvironment.leftWall();
+      if (l.rWall) ngrEnvironment.rightWall();
 
-        ngrEnvironment.init($('canvas')[0]);
-        if (l.floor) ngrEnvironment.floor();
-        if (l.lWall) ngrEnvironment.leftWall();
-        if (l.rWall) ngrEnvironment.rightWall();
+      ngrEnvironment.debug();
+      ngrDisplay.background(l.background || 'img/mountain-bg.jpg');
 
-        ngrEnvironment.debug();
-        ngrDisplay.background(l.background || 'img/mountain-bg.jpg');
+      hero = BallAgentHero.createNewHero();
+      exit = m.createExit(l.exit);
+      bindControls();
 
-        hero = BallAgentHero.createNewHero();
-        exit = m.createExit(l.exit);
-        var controls = bindControls();
+      _.each(l.platforms, m.createPlatform);
+      _.each(l.columns, m.createColumn);
 
-        _.each(l.platforms, m.createPlatform);
-        _.each(l.columns, m.createColumn);
+      ngrEnvironment.addHook(tick);
 
-        ngrEnvironment.addHook(tick);
-
-      });
+    });
 
 
   }
