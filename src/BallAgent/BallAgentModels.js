@@ -89,7 +89,7 @@ angular.module('BallAgentModels',[])
         position: 'static',
         width: 0.3,
         friction: 3,
-        src:'img/tile.png',
+        src:'img/tile-orange.png',
         bg:'tiled'
       }
 

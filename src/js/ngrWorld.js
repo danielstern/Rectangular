@@ -61,10 +61,15 @@ angular.module('Rectangular')
 
 	this.floor = function(options) {
 
-		var floor = ngrModels.floor(options)		;
+		options = options || {};
+
+		var floor = ngrModels.floor(options);
+		options.src = 'img/tile.png';
+		options.bg = 'tiled';
+		options.height = 0.3;
 		var body = ngrWorld.addElement(floor);
 		body.SetUserData({isFloor:true})
-		ngrDisplay.skin(body);
+		ngrDisplay.skin(body, options);
 	}
 
 	this.leftWall = function(options) {
