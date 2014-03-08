@@ -190,4 +190,10 @@ angular.module('Rectangular')
 		return container;
 
 	}
+
+	this.background = function(src) {
+		var	_imgData = new createjs.Bitmap(src || 'img/null.png');
+		console.log("Backgrounding, ",src);
+		ngrStage.stage.addChild(_imgData);
+	}
 })
