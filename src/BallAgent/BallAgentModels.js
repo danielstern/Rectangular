@@ -37,6 +37,8 @@ angular.module('BallAgentModels',[])
       var defaults = {
         position: 'static',
         height: 0.3,
+        src: 'img/tile-blue.png',
+        bg: 'tiled',
       }
 
       options = _.extend(defaults, options);
@@ -48,12 +50,7 @@ angular.module('BallAgentModels',[])
         isFloor: true
       });
 
-      ngrDisplay.skin(pBody, {
-        y: options.y,
-        x: options.x,
-        width: options.width * 2,
-        height: 0.5
-      });
+      ngrDisplay.skin(pBody, options);
 
       var cycle = 0;
       var defaultY = options.y;
