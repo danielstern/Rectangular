@@ -1,182 +1,182 @@
 <doctype HTML>
 
-<html ng-app='BallAgentApp' ng-controller='myDemoCtrl'>
-<head>
-    <title>Racing Car in Box2d</title>
-     
-    <script src="lib/angular.js"></script>
-    <script src="lib/jquery.js"></script>
-    <script src="lib/underscore.js"></script>
-    <script src="lib/mousetrap.js"></script>
-    <script src="js/util.js"></script>
-    <script src="lib/Box2dWeb-2.1.a.3.js"></script>
-    <script src="js/Rectangular.js"></script>
-    <script src="BallAgent/BallAgent.js"></script>
-    <script src="BallAgent/BallAgentLevels.js"></script>
-    <script src="BallAgent/BallAgentHero.js"></script>
-    <script src="BallAgent/BallAgentModels.js"></script>
-    <script src="js/ngrStage.js"></script>
-    <script src="js/ngrWorld.js"></script>
-    <script src="js/ngrDisplay.js"></script>
-    <script src="js/ngrModels.js"></script>
-    <script src="js/ngrBox.js"></script>
-    <script src="lib/angular.audio.js"></script>
-    <script type="text/javascript" src="lib/easel.js"></script>
-    <script type="text/javascript" src="lib/create.js"></script>
+    <html ng-app='BallAgentApp' ng-controller='myDemoCtrl'>
 
-    <script>
-        var b2Vec2 = Box2D.Common.Math.b2Vec2
-            ,   b2AABB = Box2D.Collision.b2AABB
-            ,   b2BodyDef = Box2D.Dynamics.b2BodyDef
-            ,   b2Body = Box2D.Dynamics.b2Body
-            ,   b2FixtureDef = Box2D.Dynamics.b2FixtureDef
-            ,   b2Fixture = Box2D.Dynamics.b2Fixture
-            ,   b2World = Box2D.Dynamics.b2World
-            ,   b2PolygonShape = Box2D.Collision.Shapes.b2PolygonShape
-            ,   b2CircleShape = Box2D.Collision.Shapes.b2CircleShape
-            ,   b2DebugDraw = Box2D.Dynamics.b2DebugDraw
-            ,   b2MouseJointDef =  Box2D.Dynamics.Joints.b2MouseJointDef
-            ,   b2Shape = Box2D.Collision.Shapes.b2Shape
-            ,   b2RevoluteJointDef = Box2D.Dynamics.Joints.b2RevoluteJointDef
-            ,   b2Joint = Box2D.Dynamics.Joints.b2Joint
-            ,   b2PrismaticJointDef = Box2D.Dynamics.Joints.b2PrismaticJointDef
-            ;
-    </script>
+    <head>
+        <title>Racing Car in Box2d</title>
 
-    <link rel="stylesheet" type="text/css" href="styles/ballAgent.css">
-    <link rel="stylesheet" type="text/css" href="styles/ngr.css">
-    <link rel="stylesheet" type="text/css" href="styles/animate.css">
+        <script src="lib/angular.js"></script>
+        <script src="lib/jquery.js"></script>
+        <script src="lib/underscore.js"></script>
+        <script src="lib/mousetrap.js"></script>
+        <script src="js/util.js"></script>
+        <script src="lib/Box2dWeb-2.1.a.3.js"></script>
+        <script src="js/Rectangular.js"></script>
+        <script src="BallAgent/BallAgent.js"></script>
+        <script src="BallAgent/BallAgentLevels.js"></script>
+        <script src="BallAgent/BallAgentHero.js"></script>
+        <script src="BallAgent/BallAgentModels.js"></script>
+        <script src="js/ngrStage.js"></script>
+        <script src="js/ngrState.js"></script>
+        <script src="js/ngrWorld.js"></script>
+        <script src="js/ngrDisplay.js"></script>
+        <script src="js/ngrEnvironment.js"></script>
+        <script src="js/ngrModels.js"></script>
+        <script src="js/ngrBox.js"></script>
+        <script src="lib/angular.audio.js"></script>
+        <script type="text/javascript" src="lib/easel.js"></script>
+        <script type="text/javascript" src="lib/create.js"></script>
 
-</head>
-<body >
-    <audio id='themesong' src='!audio/ballagent.mp3'  loop=0>
-    </audio>
+        <script>
+        var b2Vec2 = Box2D.Common.Math.b2Vec2,
+            b2AABB = Box2D.Collision.b2AABB,
+            b2BodyDef = Box2D.Dynamics.b2BodyDef,
+            b2Body = Box2D.Dynamics.b2Body,
+            b2FixtureDef = Box2D.Dynamics.b2FixtureDef,
+            b2Fixture = Box2D.Dynamics.b2Fixture,
+            b2World = Box2D.Dynamics.b2World,
+            b2PolygonShape = Box2D.Collision.Shapes.b2PolygonShape,
+            b2CircleShape = Box2D.Collision.Shapes.b2CircleShape,
+            b2DebugDraw = Box2D.Dynamics.b2DebugDraw,
+            b2MouseJointDef = Box2D.Dynamics.Joints.b2MouseJointDef,
+            b2Shape = Box2D.Collision.Shapes.b2Shape,
+            b2RevoluteJointDef = Box2D.Dynamics.Joints.b2RevoluteJointDef,
+            b2Joint = Box2D.Dynamics.Joints.b2Joint,
+            b2PrismaticJointDef = Box2D.Dynamics.Joints.b2PrismaticJointDef;
+        </script>
 
-    <audio id='die' src='audio/fall.mp3'>
-    </audio>
+        <link rel="stylesheet" type="text/css" href="styles/ballAgent.css">
+        <link rel="stylesheet" type="text/css" href="styles/ngr.css">
+        <link rel="stylesheet" type="text/css" href="styles/animate.css">
 
-    <audio id='exit' src='audio/exit.mp3'>
-    </audio>
+    </head>
 
-    <audio id='jump' src='audio/boing.mp3'>
-    </audio>
+    <body>
+        <audio id='themesong' src='!audio/ballagent.mp3' loop=0>
+        </audio>
 
-<div class='main' >
- <canvas ng-stage id='gameCanvas' width='750' height='500' style="background-color:#333;"></canvas>
+        <audio id='die' src='audio/fall.mp3'>
+        </audio>
+
+        <audio id='exit' src='audio/exit.mp3'>
+        </audio>
+
+        <audio id='jump' src='audio/boing.mp3'>
+        </audio>
+
+        <div class='main'>
+            <canvas ng-stage id='gameCanvas' width='750' height='500' style="background-color:#333;"></canvas>
 
 
- <div class='splash-screen'>
- <div class='blinder'></div>
- <div class='main-menu'>
-    <h2>BALL AGENT</h2>
-    <h3>DO YOU HAVE THE BALLS?</h3>
+            <div class='splash-screen'>
+                <div class='blinder'></div>
+                <div class='main-menu'>
+                    <h2>BALL AGENT</h2>
+                    <h3>DO YOU HAVE THE BALLS?</h3>
 
-    <p>CONTROLS: WASD</p>
+                    <p>CONTROLS: WASD</p>
 
-    <button ng-click="newGame()">NEW GAME</button>
+                    <button ng-click="newGame()">NEW GAME</button>
 
-</div>
-</div>
-<div class='hud'>
- <!--<p>Level: {{level}}</p>-->
- <div class='lives'>
-     <div ng-repeat='i in getNumber(lives) track by $index'>
-        <div class='life-counter'>
+                </div>
+            </div>
+            <div class='hud'>
+                <!--<p>Level: {{level}}</p>-->
+                <div class='lives'>
+                    <div ng-repeat='i in getNumber(lives) track by $index'>
+                        <div class='life-counter'>
+                        </div>
+                    </div>
+                </div>
+                <div class='levelName'>
+                    {{level}} &ndash; {{levelName}}
+                </div>
+            </div>
         </div>
-    </div>
-</div>
-<div class='levelName'>
-    {{level}} &ndash; {{levelName}}
-</div>
-</div>
-</div>
- <div>
-    <button ng-click="toggleDebug()">DEBUG</button>
-    <div>
-<button ng-click="gotoLevel(1)">LVL 1</button>
-<button ng-click="gotoLevel(2)">LVL 2</button>
- <button ng-click="gotoLevel(3)">LVL 3</button>
- <button ng-click="gotoLevel(4)">LVL 4</button>
- <button ng-click="gotoLevel(5)">LVL 5</button>
- <button ng-click="gotoLevel(6)">LVL 6</button>
- <button ng-click="gotoLevel(7)">LVL 7</button>
- <button ng-click="gotoLevel(8)">LVL 8</button>
- <button ng-click="gotoLevel(9)">LVL 9</button>
-</div>
-<div>
- <button ng-click="gotoLevel(10)">LVL 10</button>
- <button ng-click="gotoLevel(11)">LVL 11</button>
- <button ng-click="gotoLevel(12)">LVL 12</button>
- <button ng-click="gotoLevel(13)">LVL 13</button>
- <button ng-click="gotoLevel(14)">LVL 14</button>
- <button ng-click="gotoLevel(15)">LVL 15</button>
- <button ng-click="gotoLevel(16)">LVL 16</button>
- <button ng-click="gotoLevel(17)">LVL 17</button>
- <button ng-click="gotoLevel(18)">LVL 18</button>
- <button ng-click="gotoLevel(19)">LVL 19</button>
-</div>
+        <div>
+            <button ng-click="toggleDebug()">DEBUG</button>
+            <div>
+                <button ng-click="gotoLevel(1)">LVL 1</button>
+                <button ng-click="gotoLevel(2)">LVL 2</button>
+                <button ng-click="gotoLevel(3)">LVL 3</button>
+                <button ng-click="gotoLevel(4)">LVL 4</button>
+                <button ng-click="gotoLevel(5)">LVL 5</button>
+                <button ng-click="gotoLevel(6)">LVL 6</button>
+                <button ng-click="gotoLevel(7)">LVL 7</button>
+                <button ng-click="gotoLevel(8)">LVL 8</button>
+                <button ng-click="gotoLevel(9)">LVL 9</button>
+            </div>
+            <div>
+                <button ng-click="gotoLevel(10)">LVL 10</button>
+                <button ng-click="gotoLevel(11)">LVL 11</button>
+                <button ng-click="gotoLevel(12)">LVL 12</button>
+                <button ng-click="gotoLevel(13)">LVL 13</button>
+                <button ng-click="gotoLevel(14)">LVL 14</button>
+                <button ng-click="gotoLevel(15)">LVL 15</button>
+                <button ng-click="gotoLevel(16)">LVL 16</button>
+                <button ng-click="gotoLevel(17)">LVL 17</button>
+                <button ng-click="gotoLevel(18)">LVL 18</button>
+                <button ng-click="gotoLevel(19)">LVL 19</button>
+            </div>
 
- <p>Lives: {{lives}}</p>
-</div>
-</body>
- 
-</html>
+            <p>Lives: {{lives}}</p>
+        </div>
+    </body>
 
-<!-- ZOR -->
-<script>
-angular.module("BallAgentApp",['BallAgent','ngAudio'])
+    </html>
 
-.controller('myDemoCtrl',function($scope,$element,ngrEnvironment,ngAudio,BallAgent) {
+    <!-- ZOR -->
+    <script>
+    angular.module("BallAgentApp", ['BallAgent', 'ngAudio'])
+
+    .controller('myDemoCtrl', function($scope, $element, ngrEnvironment, ngAudio, BallAgent) {
 
 
-    BallAgent.init($('#gameCanvas')[0]);   
+        BallAgent.init($('#gameCanvas')[0]);
 
-    $scope.gotoLevel = function(level) {
+        $scope.gotoLevel = function(level) {
 
-     BallAgent.gotoLevel(level);
-
-    }
-
-    $scope.toggleDebug = function() {
-        ngrEnvironment.toggleDebug();
-    }
-
-    BallAgent.onStateChange(function(){
-
-        $scope.level = BallAgent.state.currentLevel;
-        $scope.lives = BallAgent.state.lives;
-        $scope.levelName = BallAgent.state.levelName;
-        try {
-            $scope.$apply();
-        } catch (e) {
+            BallAgent.gotoLevel(level);
 
         }
 
+        $scope.toggleDebug = function() {
+            ngrEnvironment.toggleDebug();
+        }
+
+        BallAgent.onStateChange(function() {
+
+            $scope.level = BallAgent.state.currentLevel;
+            $scope.lives = BallAgent.state.lives;
+            $scope.levelName = BallAgent.state.levelName;
+            try {
+                $scope.$apply();
+            } catch (e) {
+
+            }
+
+        });
+
+        BallAgent.onGameOver(function() {
+
+            $('.splash-screen').removeClass('fadeOut untouchable')
+                .addClass('animated fadeIn');
+
+        });
+
+        $scope.newGame = function() {
+
+            $('.splash-screen').removeClass('fadeIn')
+                .addClass('animated fadeOut untouchable');
+            BallAgent.newGame();
+            ngAudio.play('themesong');
+
+        }
+
+        $scope.number = 5;
+        $scope.getNumber = function(num) {
+            return new Array(num);
+        }
+
     });
-
-    BallAgent.onGameOver(function(){
-
-        $('.splash-screen').removeClass('fadeOut untouchable')
-        .addClass('animated fadeIn');
-
-    });
-
-    $scope.newGame = function() {
-
-        $('.splash-screen').removeClass('fadeIn')
-        .addClass('animated fadeOut untouchable');
-        BallAgent.newGame();
-        ngAudio.play('themesong');
-
-    }
-
-    $scope.number = 5;
-    $scope.getNumber = function(num) {
-        return new Array(num);   
-    }
-
-});
-
-
-
-</script>
+    </script>

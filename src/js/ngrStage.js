@@ -1,54 +1,44 @@
 angular.module('Rectangular')
-.service('ngrStage',function(ngrLoop){
+  .service('ngrStage', function(ngrLoop) {
 
-		var canvas = $('canvas')[0];
+    var canvas = $('canvas')[0];
 
-	  this.stage = new Stage(canvas);
-		this.stage.snapPixelsEnabled = true;
+    var stage = new Stage(canvas);
+    var ctx = $(canvas).get(0).getContext('2d');
+    var actors = [];
+    this.actors = actors;
+    this.stage = stage;
 
-		var stage = this.stage;
+    window._stage = this.stage;
 
-		var elem = canvas;
-		var ctx = $(elem).get(0).getContext('2d');
+    this.clearAll = function() {
+      stage.removeAllChildren();
+    }
 
-		this.context = ctx;
+    ngrLoop.addPermanentHook(function() {
+      stage.update();
+      ctx.save();
+      ctx.restore();
+      _.each(actors, function(actor) {
+        actor.update();
+      })
+    })
+  })
 
-		window._stage = this.stage;
+.service('ngrActor', function(ngrState) {
 
-		this.actors = [];
-		var actors = this.actors;
+  this.newActor = function(body, skin) {
+    return new actorObject(body, skin);
+  }
 
-		this.clearAll = function() {
-			this.stage.removeAllChildren();
-		}
-
-		ngrLoop.addPermanentHook(function(){
-
-		//	console.log("Updating... ");
-			stage.update();
-			ctx.save();
-			ctx.restore();
-			_.each(actors,function(actor){
-					actor.update();
-			})
-		})
-
-})
-
-.service('ngrActor',function(ngrState){
-
-	this.newActor = function(body, skin) {
-		return new actorObject(body,skin);
-	}
-
-	var actorObject = function(body, skin) {
-		this.body = body;
-		this.skin = skin;
-		this.update = function() {  // translate box2d positions to pixels
-			this.skin.rotation = this.body.GetAngle() * (180 / Math.PI);
-			this.skin.x = this.body.GetWorldCenter().x * ngrState.SCALE;
-			this.skin.y = this.body.GetWorldCenter().y * ngrState.SCALE;
-			}
-		}
+  var actorObject = function(body, skin) {
+    this.body = body;
+    this.skin = skin;
+    this.update = function() { // translate box2d positions to pixels
+      this.skin.rotation = this.body.GetAngle() * (180 / Math.PI);
+      this.skin.x = this.body.GetWorldCenter().x * ngrState.SCALE;
+      this.skin.y = this.body.GetWorldCenter().y * ngrState.SCALE;
+    }
+  }
 
 })
