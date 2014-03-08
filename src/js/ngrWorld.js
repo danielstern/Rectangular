@@ -25,7 +25,7 @@ angular.module('Rectangular')
       if (options && options.moves) {
 		 		options.cycle = 0;
 		    ngrLoop.addHook(function(){
-		    	ngrWorld.cycleBody(b, _options);
+		    //	ngrWorld.cycleBody(b, _options);
 		    })
 		  }
 
