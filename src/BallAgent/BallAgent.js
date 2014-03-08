@@ -164,7 +164,7 @@ angular.module("BallAgent", ['Rectangular', 'ngAudio', 'BallAgentHero', 'BallAge
       if (l.lWall) ngrEnvironment.leftWall();
       if (l.rWall) ngrEnvironment.rightWall();
 
-      ngrEnvironment.debug($('#debugCanvas')[0]);
+      ngrEnvironment.debug();
       ngrDisplay.background(l.background || 'img/mountain-bg.jpg');
 
       hero = BallAgentHero.createNewHero();

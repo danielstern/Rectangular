@@ -10,7 +10,6 @@ angular.module('Rectangular',[])
 	var ngEnv = this;
 	var SCALE = 30;
 
-
 	this.init = function(_canvas){
 		env.height = _canvas.height;
 		env.width = _canvas.width;
@@ -19,10 +18,28 @@ angular.module('Rectangular',[])
 		canvas = _canvas;
 		world = ngrWorld.setWorld(0,30,true);
 		ngrLoop.initWorld(60,env);
+		var p = $(canvas).parent();
+
+		if(!$('.blocker')[0]) {
+				p.append('<div class="blocker"></div>');
+				$('.blocker').append('<div class="blocker-inner"></div>');
+		}
+
+		if(!$('#debugCanvas')[0]){
+			p.append("<canvas id='debugCanvas'></canvas>");
+			var debugCanvas = $('#debugCanvas');
+			debugCanvas
+				.attr('height',env.height)
+				.attr('width',env.width);
+		}
 	}
 
 	this.stop = function() {
 		ngrLoop.stop();
+	}
+
+	this.blocker = function() {
+
 	}
 
 	this.addHook = ngrLoop.addHook;
@@ -34,8 +51,8 @@ angular.module('Rectangular',[])
 	this.rightWall = ngrWorld.rightWall;
 	
 
-	this.debug = function(_debugCanvas) {
-		var ctx = _debugCanvas.getContext('2d');
+	this.debug = function() {
+		var ctx = debugCanvas.getContext('2d');
     ngrDebug.debug(ctx);
 	}
 

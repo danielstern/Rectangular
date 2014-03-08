@@ -44,6 +44,7 @@
     </script>
 
     <link rel="stylesheet" type="text/css" href="styles/ballAgent.css">
+    <link rel="stylesheet" type="text/css" href="styles/ngr.css">
     <link rel="stylesheet" type="text/css" href="styles/animate.css">
 
 </head>
@@ -62,11 +63,8 @@
 
 <div class='main' >
  <canvas ng-stage id='gameCanvas' width='750' height='500' style="background-color:#333;"></canvas>
-<div ng-hide='debug'> <canvas ng-stage id='debugCanvas' width='750' height='500' style="background-color:black;"></canvas></div>
-<div class='blocker'>
-    <div class='blocker-inner'>
-    </div>
-</div>
+
+
  <div class='splash-screen'>
  <div class='blinder'></div>
  <div class='main-menu'>
@@ -119,7 +117,7 @@ angular.module("BallAgentApp",['BallAgent','ngAudio'])
 
     $scope.debug = true;
 
-    BallAgent.init($('#gameCanvas')[0],$('#debugCanvas')[0]);   
+    BallAgent.init($('#gameCanvas')[0]);   
 
     $scope.gotoLevel = function(level) {
 
