@@ -77,6 +77,19 @@
 
 </div>
 </div>
+<div class='hud'>
+ <!--<p>Level: {{level}}</p>-->
+ <div class='lives'>
+     <div ng-repeat='i in getNumber(lives) track by $index'>
+        <div class='life-counter'>
+        </div>
+    </div>
+</div>
+<div class='levelName'>
+    {{level}} &ndash; {{levelName}}
+</div>
+</div>
+</div>
  <div>
     <button ng-click="toggleDebug()">DEBUG</button>
     <div>
@@ -102,7 +115,7 @@
  <button ng-click="gotoLevel(18)">LVL 18</button>
  <button ng-click="gotoLevel(19)">LVL 19</button>
 </div>
- <p>Level: {{level}}</p>
+
  <p>Lives: {{lives}}</p>
 </div>
 </body>
@@ -132,7 +145,12 @@ angular.module("BallAgentApp",['BallAgent','ngAudio'])
 
         $scope.level = BallAgent.state.currentLevel;
         $scope.lives = BallAgent.state.lives;
-        $scope.$apply();
+        $scope.levelName = BallAgent.state.levelName;
+        try {
+            $scope.$apply();
+        } catch (e) {
+
+        }
 
     });
 
@@ -150,6 +168,11 @@ angular.module("BallAgentApp",['BallAgent','ngAudio'])
         BallAgent.newGame();
         ngAudio.play('themesong');
 
+    }
+
+    $scope.number = 5;
+    $scope.getNumber = function(num) {
+        return new Array(num);   
     }
 
 });

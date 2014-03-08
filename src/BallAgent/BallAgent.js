@@ -141,7 +141,6 @@ angular.module("BallAgent", ['Rectangular', 'ngAudio', 'BallAgentHero', 'BallAge
       handleDeath();
     }
 
-    updateState(state);
 
   }
 
@@ -155,6 +154,8 @@ angular.module("BallAgent", ['Rectangular', 'ngAudio', 'BallAgentHero', 'BallAge
 
       ngrEnvironment.clearHooks();
       ngrWorld.clearAll();
+
+      state.levelName = l.levelName || "Higginsons Revenge"
 
       ngrEnvironment.init($('canvas')[0]);
       if (l.floor) ngrEnvironment.floor();
@@ -172,6 +173,9 @@ angular.module("BallAgent", ['Rectangular', 'ngAudio', 'BallAgentHero', 'BallAge
       _.each(l.columns, m.createColumn);
 
       ngrEnvironment.addHook(tick);
+
+
+      updateState(state);
 
     });
 
