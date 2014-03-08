@@ -108,22 +108,37 @@ angular.module('Rectangular')
 
 				console.log("Options, img",options,img)
 
-				var iterations = options.height / img.height * 2;
+				var iterationsY = options.height / img.height * 2;
 
-				for (iterations; iterations > 0; iterations--) {
+				for (iterationsY; iterationsY > 0; iterationsY--) {
 
-					console.log("Iterating...");
+					var iterationsX = options.width / img.width * 2;
+				//	console.log("Iterating...");
 
 				  var	_imgData = new createjs.Bitmap(options.src || 'img/null.png');
-				  //_imgData.scaleX = 2;
-				  //_imgData.scaleY = 2;
 
 				  _imgData.regX = regX;
-				  _imgData.regY = (options.height) - ((iterations - 1) * img.height);
+				  _imgData.regY = (options.height) - ((iterationsY - 1) * img.height);
 
 				  container.addChild(_imgData);
 
+
+				  for (iterationsX; iterationsX > 0; iterationsX--) {
+
+				  	console.log("Iterating x...");
+
+				    var	_imgData = new createjs.Bitmap(options.src || 'img/null.png');
+
+				    _imgData.regY = (options.height) - ((iterationsY - 1) * img.height);
+				    _imgData.regX = (options.width) - ((iterationsX - 1) * img.width);
+
+				    container.addChild(_imgData);
+
+				  }
+
 				}
+
+
 
 				imgData.snapToPixel = options.snapToPixel;
 
