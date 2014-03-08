@@ -44,7 +44,7 @@ angular.module('BallAgentModels',[])
       options = _.extend(defaults, options);
 
       var platform = ngrBox.shape("box", options);
-      var pBody = ngrWorld.addElement(platform);
+      var pBody = ngrWorld.addElement(platform,options);
 
       pBody.SetUserData({
         isFloor: true
@@ -52,31 +52,11 @@ angular.module('BallAgentModels',[])
 
       ngrDisplay.skin(pBody, options);
 
-      var cycle = 0;
-      var defaultY = options.y;
-
-      if (options.moves) {
-
-		    ngrEnvironment.addHook(function(){
-      		 cycle += Math.PI / 200 / options.movement.period;
-           var phase = options.movement.phaseShift || 0;
-		       var currentY = pBody.GetPosition().y;
-		       var currentX = pBody.GetPosition().x;
-		       var newY = currentY - (Math.sin(cycle + phase) / 50)  * options.movement.shiftY;
-		       var newX = currentX - (Math.sin(cycle + phase) / 50)  * options.movement.shiftX;
-
-		       pBody.SetPosition(new b2Vec2(newX, newY));
-		       pSubBody.SetPosition(new b2Vec2(newX, newY + 0.3));
-		    })
-
-
-		  }
-
       var subOptions = _.clone(options);
 
       subOptions.y += 0.2;
       var platformUnder = ngrBox.shape("box", subOptions);
-      var pSubBody = ngrWorld.addElement(platformUnder);
+      var pSubBody = ngrWorld.addElement(platformUnder,subOptions);
 
       return platform;
     }

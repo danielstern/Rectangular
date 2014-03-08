@@ -118,6 +118,7 @@ angular.module('Rectangular',[])
 				actor.update();
 		})
 
+		ngrWorld.tick();
 		_.each(hooks,function(hook){
 			hook();
 		})

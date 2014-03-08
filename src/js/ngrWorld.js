@@ -13,15 +13,46 @@ angular.module('Rectangular')
 	this.actors = [];
 
 	var gravity = new b2Vec2(0,0);
+	var hooks = [];
 
 	world = new b2World(gravity , true);
 
-
-	this.addElement = function(definition) {
+	this.addElement = function(definition, options) {
 		 var b = world.CreateBody(definition.b);
 		 var f =b.CreateFixture(definition.f);
+
+      if (options && options.moves) {
+		 		options.cycle = 0;
+		    ngrWorld.addHook(function(){
+		    	ngrWorld.cycleBody(b, options);
+		    })
+		  }
+
 		 bodies.push(b);
 		 return b;
+	};
+
+	this.cycleBody = function(b,options) {
+		 options.cycle += Math.PI / 200 / options.movement.period;
+     var phase = options.movement.phaseShift || 0;
+     var currentY = b.GetPosition().y;
+     var currentX = b.GetPosition().x;
+     var newY = currentY - (Math.sin(options.cycle + phase) / 50)  * options.movement.shiftY;
+     var newX = currentX - (Math.sin(options.cycle + phase) / 50)  * options.movement.shiftX;
+
+     b.SetPosition(new b2Vec2(newX, newY));
+    // pSubBody.SetPosition(new b2Vec2(newX, newY + 0.3));
+
+	}
+
+	this.addHook = function(func) {
+		hooks.push(func);
+	}
+
+	this.tick= function() {
+		_.each(hooks,function(l){
+			l();
+		})
 	}
 
 	this.removeElement = function(body) {
