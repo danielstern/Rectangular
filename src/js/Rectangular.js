@@ -1,5 +1,5 @@
 angular.module('Rectangular',[])
-.service('ngrEnvironment',function(ngrWorld,ngrStage,ngrState,ngrBox,ngrDebug,ngrLoop,ngrDisplay){
+.service('ngrEnvironment',function(ngrWorld,ngrStage,$q,ngrState,ngrBox,ngrDebug,ngrLoop,ngrDisplay){
 
 	var world;
 
@@ -39,6 +39,19 @@ angular.module('Rectangular',[])
 	}
 
 	this.blocker = function() {
+
+		var r = $q.defer();
+		$('.blocker-inner').addClass('slide');
+
+		setTimeout(function(){
+		  r.resolve();
+		}, 500);
+
+		setTimeout(function(){
+		  $('.blocker-inner').removeClass('slide');
+		}, 1000);
+
+		return r.promise;
 
 	}
 
