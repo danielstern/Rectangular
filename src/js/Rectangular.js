@@ -55,6 +55,14 @@ angular.module('Rectangular',[])
 
 	}
 
+	this.clearAll = function() {
+	
+			ngrWorld.clearAll();
+			ngrStage.clearAll();
+			ngrLoop.clearHooks();
+	}
+
+
 	this.addHook = ngrLoop.addHook;
 	this.clearHooks = ngrLoop.clearHooks;
 

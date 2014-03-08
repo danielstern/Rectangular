@@ -61,8 +61,6 @@ angular.module('BallAgentModels',[])
       return platform;
     }
 
-
-
     this.createColumn = function(options) {
 
       var defaults = {

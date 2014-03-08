@@ -152,8 +152,8 @@ angular.module("BallAgent", ['Rectangular', 'ngAudio', 'BallAgentHero', 'BallAge
       state.currentLevel++;
       var l = BallAgentLevels.levels[state.currentLevel - 1];
 
-      ngrEnvironment.clearHooks();
-      ngrWorld.clearAll();
+      //ngrEnvironment.clearHooks();
+      ngrEnvironment.clearAll();
 
       state.levelName = l.levelName || "Higginsons Revenge"
 

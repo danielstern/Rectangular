@@ -15,6 +15,10 @@ angular.module('Rectangular')
 
 		this.actors = [];
 
+		this.clearAll = function() {
+			this.stage.removeAllChildren();
+		}
+
 })
 
 .service('ngrActor',function(ngrState){

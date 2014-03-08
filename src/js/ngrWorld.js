@@ -1,7 +1,7 @@
 angular.module('Rectangular')
 /* Creates an instance of the world of the simulation, 
    and provides an interface for it. */
-.service("ngrWorld",function(ngrBox,ngrStage,ngrModels,ngrState,ngrDisplay){
+.service("ngrWorld",function(ngrBox,ngrModels,ngrState,ngrDisplay){
 
 	var world = {};
 	var bodies = [];
@@ -62,7 +62,6 @@ angular.module('Rectangular')
 	this.clearAll = function() {
 		_.each(bodies,function(body){
 			world.DestroyBody(body);
-			ngrStage.stage.removeAllChildren();
 		});
 
 	}
