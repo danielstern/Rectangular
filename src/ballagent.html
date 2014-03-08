@@ -78,7 +78,7 @@
 </div>
 </div>
  <div>
-    <button ng-click="debug = !debug">DEBUG</button>
+    <button ng-click="toggleDebug()">DEBUG</button>
     <div>
 <button ng-click="gotoLevel(1)">LVL 1</button>
 <button ng-click="gotoLevel(2)">LVL 2</button>
@@ -113,9 +113,8 @@
 <script>
 angular.module("BallAgentApp",['BallAgent','ngAudio'])
 
-.controller('myDemoCtrl',function($scope,$element,ngAudio,BallAgent) {
+.controller('myDemoCtrl',function($scope,$element,ngrEnvironment,ngAudio,BallAgent) {
 
-    $scope.debug = true;
 
     BallAgent.init($('#gameCanvas')[0]);   
 
@@ -123,6 +122,10 @@ angular.module("BallAgentApp",['BallAgent','ngAudio'])
 
      BallAgent.gotoLevel(level);
 
+    }
+
+    $scope.toggleDebug = function() {
+        ngrEnvironment.toggleDebug();
     }
 
     BallAgent.onStateChange(function(){

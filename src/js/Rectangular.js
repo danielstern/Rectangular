@@ -49,6 +49,10 @@ angular.module('Rectangular',[])
 	this.room = ngrWorld.room;
 	this.leftWall = ngrWorld.leftWall;
 	this.rightWall = ngrWorld.rightWall;
+
+	this.toggleDebug = function() {
+		 $(debugCanvas).toggleClass('invisible');
+	}
 	
 
 	this.debug = function() {
