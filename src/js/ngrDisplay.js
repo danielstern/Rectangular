@@ -126,14 +126,6 @@ angular.module('Rectangular')
 		var regX = 0;
 		var regY = 0;
 
-		options.pixelsWidth = options.width// * SCALE;
-		options.pixelsHeight = options.height// * SCALE;
-
-//		console.log("Options, img",options,img)
-
-		var iterationsY;
-		var iterationsX;
-
 		var config = {};
 		config.totalColumns = options.width * 2 / img.width;
 		config.totalRows = options.height * 2/ img.height;
@@ -149,11 +141,11 @@ angular.module('Rectangular')
 			this.height;
 		}
 
-		for (var i = 0; i < config.totalColumns; i++) {
-			for (var k = 0; k < config.totalRows; k++) {
+		for (var i = 0; i < config.totalRows; i++) {
+			for (var k = 0; k < config.totalColumns; k++) {
 					var t = new Tile();
-					t.x = i * config.img.width;
-					t.y = k * config.img.height;
+					t.x = (i * config.img.width) + config.img.width / 2;
+					t.y = (k * config.img.height) + config.img.width / 2;
 
 					t.width = config.img.width;
 					t.height = config.img.height;
@@ -171,35 +163,11 @@ angular.module('Rectangular')
 			_imgData.regX = tile.y;
 
 			container.addChild(_imgData);
-		})
+		});
 
-		/*
-		iterationsY= options.height / img.height;
+		container.regX = - options.width;
+		container.regY = - options.height;
 
-		for (iterationsY; iterationsY > 0; iterationsY--) {
-
-			iterationsX = options.width / img.width;
-
-		  var	_imgData = new createjs.Bitmap(options.src || 'img/null.png');
-
-		  _imgData.regX = regX;
-		  _imgData.regY = regY - ((iterationsY - 1) * img.height);
-		  //_imgData.regY = (options.height) - ((iterationsY - 1) * img.height);
-
-		  container.addChild(_imgData);
-
-		  for (iterationsX; iterationsX > 0; iterationsX--) {
-
-		    var	_imgData = new createjs.Bitmap(options.src || 'img/null.png');
-
-		    _imgData.regY = regY; - ((iterationsY - 1) * img.height);
-		    _imgData.regX = regX - ((iterationsX - 1) * img.width);
-
-		    container.addChild(_imgData);
-
-		  }
-
-		}*/
 
 		return container;
 
