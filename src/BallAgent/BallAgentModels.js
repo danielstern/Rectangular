@@ -72,8 +72,10 @@ angular.module('BallAgentModels',[])
 
 		  }
 
-      options.y += 0.2;
-      var platformUnder = ngrBox.shape("box", options);
+      var subOptions = _.clone(options);
+
+      subOptions.y += 0.2;
+      var platformUnder = ngrBox.shape("box", subOptions);
       var pSubBody = ngrWorld.addElement(platformUnder);
 
       return platform;

@@ -127,12 +127,21 @@ angular.module('Rectangular')
 		var regY = 0;
 
 		var config = {};
-		config.totalColumns = options.width * 2 / img.width;
-		config.totalRows = options.height * 2/ img.height;
+		config.totalColumns = Math.ceil(options.width * 2 / img.width);
+		config.totalRows = Math.ceil(options.height * 2 / img.height);
 		config.totalTiles = config.totalColumns * config.totalRows;
 		config.tiles = [];
 		config.options = options;
 		config.img = img;
+
+		config.totalBitmapWidth = config.totalColumns * img.width / 2;
+		config.totalBitmapHeight = config.totalRows * img.height / 2;
+
+		config.objectHeight = options.height;
+		config.objectWidth = options.width;
+
+		config.scaleX = config.objectWidth / config.totalBitmapWidth;
+		config.scaleY = config.objectHeight / config.totalBitmapHeight;
 
 		function Tile() {
 			this.x;
@@ -141,14 +150,15 @@ angular.module('Rectangular')
 			this.height;
 		}
 
-		for (var i = 0; i < config.totalRows; i++) {
-			for (var k = 0; k < config.totalColumns; k++) {
+		for (var i = 0; i < config.totalColumns; i++) {
+			for (var k = 0; k < config.totalRows; k++) {
 					var t = new Tile();
-					t.x = (i * config.img.width) + config.img.width / 2;
-					t.y = (k * config.img.height) + config.img.width / 2;
 
-					t.width = config.img.width;
-					t.height = config.img.height;
+					t.x = (i * config.img.width) + config.img.width;
+					t.y = (k * config.img.height) + config.img.height;
+
+					t.scaleX = config.scaleX;
+					t.scaleY = config.scaleY;
 					t.src = config.options.src;
 					config.tiles.push(t);
 			}
@@ -159,14 +169,22 @@ angular.module('Rectangular')
 		_.each(config.tiles,function(tile){
 			var	_imgData = new createjs.Bitmap(tile.src || 'img/null.png');
 
-			_imgData.regY = tile.x;
-			_imgData.regX = tile.y;
+			_imgData.regY = tile.y;
+			_imgData.regX = tile.x;
+
+			_imgData.scaleX = t.scaleX;
+			_imgData.scaleY = t.scaleY;
 
 			container.addChild(_imgData);
 		});
 
 		container.regX = - options.width;
+		window.c = container;
+	//  container.regX = container.getBounds().width / 2;
 		container.regY = - options.height;
+//		container.regY = container.getBounds().height / 2;
+
+		console.log("Container?",container);
 
 
 		return container;
