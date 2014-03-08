@@ -2,12 +2,20 @@
  .service('ngrEnvironment', function(ngrWorld, ngrStage, $q, ngrState, ngrBox, ngrDebug, ngrLoop, ngrDisplay) {
 
     var world,
-    	envHeight,
-    	envWidth,
-    	canvas,
-    	env = {},
-    	ngEnv = this,
-    	SCALE = 30;
+      envHeight,
+      envWidth,
+      canvas,
+      env = {},
+      ngEnv = this,
+      SCALE = 30;
+
+    this.addHook = ngrLoop.addHook;
+    this.clearHooks = ngrLoop.clearHooks;
+
+    this.floor = ngrWorld.floor;
+    this.room = ngrWorld.room;
+    this.leftWall = ngrWorld.leftWall;
+    this.rightWall = ngrWorld.rightWall;
 
     this.init = function(_canvas) {
       env.height = _canvas.height;
@@ -60,15 +68,6 @@
       ngrStage.clearAll();
       ngrLoop.clearHooks();
     }
-
-
-    this.addHook = ngrLoop.addHook;
-    this.clearHooks = ngrLoop.clearHooks;
-
-    this.floor = ngrWorld.floor;
-    this.room = ngrWorld.room;
-    this.leftWall = ngrWorld.leftWall;
-    this.rightWall = ngrWorld.rightWall;
 
     this.toggleDebug = function() {
       $(debugCanvas).toggleClass('invisible');

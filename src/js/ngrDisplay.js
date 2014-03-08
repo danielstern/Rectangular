@@ -43,8 +43,8 @@ angular.module('Rectangular')
 
       if (options.radius) {
 
-        options.width = options.radius * 2 * env.SCALE;
-        options.height = options.radius * 2 * env.SCALE;
+        options.width = options.radius * env.SCALE;
+        options.height = options.radius * env.SCALE;
 
       } else {
 
@@ -78,8 +78,8 @@ angular.module('Rectangular')
 
         if (options.bg != 'tiled') {
 
-          var scaleY = options.height / img.height;
-          var scaleX = options.width / img.width;
+          var scaleY = options.height / img.height * 2;
+          var scaleX = options.width / img.width * 2;
 
           var regY = (img.height) / 2;
           var regX = (img.width) / 2;

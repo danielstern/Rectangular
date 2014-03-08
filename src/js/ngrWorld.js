@@ -20,11 +20,12 @@ angular.module('Rectangular')
 	this.addElement = function(definition, options) {
 		 var b = world.CreateBody(definition.b);
 		 var f =b.CreateFixture(definition.f);
+		 var _options = options;
 
       if (options && options.moves) {
 		 		options.cycle = 0;
 		    ngrLoop.addHook(function(){
-		    	ngrWorld.cycleBody(b, options);
+		    	ngrWorld.cycleBody(b, _options);
 		    })
 		  }
 
