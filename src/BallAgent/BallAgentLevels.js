@@ -1,15 +1,17 @@
-angular.module('BallAgent')
+﻿angular.module('BallAgent')
 .service('BallAgentLevels',function(){
 	this.levels = [
 		{
 			lWall:true,
 			rWall:true,
-			floor:true
+			floor:true,
+      levelName:"Infiltration",
 		},
 		{
 			lWall:true,
 			rWall:true,
 			floor:true,
+      levelName:"A Piece of Cake",
       exit:{
         y:12,
         x:4
@@ -32,6 +34,7 @@ angular.module('BallAgent')
       lWall:true,
       rWall:true,
       floor:true,
+      levelName:"Travelling",
       exit:{
         y:9 ,
         x:17
@@ -47,11 +50,6 @@ angular.module('BallAgent')
           y: 15,
           width: 2
         },
-        {
-          x: 17,
-          y: 11,
-          width: 2
-        }
       ]
     },
     {
@@ -59,6 +57,7 @@ angular.module('BallAgent')
       lWall:false,
       rWall:false,
       floor:false,
+      levelName:"Cerberus",
       exit:{
         y:10,
         x:17
@@ -86,6 +85,7 @@ angular.module('BallAgent')
       lWall:false,
       rWall:false,
       floor:false,
+      levelName:"Delta Strike",
       exit:{
         y:9,
         x:20
@@ -118,6 +118,7 @@ angular.module('BallAgent')
       lWall:true,
       rWall:false,
       floor:false,
+      levelName:"A Leap of Faith",
       exit:{
         y:9.3,
         x:19
@@ -136,6 +137,7 @@ angular.module('BallAgent')
       lWall:false,
       rWall:false,
       floor:false,
+      levelName:"Catch-22",
       exit:{
         y:9.3,
         x:19
@@ -164,6 +166,7 @@ angular.module('BallAgent')
       lWall:false,
       rWall:false,
       floor:false,
+      levelName:"Geronimo!",
       exit:{
         y:11.3,
         x:19
@@ -183,6 +186,7 @@ angular.module('BallAgent')
       lWall:false,
       rWall:false,
       floor:false,
+      levelName:"Stairway to Heaven",
       exit:{
         y:12,
         x:20
@@ -217,6 +221,7 @@ angular.module('BallAgent')
       lWall:true,
       rWall:true,
       floor:true,
+      levelName:"Movin’ On Up",
       background:'img/fog-bg.jpg',
       exit:{
         y:12,
@@ -245,6 +250,7 @@ angular.module('BallAgent')
        rWall:false,
        floor:false,
        background:'img/fog-bg.jpg',
+       levelName:"Good Luck",
        exit:{
          y:10,
          x:20
@@ -271,6 +277,7 @@ angular.module('BallAgent')
         lWall:false,
         rWall:false,
         floor:false,
+        levelName:"Stairway to Heaven",
         background:'img/fog-bg.jpg',
         exit:{
           y:4,
@@ -305,6 +312,7 @@ angular.module('BallAgent')
          lWall:false,
          rWall:false,
          floor:false,
+         levelName:"On a Roll",
          background:'img/fog-bg.jpg',
          exit:{
            y:3,
@@ -344,6 +352,7 @@ angular.module('BallAgent')
        lWall:true,
        rWall:true,
        floor:false,
+       levelName:"The One with the Moving Platform",
        background:'img/fog-bg.jpg',
        exit:{
          y:13,
@@ -376,6 +385,7 @@ angular.module('BallAgent')
         rWall:true,
         floor:false,
         background:'img/fog-bg.jpg',
+        levelName:"Two’s Company",
         exit:{
           y:11,
           x:22
@@ -420,6 +430,7 @@ angular.module('BallAgent')
          lWall:true,
          rWall:true,
          floor:false,
+         levelName:"A View to a Kill",
          background:'img/fog-bg.jpg',
          exit:{
            y:11,
@@ -452,6 +463,7 @@ angular.module('BallAgent')
         lWall:true,
         rWall:true,
         floor:false,
+        levelName:"Up the Downstairs",
         background:'img/fog-bg.jpg',
         exit:{
           y:4,
@@ -493,6 +505,7 @@ angular.module('BallAgent')
          lWall:false,
          rWall:false,
          background:'img/fog-bg.jpg',
+         levelName:"Midnight Exchange",
          floor:false,
          exit:{
            y:4,
@@ -534,6 +547,7 @@ angular.module('BallAgent')
           lWall:false,
           rWall:true,
           floor:false,
+          levelName:"A Game of Balls",
           background:'img/fog-bg.jpg',
           exit:{
             y:12,
