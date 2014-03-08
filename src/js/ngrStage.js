@@ -1,10 +1,12 @@
 angular.module('Rectangular')
-.service('ngrStage',function(){
+.service('ngrStage',function(ngrLoop){
 
 		var canvas = $('canvas')[0];
 
 	  this.stage = new Stage(canvas);
 		this.stage.snapPixelsEnabled = true;
+
+		var stage = this.stage;
 
 		var elem = canvas;
 		var ctx = $(elem).get(0).getContext('2d');
@@ -14,10 +16,22 @@ angular.module('Rectangular')
 		window._stage = this.stage;
 
 		this.actors = [];
+		var actors = this.actors;
 
 		this.clearAll = function() {
 			this.stage.removeAllChildren();
 		}
+
+		ngrLoop.addPermanentHook(function(){
+
+		//	console.log("Updating... ");
+			stage.update();
+			ctx.save();
+			ctx.restore();
+			_.each(actors,function(actor){
+					actor.update();
+			})
+		})
 
 })
 

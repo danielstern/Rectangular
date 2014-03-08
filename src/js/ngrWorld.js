@@ -1,7 +1,7 @@
 angular.module('Rectangular')
 /* Creates an instance of the world of the simulation, 
    and provides an interface for it. */
-.service("ngrWorld",function(ngrBox,ngrModels,ngrState,ngrDisplay){
+.service("ngrWorld",function(ngrBox,ngrModels,ngrState,ngrDisplay,ngrLoop){
 
 	var world = {};
 	var bodies = [];
@@ -23,7 +23,7 @@ angular.module('Rectangular')
 
       if (options && options.moves) {
 		 		options.cycle = 0;
-		    ngrWorld.addHook(function(){
+		    ngrLoop.addHook(function(){
 		    	ngrWorld.cycleBody(b, options);
 		    })
 		  }
@@ -46,14 +46,9 @@ angular.module('Rectangular')
 	}
 
 	this.addHook = function(func) {
-		hooks.push(func);
+ 		throw new Error();
 	}
 
-	this.tick= function() {
-		_.each(hooks,function(l){
-			l();
-		})
-	}
 
 	this.removeElement = function(body) {
 		 world.DestroyBody(body);
@@ -62,6 +57,7 @@ angular.module('Rectangular')
 	this.clearAll = function() {
 		_.each(bodies,function(body){
 			world.DestroyBody(body);
+			bodies = [];
 		});
 
 	}
@@ -73,6 +69,13 @@ angular.module('Rectangular')
 			env = ngrState.getProperties();
 	 	 
 	 	world = new b2World(gravity , doSleep);
+
+	 	ngrLoop.addHook(function(){
+	 	//	ctx.save();
+	 		world.Step(1/60,10,10)
+	 		world.ClearForces();
+	 		world.DrawDebugData();
+	 	})
 
 	 	return world;
 	}

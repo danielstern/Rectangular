@@ -164,7 +164,7 @@ angular.module('Rectangular')
 			}
 		}
 
-		console.log("Config?",config);
+	//	console.log("Config?",config);
 
 		_.each(config.tiles,function(tile){
 			var	_imgData = new createjs.Bitmap(tile.src || 'img/null.png');
@@ -184,7 +184,7 @@ angular.module('Rectangular')
 		container.regY = - options.height;
 //		container.regY = container.getBounds().height / 2;
 
-		console.log("Container?",container);
+//		console.log("Container?",container);
 
 
 		return container;
@@ -193,7 +193,7 @@ angular.module('Rectangular')
 
 	this.background = function(src) {
 		var	_imgData = new createjs.Bitmap(src || 'img/null.png');
-		console.log("Backgrounding, ",src);
+		//console.log("Backgrounding, ",src);
 		ngrStage.stage.addChild(_imgData);
 	}
 })

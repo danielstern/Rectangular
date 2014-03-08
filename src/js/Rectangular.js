@@ -106,34 +106,33 @@ angular.module('Rectangular',[])
 })
 
 
-.service('ngrLoop', function(ngrWorld, ngrStage){
+.service('ngrLoop', function(){
 	var l = this;
-	var ctx = ngrStage.context;
+//	var ctx = ngrStage.context;
 	var speed = 60;
 	var loop;
 	var world;
 	var hooks = [];
+	var permanentHooks = [];
 
 	this.tick = function() {
-		world = ngrWorld.getWorld();
-		ctx.save();
-		world.Step(1/60,10,10)
-		world.ClearForces();
-		world.DrawDebugData();
-		ctx.restore();
-		ngrStage.stage.update();
-		_.each(ngrStage.actors,function(actor){
-				actor.update();
-		})
 
-		ngrWorld.tick();
 		_.each(hooks,function(hook){
 			hook();
 		})
+		_.each(permanentHooks,function(hook){
+			hook();
+		})
+
+		
 	}
 
 	this.addHook = function(func) {
 		hooks.push(func);
+	};	
+
+	this.addPermanentHook = function(func) {
+		permanentHooks.push(func);
 	};
 
 	this.clearHooks = function() {
