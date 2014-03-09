@@ -106,7 +106,7 @@ angular.module('Rectangular')
           var actor = ngrActor.newActor(body, container);
           ngrStage.actors.push(actor);
 
-          window.imgData = imgData;
+       //   window.imgData = imgData;
 
         }
 
@@ -181,7 +181,35 @@ angular.module('Rectangular')
     }
 
     this.background = function(src) {
-      var _imgData = new createjs.Bitmap(src || 'img/null.png');
-      ngrStage.stage.addChild(_imgData);
+      var bgData = new createjs.Bitmap(src || 'img/null.png');
+      
+
+      function checkImageReady() {
+
+        var img = bgData.image;
+        if (img.width) {
+          return true;
+        } else {
+          return false;
+        }
+      };
+
+
+      var awaitBgInterval = setInterval(function() {
+        if (checkImageReady()) {
+
+          clearInterval(awaitBgInterval);
+          initImg();
+        }
+      }, 1);
+      
+
+      function initImg() {
+
+        ngrStage.stage.addChildAt(bgData);
+        //ngrStage.stage.setChildIndex(c, 0);
+        window.stage = ngrStage.stage;
+
+      }
     }
   })
