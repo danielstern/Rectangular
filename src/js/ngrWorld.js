@@ -110,9 +110,10 @@ angular.module('Rectangular')
 		options = options || {};
 
 		var floor = ngrModels.floor(options);
-		options.src = 'img/tile.png';
-		options.bg = 'tiled';
-		options.height = 0.3;
+		options = floor.options;
+	//	options.src = 'img/tile.png';
+	//	options.bg = 'tiled';
+	//	options.height = 0.3;
 		var body = ngrWorld.addElement(floor);
 		body.SetUserData({isFloor:true})
 		ngrDisplay.skin(body, options);
@@ -123,10 +124,11 @@ angular.module('Rectangular')
 		options = options || {};
 
 		var leftWall = ngrModels.leftWall(options);
+		options = leftWall.options;
 		var lBody = ngrWorld.addElement(leftWall);
-		options.src = 'img/tile.png';
-		options.bg = 'tiled';
-		options.width = 0.3;
+		//options.src = 'img/tile.png';
+		//options.bg = 'tiled';
+		//options.width = 0.3;
 		ngrDisplay.skin(lBody, options);
 
 	}
@@ -134,11 +136,13 @@ angular.module('Rectangular')
 	this.rightWall = function(options) {
 
 		options = options || {};
-		
-		var rBody = ngrWorld.addElement(ngrModels.rightWall(options));
-		options.src = 'img/tile.png';
-		options.bg = 'tiled';
-		options.width = 0.3;
+
+		var rightWall = ngrModels.rightWall(options);		
+		options = rightWall.options;
+		var rBody = ngrWorld.addElement(rightWall);
+		//options.src = 'img/tile.png';
+		//options.bg = 'tiled';
+		//options.width = 0.3;
 		ngrDisplay.skin(rBody, options);
 
 	}

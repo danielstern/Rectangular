@@ -14,6 +14,8 @@ angular.module('Rectangular')
 
 		var leftWall = ngrBox.shape('box',options);
 
+		leftWall.options = options;
+
 		return leftWall;
 
 	}
@@ -28,6 +30,8 @@ angular.module('Rectangular')
 			options.height = env.height / env.SCALE;
 			options.x = env.width / env.SCALE;
 			var rightWall = ngrBox.shape('box',options);
+
+			rightWall.options = options;
 
 			return rightWall;
 
@@ -44,6 +48,7 @@ angular.module('Rectangular')
 		options.width = env.width / env.SCALE;
 		
 		var shape = ngrBox.shape('box',options);
+		shape.options = options;
 		return shape;
 
 	}
@@ -53,11 +58,15 @@ angular.module('Rectangular')
 	this.wall = {
 			width: 0.3,
 			position:'static',
-			x:0
+			x:0,
+			src:'img/tile.png',
+			bg:'tiled'
 		};
 
 	this.floor = {
 		height: 0.3,
 		position:'static',
+		src:'img/tile-blue.png',
+		bg:'tiled'
 	}
 })
