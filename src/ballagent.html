@@ -76,6 +76,12 @@
         <audio id='stage1' src='audio/stage1.mp3' loop=0>
         </audio>
 
+        <audio id='dead' src='audio/dead.mp3' loop=0>
+        </audio>
+
+        <audio id='victory' src='audio/victory.mp3' loop=0>
+        </audio>
+
 
         <div class='main'>
             <canvas ng-stage id='gameCanvas' width='750' height='500' style="background-color:#333;"></canvas>
@@ -94,6 +100,11 @@
             <div class='game-over-screen hidden'>
                 <div class='logo-star-middle animated'></div>
                 <div class='logo-gameover animated'></div>
+                <div class='blinder'></div>
+            </div>
+            <div class='win-screen hidden'>
+                <div class='logo-star-middle animated'></div>
+                <div class='logo-win animated'></div>
                 <div class='blinder'></div>
             </div>
             <div class='hud'>
@@ -209,7 +220,7 @@
         BallAgent.onGameOver(function() {
 
          $('.game-over-screen')
-            .removeClass('hidden untouchable')
+            .removeClass('hidden untouchable fadeOut')
             .addClass('animated fadeIn')
             .on('click',(handleGameOverComplete));
 
@@ -222,9 +233,13 @@
             .addClass('animated slideInLeft');
 
             ngAudio.stop('stage1');
-            ngAudio.play('menu');
+            ngAudio.play('dead');
 
             function handleGameOverComplete() {
+
+                ngAudio.stop('dead');
+                ngAudio.play('menu');
+
                 Mousetrap.unbind(['enter','space'], handleGameOverComplete);
                 $('.game-over-screen')
                    .removeClass('fadeIn')
@@ -237,6 +252,45 @@
             }
 
         });
+
+        BallAgent.onWin(function() {
+
+         $('.win-screen')
+            .removeClass('hidden untouchable fadeOut')
+            .addClass('animated fadeIn')
+            .on('click',(handleGameOverComplete));
+
+            Mousetrap.bind(['enter','space'], handleGameOverComplete);
+
+            $('.logo-win')
+            .addClass('animated slideInDown');
+
+            $('.logo-middle-star')
+            .addClass('animated slideInLeft');
+
+            ngAudio.stop('stage1');
+            //ngAudio.play('menu');
+           ngAudio.play('victory');
+
+            function handleGameOverComplete() {
+
+                 ngAudio.stop('victory');
+                 //ngAudio.play('menu');
+                ngAudio.play('menu');
+
+                Mousetrap.unbind(['enter','space'], handleGameOverComplete);
+                $('.win-screen')
+                   .removeClass('fadeIn')
+                   .addClass('animated fadeOut untouchable')
+                   .off('click',(handleGameOverComplete));
+
+                $('.splash-screen').children().addClass('animated');
+                   $('.splash-screen').removeClass('fadeOut untouchable')
+                     .addClass('animated fadeIn');
+            }
+
+        });
+
 
         $scope.newGame = function() {
 

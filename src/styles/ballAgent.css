@@ -1,4 +1,4 @@
-.blinder, .logo-text, .logo-star, .logo-star-middle, .logo-controls, .logo-legal, .logo-start, .logo-gameover {
+.blinder, .logo-text, .logo-star, .logo-win, .logo-star-middle, .logo-controls, .logo-legal, .logo-start, .logo-gameover {
 	display: block;
 	width: 750px;
 	height: 500px;
@@ -38,6 +38,14 @@
 	
 	z-index: 10;
 	background-image: url('../img/splash-middle-star.png');
+	background-size: contain;
+	
+}
+
+.logo-win {
+	
+	z-index: 11;
+	background-image: url('../img/you-win.png');
 	background-size: contain;
 	
 }
@@ -88,7 +96,7 @@ html {
 	color: #111;
 }
 
-.splash-screen, .game-over-screen {
+.splash-screen, .game-over-screen,.win-screen {
 	z-index: 8;
 	position: absolute;
 	top: 0;

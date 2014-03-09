@@ -5,6 +5,7 @@ angular.module("BallAgent", ['Rectangular', 'ngAudio', 'BallAgentHero', 'BallAge
     var state = this.state;
     var stateChangeListeners = [];
     var gameOverListeners = [];
+    var winListeners = [];
     var airborneTimer = 3;
     var jumpReleasedTimer = 15;
     var LIVES = 2;
@@ -26,6 +27,10 @@ angular.module("BallAgent", ['Rectangular', 'ngAudio', 'BallAgentHero', 'BallAge
 
     this.onGameOver = function(listener) {
       gameOverListeners.push(listener);
+    }
+
+    this.onWin = function(listener) {
+      winListeners.push(listener);
     }
 
     this.gotoLevel = function(level) {
@@ -90,6 +95,19 @@ angular.module("BallAgent", ['Rectangular', 'ngAudio', 'BallAgentHero', 'BallAge
         ngrEnvironment.clearAll();
       })
     }
+
+    function win() {
+      ngrEnvironment.stop();
+      _.each(winListeners, function(l) {
+        l(state);
+      });
+
+      ngrEnvironment.blocker()
+      .then(function(){
+        ngrEnvironment.clearAll();
+      })
+    }
+
 
 
     function newGame() {
@@ -160,6 +178,11 @@ angular.module("BallAgent", ['Rectangular', 'ngAudio', 'BallAgentHero', 'BallAge
         .then(function() {
           state.currentLevel++;
           var l = BallAgentLevels.levels[state.currentLevel - 1];
+
+          if (!l) {
+             win();
+             return;
+          }
 
           ngrEnvironment.clearAll();
           if (c) clearTimeout(c);
