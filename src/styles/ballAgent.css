@@ -1,4 +1,4 @@
-.blinder, .logo-text, .logo-star, .logo-controls, .logo-legal, .logo-start {
+.blinder, .logo-text, .logo-star, .logo-star-middle, .logo-controls, .logo-legal, .logo-start, .logo-gameover {
 	display: block;
 	width: 750px;
 	height: 500px;
@@ -20,10 +20,24 @@
 	
 }
 
+.logo-gameover {
+	background-image: url('../img/splash-gameover.png');
+	background-size: contain;
+	z-index: 10;
+}
+
 .logo-star {
 	
 	z-index: 9;
 	background-image: url('../img/splash-star.png');
+	background-size: contain;
+	
+}
+
+.logo-star-middle {
+	
+	z-index: 10;
+	background-image: url('../img/splash-middle-star.png');
 	background-size: contain;
 	
 }
@@ -74,7 +88,7 @@ html {
 	color: #111;
 }
 
-.splash-screen {
+.splash-screen, .game-over-screen {
 	z-index: 8;
 	position: absolute;
 	top: 0;
@@ -85,6 +99,14 @@ html {
 	width: 750px;
 	height: 500px;
 	overflow: hidden;
+}
+
+.game-over-screen {
+	
+}
+
+.hidden {
+	display: none;
 }
 .main-menu {
 	position: absolute;

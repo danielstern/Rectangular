@@ -62,7 +62,7 @@
         <audio id='exit' src='audio/exit.mp3'>
         </audio>
 
-        <audio id='jump' src='audio/jump2.wav'>
+        <audio id='jump' src='audio/jump2.mp3'>
         </audio>
 
 
@@ -89,11 +89,13 @@
                 <div class='logo-controls animated slideInRight'></div>
                 <div class='start-hit' ng-click="newGame()"></div>
                 <div class='logo-start animated slideInRight'></div>
-                <div class='main-menu'>
-
-                    
-
-                </div>
+                <div class='main-menu'></div>
+            </div>    
+            <div class='game-over-screen hidden'>
+                <div class='logo-star-middle animated'></div>
+                <div class='logo-gameover animated'></div>
+                <div class='blinder'></div>
+            </div>
             </div>
             <div class='hud'>
                 <!--<p>Level: {{level}}</p>-->
@@ -205,12 +207,34 @@
         });
 
         BallAgent.onGameOver(function() {
-            $('.splash-screen').children().addClass('animated');
-            $('.splash-screen').removeClass('fadeOut untouchable')
-                .addClass('animated fadeIn');
+
+         $('.game-over-screen')
+            .removeClass('hidden untouchable')
+            .addClass('animated fadeIn')
+            .on('click',(handleGameOverComplete));
+
+            Mousetrap.bind(['enter','space'], handleGameOverComplete);
+
+            $('.logo-gameover')
+            .addClass('animated slideInDown');
+
+            $('.logo-middle-star')
+            .addClass('animated slideInLeft');
 
             ngAudio.stop('stage1');
             ngAudio.play('menu');
+
+            function handleGameOverComplete() {
+                Mousetrap.unbind(['enter','space'], handleGameOverComplete);
+                $('.game-over-screen')
+                   .removeClass('fadeIn')
+                   .addClass('animated fadeOut untouchable')
+                   .off('click',(handleGameOverComplete));
+
+                $('.splash-screen').children().addClass('animated');
+                   $('.splash-screen').removeClass('fadeOut untouchable')
+                     .addClass('animated fadeIn');
+            }
 
         });
 
