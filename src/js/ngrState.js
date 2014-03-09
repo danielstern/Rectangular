@@ -16,5 +16,7 @@ angular.module('Rectangular')
       throw new Error("Attempting to access undefined properties.")
     }
     return properties;
-  }
+  };
+
+  this.getState = this.getProperties;
 })

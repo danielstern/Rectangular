@@ -206,8 +206,13 @@ angular.module('Rectangular')
 
       function initImg() {
 
-        ngrStage.stage.addChildAt(bgData);
+        var env = ngrState.getState();
         //ngrStage.stage.setChildIndex(c, 0);
+        var scaleX = env.width/ bgData.image.width * 1.2;
+        bgData.scaleX = scaleX;
+        bgData.scaleY = scaleX;
+        
+        ngrStage.stage.addChildAt(bgData);
         window.stage = ngrStage.stage;
 
       }
