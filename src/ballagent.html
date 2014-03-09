@@ -53,7 +53,7 @@
     </head>
 
     <body>
-        <audio id='themesong' src='!audio/ballagent.mp3' loop=0>
+        <audio id='themesong' src='audio/ballagent.mp3' loop=0>
         </audio>
 
         <audio id='die' src='audio/fall.mp3'>
@@ -150,10 +150,8 @@
             $scope.level = BallAgent.state.currentLevel;
             $scope.lives = BallAgent.state.lives;
             $scope.levelName = BallAgent.state.levelName;
-            try {
+            if(!$scope.$$phase) {
                 $scope.$apply();
-            } catch (e) {
-
             }
 
         });

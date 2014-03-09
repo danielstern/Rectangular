@@ -10,7 +10,7 @@ angular.module('Rectangular')
 	var env;
 
 	this.SCALE = 30;
-	this.actors = [];
+	var elements = [];
 
 	var gravity = new b2Vec2(0,0);
 	var hooks = [];
@@ -20,20 +20,20 @@ angular.module('Rectangular')
 	this.addElement = function(definition, options) {
 		 var b = world.CreateBody(definition.b);
 		 var f =b.CreateFixture(definition.f);
-		 var _options = options;
 
-      if (options && options.moves) {
-		 		options.cycle = 0;
-		    ngrLoop.addHook(function(){
-		    //	ngrWorld.cycleBody(b, _options);
-		    })
-		  }
+		 options = options || {};
+
+		 options.cycle = 0;
+		 b.options = options;
 
 		 bodies.push(b);
 		 return b;
 	};
 
-	this.cycleBody = function(b,options) {
+	this.cycleBody = function(b) {
+
+		 var options = b.options;
+
 		 options.cycle += Math.PI / 200 / options.movement.period;
      var phase = options.movement.phaseShift || 0;
      var currentY = b.GetPosition().y;
@@ -53,6 +53,7 @@ angular.module('Rectangular')
 
 	this.removeElement = function(body) {
 		 world.DestroyBody(body);
+
 	}
 
 	this.clearAll = function() {
@@ -76,6 +77,17 @@ angular.module('Rectangular')
 	 		world.Step(1/60,10,10)
 	 		world.ClearForces();
 	 		world.DrawDebugData();
+
+	 		_.each(bodies, function(body){
+
+		      if (body.options && body.options.moves) {
+				 		
+				    	ngrWorld.cycleBody(body);
+				   
+				  }
+
+
+	 		})
 	 	})
 
 	 	return world;
