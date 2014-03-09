@@ -1,193 +1,189 @@
 angular.module("BallAgent", ['Rectangular', 'ngAudio', 'BallAgentHero', 'BallAgentModels'])
-.service('BallAgent', function (BallAgentLevels, BallAgentHero, BallAgentModels, ngAudio, ngrEnvironment, ngrDisplay, ngrBox, ngrWorld) {
+  .service('BallAgent', function(BallAgentLevels, BallAgentHero, BallAgentModels, ngAudio, ngrEnvironment, ngrDisplay, ngrBox, ngrWorld) {
 
-  this.state = {};
-  var state = this.state;
-  var stateChangeListeners = [];
-  var gameOverListeners = [];
-  var airborneTimer = 3;
-  var jumpReleasedTimer = 15;
-  var m = BallAgentModels;
-  var hero,
-    exit,
-    controls,
-    jumpReleased = true;
+    this.state = {};
+    var state = this.state;
+    var stateChangeListeners = [];
+    var gameOverListeners = [];
+    var airborneTimer = 3;
+    var jumpReleasedTimer = 15;
+    var m = BallAgentModels;
+    var hero,
+      exit,
+      controls,
+      jumpReleased = true;
 
-  this.onStateChange = function (listener) {
-    stateChangeListeners.push(listener);
-  }
-
-  function updateState() {
-    _.each(stateChangeListeners, function (l) {
-      l(state);
-    })
-  }
-
-  this.onGameOver = function (listener) {
-    gameOverListeners.push(listener);
-  }
-
-
-  this.init = function (canvas, debugCanvas) {
-
-    state.currentLevel = 0;
-    state.lives = 3;
-    state.score = 0;
-    this.gotoLevel = function (level) {
-      state.currentLevel = level - 1;
-      nextLevel();
+    this.onStateChange = function(listener) {
+      stateChangeListeners.push(listener);
     }
 
-  }
-
-  function bindControls() {
-    
-    var heroState = BallAgentHero.getState();
-
-    Mousetrap.bind({
-      'd': function () {
-        heroState.goingRight = true;
-      },
-      'a': function () {
-        heroState.goingLeft = true;
-      },
-      'w': function () {
-        if (!jumpReleased) return;
-        heroState.isJumping = true;
-        jumpReleasedTimer = 15;
-        jumpReleased = false;
-      },
-    }, 'keydown');
-
-    Mousetrap.bind({
-      'd': function () {
-        heroState.goingRight = false;
-      },
-      'a': function () {
-        heroState.goingLeft = false;
-      },
-      'w': function () {
-        heroState.isJumping = false;
-        jumpReleased = true;
-      },
-    }, 'keyup');
-
-  }
-
-  function handleDeath() {
-    state.lives--;
-
-    if (state.lives >= 0) {
-      state.currentLevel--;
-      nextLevel();
-    } else {
-      gameOver();
-    }
-  }
-
-  function gameOver() {
-    ngrEnvironment.stop();
-    _.each(gameOverListeners, function (l) {
-      l(state);
-    });
-  }
-
-
-  function newGame() {
-    state.lives = 3;
-    state.currentLevel = 0;
-    nextLevel();
-  }
-
-  this.newGame = newGame;
-
-  function tick() {
-
-    var heroState = BallAgentHero.getState(),
-      position = BallAgentHero.entity.GetPosition(),
-      contacts = BallAgentHero.entity.GetContactList();
-
-    if (airborneTimer) airborneTimer--;
-    if (jumpReleasedTimer) jumpReleasedTimer--;
-
-    if (!airborneTimer) {
-      heroState.airborne = true;
+    function updateState() {
+      _.each(stateChangeListeners, function(l) {
+        l(state);
+      })
     }
 
-   
+    this.onGameOver = function(listener) {
+      gameOverListeners.push(listener);
+    }
 
-    if (contacts && contacts.contact) {
-      while (contacts) {
-        var contact = contacts.contact;
 
-        if (contact.IsTouching() && contacts.other.GetUserData()) {
-          var data = contacts.other.GetUserData();
+    this.init = function(canvas, debugCanvas) {
 
-          if (data.exit) {
+      state.currentLevel = 0;
+      state.lives = 3;
+      state.score = 0;
+      this.gotoLevel = function(level) {
+        state.currentLevel = level - 1;
+        nextLevel();
+      }
 
-            ngAudio.play('exit');
-            nextLevel();
+    }
 
-          }
-        }
+    function bindControls() {
 
-        if (contact.IsTouching() && contacts.other.GetUserData() && contacts.other.GetUserData().isFloor) {
-          heroState.airborne = false;
-          airborneTimer = 3;
+      var heroState = BallAgentHero.getState();
 
-          if (!jumpReleasedTimer) {
-            jumpReleased = true;
-          }
-        }
-        
-        contacts = contacts.next;
+      Mousetrap.bind({
+        'd': function() {
+          heroState.goingRight = true;
+        },
+        'a': function() {
+          heroState.goingLeft = true;
+        },
+        'w': function() {
+          if (!jumpReleased) return;
+          heroState.isJumping = true;
+          jumpReleasedTimer = 15;
+          jumpReleased = false;
+        },
+      }, 'keydown');
+
+      Mousetrap.bind({
+        'd': function() {
+          heroState.goingRight = false;
+        },
+        'a': function() {
+          heroState.goingLeft = false;
+        },
+        'w': function() {
+          heroState.isJumping = false;
+          jumpReleased = true;
+        },
+      }, 'keyup');
+
+    }
+
+    function handleDeath() {
+      state.lives--;
+
+      if (state.lives >= 0) {
+        state.currentLevel--;
+        nextLevel();
+      } else {
+        gameOver();
       }
     }
 
-
-    if (position.y > 50) {
-      ngAudio.play('die');
-      handleDeath();
+    function gameOver() {
+      ngrEnvironment.stop();
+      _.each(gameOverListeners, function(l) {
+        l(state);
+      });
     }
 
 
-  }
+    function newGame() {
+      state.lives = 3;
+      state.currentLevel = 0;
+      nextLevel();
+    }
 
-  function nextLevel() {
+    this.newGame = newGame;
 
-    ngrEnvironment.stop();
-    ngrEnvironment.blocker()
-    .then(function(){
-      state.currentLevel++;
-      var l = BallAgentLevels.levels[state.currentLevel - 1];
+    function tick() {
 
-      ngrEnvironment.clearAll();
+      var heroState = BallAgentHero.getState(),
+        position = BallAgentHero.entity.GetPosition(),
+        contacts = BallAgentHero.entity.GetContactList();
 
-      state.levelName = l.levelName || "Higginsons Revenge"
+      if (airborneTimer) airborneTimer--;
+      if (jumpReleasedTimer) jumpReleasedTimer--;
 
-      ngrEnvironment.init($('canvas')[0]);
-      if (l.floor) ngrEnvironment.floor();
-      if (l.lWall) ngrEnvironment.leftWall();
-      if (l.rWall) ngrEnvironment.rightWall();
+      if (!airborneTimer) {
+        heroState.airborne = true;
+      }
 
-      ngrEnvironment.debug();
-      ngrDisplay.background(l.background || 'img/mountain-bg.jpg');
+      if (contacts && contacts.contact) {
+        while (contacts) {
+          var contact = contacts.contact;
 
-      hero = BallAgentHero.createNewHero();
-      exit = m.createExit(l.exit);
-      bindControls();
+          if (contact.IsTouching() && contacts.other.GetUserData()) {
+            var data = contacts.other.GetUserData();
 
-      _.each(l.columns, m.createColumn);
-      _.each(l.platforms, m.createPlatform);
+            if (data.exit) {
+              ngAudio.play('exit');
+              nextLevel();
+            }
+          }
 
-      ngrEnvironment.addHook(tick);
+          if (contact.IsTouching() && contacts.other.GetUserData() && contacts.other.GetUserData().isFloor) {
+            heroState.airborne = false;
+            airborneTimer = 3;
+
+            if (!jumpReleasedTimer) {
+              jumpReleased = true;
+            }
+          }
+
+          contacts = contacts.next;
+        }
+      }
 
 
-      updateState(state);
+      if (position.y > 50) {
+        ngAudio.play('die');
+        handleDeath();
+      }
 
-    });
+
+    }
+
+    function nextLevel() {
+
+      ngrEnvironment.stop();
+      ngrEnvironment.blocker()
+        .then(function() {
+          state.currentLevel++;
+          var l = BallAgentLevels.levels[state.currentLevel - 1];
+
+          ngrEnvironment.clearAll();
+
+          state.levelName = l.levelName || "Higginsons Revenge"
+
+          ngrEnvironment.init($('canvas')[0]);
+          if (l.floor) ngrEnvironment.floor();
+          if (l.lWall) ngrEnvironment.leftWall();
+          if (l.rWall) ngrEnvironment.rightWall();
+
+          ngrEnvironment.debug();
+          ngrDisplay.background(l.background || 'img/mountain-bg.jpg');
+
+          hero = BallAgentHero.createNewHero();
+          exit = m.createExit(l.exit);
+          bindControls();
+
+          _.each(l.columns, m.createColumn);
+          _.each(l.platforms, m.createPlatform);
+
+          ngrEnvironment.addHook(tick);
 
 
-  }
+          updateState(state);
 
-})
+        });
+
+
+    }
+
+  })

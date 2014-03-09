@@ -8,8 +8,20 @@
 	left: 0;
 	bottom: 0;
 	right: 0;
+		z-index: 8;
 }
 
+.splash-screen {
+	z-index: 8;
+	position: absolute;
+	top: 0;
+	right:0;
+	left: 0;
+	right: 0;
+	margin: auto;
+	width: 750px;
+	height: 500px;
+}
 .main-menu {
 	position: absolute;
 	top: 0;
@@ -18,10 +30,12 @@
 	bottom: 0;
 	margin: auto;
 	width: 300px;
-	height: 300px;
+	height: 200px;
 	color: white;
 	font-family: arial;
 	text-align: center;
+	z-index: 9;
+
 }
 
 .main {
@@ -29,3 +43,37 @@
 	width: 750px;
 }
 
+
+.hud {
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	margin: auto;
+	pointer-events: none;
+	z-index: 1;
+}
+
+.lives {
+	position: absolute;
+	right: 20px;
+	width: 200px;
+	top: 15px;
+}
+.life-counter {
+	width: 20px;
+	height: 20px;
+	margin: 5px;
+	float: right;
+	background-image: url('../img/hero.png');
+	background-repeat: no-repeat;
+	background-size: cover;
+}
+
+.levelName {
+	position: absolute;
+	top: 20px;
+	left: 25px;
+	z-index: 1;
+}

@@ -2,6 +2,7 @@
 	position: absolute;
 	top: 0;
 	opacity: 0.5;
+	pointer-events: none;
 
 }
 
@@ -37,36 +38,4 @@
 
 .invisible {
 	display: none !important;
-}
-
-.hud {
-	position: absolute;
-	top: 0;
-	left: 0;
-	right: 0;
-	bottom: 0;
-	margin: auto;
-	pointer-events: none;
-}
-
-.lives {
-	position: absolute;
-	right: 20px;
-	width: 200px;
-	top: 15px;
-}
-.life-counter {
-	width: 20px;
-	height: 20px;
-	margin: 5px;
-	float: right;
-	background-image: url('../img/hero.png');
-	background-repeat: no-repeat;
-	background-size: cover;
-}
-
-.levelName {
-	position: absolute;
-	top: 20px;
-	left: 25px;
 }

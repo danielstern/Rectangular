@@ -25,9 +25,7 @@ angular.module('BallAgentModels', [])
       var platform = ngrBox.shape("box", options);
       var pBody = ngrWorld.addElement(platform, options);
 
-      console.log("Creating platform",platform,options);
-
-      pBody.SetUserData({
+       pBody.SetUserData({
         isFloor: true
       });
 
