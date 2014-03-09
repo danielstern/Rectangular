@@ -27,6 +27,8 @@ angular.module('Rectangular')
 		 b.options = options;
 
 		 bodies.push(b);
+
+		 console.log("adding element..",b);
 		 return b;
 	};
 
@@ -34,14 +36,22 @@ angular.module('Rectangular')
 
 		 var options = b.options;
 
-		 options.cycle += Math.PI / 200 / options.movement.period;
+		 options.cycle += Math.PI / 200 / options.movement.period || 1;
      var phase = options.movement.phaseShift || 0;
      var currentY = b.GetPosition().y;
      var currentX = b.GetPosition().x;
-     var newY = currentY - (Math.sin(options.cycle + phase) / 50)  * options.movement.shiftY;
-     var newX = currentX - (Math.sin(options.cycle + phase) / 50)  * options.movement.shiftX;
+     var currentRotation= b.GetAngle();
+     if (options.movement.shiftX || options.movement.shiftY) {
+	     var newY = currentY - (Math.sin(options.cycle + phase) / 50)  * options.movement.shiftY;
+	     var newX = currentX - (Math.sin(options.cycle + phase) / 50)  * options.movement.shiftX;
+	     b.SetPosition(new b2Vec2(newX, newY));
+   	}
 
-     b.SetPosition(new b2Vec2(newX, newY));
+   	if (options.movement.rotation) {
+     var newRotation = currentRotation - (phase / 50) - (options.cycle / 50)  * options.movement.rotation || 1;
+   		console.log("Rotation,", newRotation);
+     b.SetAngle(newRotation);
+  	}
 
 	}
 

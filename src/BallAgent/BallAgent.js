@@ -31,7 +31,7 @@ angular.module("BallAgent", ['Rectangular', 'ngAudio', 'BallAgentHero', 'BallAge
       state.currentLevel = level - 1;
       nextLevel();
     }
-
+    
 
     function bindControls() {
 

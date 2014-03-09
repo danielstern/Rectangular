@@ -8,10 +8,12 @@ angular.module('BallAgentModels', [])
       var exitBox = ngrBox.shape("box", options);
       exitBox.f.isSensor = true;
 
-      var exitBody = ngrWorld.addElement(exitBox);
+      var exitBody = ngrWorld.addElement(exitBox, options);
       exitBody.SetUserData({
         exit: true
       });
+
+      console.log("Creating exit,",exitBody,exitBox,options);
 
       var actor = ngrDisplay.skin(exitBody, options);
 
@@ -72,6 +74,10 @@ angular.module('BallAgentModels', [])
         y: 15.5,
         height: 1,
         width: 1,
+        moves: true,
+        movement: {
+          rotation: 1
+        }
       };
 
   this.platform = {
