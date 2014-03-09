@@ -102,8 +102,12 @@ this.isMusic = function(ids) {
 			var $sound = document.getElementById(id);
 
 			/* stop the sound. */
+			try {
 			$sound.pause();
 			$sound.currentTime = 0;
+			} catch (e) {
+				console.warn('Tried accessing unavailable sound',id);
+			}
 		});
 
 	};
