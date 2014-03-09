@@ -54,7 +54,7 @@ angular.module('ngAudio',[])
 		};
 
 		_.each(ids,function(id){
-			//console.log("Toggling mute",mutedSounds,id);
+			console.log("Toggling mute",mutedSounds,id);
 			if (_.contains(mutedSounds, id)) {
 				a.unmute(id);
 			} else {

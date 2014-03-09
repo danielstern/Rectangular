@@ -3,7 +3,7 @@
     <html ng-app='BallAgentApp' ng-controller='myDemoCtrl'>
 
     <head>
-        <title>Racing Car in Box2d</title>
+        <title>BallAgent: Do You Have The Balls?</title>
 
         <script src="lib/angular.js"></script>
         <script src="lib/jquery.js"></script>
@@ -53,7 +53,7 @@
     </head>
 
     <body>
-        <audio id='themesong' src='audio/ballagent.mp3' loop=0>
+        <audio id='menu' src='audio/menu.mp3' loop=0>
         </audio>
 
         <audio id='die' src='audio/fall.mp3'>
@@ -64,6 +64,18 @@
 
         <audio id='jump' src='audio/jump2.wav'>
         </audio>
+
+
+        <audio id='land' src='audio/land.wav'>
+        </audio>
+
+        <audio id='start' src='audio/start.mp3'>
+        </audio>
+
+
+        <audio id='stage1' src='audio/stage1.mp3' loop=0>
+        </audio>
+
 
         <div class='main'>
             <canvas ng-stage id='gameCanvas' width='750' height='500' style="background-color:#333;"></canvas>
@@ -149,15 +161,23 @@
 
 //        BallAgent.init($('#gameCanvas')[0]);
 
+        ngAudio.setSoundVolume('land',0.2);
+
+        setTimeout(function(){
+          ngAudio.play('menu');
+        },100);
+
         Mousetrap.bind('m',function(){
-            ngAudio.toggleMute(['themesong']);
+            ngAudio.toggleMute(['stage1','menu']);
         });
 
         Mousetrap.bind('o',function(){
             ngAudio.toggleMute([
                 'jump',
                 'exit',
-                'die'
+                'die',
+                'land', 
+                'start',
                 ]);
         });
 
@@ -171,7 +191,7 @@
             ngrEnvironment.toggleDebug();
         }
 
-         ngAudio.toggleMute(['themesong']);
+     //    ngAudio.toggleMute(['themesong']);
 
         BallAgent.onStateChange(function() {
 
@@ -185,9 +205,12 @@
         });
 
         BallAgent.onGameOver(function() {
-
+            $('.splash-screen').children().addClass('animated');
             $('.splash-screen').removeClass('fadeOut untouchable')
                 .addClass('animated fadeIn');
+
+            ngAudio.stop('stage1');
+            ngAudio.play('menu');
 
         });
 
@@ -196,11 +219,13 @@
             $('.splash-screen').removeClass('fadeIn')
                 .addClass('animated fadeOut untouchable');
 
-            $('.splash-screen').children().removeClass('animated fadeIn fadeOut slideInRight slideInLeft slideInDown');
+            $('.splash-screen').children().removeClass('animated');
 
             BallAgent.newGame();
             ngrEnvironment.blocker();
-            ngAudio.play('themesong');
+            ngAudio.stop('menu');
+            ngAudio.play('start');
+            ngAudio.play('stage1');
 
         }
 

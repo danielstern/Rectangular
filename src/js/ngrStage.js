@@ -13,6 +13,9 @@ angular.module('Rectangular')
 
     this.clearAll = function() {
       stage.removeAllChildren();
+      stage.update();
+      ctx.save();
+      ctx.restore();
     }
 
     ngrLoop.addPermanentHook(function() {
