@@ -172,16 +172,16 @@
     .controller('myDemoCtrl', function($scope, $element, ngrEnvironment, ngAudio, BallAgent) {
 
 
-//        BallAgent.init($('#gameCanvas')[0]);
-
-        ngAudio.setSoundVolume('land',1);
-
         setTimeout(function(){
           ngAudio.play('menu');
         },100);
 
+        var songs = ['stage1','menu','victory','dead']
+
+        ngAudio.isMusic(songs)
+
         Mousetrap.bind('m',function(){
-            ngAudio.toggleMute(['stage1','menu']);
+            ngAudio.toggleMute(songs);
         });
 
         Mousetrap.bind('o',function(){
@@ -232,12 +232,12 @@
             $('.logo-middle-star')
             .addClass('animated slideInLeft');
 
-            ngAudio.stop('stage1');
+          //  ngAudio.stop('stage1');
             ngAudio.play('dead');
 
             function handleGameOverComplete() {
 
-                ngAudio.stop('dead');
+             //   ngAudio.stop('dead');
                 ngAudio.play('menu');
 
                 Mousetrap.unbind(['enter','space'], handleGameOverComplete);
@@ -268,13 +268,13 @@
             $('.logo-middle-star')
             .addClass('animated slideInLeft');
 
-            ngAudio.stop('stage1');
+          //  ngAudio.stop('stage1');
             //ngAudio.play('menu');
            ngAudio.play('victory');
 
             function handleGameOverComplete() {
 
-                 ngAudio.stop('victory');
+            //     ngAudio.stop('victory');
                  //ngAudio.play('menu');
                 ngAudio.play('menu');
 
