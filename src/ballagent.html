@@ -75,9 +75,11 @@
                 <div class='logo-star animated slideInDown'></div>
                 <div class='logo-legal animated slideInLeft'></div>
                 <div class='logo-controls animated slideInRight'></div>
+                <div class='start-hit' ng-click="newGame()"></div>
+                <div class='logo-start animated slideInRight'></div>
                 <div class='main-menu'>
 
-                    <button ng-click="newGame()">NEW GAME</button>
+                    
 
                 </div>
             </div>
@@ -133,7 +135,7 @@
     .controller('myDemoCtrl', function($scope, $element, ngrEnvironment, ngAudio, BallAgent) {
 
 
-        BallAgent.init($('#gameCanvas')[0]);
+//        BallAgent.init($('#gameCanvas')[0]);
 
         $scope.gotoLevel = function(level) {
 
@@ -167,6 +169,9 @@
 
             $('.splash-screen').removeClass('fadeIn')
                 .addClass('animated fadeOut untouchable');
+
+            $('.splash-screen').children().removeClass('animated fadeIn fadeOut slideInRight slideInLeft slideInDown');
+
             BallAgent.newGame();
             ngrEnvironment.blocker();
             ngAudio.play('themesong');

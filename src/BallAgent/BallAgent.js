@@ -28,18 +28,6 @@ angular.module("BallAgent", ['Rectangular', 'ngAudio', 'BallAgentHero', 'BallAge
     }
 
 
-    this.init = function(canvas, debugCanvas) {
-
-      state.currentLevel = 0;
-      state.lives = 3;
-      state.score = 0;
-      this.gotoLevel = function(level) {
-        state.currentLevel = level - 1;
-        nextLevel();
-      }
-
-    }
-
     function bindControls() {
 
       var heroState = BallAgentHero.getState();

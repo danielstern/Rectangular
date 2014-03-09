@@ -1,4 +1,4 @@
-.blinder, .logo-text, .logo-star, .logo-controls, .logo-legal {
+.blinder, .logo-text, .logo-star, .logo-controls, .logo-legal, .logo-start {
 	display: block;
 	width: 750px;
 	height: 500px;
@@ -34,6 +34,31 @@
 	background-image: url('../img/splash-legal.png');
 	background-size: contain;
 	
+}
+
+.start-hit {
+	position: absolute;
+	width: 180px;
+	height: 60px;
+	/* background-color: pink; */
+	z-index: 15;
+	right: 80;
+	bottom: 60;
+	cursor: pointer;
+	
+}
+
+.logo-start {
+	
+	z-index: 9;
+	background-image: url('../img/button-start.png');
+	background-size: contain;
+	
+}
+
+
+.start-hit:hover +div {
+	background-image: url('../img/button-start-hover.png');
 }
 
 .logo-controls {
