@@ -47,7 +47,7 @@ angular.module('BallAgentModels', [])
       options = _.extend(_.clone(BallAgentDefaults.column), options);
 
       var platform = ngrBox.shape("box", options);
-      var pBody = ngrWorld.addElement(platform);
+      var pBody = ngrWorld.addElement(platform, options);
       var cycle = 0;
 
       ngrDisplay.skin(pBody, options);

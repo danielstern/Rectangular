@@ -171,6 +171,8 @@
             ngrEnvironment.toggleDebug();
         }
 
+         ngAudio.toggleMute(['themesong']);
+
         BallAgent.onStateChange(function() {
 
             $scope.level = BallAgent.state.currentLevel;

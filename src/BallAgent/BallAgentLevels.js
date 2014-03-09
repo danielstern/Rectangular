@@ -190,7 +190,7 @@
         lWall: false,
         rWall: false,
         floor: false,
-        levelName: "Stairway to Heaven",
+        levelName: "Vertigo",
         exit:
         {
           y: 12,
@@ -598,13 +598,13 @@
         background: 'img/desert-bg.jpg',
         exit:
         {
-          y: 12,
+          y: 11,
           x: 22
         },
         platforms: [
         {
           x: 15,
-          y: 6,
+          y: 11,
           width: 3,
           height: 0.2,
           friction: 100,
@@ -615,6 +615,189 @@
           }
         }, 
       ],
+
+      },
+      {
+        // level 21
+        lWall: true,
+        rWall: true,
+        floor: false,
+        levelName: "Timed Attack",
+        background: 'img/desert-bg.jpg',
+        exit:
+        {
+          y: 12,
+          x: 22
+        },
+        platforms: [
+        {
+          x: 15,
+          y: 11,
+          width: 3,
+          height: 0.2,
+          friction: 100,
+          moves: true,
+          movement:
+          {
+            rotation: 1,
+          }
+        },
+        {
+          x: 2,
+          y: 13,
+          width: 3
+        } 
+      ],
+
+      },
+      {
+        // level 22
+        lWall: true,
+        rWall: true,
+        floor: false,
+        levelName: "Sand Dune",
+        background: 'img/desert-bg.jpg',
+        exit:
+        {
+          y: 9,
+          x: 22
+        },
+        platforms: [
+        {
+          x: 10,
+          y: 11,
+          width: 2,
+          height: 0.2,
+          friction: 100,
+          moves: true,
+          movement:
+          {
+            rotation: 1,
+          }
+        },
+        {
+          x: 17,
+          y: 10,
+          width: 2,
+          height: 0.2,
+          friction: 100,
+          moves: true,
+          movement:
+          {
+            rotation: 1,
+            phaseShift: 0.5,
+          }
+        },
+        {
+          x: 2,
+          y: 12,
+          width: 3
+        } 
+      ],
+
+      },
+      {
+        // level 23
+        lWall: true,
+        rWall: true,
+        floor: false,
+        levelName: "Something in the Way",
+        background: 'img/desert-bg.jpg',
+        exit:
+        {
+          y: 8,
+          x: 22
+        },
+        platforms: [
+        {
+          x: 10,
+          y: 11,
+          width: 2,
+          height: 0.2,
+          friction: 100,
+          moves: true,
+          movement:
+          {
+            rotation: 1,
+          }
+        },
+        {
+          x: 17,
+          y: 10,
+          width: 2.5,
+          height: 0.2,
+          friction: 100,
+          moves: true,
+          movement:
+          {
+            rotation: 1,
+            phaseShift: 0.5,
+          }
+        },
+        {
+          x: 2.5,
+          y: 12,
+          width: 2
+        } 
+      ],
+      columns: [
+      {
+        x: 6,
+        y: 8,
+        width: 0.3,
+        height: 4,
+        friction: 25,
+        movement:
+        {
+          shiftY: 0,
+          shiftX: 1,
+          period: 1,
+          phaseShift: 2,
+        }
+      }]
+
+      },
+      {
+        // level 24
+        lWall: true,
+        rWall: false,
+        floor: false,
+        levelName: "On a Plain",
+        background: 'img/desert-bg.jpg',
+        exit:
+        {
+          y: 8,
+          x: 22
+        },
+        platforms: [
+        {
+          x: 13,
+          y: 10,
+          width: 2.5,
+          height: 0.2,
+          friction: 100,
+        },
+        {
+          x: 2.5,
+          y: 12,
+          width: 2
+        } 
+      ],
+      columns: [
+      {
+        x: 20,
+        y: 8,
+        width: 0.3,
+        height: 4,
+        friction: 25,
+        movement:
+        {
+          shiftY: 3,
+          shiftX: 0,
+          period: 3,
+          phaseShift: 2,
+        }
+      }]
 
       },
 

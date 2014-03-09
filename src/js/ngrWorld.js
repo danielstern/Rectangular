@@ -28,7 +28,7 @@ angular.module('Rectangular')
 
 		 bodies.push(b);
 
-		 console.log("adding element..",b);
+		 console.log("adding element..",b.options);
 		 return b;
 	};
 
@@ -48,7 +48,7 @@ angular.module('Rectangular')
    	}
 
    	if (options.movement.rotation) {
-     var newRotation = (phase / 50) + (options.cycle / 50)  * options.movement.rotation || 1;
+     var newRotation = (phase) + (options.cycle / 50)  * options.movement.rotation || 1;
    		//console.log("Rotation,", newRotation);
      b.SetAngle(newRotation);
   	}
@@ -89,7 +89,7 @@ angular.module('Rectangular')
 
 	 		_.each(bodies, function(body){
 
-	      if (body.options && body.options.moves) {			
+	      if (body.options && body.options.movement) {			
 	     
 			    	ngrWorld.cycleBody(body);   
 			  }
