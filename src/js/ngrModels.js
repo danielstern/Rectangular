@@ -1,5 +1,5 @@
 angular.module('Rectangular')
-.service("ngrModels",function(ngrState, ngrBox	){
+.service("ngrModels",function(ngrState, ngrBox,ngrDefaults	){
 
 	var env;
 
@@ -7,14 +7,10 @@ angular.module('Rectangular')
 
 		env = ngrState.getProperties();
 
-		var defaults = {
-			width: 0.3,
-			height: env.height / env.SCALE,
-			position:'static',
-			x:0
-		};
-
+		var defaults = _.clone(ngrDefaults.wall);
 		options = _.extend(defaults,options);
+
+	  options.height = env.height / env.SCALE;
 
 		var leftWall = ngrBox.shape('box',options);
 
@@ -26,14 +22,11 @@ angular.module('Rectangular')
 
 		env = ngrState.getProperties();
 
-			var defaults = {
-				width: 0.3,
-				height: env.height / env.SCALE,
-				position:'static',
-				x: env.width / env.SCALE,
-			};
-
+			var defaults = _.clone(ngrDefaults.wall);
 			options = _.extend(defaults,options);
+
+			options.height = env.height / env.SCALE;
+			options.x = env.width / env.SCALE;
 			var rightWall = ngrBox.shape('box',options);
 
 			return rightWall;
@@ -44,17 +37,27 @@ angular.module('Rectangular')
 
 		env = ngrState.getProperties();
 
-		var defaults = {
-			width:env.width / env.SCALE,
-			height: 0.3,
-			position:'static',
-			y: env.height / env.SCALE,
-		};
-
+		var defaults = _.clone(ngrDefaults.floor);
 		options = _.extend(defaults,options);
+
+		options.y = env.height / env.SCALE;
+		options.width = env.width / env.SCALE;
 		
 		var shape = ngrBox.shape('box',options);
 		return shape;
 
+	}
+})
+
+.service('ngrDefaults',function(){
+	this.wall = {
+			width: 0.3,
+			position:'static',
+			x:0
+		};
+
+	this.floor = {
+		height: 0.3,
+		position:'static',
 	}
 })
