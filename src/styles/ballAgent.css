@@ -1,4 +1,4 @@
-.blinder, .logo-text, .logo-star, .logo-controls {
+.blinder, .logo-text, .logo-star, .logo-controls, .logo-legal {
 	display: block;
 	width: 750px;
 	height: 500px;
@@ -24,6 +24,14 @@
 	
 	z-index: 9;
 	background-image: url('../img/splash-star.png');
+	background-size: contain;
+	
+}
+
+.logo-legal {
+	
+	z-index: 9;
+	background-image: url('../img/splash-legal.png');
 	background-size: contain;
 	
 }
