@@ -1,6 +1,5 @@
-.blinder {
+.blinder, .logo-text, .logo-star, .logo-controls {
 	display: block;
-	background-color: gray;
 	width: 750px;
 	height: 500px;
 	position: absolute;
@@ -9,6 +8,32 @@
 	bottom: 0;
 	right: 0;
 		z-index: 8;
+	background-image: url('../img/splash-bg.jpg');
+	pointer-events: none;
+}
+
+.logo-text {
+	
+	z-index: 10;
+	background-image: url('../img/splash-text.png');
+	background-size: contain;
+	
+}
+
+.logo-star {
+	
+	z-index: 9;
+	background-image: url('../img/splash-star.png');
+	background-size: contain;
+	
+}
+
+.logo-controls {
+	
+	z-index: 9;
+	background-image: url('../img/splash-controls.png');
+	background-size: contain;
+	
 }
 
 html {
@@ -26,16 +51,17 @@ html {
 	margin: auto;
 	width: 750px;
 	height: 500px;
+	overflow: hidden;
 }
 .main-menu {
 	position: absolute;
-	top: 0;
-	left: 0;	
-	right: 0;
-	bottom: 0;
+	/* top: 0; */
+	/* left: 0; */	
+	right: 15px;
+	bottom: 63px;
 	margin: auto;
 	width: 300px;
-	height: 200px;
+	/* height: 200px; */
 	color: white;
 	/* font-family: arial; */
 	text-align: center;
