@@ -139,7 +139,15 @@
 
         Mousetrap.bind('m',function(){
             ngAudio.toggleMute(['themesong']);
-        })
+        });
+
+        Mousetrap.bind('o',function(){
+            ngAudio.toggleMute([
+                'jump',
+                'exit',
+                'die'
+                ]);
+        });
 
         $scope.gotoLevel = function(level) {
 
