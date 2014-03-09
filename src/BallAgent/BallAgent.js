@@ -27,6 +27,11 @@ angular.module("BallAgent", ['Rectangular', 'ngAudio', 'BallAgentHero', 'BallAge
       gameOverListeners.push(listener);
     }
 
+    this.gotoLevel = function(level) {
+      state.currentLevel = level - 1;
+      nextLevel();
+    }
+
 
     function bindControls() {
 
