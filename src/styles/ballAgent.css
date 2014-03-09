@@ -127,6 +127,7 @@ html {
 .main {
 	position: relative;
 	width: 750px;
+	overflow: hidden;
 }
 
 
