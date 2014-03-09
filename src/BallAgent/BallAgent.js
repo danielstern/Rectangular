@@ -6,6 +6,7 @@ angular.module("BallAgent", ['Rectangular', 'ngAudio', 'BallAgentHero', 'BallAge
   var stateChangeListeners = [];
   var gameOverListeners = [];
   var airborneTimer = 3;
+  var jumpReleasedTimer = 15;
   var m = BallAgentModels;
   var hero,
     exit,
@@ -53,6 +54,7 @@ angular.module("BallAgent", ['Rectangular', 'ngAudio', 'BallAgentHero', 'BallAge
       'w': function () {
         if (!jumpReleased) return;
         heroState.isJumping = true;
+        jumpReleasedTimer = 15;
         jumpReleased = false;
       },
     }, 'keydown');
@@ -106,10 +108,13 @@ angular.module("BallAgent", ['Rectangular', 'ngAudio', 'BallAgentHero', 'BallAge
       contacts = BallAgentHero.entity.GetContactList();
 
     if (airborneTimer) airborneTimer--;
+    if (jumpReleasedTimer) jumpReleasedTimer--;
+
     if (!airborneTimer) {
       heroState.airborne = true;
-    //  jumpReleased = true;
     }
+
+   
 
     if (contacts && contacts.contact) {
       while (contacts) {
@@ -129,6 +134,10 @@ angular.module("BallAgent", ['Rectangular', 'ngAudio', 'BallAgentHero', 'BallAge
         if (contact.IsTouching() && contacts.other.GetUserData() && contacts.other.GetUserData().isFloor) {
           heroState.airborne = false;
           airborneTimer = 3;
+
+          if (!jumpReleasedTimer) {
+            jumpReleased = true;
+          }
         }
         
         contacts = contacts.next;
@@ -152,7 +161,6 @@ angular.module("BallAgent", ['Rectangular', 'ngAudio', 'BallAgentHero', 'BallAge
       state.currentLevel++;
       var l = BallAgentLevels.levels[state.currentLevel - 1];
 
-      //ngrEnvironment.clearHooks();
       ngrEnvironment.clearAll();
 
       state.levelName = l.levelName || "Higginsons Revenge"

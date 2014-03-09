@@ -21,8 +21,6 @@ angular.module('Rectangular')
 		 var b = world.CreateBody(definition.b);
 		 var f =b.CreateFixture(definition.f);
 
-		 console.error("Adding elements");
-
 		 options = _.clone(options) || {};
 
 		 options.cycle = 0;
@@ -44,7 +42,6 @@ angular.module('Rectangular')
      var newX = currentX - (Math.sin(options.cycle + phase) / 50)  * options.movement.shiftX;
 
      b.SetPosition(new b2Vec2(newX, newY));
-    // pSubBody.SetPosition(new b2Vec2(newX, newY + 0.3));
 
 	}
 
@@ -75,7 +72,7 @@ angular.module('Rectangular')
 	 	world = new b2World(gravity , doSleep);
 
 	 	ngrLoop.addHook(function(){
-	 	//	ctx.save();
+	 	
 	 		world.Step(1/60,10,10)
 	 		world.ClearForces();
 	 		world.DrawDebugData();
@@ -83,7 +80,7 @@ angular.module('Rectangular')
 	 		_.each(bodies, function(body){
 
 	      if (body.options && body.options.moves) {			
-	      //	console.log("this body moves...",body)	;
+	     
 			    	ngrWorld.cycleBody(body);   
 			  }
 
@@ -111,9 +108,7 @@ angular.module('Rectangular')
 
 		var floor = ngrModels.floor(options);
 		options = floor.options;
-	//	options.src = 'img/tile.png';
-	//	options.bg = 'tiled';
-	//	options.height = 0.3;
+
 		var body = ngrWorld.addElement(floor);
 		body.SetUserData({isFloor:true})
 		ngrDisplay.skin(body, options);
@@ -125,10 +120,8 @@ angular.module('Rectangular')
 
 		var leftWall = ngrModels.leftWall(options);
 		options = leftWall.options;
+
 		var lBody = ngrWorld.addElement(leftWall);
-		//options.src = 'img/tile.png';
-		//options.bg = 'tiled';
-		//options.width = 0.3;
 		ngrDisplay.skin(lBody, options);
 
 	}
@@ -140,9 +133,7 @@ angular.module('Rectangular')
 		var rightWall = ngrModels.rightWall(options);		
 		options = rightWall.options;
 		var rBody = ngrWorld.addElement(rightWall);
-		//options.src = 'img/tile.png';
-		//options.bg = 'tiled';
-		//options.width = 0.3;
+
 		ngrDisplay.skin(rBody, options);
 
 	}
