@@ -151,6 +151,7 @@ angular.module("BallAgent", ['Rectangular', 'ngAudio', 'BallAgentHero', 'BallAge
 
     var c;
 
+    ngrEnvironment.init($('canvas')[0]);
     function nextLevel() {
 
       ngrEnvironment.stop();
@@ -172,14 +173,15 @@ angular.module("BallAgent", ['Rectangular', 'ngAudio', 'BallAgentHero', 'BallAge
 
           c = setTimeout(function(){
              $('.levelName').addClass('animated slideOutLeft');
-          }, 3000)
+          }, 3000);
 
-          ngrEnvironment.init($('canvas')[0]);
+          ngrEnvironment.start();
+
           if (l.floor) ngrEnvironment.floor();
           if (l.lWall) ngrEnvironment.leftWall();
           if (l.rWall) ngrEnvironment.rightWall();
 
-          ngrEnvironment.debug();
+        //  ngrEnvironment.debug();
           ngrDisplay.background(l.background || 'img/mountain-bg.jpg');
 
           hero = BallAgentHero.createNewHero();

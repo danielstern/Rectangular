@@ -23,7 +23,6 @@
       env.SCALE = SCALE;
       ngrState.setProperties(env);
       canvas = _canvas;
-      world = ngrWorld.setWorld(0, 30, true);
       ngrLoop.initWorld(60, env);
       var p = $(canvas).parent();
 
@@ -45,13 +44,25 @@
       ngrLoop.stop();
     }
 
+    this.start = function() {
+      if (!world)  world = ngrWorld.setWorld(0, 30, true);
+      ngrLoop.initWorld(60, env);
+    }
+
+    var blockerRunning = false;
+    var r;
+
     this.blocker = function() {
 
-      var r = $q.defer();
+      if (blockerRunning) return r.promise;
+
+      r = $q.defer();
       $('.blocker-inner').addClass('slide');
+      blockerRunning = true;
 
       setTimeout(function() {
         r.resolve();
+        blockerRunning = false;
       }, 500);
 
       setTimeout(function() {
@@ -67,6 +78,8 @@
       ngrWorld.clearAll();
       ngrStage.clearAll();
       ngrLoop.clearHooks();
+
+      world = null;
     }
 
     this.toggleDebug = function() {

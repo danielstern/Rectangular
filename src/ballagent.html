@@ -168,6 +168,7 @@
             $('.splash-screen').removeClass('fadeIn')
                 .addClass('animated fadeOut untouchable');
             BallAgent.newGame();
+            ngrEnvironment.blocker();
             ngAudio.play('themesong');
 
         }
