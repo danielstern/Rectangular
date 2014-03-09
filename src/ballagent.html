@@ -137,6 +137,10 @@
 
 //        BallAgent.init($('#gameCanvas')[0]);
 
+        Mousetrap.bind('m',function(){
+            ngAudio.toggleMute(['themesong']);
+        })
+
         $scope.gotoLevel = function(level) {
 
             BallAgent.gotoLevel(level);

@@ -21,6 +21,10 @@ angular.module('ngAudio',[])
  }
 })
 .service('ngAudio',function(){
+	var a = this;
+	var mutedSounds = [];
+	var soundVolumes = {};
+
 	this.play = function(id) {
 		var $sound = document.getElementById(id);
 
@@ -30,6 +34,52 @@ angular.module('ngAudio',[])
 		$sound.play();
 
 	};
+
+	this.mute = function(ids) {
+		if (!_.isArray(ids)) {
+			ids = [ids];
+		}
+		_.each(ids,function(id){
+			//console.log("Iterating...",id);
+			mutedSounds.push(id);
+			soundVolumes[id] = a.getSoundVolume(id);
+			//console.log("Sound volumes?",a.getSoundVolume(id), soundVolumes)
+			a.setSoundVolume(id, 0);
+		})
+	};
+
+	this.toggleMute = function(ids) {
+		if (!_.isArray(ids)) {
+			ids = [ids];
+		};
+
+		_.each(ids,function(id){
+			//console.log("Toggling mute",mutedSounds,id);
+			if (_.contains(mutedSounds, id)) {
+				a.unmute(id);
+			} else {
+				a.mute(id);
+			}
+		});
+	}
+
+	this.unmute = function(id) {
+		//console.log("Unmuting");
+		mutedSounds = _.without(mutedSounds, id);
+		a.setSoundVolume(id, soundVolumes[id]);
+	};
+
+
+	this.getSoundVolume = function(id) {
+		var $sound = document.getElementById(id);
+		return $sound.volume;
+	}
+
+	this.setSoundVolume = function(id, vol) {
+		//console.log("Setting sound vol",id,vol)
+		var $sound = document.getElementById(id);
+		$sound.volume = vol;
+	}
 
 	this.stop = function(id) {
 		var $sound = document.getElementById(id);
