@@ -39,7 +39,7 @@ angular.module('Rectangular')
   this.initWorld = function(_speed) {
 
     speed = _speed || 60;
-    console.log("Init world")
+    //console.log("Init world")
     loop = setInterval(l.tick, 1000 / speed)
   };
 })
