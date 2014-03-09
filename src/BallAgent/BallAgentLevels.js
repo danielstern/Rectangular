@@ -800,6 +800,85 @@
       }]
 
       },
+      {
+        // level 25
+        lWall: true,
+        rWall: false,
+        floor: false,
+        levelName: "Dumb",
+        background: 'img/desert-bg.jpg',
+        exit:
+        {
+          y: 3,
+          x: 22
+        },
+        platforms: [
+        {
+          x: 13,
+          y: 8,
+          width: 2.5,
+          height: 0.2,
+          friction: 100,
+         movement:
+          {
+            shiftY: 2.5,
+            shiftX: 0,
+            period: 2,
+            phaseShift: 2,
+          }
+        },
+        {
+          x: 2.5,
+          y: 12,
+          width: 2
+        } 
+      ],
+    },
+      {
+        // level 25
+        lWall: true,
+        rWall: false,
+        floor: false,
+        levelName: "Don’t Hug Me, I’m Scared",
+        background: 'img/desert-bg.jpg',
+        exit:
+        {
+          y: 3,
+          x: 22
+        },
+        platforms: [
+        {
+          x: 10,
+          y: 10,
+          width: 3,
+          height: 0.2,
+          friction: 100,
+         movement:
+          {
+            rotation: 1
+          }
+        },
+        {
+          x: 16,
+          y: 8,
+          width: 2.5,
+          height: 0.2,
+          friction: 100,
+         movement:
+          {
+            shiftY: 2.5,
+            shiftX: 0,
+            period: 2,
+            phaseShift: 2,
+          }
+        },
+        {
+          x: 2.5,
+          y: 12,
+          width: 2
+        } 
+      ],
+    },
 
 ]
 }

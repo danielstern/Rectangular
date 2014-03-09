@@ -28,7 +28,7 @@ angular.module('Rectangular')
 
 		 bodies.push(b);
 
-		 console.log("adding element..",b.options);
+		 //console.log("ngrWorld:: addElement - ",b.options);
 		 return b;
 	};
 

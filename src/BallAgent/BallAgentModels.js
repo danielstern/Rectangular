@@ -13,8 +13,6 @@ angular.module('BallAgentModels', [])
         exit: true
       });
 
-      console.log("Creating exit,",exitBody,exitBox,options);
-
       var actor = ngrDisplay.skin(exitBody, options);
 
       return exitBody;
