@@ -3,7 +3,7 @@ angular.module('BallAgentModels', [])
 
     this.createExit = function(options) {
 
-      options = _.extend(BallAgentDefaults.exit, options);
+      options = _.extend(_.clone(BallAgentDefaults.exit), options);
 
       var exitBox = ngrBox.shape("box", options);
       exitBox.f.isSensor = true;
@@ -20,10 +20,12 @@ angular.module('BallAgentModels', [])
 
     this.createPlatform = function(options) {
 
-      options = _.extend(BallAgentDefaults.platform, options);
+      options = _.extend(_.clone(BallAgentDefaults.platform), options);
 
       var platform = ngrBox.shape("box", options);
       var pBody = ngrWorld.addElement(platform, options);
+
+      console.log("Creating platform",platform,options);
 
       pBody.SetUserData({
         isFloor: true
@@ -42,7 +44,7 @@ angular.module('BallAgentModels', [])
 
     this.createColumn = function(options) {
 
-      options = _.extend(BallAgentDefaults.column, options);
+      options = _.extend(_.clone(BallAgentDefaults.column), options);
 
       var platform = ngrBox.shape("box", options);
       var pBody = ngrWorld.addElement(platform);

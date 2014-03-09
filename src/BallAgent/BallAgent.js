@@ -169,8 +169,8 @@ angular.module("BallAgent", ['Rectangular', 'ngAudio', 'BallAgentHero', 'BallAge
       exit = m.createExit(l.exit);
       bindControls();
 
-      _.each(l.platforms, m.createPlatform);
       _.each(l.columns, m.createColumn);
+      _.each(l.platforms, m.createPlatform);
 
       ngrEnvironment.addHook(tick);
 

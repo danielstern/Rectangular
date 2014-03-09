@@ -21,7 +21,9 @@ angular.module('Rectangular')
 		 var b = world.CreateBody(definition.b);
 		 var f =b.CreateFixture(definition.f);
 
-		 options = options || {};
+		 console.error("Adding elements");
+
+		 options = _.clone(options) || {};
 
 		 options.cycle = 0;
 		 b.options = options;
@@ -80,12 +82,10 @@ angular.module('Rectangular')
 
 	 		_.each(bodies, function(body){
 
-		      if (body.options && body.options.moves) {
-				 		
-				    	ngrWorld.cycleBody(body);
-				   
-				  }
-
+	      if (body.options && body.options.moves) {			
+	      //	console.log("this body moves...",body)	;
+			    	ngrWorld.cycleBody(body);   
+			  }
 
 	 		})
 	 	})
