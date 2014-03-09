@@ -24,7 +24,7 @@ angular.module('Rectangular')
 		 options = _.clone(options) || {};
 
 		 options.cycle = 0;
-		 b.options = options;
+		 b.options = _.clone(options);
 
 		 bodies.push(b);
 
@@ -34,7 +34,7 @@ angular.module('Rectangular')
 
 	this.cycleBody = function(b) {
 
-		 var options = _.clone(b.options);
+		 var options = b.options;
 
 		 options.cycle += Math.PI / 200 / options.movement.period || 1;
      var phase = options.movement.phaseShift || 0;
@@ -48,8 +48,8 @@ angular.module('Rectangular')
    	}
 
    	if (options.movement.rotation) {
-     var newRotation = currentRotation - (phase / 50) + (options.cycle / 50)  * options.movement.rotation || 1;
-   		console.log("Rotation,", newRotation);
+     var newRotation = (phase / 50) + (options.cycle / 50)  * options.movement.rotation || 1;
+   		//console.log("Rotation,", newRotation);
      b.SetAngle(newRotation);
   	}
 
