@@ -7,6 +7,7 @@ angular.module("BallAgent", ['Rectangular', 'ngAudio', 'BallAgentHero', 'BallAge
     var gameOverListeners = [];
     var airborneTimer = 3;
     var jumpReleasedTimer = 15;
+    var LIVES = 2;
     var m = BallAgentModels;
     var hero,
       exit,
@@ -83,11 +84,16 @@ angular.module("BallAgent", ['Rectangular', 'ngAudio', 'BallAgentHero', 'BallAge
       _.each(gameOverListeners, function(l) {
         l(state);
       });
+
+      ngrEnvironment.blocker()
+      .then(function(){
+        ngrEnvironment.clearAll();
+      })
     }
 
 
     function newGame() {
-      state.lives = 3;
+      state.lives = LIVES;
       state.currentLevel = 0;
       nextLevel();
     }
@@ -121,12 +127,14 @@ angular.module("BallAgent", ['Rectangular', 'ngAudio', 'BallAgentHero', 'BallAge
           }
 
           if (contact.IsTouching() && contacts.other.GetUserData() && contacts.other.GetUserData().isFloor) {
+            if (!jumpReleasedTimer) {
+              jumpReleased = true;
+              if (!airborneTimer) ngAudio.play('land');
+            }
+
             heroState.airborne = false;
             airborneTimer = 3;
 
-            if (!jumpReleasedTimer) {
-              jumpReleased = true;
-            }
           }
 
           contacts = contacts.next;
