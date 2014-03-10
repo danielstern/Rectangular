@@ -19,7 +19,7 @@
 
     var floor = ngrModels.floor(options);
     //options = floor.options;
-    floor.options.userData = {isFloor:true};
+//    floor.options.userData = {isFloor:true};
     e.add('box', floor.options);
 
     //var body = ngrWorld.addElement(floor);
@@ -32,10 +32,11 @@
     options = options || {};
 
     var leftWall = ngrModels.leftWall(options);
-    options = leftWall.options;
+    //options = leftWall.options;
+    e.add('box', leftWall.options);
 
-    var lBody = ngrWorld.addElement(leftWall);
-    ngrDisplay.skin(lBody, options);
+    //var lBody = ngrWorld.addElement(leftWall);
+    //ngrDisplay.skin(lBody, options);
 
    }
 

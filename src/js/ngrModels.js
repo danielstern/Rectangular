@@ -67,6 +67,9 @@ angular.module('Rectangular')
 		height: 0.3,
 		position:'static',
 		src:'img/tile-blue.png',
-		bg:'tiled'
+		bg:'tiled',
+		userData: {
+			isFloor: true
+		}
 	}
 })

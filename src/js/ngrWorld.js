@@ -28,7 +28,7 @@ angular.module('Rectangular')
 
 		 bodies.push(b);
 
-		 console.log("setting userdata", options)
+		 //console.log("setting userdata", options)
 
 		 if (options.userData) b.SetUserData(options.userData);
 
