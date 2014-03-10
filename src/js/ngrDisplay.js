@@ -92,7 +92,7 @@ angular.module('Rectangular')
 
           imgData.snapToPixel = options.snapToPixel;
           imgData.mouseEnabled = options.mouseEnabled;
-          stage.addChild(imgData);
+          ngrStage.addChild(imgData);
 
           var actor = ngrActor.newActor(body, imgData);
           ngrStage.actors.push(actor);
@@ -101,7 +101,7 @@ angular.module('Rectangular')
 
           var container = nd.tile(img, options);
 
-          stage.addChild(container);
+          ngrStage.addChild(container);
 
           var actor = ngrActor.newActor(body, container);
           ngrStage.actors.push(actor);
@@ -212,7 +212,7 @@ angular.module('Rectangular')
         bgData.scaleX = scaleX;
         bgData.scaleY = scaleX;
         
-        ngrStage.stage.addChildAt(bgData);
+        ngrStage.addChildAt(bgData);
         window.stage = ngrStage.stage;
 
       }

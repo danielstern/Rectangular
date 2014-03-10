@@ -7,7 +7,7 @@
       canvas,
       env = {},
       ngEnv = this,
-      SCALE = 10;
+      SCALE = 30;
 
     var worldHeight = 16.6; // meters
     var worldWidth = 25; 
