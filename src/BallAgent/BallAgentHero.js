@@ -1,5 +1,5 @@
 angular.module("BallAgentHero", ['Rectangular', 'ngAudio'])
-.service('BallAgentHero',function(ngrLoop, ngrBox,ngAudio,ngrWorld,ngrDisplay){
+.service('BallAgentHero',function(ngrLoop, ngrBox,ngrStage,ngAudio,ngrWorld,ngrDisplay){
 
 	var heroBody = {};
 	var hero = this;
@@ -50,6 +50,8 @@ angular.module("BallAgentHero", ['Rectangular', 'ngAudio'])
 	  attrs.radius = radius;
 	  attrs.src = 'img/hero.png';
 	  var actor = ngrDisplay.skin(heroBody, attrs);
+	  console.log("setting follow",actor);
+	  ngrStage.follow(actor);
 
 	  ngrLoop.addHook(tick);
 

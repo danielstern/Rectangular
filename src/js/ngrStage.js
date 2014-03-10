@@ -11,6 +11,9 @@ angular.module('Rectangular')
     this.stage = stage;
     var e;
 
+    var following = false;
+    var target = null;
+
     var s = this;
 
     window._stage = this.stage;
@@ -28,7 +31,13 @@ angular.module('Rectangular')
     this.setFocusPoint = function(vec) {
       focusPoint = vec;
 
-    }
+    };
+
+    this.follow = function(_target) {
+      console.log("Following,",_target);
+      target = _target;
+
+    };
 
     this.init = function() {
       var e = ngrState.getState();
@@ -55,6 +64,13 @@ angular.module('Rectangular')
 
     function tick() {
 
+      if (target){
+//        var pos = target.GetPosition();
+ //       focusPoint.x = pos.x;
+  //      focusPoint.y = pos.y;
+
+      }
+
       var env = ngrState.getState();
       ctx.save();
       c.x = env.width / 2 - focusPoint.x;
@@ -79,6 +95,10 @@ angular.module('Rectangular')
   var actorObject = function(body, skin) {
     this.body = body;
     this.skin = skin;
+
+    this.GetPosition = function() {
+      return body.GetPosition();
+    }
     this.update = function() { // translate box2d positions to pixels
       this.skin.rotation = this.body.GetAngle() * (180 / Math.PI);
       this.skin.x = this.body.GetWorldCenter().x * ngrState.SCALE;

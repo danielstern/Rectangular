@@ -6,6 +6,7 @@ angular.module('Rectangular')
 
       var f = body.GetFixtureList();
       var s = f.GetShape();
+      var actor = {};
 
       var defaults = {
         height: 1,
@@ -94,7 +95,7 @@ angular.module('Rectangular')
           imgData.mouseEnabled = options.mouseEnabled;
           ngrStage.addChild(imgData);
 
-          var actor = ngrActor.newActor(body, imgData);
+          actor = ngrActor.newActor(body, imgData);
           ngrStage.actors.push(actor);
 
         } else {
@@ -103,16 +104,16 @@ angular.module('Rectangular')
 
           ngrStage.addChild(container);
 
-          var actor = ngrActor.newActor(body, container);
+          actor = ngrActor.newActor(body, container);
           ngrStage.actors.push(actor);
 
        //   window.imgData = imgData;
 
         }
 
-        return actor;
 
       }
+        return actor;
     };
 
     this.tile = function(img, options) {
