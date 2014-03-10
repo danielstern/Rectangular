@@ -81,4 +81,15 @@ angular.module('Rectangular')
       isFloor: true
     }
   }
+
+  this.skin = {
+    height: 1,
+    width: 1,
+    snapToPixel: true,
+    mouseEnabled: false,
+    y: 1,
+    x: 10,
+    angle: 0,
+    src: ''
+  }
 })

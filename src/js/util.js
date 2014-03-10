@@ -41,6 +41,7 @@ function MouseTargeter(_canvas, scale) {
 
 }
 
+
 /**
  * Overwrites default Mousetrap.bind method to optionally accept
  * an object to bind multiple key events in a single call

@@ -1,5 +1,5 @@
 angular.module('Rectangular')
-  .service('ngrDisplay', function(ngrStage, ngrState, ngrActor) {
+  .service('ngrDisplay', function(ngrStage, ngrState, ngrDefaults, $q, ngrActor) {
 
     var nd = this;
     this.skin = function(body, options) {
@@ -8,16 +8,7 @@ angular.module('Rectangular')
       var s = f.GetShape();
       var actor = {};
 
-      var defaults = {
-        height: 1,
-        width: 1,
-        snapToPixel: true,
-        mouseEnabled: false,
-        y: 1,
-        x: 10,
-        angle: 0,
-        src: ''
-      };
+      var defaults = _.clone(ngrDefaults.skin);
 
       if (s.constructor == b2CircleShape) {
 
@@ -40,7 +31,6 @@ angular.module('Rectangular')
       var stage = ngrStage.stage;
       var imgData;
 
-      imgData = new createjs.Bitmap(options.src || 'img/null.png');
 
       if (options.radius) {
 
@@ -55,25 +45,11 @@ angular.module('Rectangular')
       }
 
 
-      function checkImageReady() {
+     
 
-        var img = imgData.image;
-        if (img.width) {
-          return true;
-        } else {
-          return false;
-        }
-      };
-
-      var awaitImageInterval = setInterval(function() {
-        if (checkImageReady()) {
-
-          clearInterval(awaitImageInterval);
-          initImg();
-        }
-      }, 1);
-
-      function initImg() {
+      //imgData = new createjs.Bitmap(options.src || 'img/null.png');
+      loadBitmap(options.src)
+      .then(function initImg(imgData) {
 
         var img = imgData.image;
 
@@ -112,8 +88,8 @@ angular.module('Rectangular')
         }
 
 
-      }
-        return actor;
+      })
+      //return actor;
     };
 
     this.tile = function(img, options) {
@@ -217,5 +193,32 @@ angular.module('Rectangular')
         window.stage = ngrStage.stage;
 
       }
+    }
+
+
+    function loadBitmap(src) {
+        var r = $q.defer();
+        var imgData = new createjs.Bitmap(src);
+
+        function checkImageReady() {
+
+          var img = imgData.image;
+          if (img.width) {
+            return true;
+          } else {
+            return false;
+          }
+        };
+
+        var awaitImageInterval = setInterval(function() {
+          if (checkImageReady()) {
+
+            clearInterval(awaitImageInterval);
+            r.resolve(imgData);
+          }
+        }, 1);
+
+        return r.promise;
+
     }
   })
