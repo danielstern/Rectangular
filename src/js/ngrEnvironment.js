@@ -52,6 +52,7 @@
       ngrState.setProperties(env);
       canvas = _canvas;
       ngrLoop.initWorld(60, env);
+      ngrStage.init();
       var p = $(canvas).parent();
 
       if (!$('.blocker')[0]) {

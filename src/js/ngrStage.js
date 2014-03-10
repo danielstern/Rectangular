@@ -1,5 +1,5 @@
 angular.module('Rectangular')
-  .service('ngrStage', function(ngrLoop) {
+  .service('ngrStage', function(ngrLoop,ngrState) {
 
     var canvas = $('canvas')[0];
 
@@ -9,14 +9,31 @@ angular.module('Rectangular')
     var actors = [];
     this.actors = actors;
     this.stage = stage;
+    var e;
 
     var s = this;
 
     window._stage = this.stage;
 
+    var focusPoint = {
+      x:0,
+      y:0
+    }
+
     this.addChild = function(container) {
       c.addChild(container);
       //c.addChild(container);
+    }
+
+    this.setFocusPoint = function(vec) {
+      focusPoint = vec;
+
+    }
+
+    this.init = function() {
+      var e = ngrState.getState();
+      s.setFocusPoint({x:e.width /2,y:e.height /2});
+
     }
 
     this.addChildAt = function(container, index) {
@@ -31,19 +48,26 @@ angular.module('Rectangular')
       ctx.restore();
       c = new createjs.Container();
       stage.addChild(c);
-      
+
     window.container = c;
 
     }
 
-    ngrLoop.addPermanentHook(function() {
-      stage.update();
+    function tick() {
+
+      var env = ngrState.getState();
       ctx.save();
+      c.x = env.width / 2 - focusPoint.x;
+      c.y = env.height / 2 - focusPoint.y;
       ctx.restore();
       _.each(actors, function(actor) {
         actor.update();
       })
-    })
+      stage.update();
+
+    }
+
+    ngrLoop.addPermanentHook(tick);
   })
 
 .service('ngrActor', function(ngrState) {
