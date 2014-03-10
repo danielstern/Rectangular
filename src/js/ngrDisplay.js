@@ -158,7 +158,6 @@ angular.module('Rectangular')
       function initImg(bgData) {
 
         var env = ngrState.getState();
-        //ngrStage.stage.setChildIndex(c, 0);
         var scaleX = env.width / bgData.image.width * 1.2;
         bgData.scaleX = scaleX;
         bgData.scaleY = scaleX;
