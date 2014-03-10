@@ -169,13 +169,17 @@ angular.module("BallAgent", ['Rectangular', 'ngAudio', 'BallAgentHero', 'BallAge
     }
 
     var c;
+    var goingToNextLevel = false;
 
     ngrEnvironment.init($('canvas')[0]);
     function nextLevel() {
+      if (goingToNextLevel) return;
+      goingToNextLevel = true;
 
       ngrEnvironment.stop();
       ngrEnvironment.blocker()
         .then(function() {
+         // console.log("Creating new level");
           state.currentLevel++;
           var l = BallAgentLevels.levels[state.currentLevel - 1];
 
@@ -187,7 +191,7 @@ angular.module("BallAgent", ['Rectangular', 'ngAudio', 'BallAgentHero', 'BallAge
           ngrEnvironment.clearAll();
           if (c) clearTimeout(c);
 
-          state.levelName = l.levelName || "Higginsons Revenge";
+          state.levelName = l.levelName;
 
           $('.levelName').removeClass('slideInLeft')
             .removeClass('slideOutLeft')
@@ -212,11 +216,12 @@ angular.module("BallAgent", ['Rectangular', 'ngAudio', 'BallAgentHero', 'BallAge
           exit = m.createExit(l.exit);
           bindControls();
 
+          goingToNextLevel = false;
+
           _.each(l.columns, m.createColumn);
           _.each(l.platforms, m.createPlatform);
 
           ngrEnvironment.addHook(tick);
-
 
           updateState(state);
 

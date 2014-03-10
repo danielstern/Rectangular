@@ -34,9 +34,13 @@ angular.module('ngAudio',[])
 		};
 
 		/* Play the sound. */
-		$sound.pause();
-		$sound.currentTime = 0;
-		$sound.play();
+		try {
+			$sound.pause();
+			$sound.currentTime = 0;
+			$sound.play();
+		} catch (e) {
+			console.warn('Tried accessing unavailable sound',id);
+		}
 
 	};
 
@@ -66,7 +70,6 @@ this.isMusic = function(ids) {
 		};
 
 		_.each(ids,function(id){
-		//	console.log("Toggling mute",mutedSounds,id);
 			if (_.contains(mutedSounds, id)) {
 				a.unmute(id);
 			} else {
@@ -87,7 +90,6 @@ this.isMusic = function(ids) {
 	}
 
 	this.setSoundVolume = function(id, vol) {
-		//console.log("Setting sound vol",id,vol)
 		var $sound = document.getElementById(id);
 		$sound.volume = vol;
 	}

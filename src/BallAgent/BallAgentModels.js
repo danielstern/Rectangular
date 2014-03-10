@@ -5,14 +5,16 @@ angular.module('BallAgentModels', [])
 
       options = _.extend(_.clone(BallAgentDefaults.exit), options);
 
+      options.sensor = true;
+      options.userData = {
+        exit: true
+      }
+
       var exitBox = ngrBox.shape("box", options);
       exitBox.f.isSensor = true;
 
       var exitBody = ngrWorld.addElement(exitBox, options);
-      exitBody.SetUserData({
-        exit: true
-      });
-
+     
       var actor = ngrDisplay.skin(exitBody, options);
 
       return exitBody;
@@ -22,19 +24,18 @@ angular.module('BallAgentModels', [])
 
       options = _.extend(_.clone(BallAgentDefaults.platform), options);
 
-      var platform = ngrBox.shape("box", options);
-      var pBody = ngrWorld.addElement(platform, options);
-
-       pBody.SetUserData({
+      options.userData = {
         isFloor: true
-      });
+      };
 
-      ngrDisplay.skin(pBody, options);
+      ngrEnvironment.add("box",options);
+
+
 
       var subOptions = _.clone(options);
 
-      subOptions.y += 0.2;
-      var platformUnder = ngrBox.shape("box", subOptions);
+        subOptions.y += 0.2;
+       var platformUnder = ngrBox.shape("box", subOptions);
       var pSubBody = ngrWorld.addElement(platformUnder, subOptions);
 
       return platform;

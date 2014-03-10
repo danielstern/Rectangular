@@ -28,6 +28,8 @@ angular.module('Rectangular')
 
 		 bodies.push(b);
 
+		 if (options.userData) b.SetUserData(options.userData);
+
 		 //console.log("ngrWorld:: addElement - ",b.options);
 		 return b;
 	};

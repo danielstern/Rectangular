@@ -204,8 +204,6 @@
             ngrEnvironment.toggleDebug();
         }
 
-     //    ngAudio.toggleMute(['themesong']);
-
         BallAgent.onStateChange(function() {
 
             $scope.level = BallAgent.state.currentLevel;
@@ -232,12 +230,10 @@
             $('.logo-middle-star')
             .addClass('animated slideInLeft');
 
-          //  ngAudio.stop('stage1');
             ngAudio.play('dead');
 
             function handleGameOverComplete() {
 
-             //   ngAudio.stop('dead');
                 ngAudio.play('menu');
 
                 Mousetrap.unbind(['enter','space'], handleGameOverComplete);
@@ -268,14 +264,10 @@
             $('.logo-middle-star')
             .addClass('animated slideInLeft');
 
-          //  ngAudio.stop('stage1');
-            //ngAudio.play('menu');
            ngAudio.play('victory');
 
             function handleGameOverComplete() {
 
-            //     ngAudio.stop('victory');
-                 //ngAudio.play('menu');
                 ngAudio.play('menu');
 
                 Mousetrap.unbind(['enter','space'], handleGameOverComplete);

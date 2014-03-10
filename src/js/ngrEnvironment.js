@@ -49,6 +49,12 @@
       ngrLoop.initWorld(60, env);
     }
 
+    this.add = function(type, options) {
+      var s = ngrBox.shape(type, options);
+      var b = ngrWorld.addElement(s, options);
+      ngrDisplay.skin(b, options);
+    }
+
     var blockerRunning = false;
     var r;
 
