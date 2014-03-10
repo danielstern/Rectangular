@@ -10,7 +10,7 @@ function MouseTargeter(_canvas, scale) {
 
     var canvas = _canvas;
     var context;
-    var SCALE = scale || 30;
+    var SCALE = scale;
 
     var onmoveListeners = [];
 

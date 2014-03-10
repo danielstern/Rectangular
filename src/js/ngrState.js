@@ -3,11 +3,12 @@ angular.module('Rectangular')
   var properties;
   var state = this;
   this.state = properties;
-  this.SCALE = 30;
 
   this.setProperties = function(_properties) {
     properties = _properties;
     state.SCALE = properties.SCALE;
+
+    window.state = state;
 
   }
 

@@ -9,7 +9,6 @@ angular.module('Rectangular')
 	var ngrWorld = this;
 	var env;
 
-	this.SCALE = 30;
 	var elements = [];
 
 	var gravity = new b2Vec2(0,0);
@@ -27,8 +26,6 @@ angular.module('Rectangular')
 		 b.options = _.clone(options);
 
 		 bodies.push(b);
-
-		 //console.log("setting userdata", options)
 
 		 if (options.userData) b.SetUserData(options.userData);
 
@@ -100,6 +97,4 @@ angular.module('Rectangular')
 	this.getWorld = function() {
 		return world;
 	}
-
-
 })

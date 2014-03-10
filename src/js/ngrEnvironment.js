@@ -9,6 +9,9 @@
       ngEnv = this,
       SCALE = 10;
 
+    var worldHeight = 16.6; // meters
+    var worldWidth = 25; 
+
     this.addHook = ngrLoop.addHook;
     this.clearHooks = ngrLoop.clearHooks;
     var e = this;
@@ -43,6 +46,9 @@
       env.height = _canvas.height;
       env.width = _canvas.width;
       env.SCALE = _scale || SCALE;
+      env.worldWidth = worldWidth;
+      env.worldHeight = worldHeight;
+
       ngrState.setProperties(env);
       canvas = _canvas;
       ngrLoop.initWorld(60, env);
