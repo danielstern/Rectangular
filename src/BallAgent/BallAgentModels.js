@@ -5,19 +5,13 @@ angular.module('BallAgentModels', [])
 
       options = _.extend(_.clone(BallAgentDefaults.exit), options);
 
-      options.sensor = true;
+      options.isSensor = true;
       options.userData = {
         exit: true
       }
 
-      var exitBox = ngrBox.shape("box", options);
-      exitBox.f.isSensor = true;
+      ngrEnvironment.add("box",options);
 
-      var exitBody = ngrWorld.addElement(exitBox, options);
-     
-      var actor = ngrDisplay.skin(exitBody, options);
-
-      return exitBody;
     }
 
     this.createPlatform = function(options) {
@@ -30,29 +24,20 @@ angular.module('BallAgentModels', [])
 
       ngrEnvironment.add("box",options);
 
-
-
       var subOptions = _.clone(options);
+      subOptions.y += 0.2;
+      subOptions.userData = null;
+      subOptions.src = 'img/tile.png';
 
-        subOptions.y += 0.2;
-       var platformUnder = ngrBox.shape("box", subOptions);
-      var pSubBody = ngrWorld.addElement(platformUnder, subOptions);
+      ngrEnvironment.add("box",subOptions);
 
-      return platform;
     }
 
     this.createColumn = function(options) {
 
       options = _.extend(_.clone(BallAgentDefaults.column), options);
+      ngrEnvironment.add("box",options);
 
-      var platform = ngrBox.shape("box", options);
-      var pBody = ngrWorld.addElement(platform, options);
-      var cycle = 0;
-
-      ngrDisplay.skin(pBody, options);
-
-
-      return platform;
     }
 
   })

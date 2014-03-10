@@ -51,6 +51,9 @@
 
     this.add = function(type, options) {
       var s = ngrBox.shape(type, options);
+
+      if (options.isSensor) s.f.isSensor = true;
+      
       var b = ngrWorld.addElement(s, options);
       ngrDisplay.skin(b, options);
     }
