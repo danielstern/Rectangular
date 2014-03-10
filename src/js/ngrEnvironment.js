@@ -7,7 +7,7 @@
       canvas,
       env = {},
       ngEnv = this,
-      SCALE = 30;
+      SCALE = 10;
 
     this.addHook = ngrLoop.addHook;
     this.clearHooks = ngrLoop.clearHooks;
@@ -16,47 +16,33 @@
    this.floor = function(options) {
 
     options = options || {};
-
     var floor = ngrModels.floor(options);
-    //options = floor.options;
-//    floor.options.userData = {isFloor:true};
     e.add('box', floor.options);
 
-    //var body = ngrWorld.addElement(floor);
-    //body.SetUserData({isFloor:true})
-    //ngrDisplay.skin(body, options);
    }
 
    this.leftWall = function(options) {
 
     options = options || {};
-
     var leftWall = ngrModels.leftWall(options);
-    //options = leftWall.options;
     e.add('box', leftWall.options);
 
-    //var lBody = ngrWorld.addElement(leftWall);
-    //ngrDisplay.skin(lBody, options);
 
    }
 
    this.rightWall = function(options) {
 
     options = options || {};
-
     var rightWall = ngrModels.rightWall(options);   
-    options = rightWall.options;
-    var rBody = ngrWorld.addElement(rightWall);
-
-    ngrDisplay.skin(rBody, options);
+    e.add('box', rightWall.options);
 
    }
 
 
-    this.init = function(_canvas) {
+    this.init = function(_canvas, _scale) {
       env.height = _canvas.height;
       env.width = _canvas.width;
-      env.SCALE = SCALE;
+      env.SCALE = _scale || SCALE;
       ngrState.setProperties(env);
       canvas = _canvas;
       ngrLoop.initWorld(60, env);
@@ -92,6 +78,10 @@
 
       var b = ngrWorld.addElement(s, options);
       if (!options.hidden) ngrDisplay.skin(b, options);
+    }
+
+    this.remove = function() {
+      throw new Error("Warning: Attempting to access unwritten remove function");
     }
 
     var blockerRunning = false;
