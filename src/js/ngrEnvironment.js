@@ -1,5 +1,5 @@
  angular.module('Rectangular')
- .service('ngrEnvironment', function(ngrWorld, ngrStage, $q, ngrState, ngrBox, ngrDebug, ngrLoop, ngrDisplay) {
+ .service('ngrEnvironment', function(ngrWorld, ngrStage, ngrModels, $q, ngrState, ngrBox, ngrDebug, ngrLoop, ngrDisplay) {
 
     var world,
       envHeight,
@@ -11,11 +11,46 @@
 
     this.addHook = ngrLoop.addHook;
     this.clearHooks = ngrLoop.clearHooks;
+    var e = this;
+   
+   this.floor = function(options) {
 
-    this.floor = ngrWorld.floor;
-    this.room = ngrWorld.room;
-    this.leftWall = ngrWorld.leftWall;
-    this.rightWall = ngrWorld.rightWall;
+    options = options || {};
+
+    var floor = ngrModels.floor(options);
+    //options = floor.options;
+    floor.options.userData = {isFloor:true};
+    e.add('box', floor.options);
+
+    //var body = ngrWorld.addElement(floor);
+    //body.SetUserData({isFloor:true})
+    //ngrDisplay.skin(body, options);
+   }
+
+   this.leftWall = function(options) {
+
+    options = options || {};
+
+    var leftWall = ngrModels.leftWall(options);
+    options = leftWall.options;
+
+    var lBody = ngrWorld.addElement(leftWall);
+    ngrDisplay.skin(lBody, options);
+
+   }
+
+   this.rightWall = function(options) {
+
+    options = options || {};
+
+    var rightWall = ngrModels.rightWall(options);   
+    options = rightWall.options;
+    var rBody = ngrWorld.addElement(rightWall);
+
+    ngrDisplay.skin(rBody, options);
+
+   }
+
 
     this.init = function(_canvas) {
       env.height = _canvas.height;
@@ -53,7 +88,7 @@
       var s = ngrBox.shape(type, options);
 
       if (options.isSensor) s.f.isSensor = true;
-      
+
       var b = ngrWorld.addElement(s, options);
       ngrDisplay.skin(b, options);
     }

@@ -28,9 +28,10 @@ angular.module('Rectangular')
 
 		 bodies.push(b);
 
+		 console.log("setting userdata", options)
+
 		 if (options.userData) b.SetUserData(options.userData);
 
-		 //console.log("ngrWorld:: addElement - ",b.options);
 		 return b;
 	};
 
@@ -51,16 +52,10 @@ angular.module('Rectangular')
 
    	if (options.movement.rotation) {
      var newRotation = (phase) + (options.cycle / 50)  * options.movement.rotation || 1;
-   		//console.log("Rotation,", newRotation);
      b.SetAngle(newRotation);
   	}
 
 	}
-
-	this.addHook = function(func) {
- 		throw new Error();
-	}
-
 
 	this.removeElement = function(body) {
 		 world.DestroyBody(body);
@@ -106,47 +101,5 @@ angular.module('Rectangular')
 		return world;
 	}
 
-	this.room = function() {
 
-		ngrBox.floor();
-		ngrBox.leftWall();
-		ngrBox.rightWall();
-
-	}
-
-	this.floor = function(options) {
-
-		options = options || {};
-
-		var floor = ngrModels.floor(options);
-		options = floor.options;
-
-		var body = ngrWorld.addElement(floor);
-		body.SetUserData({isFloor:true})
-		ngrDisplay.skin(body, options);
-	}
-
-	this.leftWall = function(options) {
-
-		options = options || {};
-
-		var leftWall = ngrModels.leftWall(options);
-		options = leftWall.options;
-
-		var lBody = ngrWorld.addElement(leftWall);
-		ngrDisplay.skin(lBody, options);
-
-	}
-
-	this.rightWall = function(options) {
-
-		options = options || {};
-
-		var rightWall = ngrModels.rightWall(options);		
-		options = rightWall.options;
-		var rBody = ngrWorld.addElement(rightWall);
-
-		ngrDisplay.skin(rBody, options);
-
-	}
 })
