@@ -44,52 +44,46 @@ angular.module('Rectangular')
 
       }
 
-
-     
-
-      //imgData = new createjs.Bitmap(options.src || 'img/null.png');
       loadBitmap(options.src)
-      .then(function initImg(imgData) {
+        .then(function(imgData) {
 
-        var img = imgData.image;
+          var img = imgData.image;
 
-        if (options.bg != 'tiled') {
+          if (options.bg != 'tiled') {
 
-          var scaleY = options.height / img.height * 2;
-          var scaleX = options.width / img.width * 2;
+            var scaleY = options.height / img.height * 2;
+            var scaleX = options.width / img.width * 2;
 
-          var regY = (img.height) / 2;
-          var regX = (img.width) / 2;
+            var regY = (img.height) / 2;
+            var regX = (img.width) / 2;
 
-          imgData.scaleX = scaleX;
-          imgData.scaleY = scaleY;
+            imgData.scaleX = scaleX;
+            imgData.scaleY = scaleY;
 
-          imgData.regX = regX;
-          imgData.regY = regY;
+            imgData.regX = regX;
+            imgData.regY = regY;
 
-          imgData.snapToPixel = options.snapToPixel;
-          imgData.mouseEnabled = options.mouseEnabled;
-          ngrStage.addChild(imgData);
+            imgData.snapToPixel = options.snapToPixel;
+            imgData.mouseEnabled = options.mouseEnabled;
+            ngrStage.addChild(imgData);
 
-          actor = ngrActor.newActor(body, imgData);
-          ngrStage.actors.push(actor);
+            actor = ngrActor.newActor(body, imgData);
+            ngrStage.actors.push(actor);
 
-        } else {
+          } else {
 
-          var container = nd.tile(img, options);
+            var container = nd.tile(img, options);
 
-          ngrStage.addChild(container);
+            ngrStage.addChild(container);
 
-          actor = ngrActor.newActor(body, container);
-          ngrStage.actors.push(actor);
+            actor = ngrActor.newActor(body, container);
+            ngrStage.actors.push(actor);
 
-       //   window.imgData = imgData;
-
-        }
+          }
 
 
-      })
-      //return actor;
+        })
+
     };
 
     this.tile = function(img, options) {
@@ -152,43 +146,23 @@ angular.module('Rectangular')
 
       container.regX = -options.width;
       container.regY = -options.height;
-      
+
       return container;
 
     }
 
     this.background = function(src) {
-      var bgData = new createjs.Bitmap(src || 'img/null.png');
-      
+      loadBitmap(src)
+        .then(initImg);
 
-      function checkImageReady() {
-
-        var img = bgData.image;
-        if (img.width) {
-          return true;
-        } else {
-          return false;
-        }
-      };
-
-
-      var awaitBgInterval = setInterval(function() {
-        if (checkImageReady()) {
-
-          clearInterval(awaitBgInterval);
-          initImg();
-        }
-      }, 1);
-      
-
-      function initImg() {
+      function initImg(bgData) {
 
         var env = ngrState.getState();
         //ngrStage.stage.setChildIndex(c, 0);
-        var scaleX = env.width/ bgData.image.width * 1.2;
+        var scaleX = env.width / bgData.image.width * 1.2;
         bgData.scaleX = scaleX;
         bgData.scaleY = scaleX;
-        
+
         ngrStage.addChildAt(bgData);
         window.stage = ngrStage.stage;
 
@@ -197,28 +171,28 @@ angular.module('Rectangular')
 
 
     function loadBitmap(src) {
-        var r = $q.defer();
-        var imgData = new createjs.Bitmap(src);
+      var r = $q.defer();
+      var imgData = new createjs.Bitmap(src);
 
-        function checkImageReady() {
+      function checkImageReady() {
 
-          var img = imgData.image;
-          if (img.width) {
-            return true;
-          } else {
-            return false;
-          }
-        };
+        var img = imgData.image;
+        if (img.width) {
+          return true;
+        } else {
+          return false;
+        }
+      };
 
-        var awaitImageInterval = setInterval(function() {
-          if (checkImageReady()) {
+      var awaitImageInterval = setInterval(function() {
+        if (checkImageReady()) {
 
-            clearInterval(awaitImageInterval);
-            r.resolve(imgData);
-          }
-        }, 1);
+          clearInterval(awaitImageInterval);
+          r.resolve(imgData);
+        }
+      }, 1);
 
-        return r.promise;
+      return r.promise;
 
     }
   })
