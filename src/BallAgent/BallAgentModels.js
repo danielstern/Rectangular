@@ -26,6 +26,7 @@ angular.module('BallAgentModels', [])
 
       var subOptions = _.clone(options);
       subOptions.y += 0.2;
+      subOptions.hidden = true;
       subOptions.userData = null;
       subOptions.src = 'img/tile.png';
 

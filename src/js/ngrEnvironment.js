@@ -91,7 +91,7 @@
       if (options.isSensor) s.f.isSensor = true;
 
       var b = ngrWorld.addElement(s, options);
-      ngrDisplay.skin(b, options);
+      if (!options.hidden) ngrDisplay.skin(b, options);
     }
 
     var blockerRunning = false;
