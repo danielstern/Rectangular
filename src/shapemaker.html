@@ -3,7 +3,7 @@
     <html ng-app='BallAgentApp' ng-controller='myDemoCtrl'>
 
     <head>
-        <title>BallAgent: Do You Have The Balls?</title>
+        <title>Shapemaker: Enjoy Shapes</title>
 
         <script src="lib/angular.js"></script>
         <script src="lib/jquery.js"></script>
@@ -59,41 +59,8 @@
             <canvas ng-stage id='gameCanvas' width='650' height='450'></canvas>
         </div>
         <shapemaker shape='box'></shapemaker>
-        <button ng-click='addBox()'>- BOX -</button>
-        <table>
-            <tr>
-                <td>
-                    HEIGHT
-                </td>
-                <td>
-                    <input ng-model='boxHeight' type='range' min='0.2' max='10'>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    WIDTH
-                </td>
-                <td>
-                    <input ng-model='boxWidth' type='range' min='0.2' max='10'>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    RESTITUTION
-                </td>
-                <td>
-                    <input ng-model='boxRestitution'  type='range' min='0' step='0.1' max='1'>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    DENSITY
-                </td>
-                <td>
-                    <input ng-model='boxDensity'  type='range' min='0' max='10'>
-                </td>
-            </tr>
-        </table>
+        <shapemaker shape='circle'></shapemaker>
+       
     </body>
 
     </html>
@@ -108,20 +75,7 @@
                 worldHeight: 30
             });
 
-            $scope.boxHeight = 1;
-            $scope.boxWidth = 1;
-            $scope.boxRestitution = 0.3;
-            $scope.boxDensity = 0.5;
-           
-            $scope.addBox = function() { 
-                ngrEnvironment.add('box',{
-                    x:Math.random()*40,
-                    height:$scope.boxHeight / 2,
-                    width:$scope.boxWidth / 2,
-                    restitution:$scope.boxRestitution,
-                    density:$scope.boxDensity,
-                });
-            }
+      
 
         })
         .directive('shapemaker',function(){
@@ -131,8 +85,64 @@
                     return "shapemaker/creator.html";
 
                 },
-                link: function() {
-                    console.log("Hey shapemaker!");
+                scope: {
+            
+                },
+                link: function($scope, $elem, $attr) {
+                    console.log("Hey shapemaker!",arguments);
+                    $scope.shape = $attr.shape;
+                    //$scope.shape = $attr.shape || 'box';
+                },
+                controller: function($scope, $attrs, ngrEnvironment) {
+//                    console.log("This is my scope", $scope);
+
+                    $scope.height = 1;
+                    $scope.width = 1;
+                    $scope.restitution = 0.3;
+                    $scope.density = 0.5;
+
+                    
+
+                    $scope.newShape = function(input) {
+  //                      console.log('adding new shape,',$attrs.shape);
+                        $scope.addShape($attrs.shape);
+                    }
+
+                    $scope.addShape = function(shape) {
+                      //  console.log("Adding shape",shape, $scope)
+                        switch (shape) {
+                            case 'box':
+                                $scope.addBox();
+                                break;
+                            case 'circle':
+                                $scope.addCircle();
+                                break;
+                            default:
+                                console.error("Unavailable shape,",shape);
+                                break;
+                        }
+                    }
+                    
+                    $scope.addBox = function() { 
+                       // console.log("Adding shape",$scope);
+                        ngrEnvironment.add('box',{
+                            x:Math.random()*40,
+                            height:$scope.height / 2,
+                            width:$scope.width / 2,
+                            restitution:$scope.restitution,
+                            density:$scope.density,
+                        });
+                    }
+
+                    $scope.addCircle = function() { 
+                        //console.log("Adding shape",$scope);
+                        ngrEnvironment.add('circle',{
+                            x:Math.random()*40,
+                            radius:$scope.height,
+                            restitution:$scope.restitution,
+                            density:$scope.density,
+                        });
+                    }
                 }
             }
         })

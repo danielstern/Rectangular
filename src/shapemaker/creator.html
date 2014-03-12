@@ -1,0 +1,35 @@
+ <button ng-click='newShape(shape)'>- {{shape | uppercase}} -</button>
+        <table>
+            <tr>
+                <td>
+                    HEIGHT
+                </td>
+                <td>
+                    <input ng-model='height' type='range' min='0.2' max='10'>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    WIDTH
+                </td>
+                <td>
+                    <input ng-model='width' type='range' min='0.2' max='10'>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    RESTITUTION
+                </td>
+                <td>
+                    <input ng-model='restitution'  type='range' min='0' step='0.1' max='1'>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    DENSITY
+                </td>
+                <td>
+                    <input ng-model='density'  type='range' min='0' max='10'>
+                </td>
+            </tr>
+        </table>
