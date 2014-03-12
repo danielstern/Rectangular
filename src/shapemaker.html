@@ -53,10 +53,10 @@
     </head>
 
     <body>
-   
+
 
         <div class='main'>
-            <canvas ng-stage id='gameCanvas' width='650' height='450'></canvas> 
+            <canvas ng-stage id='gameCanvas' width='650' height='450'></canvas>
         </div>
     </body>
 
@@ -64,20 +64,16 @@
 
     <!-- ZOR -->
     <script>
-    angular.module("BallAgentApp", ['ngAudio','Rectangular'])
-    .controller('myDemoCtrl', function($scope, $element, ngrEnvironment, ngAudio) {
+    angular.module("BallAgentApp", ['ngAudio', 'Rectangular'])
+        .controller('myDemoCtrl', function($scope, $element, ngrEnvironment, ngAudio) {
 
-        console.log("Demo init");
-
-        // least possible boilerplate.
-        ngrEnvironment.init(
-            {
-                scale:'auto',
+            ngrEnvironment.init({
+                scale: 'auto',
                 worldHeight: 50
             });
-        //ngrEnvironment.init({gravity:1.2});
-        ngrEnvironment.add('box');
-       
+            
+            ngrEnvironment.add('box');
 
-    });
+
+        });
     </script>

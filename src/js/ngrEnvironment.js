@@ -92,6 +92,7 @@
 
      this.start = function() {
 
+      console.log("Starting");
        ngrLoop.start();
        ngEnv.debug();
      }
