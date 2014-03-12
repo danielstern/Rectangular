@@ -5,6 +5,7 @@
 	pointer-events: none;
 
 	background-color: rgba(100, 100, 100, 1);
+	left: 0;
 }
 
 .untouchable {

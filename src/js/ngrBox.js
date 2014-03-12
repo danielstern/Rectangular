@@ -10,8 +10,8 @@ angular.module('Rectangular')
 
 		//default options
 		var defaults = {
-			height: 1.5,
-			width: 1.5,
+			height: 0.5,
+			width: 0.5,
 			x: 10,
 			y: 1,
 			radius: 1.5,

@@ -56,7 +56,7 @@
    
 
         <div class='main'>
-            <canvas ng-stage id='gameCanvas' width='750' height='500'></canvas> 
+            <canvas ng-stage id='gameCanvas' width='650' height='450'></canvas> 
         </div>
     </body>
 
@@ -69,13 +69,15 @@
 
         console.log("Demo init");
 
-        ngrEnvironment.init({gravity:1.2});
-        //ngrEnvironment.init($('canvas')[0]);
-        //ngrEnvironment.start();
+        // least possible boilerplate.
+        ngrEnvironment.init(
+            {
+                scale:'auto',
+                worldHeight: 50
+            });
+        //ngrEnvironment.init({gravity:1.2});
         ngrEnvironment.add('box');
-       // ngrEnvironment.floor();
-        //ngrEnvironment.debug();
-        //ngrEnvironment.toggleDebug();
+       
 
     });
     </script>
