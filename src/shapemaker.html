@@ -151,12 +151,28 @@
         .directive('slider',function(){
             return {
                 restrict: 'AE',
-                link:function() {
-                    console.log("hi slider!");
+                link:function($scope,elem,attr) {
+                    console.log("hi slider!",arguments);
+                    $scope.atts = attr;
+
+                    $scope.max = 10;
+                    var s = $scope.$parent.shape;
+                    var t = attr.type;
+
+                    console.log("Slider init,",s,t,$scope);
+                    ///return;
+                    switch (t) {
+                        case 'restitution':
+                            $scope.max = 1;
+                            break;
+                    }
                 },
                 templateUrl:function(elem, atts){
                     return "shapemaker/slider.html";
                 },
+                controller:function($scope, $attrs, $parse, $compile) {
+                    
+                }
             }
         })
     </script>
