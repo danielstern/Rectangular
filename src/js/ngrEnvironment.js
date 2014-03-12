@@ -133,7 +133,6 @@
 
     this.debug = function() {
       var ctx = debugCanvas.getContext('2d');
-      console.log("Ctx?",ctx);
       ngrDebug.debug(ctx);
     }
 
