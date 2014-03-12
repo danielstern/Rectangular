@@ -74,7 +74,7 @@ angular.module('Rectangular')
   this.floor = {
     height: 0.3,
     position: 'static',
-    src: 'img/tile-blue.png',
+    /*src: 'img/tile-blue.png',*/
     bg: 'tiled',
     userData:
     {

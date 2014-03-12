@@ -14,6 +14,11 @@
        cmpl($scope);
      }
 
+     $scope.clearAll = function() {
+        ngrEnvironment.clearAll();
+        ngrEnvironment.floor();
+    }
+
 
 
    })

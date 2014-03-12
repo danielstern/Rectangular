@@ -59,16 +59,16 @@
             <canvas ng-stage id='gameCanvas' width='650' height='450'></canvas>
         </div>
         <makers>
-        <shapemaker shape='box' properties='height width restitution density'></shapemaker>
-        <shapemaker shape='circle' properties='radius restitution density'></shapemaker>
+            <shapemaker shape='box'></shapemaker>
+            <shapemaker shape='circle'></shapemaker>
         </makers>
         <button ng-click='newMaker()'>+</button>
-       
+        <button ng-click='clearAll()'>Clear</button>
+
     </body>
 
     </html>
 
     <!-- ZOR -->
     <script src='shapemaker/shapemaker.js'>
-   
     </script>
