@@ -50,6 +50,8 @@
       env.worldWidth = worldWidth;
       env.worldHeight = worldHeight;
 
+
+
       ngrState.setProperties(env);
       canvas = _canvas;
       ngrLoop.initWorld(60, env);
@@ -68,6 +70,11 @@
           .attr('height', env.height)
           .attr('width', env.width);
       }
+
+      if (!world)  world = ngrWorld.setWorld(0, 30, true);
+      ngEnv.start();
+      ngEnv.floor();
+      ngEnv.debug();
     }
 
     this.stop = function() {
@@ -75,7 +82,7 @@
     }
 
     this.start = function() {
-      if (!world)  world = ngrWorld.setWorld(0, 30, true);
+
       ngrLoop.initWorld(60, env);
     }
 
