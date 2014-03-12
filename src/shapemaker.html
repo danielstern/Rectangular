@@ -1,0 +1,81 @@
+<doctype HTML>
+
+    <html ng-app='BallAgentApp' ng-controller='myDemoCtrl'>
+
+    <head>
+        <title>BallAgent: Do You Have The Balls?</title>
+
+        <script src="lib/angular.js"></script>
+        <script src="lib/jquery.js"></script>
+        <script src="lib/underscore.js"></script>
+        <script src="lib/mousetrap.js"></script>
+        <script src="lib/Box2dWeb-2.1.a.3.js"></script>
+        <script src="js/util.js"></script>
+        <script src="js/Rectangular.js"></script>
+        <script src="BallAgent/BallAgent.js"></script>
+        <script src="BallAgent/BallAgentLevels.js"></script>
+        <script src="BallAgent/BallAgentHero.js"></script>
+        <script src="BallAgent/BallAgentModels.js"></script>
+        <script src="js/ngrStage.js"></script>
+        <script src="js/ngrState.js"></script>
+        <script src="js/ngrWorld.js"></script>
+        <script src="js/ngrDisplay.js"></script>
+        <script src="js/ngrLoop.js"></script>
+        <script src="js/ngrEnvironment.js"></script>
+        <script src="js/ngrModels.js"></script>
+        <script src="js/ngrBox.js"></script>
+        <script src="lib/angular.audio.js"></script>
+        <script type="text/javascript" src="lib/easel.js"></script>
+        <script type="text/javascript" src="lib/create.js"></script>
+
+        <script>
+        var b2Vec2 = Box2D.Common.Math.b2Vec2,
+            b2AABB = Box2D.Collision.b2AABB,
+            b2BodyDef = Box2D.Dynamics.b2BodyDef,
+            b2Body = Box2D.Dynamics.b2Body,
+            b2FixtureDef = Box2D.Dynamics.b2FixtureDef,
+            b2Fixture = Box2D.Dynamics.b2Fixture,
+            b2World = Box2D.Dynamics.b2World,
+            b2PolygonShape = Box2D.Collision.Shapes.b2PolygonShape,
+            b2CircleShape = Box2D.Collision.Shapes.b2CircleShape,
+            b2DebugDraw = Box2D.Dynamics.b2DebugDraw,
+            b2MouseJointDef = Box2D.Dynamics.Joints.b2MouseJointDef,
+            b2Shape = Box2D.Collision.Shapes.b2Shape,
+            b2RevoluteJointDef = Box2D.Dynamics.Joints.b2RevoluteJointDef,
+            b2Joint = Box2D.Dynamics.Joints.b2Joint,
+            b2PrismaticJointDef = Box2D.Dynamics.Joints.b2PrismaticJointDef;
+        </script>
+
+        <link rel="stylesheet" type="text/css" href="styles/ballAgent.css">
+        <link rel="stylesheet" type="text/css" href="styles/ngr.css">
+        <link rel="stylesheet" type="text/css" href="styles/animate.css">
+
+    </head>
+
+    <body>
+   
+
+        <div class='main'>
+            <canvas ng-stage id='gameCanvas' width='750' height='500'></canvas> 
+        </div>
+    </body>
+
+    </html>
+
+    <!-- ZOR -->
+    <script>
+    angular.module("BallAgentApp", ['ngAudio','Rectangular'])
+    .controller('myDemoCtrl', function($scope, $element, ngrEnvironment, ngAudio) {
+
+        console.log("Demo init");
+
+        ngrEnvironment.init();
+        //ngrEnvironment.init($('canvas')[0]);
+        ngrEnvironment.start();
+      //  ngrEnvironment.add('box');
+        ngrEnvironment.floor();
+        ngrEnvironment.debug();
+        //ngrEnvironment.toggleDebug();
+
+    });
+    </script>

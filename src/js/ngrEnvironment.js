@@ -43,6 +43,7 @@
 
 
     this.init = function(_canvas, _scale) {
+      _canvas = _canvas || $('canvas')[0];
       env.height = _canvas.height;
       env.width = _canvas.width;
       env.SCALE = _scale || SCALE;
@@ -79,6 +80,7 @@
     }
 
     this.add = function(type, options) {
+      var options = options || {};
       var s = ngrBox.shape(type, options);
 
       if (options.isSensor) s.f.isSensor = true;
@@ -131,6 +133,7 @@
 
     this.debug = function() {
       var ctx = debugCanvas.getContext('2d');
+      console.log("Ctx?",ctx);
       ngrDebug.debug(ctx);
     }
 

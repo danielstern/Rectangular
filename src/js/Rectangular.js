@@ -4,6 +4,7 @@ angular.module('Rectangular', [])
 
     var world = ngrWorld.getWorld();
     var debugDraw = new b2DebugDraw();
+    console.log("Debugging",world,debugDraw)
     var scale = ngrWorld.SCALE;
     debugDraw.SetSprite(ctx);
     debugDraw.SetDrawScale(scale);

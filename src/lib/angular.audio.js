@@ -214,7 +214,7 @@ angular.module('ngAudio', [])
         deferredPlay = true;
         return;
       }
-      console.log("Playing", this);
+   //   console.log("Playing", this);
       deferredPlay = false;
 
       if (muting) return;
