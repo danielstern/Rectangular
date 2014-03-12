@@ -7,8 +7,11 @@ angular.module('Rectangular')
   var world;
   var hooks = [];
   var permanentHooks = [];
+  window.loop = this;
 
   this.tick = function() {
+
+   // console.log("Ticking");
 
     _.each(hooks, function(hook) {
       hook();
@@ -32,14 +35,19 @@ angular.module('Rectangular')
   }
 
   this.stop = function() {
+    console.log("Clearing interval", loop);
     clearInterval(loop);
   }
+
 
 
   this.initWorld = function(_speed) {
 
     speed = _speed || 60;
     //console.log("Init world")
-    loop = setInterval(l.tick, 1000 / speed)
+    clearInterval(loop);
+    loop = setInterval(l.tick, 1000 / speed);
   };
+
+  this.start = this.initWorld;
 })

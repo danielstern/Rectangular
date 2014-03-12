@@ -92,4 +92,12 @@ angular.module('Rectangular')
     angle: 0,
     src: ''
   }
+
+  this.initialize = {
+    canvas: undefined,
+    scale: 30,
+    gravity: 30,
+    debug: true,
+    floor: true
+  }
 })

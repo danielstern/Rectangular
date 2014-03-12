@@ -1,5 +1,5 @@
  angular.module('Rectangular')
- .service('ngrEnvironment', function(ngrWorld, ngrStage, ngrModels, $q, ngrState, ngrBox, ngrDebug, ngrLoop, ngrDisplay) {
+ .service('ngrEnvironment', function(ngrWorld, ngrStage, ngrModels, ngrDefaults, $q, ngrState, ngrBox, ngrDebug, ngrLoop, ngrDisplay) {
 
     var world,
       envHeight,
@@ -42,19 +42,25 @@
    }
 
 
-    this.init = function(_canvas, _scale) {
-      _canvas = _canvas || $('canvas')[0];
+    this.init = function(options) {
+
+      var defaults = _.clone(ngrDefaults.initialize);
+      options = _.extend(defaults, options);
+
+      //return;
+      _canvas = options.canvas || $('canvas')[0];
+      options.canvas = _canvas;
+      console.log("Initing?",options);
       env.height = _canvas.height;
       env.width = _canvas.width;
-      env.SCALE = _scale || SCALE;
+      env.SCALE = options.scale;
       env.worldWidth = worldWidth;
       env.worldHeight = worldHeight;
 
 
-
       ngrState.setProperties(env);
       canvas = _canvas;
-      ngrLoop.initWorld(60, env);
+      ngrLoop.initWorld(options.gravity, env);
       ngrStage.init();
       var p = $(canvas).parent();
 
@@ -71,19 +77,22 @@
           .attr('width', env.width);
       }
 
-      if (!world)  world = ngrWorld.setWorld(0, 30, true);
       ngEnv.start();
       ngEnv.floor();
-      ngEnv.debug();
+      
     }
 
     this.stop = function() {
+      console.log("Stopping");
       ngrLoop.stop();
     }
 
     this.start = function() {
 
-      ngrLoop.initWorld(60, env);
+      console.log("Starting",world);
+      world = ngrWorld.setWorld(0, 30, true);
+      ngrLoop.start();
+      ngEnv.debug();
     }
 
     this.add = function(type, options) {
@@ -130,7 +139,7 @@
       ngrStage.clearAll();
       ngrLoop.clearHooks();
 
-      world = null;
+    //  world = null;
     }
 
     this.toggleDebug = function() {
