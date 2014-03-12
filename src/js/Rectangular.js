@@ -1,11 +1,11 @@
 angular.module('Rectangular', [])
-.service('ngrDebug', function(ngrWorld) {
+.service('ngrDebug', function(ngrWorld,ngrState) {
   this.debug = function(ctx) {
 
     var world = ngrWorld.getWorld();
     var debugDraw = new b2DebugDraw();
-    console.log("Debugging",world,debugDraw)
-    var scale = ngrWorld.SCALE;
+    //console.log("Debugging",world,debugDraw)
+    var scale = ngrState.SCALE;
     debugDraw.SetSprite(ctx);
     debugDraw.SetDrawScale(scale);
     debugDraw.SetFillAlpha(0.5);
