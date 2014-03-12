@@ -46,7 +46,7 @@
             b2PrismaticJointDef = Box2D.Dynamics.Joints.b2PrismaticJointDef;
         </script>
 
-        <link rel="stylesheet" type="text/css" href="styles/ballAgent.css">
+        <link rel="stylesheet" type="text/css" href="styles/shapemaker.css">
         <link rel="stylesheet" type="text/css" href="styles/ngr.css">
         <link rel="stylesheet" type="text/css" href="styles/animate.css">
 
@@ -120,6 +120,18 @@
   //                      console.log('adding new shape,',$attrs.shape);
                         $scope.addShape($attrs.shape);
                     }
+
+                    $scope.options = [
+                    {
+                        name:'Circle',
+                        type:'circle'
+                    },
+                    {
+                        name:'Rectangle',
+                        type:'box'
+                    }
+
+                    ]
 
                     $scope.addShape = function(shape) {
                       //  console.log("Adding shape",shape, $scope)
