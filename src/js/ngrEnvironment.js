@@ -107,10 +107,6 @@
        if (!options.hidden) ngrDisplay.skin(b, options);
      }
 
-     this.remove = function() {
-       throw new Error("Warning: Attempting to access unwritten remove function");
-     }
-
      var blockerRunning = false;
      var r;
 

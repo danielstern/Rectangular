@@ -1,10 +1,10 @@
 #debugCanvas {
 	position: absolute;
 	top: 0;
-	opacity: 0.5;
+	opacity: 1;
 	pointer-events: none;
 
-	background-color: rgba(100, 100, 100, 1);
+	background-color: rgba(100, 100, 100, 0.1);
 	left: 0;
 }
 

@@ -66,6 +66,8 @@ angular.module('Rectangular')
 
   }
 
+  var worldLoop = undefined;
+
   this.setWorld = function(gravityX, gravityY, sleep) {
 
     var gravity = new b2Vec2(gravityX, gravityY);
@@ -74,7 +76,7 @@ angular.module('Rectangular')
 
     world = world || new b2World(gravity, doSleep);
 
-    ngrLoop.addPermanentHook(function() {
+    worldLoop = ngrLoop.addPermanentHook(function() {
 
       //console.log("World cycling");
 
