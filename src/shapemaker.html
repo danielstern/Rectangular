@@ -58,8 +58,11 @@
         <div class='main'>
             <canvas ng-stage id='gameCanvas' width='650' height='450'></canvas>
         </div>
+        <makers>
         <shapemaker shape='box' properties='height width restitution density'></shapemaker>
         <shapemaker shape='circle' properties='radius restitution density'></shapemaker>
+        </makers>
+        <button ng-click='newMaker()'>+</button>
        
     </body>
 
@@ -68,12 +71,20 @@
     <!-- ZOR -->
     <script>
     angular.module("BallAgentApp", ['ngAudio', 'Rectangular'])
-        .controller('myDemoCtrl', function($scope, $element, ngrEnvironment, ngAudio) {
+        .controller('myDemoCtrl', function($scope, $element, ngrEnvironment, ngAudio, $compile) {
 
             ngrEnvironment.init({
                 scale: 'auto',
                 worldHeight: 30
             });
+
+            $scope.newMaker = function() {
+                var el = angular.element("<shapemaker></shapemaker>");
+                var cmpl = $compile(el);
+                console.log("new maker",el)
+                $element.find('makers').append(el);
+                cmpl($scope);
+            }
 
       
 
