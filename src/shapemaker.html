@@ -58,6 +58,7 @@
         <div class='main'>
             <canvas ng-stage id='gameCanvas' width='650' height='450'></canvas>
         </div>
+        <shapemaker shape='box'></shapemaker>
         <button ng-click='addBox()'>- BOX -</button>
         <table>
             <tr>
@@ -122,5 +123,17 @@
                 });
             }
 
-        });
+        })
+        .directive('shapemaker',function(){
+            return {
+                restrict: 'AE',
+                templateUrl:function(elem, atts){
+                    return "shapemaker/creator.html";
+
+                },
+                link: function() {
+                    console.log("Hey shapemaker!");
+                }
+            }
+        })
     </script>
