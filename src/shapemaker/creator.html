@@ -1,6 +1,6 @@
 <div>
-    <select>
-    <option ng-repeat="option in options">
+    <select  ng-model="q.shape">
+    <option ng-click="q.shape == option.type"value='{{option.type}}' ng-repeat="option in options">
         {{option.name}}
     </option>
 </select>
