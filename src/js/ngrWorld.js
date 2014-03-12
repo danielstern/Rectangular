@@ -74,7 +74,7 @@ angular.module('Rectangular')
 
     world = world || new b2World(gravity, doSleep);
 
-    ngrLoop.addHook(function() {
+    ngrLoop.addPermanentHook(function() {
 
       //console.log("World cycling");
 
