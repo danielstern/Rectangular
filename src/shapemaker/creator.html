@@ -1,6 +1,14 @@
  <button ng-click='newShape(shape)'>- {{shape | uppercase}} -</button>
         <table>
-            <tr>
+            <tr ng-repeat='property in properties'>
+                <td>
+                    {{property}}
+                </td>
+                <td>
+                    <input ng-model="q[property]" type='range' min='0' max='10'></input>
+                </td>
+            </tr>
+          <!--  <tr>
                 <td>
                     HEIGHT
                 </td>
@@ -31,5 +39,5 @@
                 <td>
                     <input ng-model='density'  type='range' min='0' max='10'>
                 </td>
-            </tr>
+            </tr>-->
         </table>

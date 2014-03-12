@@ -58,8 +58,8 @@
         <div class='main'>
             <canvas ng-stage id='gameCanvas' width='650' height='450'></canvas>
         </div>
-        <shapemaker shape='box'></shapemaker>
-        <shapemaker shape='circle'></shapemaker>
+        <shapemaker shape='box' properties='height width restitution density'></shapemaker>
+        <shapemaker shape='circle' properties='radius restitution density'></shapemaker>
        
     </body>
 
@@ -91,18 +91,20 @@
                 link: function($scope, $elem, $attr) {
                     console.log("Hey shapemaker!",arguments);
                     $scope.shape = $attr.shape;
+                    if ($attr.properties) $scope.properties = $attr.properties.split(' ');
                     //$scope.shape = $attr.shape || 'box';
                 },
                 controller: function($scope, $attrs, ngrEnvironment) {
-//                    console.log("This is my scope", $scope);
+                    console.log("This is my scope", $scope);
 
-                    $scope.height = 1;
-                    $scope.width = 1;
-                    $scope.restitution = 0.3;
-                    $scope.density = 0.5;
-
+                    $scope.q = {};
+                    var q = $scope.q;
+                    q.height = 1;
+                    q.width = 1;
+                    q.radius = 0.5;
+                    q.restitution = 0.3;
+                    q.density = 0.5;
                     
-
                     $scope.newShape = function(input) {
   //                      console.log('adding new shape,',$attrs.shape);
                         $scope.addShape($attrs.shape);
@@ -127,10 +129,10 @@
                        // console.log("Adding shape",$scope);
                         ngrEnvironment.add('box',{
                             x:Math.random()*40,
-                            height:$scope.height / 2,
-                            width:$scope.width / 2,
-                            restitution:$scope.restitution,
-                            density:$scope.density,
+                            height:q.height / 2,
+                            width:q.width / 2,
+                            restitution:q.restitution,
+                            density:q.density,
                         });
                     }
 
@@ -138,9 +140,9 @@
                         //console.log("Adding shape",$scope);
                         ngrEnvironment.add('circle',{
                             x:Math.random()*40,
-                            radius:$scope.height,
-                            restitution:$scope.restitution,
-                            density:$scope.density,
+                            radius:q.height,
+                            restitution:q.restitution,
+                            density:q.density,
                         });
                     }
                 }
