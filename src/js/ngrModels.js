@@ -96,6 +96,7 @@ angular.module('Rectangular')
   this.initialize = {
     canvas: undefined,
     scale: 30,
+    fps:60,
     gravity: 30,
     debug: true,
     floor: true

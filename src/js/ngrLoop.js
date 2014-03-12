@@ -11,8 +11,6 @@ angular.module('Rectangular')
 
   this.tick = function() {
 
-   // console.log("Ticking");
-
     _.each(hooks, function(hook) {
       hook();
     })

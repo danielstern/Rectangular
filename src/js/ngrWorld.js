@@ -14,7 +14,6 @@ angular.module('Rectangular')
   var gravity = new b2Vec2(0, 0);
   var hooks = [];
 
-  //world = new b2World(gravity, true);
 
   this.addElement = function(definition, options) {
     var b = world.CreateBody(definition.b);

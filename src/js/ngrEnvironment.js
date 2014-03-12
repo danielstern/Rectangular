@@ -60,7 +60,7 @@
 
       ngrState.setProperties(env);
       canvas = _canvas;
-      ngrLoop.initWorld(options.gravity, env);
+      ngrLoop.initWorld(options.fps, env);
       ngrStage.init();
       var p = $(canvas).parent();
 
@@ -77,6 +77,7 @@
           .attr('width', env.width);
       }
 
+      world = ngrWorld.setWorld(0, options.gravity, true);
       ngEnv.start();
       ngEnv.floor();
       
@@ -90,7 +91,6 @@
     this.start = function() {
 
       console.log("Starting",world);
-      world = ngrWorld.setWorld(0, 30, true);
       ngrLoop.start();
       ngEnv.debug();
     }

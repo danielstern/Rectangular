@@ -173,6 +173,7 @@ angular.module("BallAgent", ['Rectangular', 'ngAudio', 'BallAgentHero', 'BallAge
 
     ngrEnvironment.init({
       floor: false,
+      gravity: 30,
     });
     function nextLevel() {
       if (goingToNextLevel) return;
