@@ -140,12 +140,23 @@
                         //console.log("Adding shape",$scope);
                         ngrEnvironment.add('circle',{
                             x:Math.random()*40,
-                            radius:q.height,
+                            radius:q.radius,
                             restitution:q.restitution,
                             density:q.density,
                         });
                     }
                 }
+            }
+        })
+        .directive('slider',function(){
+            return {
+                restrict: 'AE',
+                link:function() {
+                    console.log("hi slider!");
+                },
+                templateUrl:function(elem, atts){
+                    return "shapemaker/slider.html";
+                },
             }
         })
     </script>
