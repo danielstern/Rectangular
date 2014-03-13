@@ -1,4 +1,18 @@
 shapemaker div {
-	border: 1px solid black;
+	border: 2px solid black;
 	display: inline-block;
+}
+
+html div {
+	opacity: 1;
+	-webkit-animation: fadeIn 0.4s ease-in;
+	animation-iteration-count: 1;
+	border-radius: 10px;
+	padding: 10px;
+	border-color: gray;
+}
+
+html * {
+	color: #fefefe;
+	background-color: #212;
 }
