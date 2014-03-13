@@ -43,6 +43,9 @@
 
      ngEnv.setScale = ngrState.setScale;
      ngEnv.setWorldHeight = ngrState.setWorldHeight;
+     ngEnv.setWorldSpeed = function(speed) {
+        ngrLoop.setSpeed(speed);
+     }
 
      this.initialOptions;
 

@@ -161,8 +161,9 @@
        var q = $scope.q;
        q.scale = 2;
        q.gravity = 30;
+       q.speed = 60;
        
-       $scope.properties = "scale gravity".split(' ')
+       $scope.properties = "scale gravity speed".split(' ')
 
        
 
@@ -171,6 +172,7 @@
          //$scope.properties = $scope.defaults[$scope.q.shape].split(' ');
          ngrEnvironment.setScale(q.scale);
          ngrEnvironment.setGravity(q.gravity);
+         ngrEnvironment.setWorldSpeed(q.speed);
          //ngrEnvironment.floor();
 
          console.log("Scale?",q.scale);
@@ -206,8 +208,12 @@
              $scope.max = 6.28;
              break;
            case 'gravity':
+            $scope.max = 100;
+            $scope.min = -100;
+            break;
            case 'speed':
             $scope.max = 100;
+            $scope.min = 0.01;
              break;
            case 'scale':
             $scope.max = 30;
