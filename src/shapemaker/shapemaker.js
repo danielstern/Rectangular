@@ -2,7 +2,8 @@
    .controller('myDemoCtrl', function($scope, $element, ngrWorld, ngrEnvironment, ngrState, ngAudio, $compile) {
 
      ngrEnvironment.init({
-       scale: 'auto',
+       scale: 15,
+      // scale: 'auto',
        worldHeight: 30
      });
 
