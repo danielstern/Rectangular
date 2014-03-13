@@ -1,9 +1,10 @@
 <div>
-    <select  ng-model="q.shape">
+    <select  ng-model="q.shape" id='options'>
     <option ng-click="q.shape == option.type"value='{{option.type}}' ng-repeat="option in options">
         {{option.name}}
     </option>
 </select>
+        <button ng-click='destroy()'>-</button>
 <table>
     <tr ng-repeat='property in properties'>
         <td>

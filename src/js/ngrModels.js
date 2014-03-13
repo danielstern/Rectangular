@@ -71,6 +71,22 @@ angular.module('Rectangular')
     bg: 'tiled'
   };
 
+  this.body = {
+      height: 0.5,
+      width: 0.5,
+      x: 10,
+      y: 1,
+      radius: 1.5,
+      density : 0.5 ,
+      'friction' : 0.2 ,
+      'restitution' : 0.1,
+      'linearDamping' : 0.0 ,
+      'angularDamping' : 0.0 ,
+      gravityScale : 1.0 ,
+      position : 'dynamic' ,
+      angle: 0,
+    }
+
   this.floor = {
     height: 0.3,
     position: 'static',

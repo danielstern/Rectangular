@@ -1,5 +1,5 @@
 angular.module('Rectangular')
-.service("ngrBox",function(ngrState){
+.service("ngrBox",function(ngrState, ngrDefaults){
 
 	var env;		
 	var ngrBox = this;
@@ -9,21 +9,7 @@ angular.module('Rectangular')
 		env = ngrState.getProperties();
 
 		//default options
-		var defaults = {
-			height: 0.5,
-			width: 0.5,
-			x: 10,
-			y: 1,
-			radius: 1.5,
-			density : 0.5 ,
-			'friction' : 0.2 ,
-			'restitution' : 0.1,
-			'linearDamping' : 0.0 ,
-			'angularDamping' : 0.0 ,
-			gravityScale : 1.0 ,
-			position : 'dynamic' ,
-			angle: 0,
-		};
+		var defaults = _.clone(ngrDefaults.body);
 
 		options = _.extend(defaults,options);
 		options = _.each(options,function(value,key){

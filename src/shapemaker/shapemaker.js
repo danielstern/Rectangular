@@ -34,11 +34,12 @@
        },
        link: function($scope, $elem, $attr) {
          console.log("Hey shapemaker!", arguments);
-         $scope.shape = $attr.shape;
+     //    $scope.shape = $attr.shape;
+      //   $scope.elem = $elem;
     //     if ($attr.properties) $scope.properties = $attr.properties.split(' ');
          //$scope.shape = $attr.shape || 'box';
        },
-       controller: function($scope, $attrs, ngrEnvironment) {
+       controller: function($scope, $attrs, $element, ngrEnvironment) {
          console.log("This is my scope", $scope);
 
          $scope.q = {};
@@ -48,12 +49,15 @@
          q.radius = 0.5;
          q.restitution = 0.3;
          q.density = 0.5;
-         q.shape = 'circle';
+         q.friction = 0.5;
+         q.linearDamping = 0.5;
+         q.angle = 0;
+         q.shape = $attrs.shape || 'circle';
 
 
          $scope.defaults = {
-            box: 'height width restitution density',
-            circle: 'radius restitution density'
+            box: 'height width restitution density friction gravityScale linearDamping angle',
+            circle: 'radius restitution density friction gravityScale linearDamping angle'
          }
          switch ($attrs.shape) {
             case 'circle':
@@ -69,8 +73,9 @@
            $scope.addShape($attrs.shape);
          }
 
+
          $scope.$watchCollection('q',function(){
-            console.log("Shape's changed",$scope.q);
+       //     console.log("Shape's changed",$scope.q);
             $scope.properties = $scope.defaults[$scope.q.shape].split(' ');
          })
 
@@ -106,7 +111,14 @@
              width: q.width / 2,
              restitution: q.restitution,
              density: q.density,
+             gravityScale: q.gravityScale,
+             friction: q.friction,
+             angle: q.angle,
            });
+         }
+
+         $scope.destroy = function() {
+                $($element).hide();
          }
 
          $scope.addCircle = function() {
@@ -118,6 +130,27 @@
              density: q.density,
            });
          }
+
+         setTimeout(function(){
+
+          var dropdown = $element.find('select');
+          //dropdown = dropdown.children();
+          var ddl = dropdown[0];
+          window.ddl = ddl;
+       //   console.log("dropdown?",ddl);
+          var opts = ddl.options.length;
+     //     console.log("length?",opts);
+          for (var i=0; i<opts; i++){
+         //    console.log("val?",ddl.options[i].value);
+            if (ddl.options[i].value == q.shape){
+                 // ddl.options[i].selected = true;
+
+                 ddl.selectedIndex = i;
+                  break;
+              }
+         }
+       }, 1)
+
        }
      }
    })
@@ -136,8 +169,14 @@
          ///return;
          switch (t) {
            case 'restitution':
+           case 'friction':
+           case 'angularDamping':
+           case 'linearDamping':
              $scope.max = 1;
              break;
+           case 'angle':
+            $scope.max = 6.28;
+            break;
          }
        },
        templateUrl: function(elem, atts) {
