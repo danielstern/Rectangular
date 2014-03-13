@@ -38,6 +38,8 @@
 
      }
 
+     ngEnv.setScale = ngrState.setScale;
+
 
      this.init = function(options) {
 

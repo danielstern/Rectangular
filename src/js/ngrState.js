@@ -1,22 +1,31 @@
 angular.module('Rectangular')
 .service('ngrState', function() {
-  var properties;
-  var state = this;
-  this.state = properties;
+
+  var state;
 
   this.setProperties = function(_properties) {
-    properties = _properties;
-    state.SCALE = properties.SCALE;
-
+    state = _properties;
     window.state = state;
 
   }
 
+
+  this.getScale = function() {
+    return state.SCALE;
+  }
+
+  this.setScale = function(scale) {
+    state.SCALE = scale;
+//    console.log("updated state,",state);
+    return state;
+
+  }
+
   this.getProperties = function() {
-    if (!properties) {
+    if (!state) {
       throw new Error("Attempting to access undefined properties.")
     }
-    return properties;
+    return state;
   };
 
   this.getState = this.getProperties;

@@ -16,3 +16,9 @@ html * {
 	color: #fefefe;
 	background-color: #212;
 }
+
+worldcontroller {
+	position: absolute;
+	right: 25;
+	top: 50px;
+}

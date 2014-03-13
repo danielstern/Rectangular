@@ -1,5 +1,5 @@
 angular.module('Rectangular')
-  .service('ngrStage', function(ngrLoop,ngrState) {
+  .service('ngrStage', function(ngrLoop, ngrState) {
 
     var canvas = $('canvas')[0];
 
@@ -19,8 +19,8 @@ angular.module('Rectangular')
     window._stage = this.stage;
 
     var focusPoint = {
-      x:0,
-      y:0
+      x: 0,
+      y: 0
     }
 
     this.addChild = function(container) {
@@ -34,14 +34,17 @@ angular.module('Rectangular')
     };
 
     this.follow = function(_target) {
-      console.log("Following,",_target);
+      //console.log("Following,", _target);
       target = _target;
 
     };
 
     this.init = function() {
       var e = ngrState.getState();
-      s.setFocusPoint({x:e.width /2,y:e.height /2});
+      s.setFocusPoint({
+        x: e.width / 2,
+        y: e.height / 2
+      });
 
     }
 
@@ -58,16 +61,16 @@ angular.module('Rectangular')
       c = new createjs.Container();
       stage.addChild(c);
 
-    window.container = c;
+      window.container = c;
 
     }
 
     function tick() {
 
-      if (target){
-//        var pos = target.GetPosition();
- //       focusPoint.x = pos.x;
-  //      focusPoint.y = pos.y;
+      if (target) {
+        //        var pos = target.GetPosition();
+        //       focusPoint.x = pos.x;
+        //      focusPoint.y = pos.y;
 
       }
 
@@ -101,8 +104,8 @@ angular.module('Rectangular')
     }
     this.update = function() { // translate box2d positions to pixels
       this.skin.rotation = this.body.GetAngle() * (180 / Math.PI);
-      this.skin.x = this.body.GetWorldCenter().x * ngrState.SCALE;
-      this.skin.y = this.body.GetWorldCenter().y * ngrState.SCALE;
+      this.skin.x = this.body.GetWorldCenter().x * ngrState.getScale();
+      this.skin.y = this.body.GetWorldCenter().y * ngrState.getScale();
     }
   }
 

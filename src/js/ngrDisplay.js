@@ -89,7 +89,7 @@ angular.module('Rectangular')
     this.tile = function(img, options) {
 
       var container = new createjs.Container();
-      var SCALE = ngrState.SCALE;
+      var SCALE = ngrState.getScale();
 
       var regX = 0;
       var regY = 0;
