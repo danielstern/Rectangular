@@ -3,7 +3,7 @@
 
      ngrEnvironment.init({
        scale: 'auto',
-       worldHeight: 50
+       worldHeight: 30
      });
 
      $scope.newMaker = function() {
@@ -17,8 +17,6 @@
        ngrEnvironment.clearAll();
        ngrEnvironment.floor();
      }
-
-
 
    })
    .directive('shapemaker', function() {
@@ -149,14 +147,11 @@
          q.gravity = 30;
          q.speed = 60;
 
-         $scope.properties = "scale gravity speed focusX focusY".split(' ')
+         $scope.properties = "gravity speed".split(' ')
 
          $scope.$watchCollection('q', function() {
-      //     console.log("Updated stats,",q);
-           ngrEnvironment.setScale(q.scale);
            ngrEnvironment.setGravity(q.gravity);
            ngrEnvironment.setWorldSpeed(q.speed);
-           ngrEnvironment.setFocus({x:q.focusX,y:q.focusY});
          })
 
 
@@ -205,8 +200,5 @@
        templateUrl: function(elem, atts) {
          return "shapemaker/slider.html";
        },
-       controller: function($scope, $attrs, $parse, $compile) {
-
-       }
      }
    })

@@ -2,8 +2,6 @@
    .service('ngrEnvironment', function(ngrWorld, ngrStage, ngrModels, ngrDefaults, $q, ngrState, ngrBox, ngrDebug, ngrLoop, ngrDisplay) {
 
      var world,
-       envHeight,
-       envWidth,
        canvas,
        env = {},
        ngEnv = this,
@@ -12,6 +10,7 @@
      this.addHook = ngrLoop.addHook;
      this.clearHooks = ngrLoop.clearHooks;
      this.setGravity = ngrWorld.setGravity;
+     this.setWorldHeight = ngrState.setWorldHeight;
      var e = this;
      var _floorObj;
 
@@ -45,25 +44,9 @@
 
      }
 
-     ngEnv.setScale = function(sc) {
-      ngrState.setScale(sc);
-     // var dCtx = debugCanvas.getContext('2d');
-     // dCtx.setTransform(sc,0,0,sc,0,0);
-     // var focus = ngrState.getState().focus ;
-     // console.log("Focus?",focus)
-
-     // $(debugCanvas).css('margin-top',focus.y);
-      //$(debugCanvas).height('1000');
-     // $(debugCanvas).width('1000');
-      
-     }
-
-     ngEnv.setWorldHeight = ngrState.setWorldHeight;
      ngEnv.setWorldSpeed = function(speed) {
         ngrLoop.setSpeed(speed);
      }
-
-     this.initialOptions;
 
 
      this.init = function(options) {
