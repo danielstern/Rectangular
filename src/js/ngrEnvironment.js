@@ -11,6 +11,7 @@
 
      this.addHook = ngrLoop.addHook;
      this.clearHooks = ngrLoop.clearHooks;
+     this.setGravity = ngrWorld.setGravity;
      var e = this;
      var _floorObj;
 

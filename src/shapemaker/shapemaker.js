@@ -2,7 +2,8 @@
    .controller('myDemoCtrl', function($scope, $element, ngrEnvironment, ngAudio, $compile) {
 
      ngrEnvironment.init({
-       worldHeight: 12
+      scale: '2',
+       worldHeight: 200
      });
 
      $scope.newMaker = function() {
@@ -114,7 +115,7 @@
          $scope.addCircle = function() {
            //console.log("Adding shape",$scope);
            ngrEnvironment.add('circle', {
-             x: Math.random() * 40,
+             x: Math.random() * 40  /ngrState.getScale() * 20,
              radius: q.radius,
              restitution: q.restitution,
              density: q.density,
@@ -158,7 +159,7 @@
 
        $scope.q = {};
        var q = $scope.q;
-       q.scale = 30;
+       q.scale = 2;
        q.gravity = 30;
        
        $scope.properties = "scale gravity".split(' ')
@@ -169,7 +170,8 @@
        //  console.log("World's changed",$scope.q);
          //$scope.properties = $scope.defaults[$scope.q.shape].split(' ');
          ngrEnvironment.setScale(q.scale);
-         ngrEnvironment.floor();
+         ngrEnvironment.setGravity(q.gravity);
+         //ngrEnvironment.floor();
 
          console.log("Scale?",q.scale);
          //ngrEnvironment.setWorldHeight((400 / q.scale));
@@ -186,6 +188,7 @@
          // console.log("hi slider!", arguments);
          $scope.atts = attr;
 
+         $scope.min = 0;
          $scope.max = 10;
        //  var s = $scope.$parent.shape;
          var t = attr.type;
@@ -203,10 +206,14 @@
              $scope.max = 6.28;
              break;
            case 'gravity':
-           case 'scale':
            case 'speed':
             $scope.max = 100;
              break;
+           case 'scale':
+            $scope.max = 30;
+            $scope.min = 2;
+            break;
+
          }
        },
        templateUrl: function(elem, atts) {

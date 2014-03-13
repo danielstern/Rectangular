@@ -66,6 +66,10 @@ angular.module('Rectangular')
 
   }
 
+  this.setGravity = function(grav) {
+    world.SetGravity(new b2Vec2(0,grav))
+  }
+
   var worldLoop = undefined;
 
   this.setWorld = function(gravityX, gravityY, sleep) {
@@ -74,7 +78,9 @@ angular.module('Rectangular')
     var doSleep = sleep;
     env = ngrState.getProperties();
 
-    world = world || new b2World(gravity, doSleep);
+    world = world || new b2World(gravity, false);
+
+    window.world = world;
 
     worldLoop = ngrLoop.addPermanentHook(function() {
 

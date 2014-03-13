@@ -9,6 +9,8 @@ angular.module('Rectangular', [])
     var debugDraw = new b2DebugDraw();
     d.debugDraw = debugDraw;
     //console.log("Debugging",world,debugDraw)
+    window.d = d.debugDraw;
+    window.c = ctx;
     var scale = ngrState.getScale();
     debugDraw.SetSprite(ctx);
     debugDraw.SetDrawScale(scale);
@@ -22,6 +24,8 @@ angular.module('Rectangular', [])
     p = setInterval(function(){
         var newScale = ngrState.getScale();
         if (newScale != oldScale) d.debugDraw.SetDrawScale(newScale);
+
+        
     },1)
   }
 })
