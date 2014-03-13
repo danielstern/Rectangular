@@ -12,12 +12,14 @@
      this.addHook = ngrLoop.addHook;
      this.clearHooks = ngrLoop.clearHooks;
      var e = this;
+     var _floorObj;
 
      this.floor = function(options) {
 
+      if (_floorObj) e.remove(_floorObj);
        options = options || {};
        var floor = ngrModels.floor(options);
-       e.add('box', floor.options);
+       _floorObj = e.add('box', floor.options);
 
      }
 
@@ -39,12 +41,17 @@
      }
 
      ngEnv.setScale = ngrState.setScale;
+     ngEnv.setWorldHeight = ngrState.setWorldHeight;
+
+     this.initialOptions;
 
 
      this.init = function(options) {
 
        var defaults = _.clone(ngrDefaults.initialize);
        options = _.extend(defaults, options);
+
+       ngEnv.initialOptions = options;
 
        //return;
        _canvas = options.canvas || $('canvas')[0];
@@ -107,6 +114,13 @@
 
        var b = ngrWorld.addElement(s, options);
        if (!options.hidden) ngrDisplay.skin(b, options);
+
+       return b;
+     }
+
+     this.remove = function(body) {
+       return ngrWorld.removeElement(body);
+
      }
 
      var blockerRunning = false;

@@ -2,8 +2,7 @@
    .controller('myDemoCtrl', function($scope, $element, ngrEnvironment, ngAudio, $compile) {
 
      ngrEnvironment.init({
-       scale: 'auto',
-       worldHeight: 30
+       worldHeight: 12
      });
 
      $scope.newMaker = function() {
@@ -170,6 +169,10 @@
        //  console.log("World's changed",$scope.q);
          //$scope.properties = $scope.defaults[$scope.q.shape].split(' ');
          ngrEnvironment.setScale(q.scale);
+         ngrEnvironment.floor();
+
+         console.log("Scale?",q.scale);
+         //ngrEnvironment.setWorldHeight((400 / q.scale));
        })
 
 

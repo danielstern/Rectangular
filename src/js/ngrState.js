@@ -18,6 +18,10 @@ angular.module('Rectangular')
     state.SCALE = scale;
 //    console.log("updated state,",state);
     return state;
+  }
+
+  this.setWorldHeight = function(height) {
+    state.worldHeight = height;
 
   }
 
