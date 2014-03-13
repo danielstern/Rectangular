@@ -3,7 +3,13 @@ shapemaker div {
 	display: inline-block;
 }
 
-html div {
+
+
+html * {
+
+}
+
+shapemaker div {
 	opacity: 1;
 	-webkit-animation: fadeIn 0.4s ease-in;
 	animation-iteration-count: 1;
@@ -11,11 +17,6 @@ html div {
 	padding: 10px;
 	border-color: gray;
 	/* height: 500px; */
-}
-
-html * {
-	color: #fefefe;
-	background-color: #212;
 }
 
 worldcontroller {
