@@ -210,7 +210,10 @@ angular.module("BallAgent", ['Rectangular', 'ngAudio', 'BallAgentHero', 'BallAge
 
           ngrEnvironment.start();
 
-          if (l.floor) ngrEnvironment.floor();
+          if (l.floor) ngrEnvironment.floor({
+            src: 'img/tile-blue.png',
+            bg: 'tiled',
+          });
           if (l.lWall) ngrEnvironment.leftWall();
           if (l.rWall) ngrEnvironment.rightWall();
 
