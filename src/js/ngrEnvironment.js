@@ -33,6 +33,10 @@
 
      }
 
+     this.setFocus = function(focus) {
+        ngrState.setFocus(focus);
+     }
+
      this.rightWall = function(options) {
 
        options = options || {};
@@ -41,7 +45,19 @@
 
      }
 
-     ngEnv.setScale = ngrState.setScale;
+     ngEnv.setScale = function(sc) {
+      ngrState.setScale(sc);
+     // var dCtx = debugCanvas.getContext('2d');
+     // dCtx.setTransform(sc,0,0,sc,0,0);
+     // var focus = ngrState.getState().focus ;
+     // console.log("Focus?",focus)
+
+     // $(debugCanvas).css('margin-top',focus.y);
+      //$(debugCanvas).height('1000');
+     // $(debugCanvas).width('1000');
+      
+     }
+
      ngEnv.setWorldHeight = ngrState.setWorldHeight;
      ngEnv.setWorldSpeed = function(speed) {
         ngrLoop.setSpeed(speed);
@@ -61,6 +77,7 @@
        options.canvas = _canvas;
        env.height = _canvas.height;
        env.width = _canvas.width;
+       env.focus = {x:0,y:0};
 
        if (options.scale == 'auto') {
          env.SCALE = 1 / options.worldHeight * env.height;
@@ -160,8 +177,9 @@
 
 
      this.debug = function() {
-       var ctx = debugCanvas.getContext('2d');
-       ngrDebug.debug(ctx);
+       
+       
+       ngrDebug.debug(debugCanvas);
      }
 
    })

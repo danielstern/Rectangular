@@ -9,6 +9,15 @@ angular.module('Rectangular')
 
   }
 
+  this.setFocus = function(focus) {
+    console.log("Setting focus..",focus);
+    if (!focus.y && focus.y !== 0) state.focusY = focus.y;
+
+    if (!focus.x && focus.x !== 0) state.focusX = focus.x;
+
+    state.focus = focus;
+  }
+
 
   this.getScale = function() {
     return state.SCALE;

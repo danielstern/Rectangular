@@ -10,6 +10,7 @@ html div {
 	border-radius: 10px;
 	padding: 10px;
 	border-color: gray;
+	/* height: 500px; */
 }
 
 html * {
@@ -21,4 +22,10 @@ worldcontroller {
 	position: absolute;
 	right: 25;
 	top: 50px;
+}
+
+.main {
+	width: 750px;
+	height: 500px;
+	overflow: hidden;
 }

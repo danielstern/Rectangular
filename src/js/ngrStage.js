@@ -23,6 +23,10 @@ angular.module('Rectangular')
       y: 0
     }
 
+    this.getContext = function() {
+      return ctx;
+    }
+
     this.addChild = function(container) {
       c.addChild(container);
       //c.addChild(container);

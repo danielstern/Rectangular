@@ -2,8 +2,8 @@
    .controller('myDemoCtrl', function($scope, $element, ngrEnvironment, ngAudio, $compile) {
 
      ngrEnvironment.init({
-       scale: '2',
-       worldHeight: 200
+       scale: 'auto',
+       worldHeight: 50
      });
 
      $scope.newMaker = function() {
@@ -142,7 +142,6 @@
 
        },
        controller: function($scope, $attrs, $element, ngrEnvironment) {
-         console.log("worldController", $scope);
 
          $scope.q = {};
          var q = $scope.q;
@@ -150,12 +149,14 @@
          q.gravity = 30;
          q.speed = 60;
 
-         $scope.properties = "scale gravity speed".split(' ')
+         $scope.properties = "scale gravity speed focusX focusY".split(' ')
 
          $scope.$watchCollection('q', function() {
+           console.log("Updated stats,",q);
            ngrEnvironment.setScale(q.scale);
            ngrEnvironment.setGravity(q.gravity);
            ngrEnvironment.setWorldSpeed(q.speed);
+           ngrEnvironment.setFocus({x:q.focusX,y:q.focusY});
          })
 
 
@@ -193,6 +194,10 @@
            case 'scale':
              $scope.max = 30;
              $scope.min = 2;
+            case 'focusX':
+            case 'focusY':
+             $scope.max = 1000;
+             $scope.min = -1000;
              break;
 
          }
