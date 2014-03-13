@@ -22,8 +22,8 @@ function MouseTargeter(_canvas, scale) {
     canvas.addEventListener('mousemove', function(evt) {
         var r = {}
         var mousePos = getMousePos(canvas, evt);
-        //var message = 'Mouse position: ' + mousePos.x + ',' + mousePos.y;
-        //console.log(canvas, message);
+       // var message = 'Mouse position: ' + mousePos.x + ',' + mousePos.y;
+       // console.log(canvas, message);
         r.worldPosX = mousePos.x / SCALE;
         r.worldPosY = mousePos.y / SCALE;
         r.mousePosX = mousePos.x;

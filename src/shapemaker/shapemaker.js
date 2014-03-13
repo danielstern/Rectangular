@@ -1,5 +1,5 @@
  angular.module("BallAgentApp", ['ngAudio', 'Rectangular'])
-   .controller('myDemoCtrl', function($scope, $element, ngrEnvironment, ngAudio, $compile) {
+   .controller('myDemoCtrl', function($scope, $element, ngrWorld, ngrEnvironment, ngrState, ngAudio, $compile) {
 
      ngrEnvironment.init({
        scale: 'auto',
@@ -16,7 +16,39 @@
      $scope.clearAll = function() {
        ngrEnvironment.clearAll();
        ngrEnvironment.floor();
-     }
+     };
+
+     var targeter = new MouseTargeter($('canvas')[0],ngrState.getScale());
+     targeter.onmove(function(r){
+      //  console.log("mouse is over the canvas", r)      ;
+         $scope.r = r;
+         $scope.$apply();
+
+         var targetVec = {x:r.worldPosX,y:r.worldPosY};
+         var pVec = new b2Vec2(targetVec.x,targetVec.y);
+         var aabb = new b2AABB();
+         aabb.lowerBound.Set(targetVec.x - 0.001, targetVec.y - 0.001);
+         aabb.upperBound.Set(targetVec.x + 0.001, targetVec.y + 0.001);
+
+         var targetBody = null;
+         var Fixture;
+
+         function GetBodyCallback(Fixture) {
+            var shape = Fixture.GetShape();
+            var Inside = shape.TestPoint(Fixture.GetBody().GetTransform(),pVec);
+            if (Inside) {
+               targetBody = Fixture.GetBody();
+               return false;
+            }
+            return true;
+         }
+
+         ngrWorld.getWorld().QueryAABB(GetBodyCallback, aabb);
+         console.log('target?',targetBody);
+         return targetBody;
+
+
+     })
 
    })
    .directive('shapemaker', function() {
@@ -135,9 +167,6 @@
        restrict: 'AE',
        templateUrl: function(elem, atts) {
          return "shapemaker/worldcontroller.html";
-       },
-       scope: {
-
        },
        controller: function($scope, $attrs, $element, ngrEnvironment) {
 
