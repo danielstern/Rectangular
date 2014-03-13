@@ -8,7 +8,6 @@ angular.module('Rectangular', [])
     var world = ngrWorld.getWorld();
     var debugDraw = new b2DebugDraw();
     d.debugDraw = debugDraw;
-    //console.log("Debugging",world,debugDraw)
     window.d = d.debugDraw;
     window.c = ctx;
     var scale = ngrState.getScale();

@@ -67,7 +67,7 @@ angular.module('Rectangular')
   }
 
   this.setGravity = function(grav) {
-    world.SetGravity(new b2Vec2(0,grav))
+    world.SetGravity(new b2Vec2(0, grav))
   }
 
   var worldLoop = undefined;
@@ -83,8 +83,6 @@ angular.module('Rectangular')
     window.world = world;
 
     worldLoop = ngrLoop.addPermanentHook(function() {
-
-      //console.log("World cycling");
 
       world.Step(1 / 60, 10, 10)
       world.ClearForces();

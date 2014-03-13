@@ -11,7 +11,6 @@ angular.module('Rectangular')
 
   this.tick = function() {
 
-    //console.log("loop tick");
     _.each(hooks, function(hook) {
       hook();
     })
@@ -47,7 +46,6 @@ angular.module('Rectangular')
   this.initWorld = function(_speed) {
 
     speed = _speed || speed;
-    //console.log("Init world")
     clearInterval(loop);
     loop = setInterval(l.tick, 1000 / speed);
   };

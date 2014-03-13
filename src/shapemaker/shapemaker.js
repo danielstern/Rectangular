@@ -2,14 +2,13 @@
    .controller('myDemoCtrl', function($scope, $element, ngrEnvironment, ngAudio, $compile) {
 
      ngrEnvironment.init({
-      scale: '2',
+       scale: '2',
        worldHeight: 200
      });
 
      $scope.newMaker = function() {
        var el = angular.element("<shapemaker></shapemaker>");
        var cmpl = $compile(el);
-       console.log("new maker", el)
        $element.find('makers').append(el);
        cmpl($scope);
      }
@@ -32,7 +31,6 @@
 
        },
        controller: function($scope, $attrs, $element, ngrEnvironment, ngrState) {
-         console.log("This is my scope", $scope);
 
          $scope.q = {};
          var q = $scope.q;
@@ -60,13 +58,11 @@
          }
 
          $scope.newShape = function(input) {
-
            $scope.addShape($attrs.shape);
          }
 
 
          $scope.$watchCollection('q', function() {
-           //     console.log("Shape's changed",$scope.q);
            $scope.properties = $scope.defaults[$scope.q.shape].split(' ');
          })
 
@@ -97,7 +93,7 @@
 
          $scope.addBox = function() {
            ngrEnvironment.add('box', {
-             x: Math.random() * 40 /ngrState.getScale() * 20,
+             x: Math.random() * 40 / ngrState.getScale() * 20,
              height: q.height / 2,
              width: q.width / 2,
              restitution: q.restitution,
@@ -113,9 +109,8 @@
          }
 
          $scope.addCircle = function() {
-           //console.log("Adding shape",$scope);
            ngrEnvironment.add('circle', {
-             x: Math.random() * 40  /ngrState.getScale() * 20,
+             x: Math.random() * 40 / ngrState.getScale() * 20,
              radius: q.radius,
              restitution: q.restitution,
              density: q.density,
@@ -125,78 +120,58 @@
          setTimeout(function() {
 
            var dropdown = $element.find('select');
-           //dropdown = dropdown.children();
            var ddl = dropdown[0];
-           window.ddl = ddl;
-           //   console.log("dropdown?",ddl);
            var opts = ddl.options.length;
-           //     console.log("length?",opts);
            for (var i = 0; i < opts; i++) {
-             //    console.log("val?",ddl.options[i].value);
              if (ddl.options[i].value == q.shape) {
-               // ddl.options[i].selected = true;
-
                ddl.selectedIndex = i;
                break;
              }
            }
          }, 1)
+       }
+     }
+   })
+   .directive('worldcontroller', function() {
+     return {
+       restrict: 'AE',
+       templateUrl: function(elem, atts) {
+         return "shapemaker/worldcontroller.html";
+       },
+       scope: {
+
+       },
+       controller: function($scope, $attrs, $element, ngrEnvironment) {
+         console.log("worldController", $scope);
+
+         $scope.q = {};
+         var q = $scope.q;
+         q.scale = 2;
+         q.gravity = 30;
+         q.speed = 60;
+
+         $scope.properties = "scale gravity speed".split(' ')
+
+         $scope.$watchCollection('q', function() {
+           ngrEnvironment.setScale(q.scale);
+           ngrEnvironment.setGravity(q.gravity);
+           ngrEnvironment.setWorldSpeed(q.speed);
+         })
+
 
        }
      }
    })
- .directive('worldcontroller', function() {
-   return {
-     restrict: 'AE',
-     templateUrl: function(elem, atts) {
-       return "shapemaker/worldcontroller.html";
-     },
-     scope: {
-
-     },
-     controller: function($scope, $attrs, $element, ngrEnvironment) {
-       console.log("worldController", $scope);
-
-       $scope.q = {};
-       var q = $scope.q;
-       q.scale = 2;
-       q.gravity = 30;
-       q.speed = 60;
-       
-       $scope.properties = "scale gravity speed".split(' ')
-
-       
-
-       $scope.$watchCollection('q', function() {
-       //  console.log("World's changed",$scope.q);
-         //$scope.properties = $scope.defaults[$scope.q.shape].split(' ');
-         ngrEnvironment.setScale(q.scale);
-         ngrEnvironment.setGravity(q.gravity);
-         ngrEnvironment.setWorldSpeed(q.speed);
-         //ngrEnvironment.floor();
-
-         console.log("Scale?",q.scale);
-         //ngrEnvironment.setWorldHeight((400 / q.scale));
-       })
-
-
-     }
-   }
- })
    .directive('slider', function() {
      return {
        restrict: 'AE',
        link: function($scope, elem, attr) {
-         // console.log("hi slider!", arguments);
          $scope.atts = attr;
 
          $scope.min = 0;
          $scope.max = 10;
-       //  var s = $scope.$parent.shape;
          var t = attr.type;
 
-         //sconsole.log("Slider init,", s, t, $scope);
-         ///return;
          switch (t) {
            case 'restitution':
            case 'friction':
@@ -208,17 +183,17 @@
              $scope.max = 6.28;
              break;
            case 'gravity':
-            $scope.max = 100;
-            $scope.min = -100;
-            break;
+             $scope.max = 100;
+             $scope.min = -100;
+             break;
            case 'speed':
-            $scope.max = 100;
-            $scope.min = 0.01;
+             $scope.max = 100;
+             $scope.min = 0.01;
              break;
            case 'scale':
-            $scope.max = 30;
-            $scope.min = 2;
-            break;
+             $scope.max = 30;
+             $scope.min = 2;
+             break;
 
          }
        },

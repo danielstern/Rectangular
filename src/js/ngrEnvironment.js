@@ -57,10 +57,8 @@
 
        ngEnv.initialOptions = options;
 
-       //return;
        _canvas = options.canvas || $('canvas')[0];
        options.canvas = _canvas;
-       console.log("Initing?", options);
        env.height = _canvas.height;
        env.width = _canvas.width;
 
@@ -99,13 +97,10 @@
      }
 
      this.stop = function() {
-       console.log("Stopping");
        ngrLoop.stop();
      }
 
      this.start = function() {
-
-      console.log("Starting");
        ngrLoop.start();
        ngEnv.debug();
      }
@@ -157,7 +152,6 @@
        ngrStage.clearAll();
        ngrLoop.clearHooks();
 
-       //  world = null;
      }
 
      this.toggleDebug = function() {

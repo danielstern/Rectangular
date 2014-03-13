@@ -16,7 +16,6 @@ angular.module('Rectangular')
 
   this.setScale = function(scale) {
     state.SCALE = scale;
-//    console.log("updated state,",state);
     return state;
   }
 
