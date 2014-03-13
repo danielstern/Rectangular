@@ -152,7 +152,7 @@
          $scope.properties = "scale gravity speed focusX focusY".split(' ')
 
          $scope.$watchCollection('q', function() {
-           console.log("Updated stats,",q);
+      //     console.log("Updated stats,",q);
            ngrEnvironment.setScale(q.scale);
            ngrEnvironment.setGravity(q.gravity);
            ngrEnvironment.setWorldSpeed(q.speed);
