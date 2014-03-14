@@ -2,5 +2,7 @@
 	<ul>
 		<li ng-click="deleteContextItem()">Delete</li>
 		<li ng-click="freezeContextItem()">Freeze</li>
+		<li ng-click="pinContextItem()">Pin Here</li>
+		<li ng-if="contextBody.pins" ng-click="unpinContextItem()">Remove Pins</li>
 	</ul>
 </div>

@@ -21,9 +21,9 @@
 
      ngrInterface.enableDrag();
      var contextMenu;
-     ngrInterface.onmove(function(r){
-      $scope.r = r;
-      $scope.$apply();
+     ngrInterface.onmove(function(r) {
+       $scope.r = r;
+       $scope.$apply();
 
      })
 
@@ -39,16 +39,36 @@
        hideContextMenu();
      }
 
+     $scope.pinContextItem = function() {
+       var cti = $scope.contextBody;
+       var pin = ngrInterface.pinToMouse(cti);
+       cti.pins = cti.pins || [];
+       cti.pins.push(pin);
+       hideContextMenu();
+     }
+
+     $scope.unpinContextItem = function() {
+       var cti = $scope.contextBody;
+       var pins = cti.pins;
+       _.each(pins,function(pin){
+          ngrWorld.unpin(pin);
+       })
+
+       hideContextMenu();
+     }
+
      function hideContextMenu() {
        if (contextMenu) {
          setTimeout(function() {
            $(contextMenu).hide();
            contextmenu = null;
+           ngrWorld.unpin(contextPin);
          }, 10)
        }
      }
 
      var contextMenu;
+     var contextPin;
 
      $(document).bind("contextmenu", function(event) {
        event.preventDefault();
@@ -57,27 +77,22 @@
          contextMenu = angular.element("<div customcontextmenu></div>");
          var cmpl = $compile(contextMenu);
          $('body').append(contextMenu);
-         //    ('makers').append(el);
          $scope.contextBody = ngrInterface.getBodyAtMouse();
          cmpl($scope);
 
-         //contextMenu = $("<div class='custom-menu'>Custom menu</div>");
          $(contextMenu)
            .css({
              top: event.pageY + "px",
              left: event.pageX + "px"
            });
 
+          contextPin =  ngrInterface.pinToMouse($scope.contextBody);
+
          $(document).bind("mousedown", function(event) {
-           //  event.preventDefault();
-           // console.log("hiding menu",event);
-           if (event.target.tagName == "LI") return true; 
+           if (event.target.tagName == "LI") return true;
            if (contextMenu) {
-            setTimeout(function(){
-           $(contextMenu).hide();
-           },10)
+             hideContextMenu();
            }
-           //return true;
 
          })
        }
@@ -90,13 +105,7 @@
        templateUrl: function(elem, atts) {
          return "shapemaker/contextmenu.html";
        },
-       link: function() {
-         //     console.log("hey context menue!");
-       },
-       controller: function($scope) {
-         // console.log("Context controller...", $scope);
 
-       }
      }
    })
    .directive('shapemaker', function() {

@@ -6,6 +6,7 @@ angular.module('Rectangular')
     var i = this;
     var mouseX;
     var mouseY;
+    var last;
     var onmoveListeners = [];
 
     this.enableDrag = function() {
@@ -18,6 +19,7 @@ angular.module('Rectangular')
       })
 
       targeter.onmove(function(r){
+        last = r;
         mouseX = r.worldPosX;
         mouseY = r.worldPosY;
         _.each(onmoveListeners, function(_listener) {
@@ -48,6 +50,13 @@ angular.module('Rectangular')
           grabJoint = null;
         })
       }
+    }
+
+    this.pinToMouse = function(body) {
+      var pin = ngrWorld.pin(body, last);
+      console.log("pin?",pin);
+      return pin;
+
     }
 
     this.getBodyAtMouse = function(r) {

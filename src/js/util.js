@@ -46,7 +46,7 @@ function MouseTargeter(_canvas, scale) {
   }, false);
 
   canvas.addEventListener('mousedown', function(evt) {
-    if (event.which == 1) {
+    if (event.which == 1 ) {
       var r = {}
       var mousePos = getMousePos(canvas, evt);
       // var message = 'Mouse position: ' + mousePos.x + ',' + mousePos.y;

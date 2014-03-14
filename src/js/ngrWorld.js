@@ -48,8 +48,10 @@ angular.module('Rectangular')
   }
 
   this.destroyJoint = function(joint) {
-    world.DestroyJoint(joint);
+    if (joint) world.DestroyJoint(joint);
   }
+
+  this.unpin = this.destroyJoint;
 
   this.cycleBody = function(b) {
 
