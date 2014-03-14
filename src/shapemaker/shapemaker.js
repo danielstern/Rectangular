@@ -23,24 +23,46 @@
      var contextMenu;
 
      $(document).bind("contextmenu", function(event) {
-         event.preventDefault();
-         if (ngrInterface.getBodyAtMouse()) {
-           if (contextMenu) contextMenu.hide();
-           contextMenu = $("<div class='custom-menu'>Custom menu</div>")
-             .appendTo("body")
-             .css({
-               top: event.pageY + "px",
-               left: event.pageX + "px"
-             });
-
-       $(document).bind("mousedown", function(event) {
-         //  event.preventDefault();
+       event.preventDefault();
+       if (ngrInterface.getBodyAtMouse()) {
          if (contextMenu) contextMenu.hide();
+         var contextMenu = angular.element("<div contextzmenu></div>");
+          var cmpl = $compile(contextMenu);
+         $('body').append(contextMenu);
+     //    ('makers').append(el);
+         $scope.contextBody = ngrInterface.getBodyAtMouse();
+          cmpl($scope);
 
-       })
-     }
-    });
+         //contextMenu = $("<div class='custom-menu'>Custom menu</div>");
+         $(contextMenu)
+           .css({
+             top: event.pageY + "px",
+             left: event.pageX + "px"
+           });
+
+         $(document).bind("mousedown", function(event) {
+           //  event.preventDefault();
+           if (contextMenu) $(contextMenu).hide();
+
+         })
+       }
+     });
    })
+  .directive('contextzmenu',function() {
+    return {
+      restrict: 'A',
+      replace: false,
+      scope: {
+
+      },
+      templateUrl: function(elem, atts) {
+         return "shapemaker/contextmenu.html";
+       },
+      link: function() {
+          console.log("hey context menue!");
+      }
+    }
+  })
    .directive('shapemaker', function() {
      return {
        restrict: 'AE',

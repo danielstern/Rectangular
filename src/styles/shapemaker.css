@@ -15,12 +15,13 @@ canvas {
 
 shapemaker div {
 	opacity: 1;
-	-webkit-animation: fadeIn 0.4s ease-in;
-	animation-iteration-count: 1;
-	border-radius: 10px;
-	padding: 10px;
-	border-color: gray;
-	/* height: 500px; */
+	border: 1px solid #323;
+	padding: 1em;
+	font-size: 11px;
+	border-radius: 0.3em;
+	background-color: #fffeff;
+	font-family: Arial;
+		-webkit-animation: fadeIn 0.2s ease-in;
 }
 
 worldcontroller {
@@ -35,7 +36,7 @@ worldcontroller {
 	overflow: hidden;
 }
 
-.custom-menu {
+[contextzmenu] {
 	position: absolute;
 	border: 1px solid #323;
 	padding: 1em;
@@ -44,4 +45,14 @@ worldcontroller {
 	background-color: #fef;
 	font-family: Arial;
 		-webkit-animation: fadeIn 0.2s ease-in;
+}
+
+[contextzmenu] ul {
+	list-style: none;
+	padding-left: 10px;
+	padding-right: 10px;
+}
+
+[contextzmenu] li {
+	margin-left: 0px;
 }
