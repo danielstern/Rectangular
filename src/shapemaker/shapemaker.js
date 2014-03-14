@@ -4,7 +4,7 @@
      ngrEnvironment.init({
        // scale: 15,
        scale: 'auto',
-       worldHeight: 20
+       worldHeight: 40
      });
 
      $scope.newMaker = function() {
@@ -21,10 +21,21 @@
 
      ngrInterface.enableDrag();
      var contextMenu;
+     ngrInterface.onmove(function(r){
+      $scope.r = r;
+      $scope.$apply();
+
+     })
 
      $scope.deleteContextItem = function() {
        console.log("Deleting", $scope.contextBody);
        ngrEnvironment.remove($scope.contextBody);
+       hideContextMenu();
+     }
+
+     $scope.freezeContextItem = function() {
+       var cti = $scope.contextBody;
+       cti.SetType(b2Body.b2_staticBody);
        hideContextMenu();
      }
 

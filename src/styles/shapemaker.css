@@ -51,7 +51,8 @@ worldcontroller {
 [customcontextmenu] ul {
 	list-style: none;
 	padding-left: 10px;
-	padding-right: 10px;
+	padding-right: P;
+	PADDING: 0;
 }
 
 [customcontextmenu] li {
@@ -59,11 +60,12 @@ worldcontroller {
 	text-align: center;
 	padding: 0.4rem;
 	transition: 0.2s all;
-	background: rgb(250,150,150, 0);
+	background: rgb(218, 199, 199, 0);
 	cursor: pointer;
+	margin: 0;
 }
 
 [customcontextmenu] li:hover {
 	
-	background: rgba(250,150,150,1);
+	background: rgba(218, 199, 199, 1);
 }

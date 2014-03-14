@@ -6,6 +6,7 @@ angular.module('Rectangular')
     var i = this;
     var mouseX;
     var mouseY;
+    var onmoveListeners = [];
 
     this.enableDrag = function() {
     	targeter = new MouseTargeter($('canvas')[0], ngrState.getScale());
@@ -19,7 +20,14 @@ angular.module('Rectangular')
       targeter.onmove(function(r){
         mouseX = r.worldPosX;
         mouseY = r.worldPosY;
+        _.each(onmoveListeners, function(_listener) {
+          _listener(r);
+        })
       })
+    }
+
+    this.onmove = function(listener) {
+      onmoveListeners.push(listener);
     }
 
     this.grab = function(r) {
