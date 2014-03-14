@@ -9,6 +9,10 @@ html * {
 
 }
 
+canvas {
+	cursor: pointer;
+}
+
 shapemaker div {
 	opacity: 1;
 	-webkit-animation: fadeIn 0.4s ease-in;

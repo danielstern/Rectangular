@@ -20,20 +20,28 @@
      };
 
      var targeter = new MouseTargeter($('canvas')[0], ngrState.getScale());
+     var mouseJointBody;
+     var bodyA;
+     var body;
+     targeter.onmove (function(r) {
+      if (mouseJointBody) mouseJointBody.SetTarget(new b2Vec2(r.worldPosX,r.worldPosY))
+
+     })
      targeter.onclick(function(r) {
        //  console.log("mouse is over the canvas", r)      ;
-       var body = getBodyAtMouse(r);
+       body = getBodyAtMouse(r);
        console.log("Body?", body, r);
        var state = ngrState.getState();
        console.log("Stae?", state);
        //var box = new bTest(60, false, state.width, state.height, state.scale);
 
        if (body) {
+        // var pixels_in_a_meter = ngrState.getScale();
          var m_world = ngrWorld.getWorld();
-         var mouse_joint = new b2MouseJointDef();
-         var pixels_in_a_meter = ngrState.getScale();
          var mouseX = r.mousePosX;
          var mouseY = r.mousePosY;
+         var mouse_joint = new b2MouseJointDef();
+         if (mouseJointBody) m_world.DestroyJoint(mouseJointBody);
         
         // box.mouseDownAt(mouseX, mouseY);
          mouse_joint.bodyA = ngrWorld.getWorld().GetGroundBody();
@@ -49,8 +57,9 @@
          mouse_joint.maxForce = 100000;
          //mouse_joint.timeStep = 1 / 60;
          console.log("Mouse joint?", mouse_joint);
-        var  mouseJointBody = m_world.CreateJoint(mouse_joint);
-         window.j = mouseJointBody;
+         mouseJointBody = m_world.CreateJoint(mouse_joint);
+        // window.j = mouseJointBody;
+
 
   //       box.update();
     //     bodiesState = box.getState();
@@ -65,6 +74,7 @@
          $(document).mouseup(function(e) {
            // console.log("Destroying",mouse_joint);
            m_world.DestroyJoint(mouseJointBody);
+           mouseJointBody = null;
          })
        }
 
