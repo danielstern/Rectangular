@@ -39,6 +39,12 @@
        hideContextMenu();
      }
 
+     $scope.unfreezeContextItem = function() {
+       var cti = $scope.contextBody;
+       cti.SetType(b2Body.b2_dynamicBody);
+       hideContextMenu();
+     }
+
      $scope.pinContextItem = function() {
        var cti = $scope.contextBody;
        var pin = ngrInterface.pinToMouse(cti);
@@ -79,6 +85,8 @@
          $('body').append(contextMenu);
          $scope.contextBody = ngrInterface.getBodyAtMouse();
          cmpl($scope);
+
+         $scope.contextType = $scope.contextBody.GetType();
 
          $(contextMenu)
            .css({
