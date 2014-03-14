@@ -26,6 +26,9 @@ angular.module('Rectangular')
 			case 'ellipse':
 				options.type = 'circle';
 				break;
+			case 'triangle':
+				options.type = 'triangle';
+				break;
 			default:
 			console.log("Can't do that");
 			return;

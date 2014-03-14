@@ -35,7 +35,6 @@ angular.module('Rectangular')
     var m_world = world;
     var r = target;
     var mouse_joint = new b2MouseJointDef();
-    //if (mouseJointBody) m_world.DestroyJoint(mouseJointBody);
     
     mouse_joint.bodyA = ngrWorld.getWorld().GetGroundBody();
     mouse_joint.bodyB = body;

@@ -8,13 +8,14 @@ angular.module('Rectangular')
     var mouseY;
     var last;
     var onmoveListeners = [];
+    var ongrabListeners = [];
 
     this.enableDrag = function() {
     	targeter = new MouseTargeter($('canvas')[0], ngrState.getScale());
     	targeter.onclick(function(r) {
         mouseX = r.worldPosX;
         mouseY = r.worldPosY;
-        console.log("click?",r)
+     //   console.log("click?",r)
         i.grab(r);
       })
 
@@ -32,6 +33,10 @@ angular.module('Rectangular')
       onmoveListeners.push(listener);
     }
 
+    this.ongrab = function(listener) {
+      ongrabListeners.push(listener);
+    }
+
     this.grab = function(r) {
       body = i.getBodyAtMouse(r);
       var state = ngrState.getState();
@@ -43,7 +48,12 @@ angular.module('Rectangular')
 
       if (body) {
 
+        if (grabJoint) ngWorld.unpin(grabJoint);
         grabJoint = ngrWorld.pin(body, r);
+
+        _.each(ongrabListeners, function(_listener) {
+          _listener(body);
+        })
 
         $(document).mouseup(function(e) {
           if (grabJoint) ngrWorld.destroyJoint(grabJoint);

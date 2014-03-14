@@ -12,3 +12,24 @@
 </table>
 
 {{r.worldPosX | number:2}} , {{r.worldPosY | number:2}}
+
+<div ng-if="contextBody">
+	<table>
+		<tr>
+	<td>Mass: </td><td>{{contextBody.m_mass}}</td>
+</tr>
+<tr>
+	<td>Density:</td> <td>{{contextBody.m_fixtureList.m_density}}</td>
+	</tr>
+<tr>
+	<td>Friction:</td> <td>{{contextBody.m_fixtureList.m_friction}}</td>
+	</tr>
+<tr>
+	<td>Resitution: </td><td>{{contextBody.m_fixtureList.m_restitution}}</td>
+</table>
+<pre>
+[F] Freeze / Unfreeze
+[P] Add Pin
+[U] Remove Pin
+</pre>
+</div>

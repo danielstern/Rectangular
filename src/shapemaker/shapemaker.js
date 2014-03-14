@@ -4,7 +4,7 @@
      ngrEnvironment.init({
        // scale: 15,
        scale: 'auto',
-       worldHeight: 40
+       worldHeight: 25
      });
 
      $scope.newMaker = function() {
@@ -25,6 +25,11 @@
        $scope.r = r;
        $scope.$apply();
 
+     })
+
+     ngrInterface.ongrab(function(body) {
+      $scope.contextBody = body;
+      window.contextBody = body;
      })
 
      $scope.deleteContextItem = function() {
@@ -63,6 +68,30 @@
        hideContextMenu();
      }
 
+
+     Mousetrap.bind({
+       'f': function() {
+        var cti = $scope.contextBody;
+         if (!cti) return;
+         if (cti.GetType() == 2) {
+           $scope.freezeContextItem();
+         } else {
+            $scope.unfreezeContextItem();
+         }
+       },
+       'p': function() {
+          $scope.pinContextItem();
+       },
+       'u': function() {
+          $scope.unpinContextItem();
+       },
+       'del': function() {
+          $scope.deleteContextItem();
+       },
+       
+     }, 'keydown');
+
+
      function hideContextMenu() {
        if (contextMenu) {
          setTimeout(function() {
@@ -71,6 +100,10 @@
            ngrWorld.unpin(contextPin);
          }, 10)
        }
+     }
+
+     function createContextMenu() {
+
      }
 
      var contextMenu;
