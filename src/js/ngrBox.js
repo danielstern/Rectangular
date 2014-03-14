@@ -45,12 +45,16 @@ angular.module('Rectangular')
 		function NgShape(options) {
 			var _shape = this;
 
-			if (options.getBodyDef) {
+			console.log("Creating shape", options);
+
+			if (options.isShape) {
 				return options;
 			}
 
-   		var _options = options;
-   		this.options - options;
+   		this.options = options;
+
+   		this.isShape = true;
+
 
 
 
@@ -58,6 +62,7 @@ angular.module('Rectangular')
 
    		this.getBodyDef = function() {
    			var b = new b2BodyDef();
+
 
    			console.log("Getting def for body",options);
 
@@ -74,6 +79,9 @@ angular.module('Rectangular')
 
    		this.getFixtureDef = function() {
    			var f = new b2FixtureDef;
+
+   			console.log("Getting def for fixture",options);
+
    			if (options.type == 'box') {
    				f.shape = new b2PolygonShape();
    				f.shape.SetAsBox( options.width , options.height );

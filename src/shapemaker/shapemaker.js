@@ -107,7 +107,7 @@
        }
      }
 
-     ngrWorld.load(ngrDefaults.testWorld1);
+     //ngrWorld.load(ngrDefaults.testWorld1);
 
      var contextMenu;
      var contextPin;

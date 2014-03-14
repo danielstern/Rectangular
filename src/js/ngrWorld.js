@@ -27,27 +27,25 @@ angular.module('Rectangular')
 
   this.load = function(json) {
     console.log("Loading...",json);
-    //ngrState.setProperties(properties);
+    ngrState.setProperties(json.properties);
     _.each(json.elements,function(element){
-      console.log("Adding,",element);
-//      w.addElement(element.definition, element.options);
+     console.log("Loading element defintion:",element);
+     w.addElement(element.options);
     })
   }
 
 
   this.addElement = function(definition, options) {
-    console.log("adding",definition,options);
-  //  var b = world.CreateBody(new NgShape(definition.options).getBodyDef());
-  //  var f = b.CreateFixture(new NgShape(definition.options).getFixtureDef());
 
-  var defintion = new NgShape(definition);
+    var def = new NgShape(definition);
+    console.log("creating with", def);
 
-    var b = world.CreateBody(definition.getBodyDef());
-    var f = b.CreateFixture(definition.getFixtureDef());
+    var b = world.CreateBody(def.getBodyDef());
+    var f = b.CreateFixture(def.getFixtureDef());
 
     var elementDef = {};
     elementDef.definition = definition;
-    elementDef.options = options;
+    elementDef.options = def.options;
     elements.push(elementDef);
 
     options = _.clone(options) || {};
