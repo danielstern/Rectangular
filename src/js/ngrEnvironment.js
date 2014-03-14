@@ -115,7 +115,9 @@
        var options = options || {};
        var s = ngrBox.shape(type, options);
 
-       if (options.isSensor) s.f.isSensor = true;
+       console.log("adding",type,options);
+
+       if (options.isSensor) s.getFixtureDef().isSensor = true;
 
        var b = ngrWorld.addElement(s, options);
        if (!options.hidden) ngrDisplay.skin(b, options);
