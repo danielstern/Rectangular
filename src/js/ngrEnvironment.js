@@ -2,6 +2,7 @@
    .service('ngrEnvironment', function(ngrWorld, ngrStage, ngrModels, ngrDefaults, $q, ngrState, ngrBox, ngrDebug, ngrLoop, ngrDisplay) {
 
      var world,
+       canvas,
        env = {},
        ngEnv = this,
        SCALE = 30;
@@ -12,16 +13,22 @@
      this.setWorldHeight = ngrState.setWorldHeight;
      var e = this;
      var _floorObj;
-    
+
      this.floor = function(options) {
 
       if (_floorObj) e.remove(_floorObj);
        options = options || {};
-       _floorObj = ngrModels.floor(options);
+       var floor = ngrModels.floor(options);
+       _floorObj = e.add('box', floor.options);
        ngrWorld.getWorld().m_groundBody = _floorObj;
+
      }
 
-     
+     this.getFloor = function() {
+      console.log("Returning floor,",_floorObj);
+      return _floorObj;
+     }
+
      this.leftWall = function(options) {
 
        options = options || {};
@@ -31,28 +38,36 @@
 
      }
 
+     this.setFocus = function(focus) {
+        ngrState.setFocus(focus);
+     }
 
      this.rightWall = function(options) {
+
        options = options || {};
        var rightWall = ngrModels.rightWall(options);
        e.add('box', rightWall.options);
+
      }
 
      ngEnv.setWorldSpeed = function(speed) {
         ngrLoop.setSpeed(speed);
      }
 
+
      this.init = function(options) {
 
        var defaults = _.clone(ngrDefaults.initialize);
        options = _.extend(defaults, options);
 
+       ngEnv.initialOptions = options;
+
        _canvas = options.canvas || $('canvas')[0];
        options.canvas = _canvas;
-
        env.height = _canvas.height;
        env.width = _canvas.width;
-       
+       env.focus = {x:0,y:0};
+
        if (options.scale == 'auto') {
          env.SCALE = 1 / options.worldHeight * env.height;
        } else {
@@ -63,10 +78,10 @@
 
 
        ngrState.setProperties(env);
+       canvas = _canvas;
        ngrLoop.initWorld(options.fps, env);
        ngrStage.init();
-       
-       var p = $(_canvas).parent();
+       var p = $(canvas).parent();
 
        if (!$('.blocker')[0]) {
          p.append('<div class="blocker"></div>');
@@ -100,6 +115,8 @@
        var options = options || {};
        var s = ngrBox.shape(type, options);
 
+       console.log("adding",type,options);
+
        if (options.isSensor) s.getFixtureDef().isSensor = true;
 
        var b = ngrWorld.addElement(s, options);
@@ -110,6 +127,7 @@
 
      this.remove = function(body) {
        return ngrWorld.removeElement(body);
+
      }
 
      var blockerRunning = false;

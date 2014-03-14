@@ -1,0 +1,264 @@
+diff --git a/src/js/ngrBox.js b/src/js/ngrBox.js
+index 249f93b..c75ee07 100644
+--- a/src/js/ngrBox.js
++++ b/src/js/ngrBox.js
+@@ -1,12 +1,9 @@
+ angular.module('Rectangular')
+ .service("ngrBox",function(ngrState, ngrDefaults){
+ 
+-	var env;		
+-	var ngrBox = this;
+ 
+ 	
+ 	this.shape = function(type, options) {
+-		env = ngrState.getProperties();
+ 
+ 		//default options
+ 		var defaults = _.clone(ngrDefaults.body);
+@@ -43,9 +40,6 @@ angular.module('Rectangular')
+ })
+ 
+ 		function NgShape(options) {
+-			var _shape = this;
+-
+-			console.log("Creating shape", options);
+ 
+ 			if (options.isShape) {
+ 				return options;
+@@ -56,16 +50,9 @@ angular.module('Rectangular')
+    		this.isShape = true;
+ 
+ 
+-
+-
+-   		
+-
+    		this.getBodyDef = function() {
+    			var b = new b2BodyDef();
+ 
+-
+-   			console.log("Getting def for body",options);
+-
+    			b.position.Set(options.x , options.y);
+    			b.angle = options.angle;
+ 
+@@ -80,8 +67,6 @@ angular.module('Rectangular')
+    		this.getFixtureDef = function() {
+    			var f = new b2FixtureDef;
+ 
+-   			console.log("Getting def for fixture",options);
+-
+    			if (options.type == 'box') {
+    				f.shape = new b2PolygonShape();
+    				f.shape.SetAsBox( options.width , options.height );
+diff --git a/src/js/ngrEnvironment.js b/src/js/ngrEnvironment.js
+index 4db47db..6ceafad 100644
+--- a/src/js/ngrEnvironment.js
++++ b/src/js/ngrEnvironment.js
+@@ -2,7 +2,6 @@
+    .service('ngrEnvironment', function(ngrWorld, ngrStage, ngrModels, ngrDefaults, $q, ngrState, ngrBox, ngrDebug, ngrLoop, ngrDisplay) {
+ 
+      var world,
+-       canvas,
+        env = {},
+        ngEnv = this,
+        SCALE = 30;
+@@ -13,22 +12,16 @@
+      this.setWorldHeight = ngrState.setWorldHeight;
+      var e = this;
+      var _floorObj;
+-
++    
+      this.floor = function(options) {
+ 
+       if (_floorObj) e.remove(_floorObj);
+        options = options || {};
+-       var floor = ngrModels.floor(options);
+-       _floorObj = e.add('box', floor.options);
++       _floorObj = ngrModels.floor(options);
+        ngrWorld.getWorld().m_groundBody = _floorObj;
+-
+-     }
+-
+-     this.getFloor = function() {
+-      console.log("Returning floor,",_floorObj);
+-      return _floorObj;
+      }
+ 
++     
+      this.leftWall = function(options) {
+ 
+        options = options || {};
+@@ -38,36 +31,28 @@
+ 
+      }
+ 
+-     this.setFocus = function(focus) {
+-        ngrState.setFocus(focus);
+-     }
+ 
+      this.rightWall = function(options) {
+-
+        options = options || {};
+        var rightWall = ngrModels.rightWall(options);
+        e.add('box', rightWall.options);
+-
+      }
+ 
+      ngEnv.setWorldSpeed = function(speed) {
+         ngrLoop.setSpeed(speed);
+      }
+ 
+-
+      this.init = function(options) {
+ 
+        var defaults = _.clone(ngrDefaults.initialize);
+        options = _.extend(defaults, options);
+ 
+-       ngEnv.initialOptions = options;
+-
+        _canvas = options.canvas || $('canvas')[0];
+        options.canvas = _canvas;
++
+        env.height = _canvas.height;
+        env.width = _canvas.width;
+-       env.focus = {x:0,y:0};
+-
++       
+        if (options.scale == 'auto') {
+          env.SCALE = 1 / options.worldHeight * env.height;
+        } else {
+@@ -78,10 +63,10 @@
+ 
+ 
+        ngrState.setProperties(env);
+-       canvas = _canvas;
+        ngrLoop.initWorld(options.fps, env);
+        ngrStage.init();
+-       var p = $(canvas).parent();
++       
++       var p = $(_canvas).parent();
+ 
+        if (!$('.blocker')[0]) {
+          p.append('<div class="blocker"></div>');
+@@ -115,8 +100,6 @@
+        var options = options || {};
+        var s = ngrBox.shape(type, options);
+ 
+-       console.log("adding",type,options);
+-
+        if (options.isSensor) s.getFixtureDef().isSensor = true;
+ 
+        var b = ngrWorld.addElement(s, options);
+@@ -127,7 +110,6 @@
+ 
+      this.remove = function(body) {
+        return ngrWorld.removeElement(body);
+-
+      }
+ 
+      var blockerRunning = false;
+diff --git a/src/js/ngrWorld.js b/src/js/ngrWorld.js
+index a1c2345..e10cc10 100644
+--- a/src/js/ngrWorld.js
++++ b/src/js/ngrWorld.js
+@@ -22,16 +22,13 @@ angular.module('Rectangular')
+     var r = {};
+     r.properties = ngrState.getState();
+     r.elements = elements;
+-    console.log("Making string...",r);
+     var str = JSON.stringify(r);
+     return str;
+   }
+ 
+   this.load = function(json) {
+-    console.log("Loading...",json);
+     ngrState.setProperties(json.properties);
+     _.each(json.elements,function(element){
+-     console.log("Loading element defintion:",element);
+      w.addElement(element.options);
+     })
+   }
+@@ -44,7 +41,6 @@ angular.module('Rectangular')
+       o.x = pos.x;
+       o.y = pos.y;
+       o.angle = angle;
+-      // console.log("Updating memory pair",pair);
+     });
+ 
+   })
+@@ -53,7 +49,6 @@ angular.module('Rectangular')
+   this.addElement = function(definition, options) {
+ 
+     var def = new NgShape(definition);
+-    console.log("creating with", def);
+ 
+     var b = world.CreateBody(def.getBodyDef());
+     var f = b.CreateFixture(def.getFixtureDef());
+@@ -64,9 +59,6 @@ angular.module('Rectangular')
+     elements.push(elementDef);
+ 
+     memoryPairs.push({element:elementDef,body:b});
+-    console.log("Pairs?",memoryPairs);
+-
+-
+ 
+     options = _.clone(options) || {};
+ 
+@@ -129,7 +121,6 @@ angular.module('Rectangular')
+   }
+ 
+   this.clearAll = function() {
+-    console.log("world clearing all");
+     _.each(bodies, function(body) {
+       world.DestroyBody(body);
+       bodies = [];
+diff --git a/src/js/util.js b/src/js/util.js
+index 1222d4b..f96af0d 100644
+--- a/src/js/util.js
++++ b/src/js/util.js
+@@ -15,8 +15,6 @@ function MouseTargeter(_canvas, scale) {
+   var onmoveListeners = [];
+   var onclicklisteners = [];
+ 
+-  console.log("Mousetargeter...", SCALE);
+-
+   this.onmove = function(listener) {
+     onmoveListeners.push(listener);
+   }
+@@ -29,14 +27,10 @@ function MouseTargeter(_canvas, scale) {
+   canvas.addEventListener('mousemove', function(evt) {
+     var r = {}
+     var mousePos = getMousePos(canvas, evt);
+-    // var message = 'Mouse position: ' + mousePos.x + ',' + mousePos.y;
+-    // console.log(canvas, message);
+     r.worldPosX = mousePos.x / SCALE;
+     r.worldPosY = mousePos.y / SCALE;
+     r.mousePosX = mousePos.x;
+     r.mousePosY = mousePos.y;
+-    //        console.log(mousePos.x, mousePos.y, "-", worldPosX, worldPosY);
+-    //console.log(r);
+ 
+     _.each(onmoveListeners, function(_listener) {
+       _listener(r);
+@@ -49,20 +43,14 @@ function MouseTargeter(_canvas, scale) {
+     if (event.which == 1 ) {
+       var r = {}
+       var mousePos = getMousePos(canvas, evt);
+-      // var message = 'Mouse position: ' + mousePos.x + ',' + mousePos.y;
+-      // console.log(canvas, message);
+       r.worldPosX = mousePos.x / SCALE;
+       r.worldPosY = mousePos.y / SCALE;
+       r.mousePosX = mousePos.x;
+       r.mousePosY = mousePos.y;
+-      //        console.log(mousePos.x, mousePos.y, "-", worldPosX, worldPosY);
+-      //console.log(r);
+ 
+       _.each(onclicklisteners, function(_listener) {
+         _listener(r);
+       })
+-
+-
+     }
+   }, false);
+ 
