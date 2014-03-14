@@ -3,8 +3,8 @@
 
      ngrEnvironment.init({
        scale: 15,
-       // scale: 'auto',
-       worldHeight: 30
+       scale: 'auto',
+       worldHeight: 20
      });
 
      $scope.newMaker = function() {
