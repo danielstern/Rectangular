@@ -19,30 +19,7 @@
        ngrEnvironment.floor();
      };
 
-     var targeter = new MouseTargeter($('canvas')[0], ngrState.getScale());
-     var mouseJointBody;
-     targeter.onmove (function(r) {
-      $scope.r = r;
-      $scope.$apply();
-      if (mouseJointBody) mouseJointBody.SetTarget(new b2Vec2(r.worldPosX,r.worldPosY))
-
-     })
-     targeter.onclick(function(r) {
-       body = ngrInterface.getBodyAtMouse(r);
-       var state = ngrState.getState();
-
-       if (body) {
-
-        mouseJointBody = ngrWorld.pin(body,r);
-      
-
-         $(document).mouseup(function(e) {
-           ngrWorld.destroyJoint(mouseJointBody);
-           mouseJointBody = null;
-         })
-       }
-
-     })
+    ngrInterface.enableDrag();
 
 
    })

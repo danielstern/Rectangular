@@ -1,31 +1,70 @@
 angular.module('Rectangular')
-.service('ngrInterface',function(ngrWorld){
-	
-	this.getBodyAtMouse = function(r) {
-	  
-	  var targetVec = {
-	    x: r.worldPosX,
-	    y: r.worldPosY
-	  };
-	  var pVec = new b2Vec2(targetVec.x, targetVec.y);
-	  var aabb = new b2AABB();
-	  aabb.lowerBound.Set(targetVec.x - 0.001, targetVec.y - 0.001);
-	  aabb.upperBound.Set(targetVec.x + 0.001, targetVec.y + 0.001);
+  .service('ngrInterface', function(ngrWorld, ngrState) {
 
-	  var targetBody = null;
-	  var Fixture;
+    var grabJoint;
+    var targeter;
+    var i = this;
 
-	  function GetBodyCallback(Fixture) {
-	    var shape = Fixture.GetShape();
-	    var Inside = shape.TestPoint(Fixture.GetBody().GetTransform(), pVec);
-	    if (Inside) {
-	      targetBody = Fixture.GetBody();
-	      return false;
-	    }
-	    return true;
-	  }
+    this.enableDrag = function() {
+    	targeter = new MouseTargeter($('canvas')[0], ngrState.getScale());
+    	targeter.onclick(function(r) {
+        i.grab(r);
+      })
+    }
 
-	  ngrWorld.getWorld().QueryAABB(GetBodyCallback, aabb);
-	  return targetBody;
-	}
-})
+    this.grab = function(r) {
+      body = i.getBodyAtMouse(r);
+      var state = ngrState.getState();
+
+      //var mouseJointBody;
+      targeter.onmove(function(r) {
+     //   $scope.r = r;
+      //  $scope.$apply();
+        if (grabJoint) grabJoint.SetTarget(new b2Vec2(r.worldPosX, r.worldPosY))
+
+      })
+      
+
+      if (body) {
+
+        grabJoint = ngrWorld.pin(body, r);
+
+
+        $(document).mouseup(function(e) {
+          ngrWorld.destroyJoint(grabJoint);
+          grabJoint = null;
+        })
+
+
+      }
+
+    }
+
+    this.getBodyAtMouse = function(r) {
+
+      var targetVec = {
+        x: r.worldPosX,
+        y: r.worldPosY
+      };
+      var pVec = new b2Vec2(targetVec.x, targetVec.y);
+      var aabb = new b2AABB();
+      aabb.lowerBound.Set(targetVec.x - 0.001, targetVec.y - 0.001);
+      aabb.upperBound.Set(targetVec.x + 0.001, targetVec.y + 0.001);
+
+      var targetBody = null;
+      var Fixture;
+
+      function GetBodyCallback(Fixture) {
+        var shape = Fixture.GetShape();
+        var Inside = shape.TestPoint(Fixture.GetBody().GetTransform(), pVec);
+        if (Inside) {
+          targetBody = Fixture.GetBody();
+          return false;
+        }
+        return true;
+      }
+
+      ngrWorld.getWorld().QueryAABB(GetBodyCallback, aabb);
+      return targetBody;
+    }
+  })
