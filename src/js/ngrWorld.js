@@ -16,6 +16,8 @@ angular.module('Rectangular')
   var gravity = new b2Vec2(0, 0);
   var hooks = [];
 
+  var memoryPairs = [];
+
   this.getJSON = function() {
     var r = {};
     r.properties = ngrState.getState();
@@ -34,6 +36,19 @@ angular.module('Rectangular')
     })
   }
 
+  ngrLoop.addPermanentHook(function(){
+    _.each(memoryPairs,function(pair){
+      var o = pair.element.options;
+      var pos = pair.body.GetPosition();
+      var angle = pair.body.GetAngle();
+      o.x = pos.x;
+      o.y = pos.y;
+      o.angle = angle;
+      // console.log("Updating memory pair",pair);
+    });
+
+  })
+
 
   this.addElement = function(definition, options) {
 
@@ -47,6 +62,11 @@ angular.module('Rectangular')
     elementDef.definition = definition;
     elementDef.options = def.options;
     elements.push(elementDef);
+
+    memoryPairs.push({element:elementDef,body:b});
+    console.log("Pairs?",memoryPairs);
+
+
 
     options = _.clone(options) || {};
 

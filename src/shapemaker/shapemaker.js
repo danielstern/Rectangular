@@ -71,6 +71,7 @@
      $scope.save = function() {
       var worldString = ngrWorld.getJSON();
       console.log("Worldstr?",worldString);
+      localStorage['lastSaved'] = worldString;
      }
 
 
@@ -107,7 +108,7 @@
        }
      }
 
-     //ngrWorld.load(ngrDefaults.testWorld1);
+     if ( localStorage['lastSaved']) ngrWorld.load( JSON.parse(localStorage['lastSaved']));
 
      var contextMenu;
      var contextPin;
