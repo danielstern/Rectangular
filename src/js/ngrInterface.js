@@ -15,6 +15,11 @@ angular.module('Rectangular')
         console.log("click?",r)
         i.grab(r);
       })
+
+      targeter.onmove(function(r){
+        mouseX = r.worldPosX;
+        mouseY = r.worldPosY;
+      })
     }
 
     this.grab = function(r) {
