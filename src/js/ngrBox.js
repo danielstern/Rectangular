@@ -1,12 +1,9 @@
 angular.module('Rectangular')
 .service("ngrBox",function(ngrState, ngrDefaults){
 
-	var env;		
-	var ngrBox = this;
 
 	
 	this.shape = function(type, options) {
-		env = ngrState.getProperties();
 
 		//default options
 		var defaults = _.clone(ngrDefaults.body);
@@ -43,9 +40,6 @@ angular.module('Rectangular')
 })
 
 		function NgShape(options) {
-			var _shape = this;
-
-			console.log("Creating shape", options);
 
 			if (options.isShape) {
 				return options;
@@ -56,15 +50,8 @@ angular.module('Rectangular')
    		this.isShape = true;
 
 
-
-
-   		
-
    		this.getBodyDef = function() {
    			var b = new b2BodyDef();
-
-
-   			console.log("Getting def for body",options);
 
    			b.position.Set(options.x , options.y);
    			b.angle = options.angle;
@@ -79,8 +66,6 @@ angular.module('Rectangular')
 
    		this.getFixtureDef = function() {
    			var f = new b2FixtureDef;
-
-   			console.log("Getting def for fixture",options);
 
    			if (options.type == 'box') {
    				f.shape = new b2PolygonShape();

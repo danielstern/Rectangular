@@ -15,8 +15,6 @@ function MouseTargeter(_canvas, scale) {
   var onmoveListeners = [];
   var onclicklisteners = [];
 
-  console.log("Mousetargeter...", SCALE);
-
   this.onmove = function(listener) {
     onmoveListeners.push(listener);
   }
@@ -29,14 +27,10 @@ function MouseTargeter(_canvas, scale) {
   canvas.addEventListener('mousemove', function(evt) {
     var r = {}
     var mousePos = getMousePos(canvas, evt);
-    // var message = 'Mouse position: ' + mousePos.x + ',' + mousePos.y;
-    // console.log(canvas, message);
     r.worldPosX = mousePos.x / SCALE;
     r.worldPosY = mousePos.y / SCALE;
     r.mousePosX = mousePos.x;
     r.mousePosY = mousePos.y;
-    //        console.log(mousePos.x, mousePos.y, "-", worldPosX, worldPosY);
-    //console.log(r);
 
     _.each(onmoveListeners, function(_listener) {
       _listener(r);
@@ -49,20 +43,14 @@ function MouseTargeter(_canvas, scale) {
     if (event.which == 1 ) {
       var r = {}
       var mousePos = getMousePos(canvas, evt);
-      // var message = 'Mouse position: ' + mousePos.x + ',' + mousePos.y;
-      // console.log(canvas, message);
       r.worldPosX = mousePos.x / SCALE;
       r.worldPosY = mousePos.y / SCALE;
       r.mousePosX = mousePos.x;
       r.mousePosY = mousePos.y;
-      //        console.log(mousePos.x, mousePos.y, "-", worldPosX, worldPosY);
-      //console.log(r);
 
       _.each(onclicklisteners, function(_listener) {
         _listener(r);
       })
-
-
     }
   }, false);
 

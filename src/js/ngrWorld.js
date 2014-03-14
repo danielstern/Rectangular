@@ -22,16 +22,13 @@ angular.module('Rectangular')
     var r = {};
     r.properties = ngrState.getState();
     r.elements = elements;
-    console.log("Making string...",r);
     var str = JSON.stringify(r);
     return str;
   }
 
   this.load = function(json) {
-    console.log("Loading...",json);
     ngrState.setProperties(json.properties);
     _.each(json.elements,function(element){
-     console.log("Loading element defintion:",element);
      w.addElement(element.options);
     })
   }
@@ -44,7 +41,6 @@ angular.module('Rectangular')
       o.x = pos.x;
       o.y = pos.y;
       o.angle = angle;
-      // console.log("Updating memory pair",pair);
     });
 
   })
@@ -53,7 +49,6 @@ angular.module('Rectangular')
   this.addElement = function(definition, options) {
 
     var def = new NgShape(definition);
-    console.log("creating with", def);
 
     var b = world.CreateBody(def.getBodyDef());
     var f = b.CreateFixture(def.getFixtureDef());
@@ -64,9 +59,6 @@ angular.module('Rectangular')
     elements.push(elementDef);
 
     memoryPairs.push({element:elementDef,body:b});
-    console.log("Pairs?",memoryPairs);
-
-
 
     options = _.clone(options) || {};
 
@@ -129,7 +121,6 @@ angular.module('Rectangular')
   }
 
   this.clearAll = function() {
-    console.log("world clearing all");
     _.each(bodies, function(body) {
       world.DestroyBody(body);
       bodies = [];
