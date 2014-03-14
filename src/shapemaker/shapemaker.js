@@ -22,16 +22,33 @@
      ngrInterface.enableDrag();
      var contextMenu;
 
+     $scope.deleteContextItem = function() {
+       console.log("Deleting", $scope.contextBody);
+       ngrEnvironment.remove($scope.contextBody);
+       hideContextMenu();
+     }
+
+     function hideContextMenu() {
+       if (contextMenu) {
+         setTimeout(function() {
+           $(contextMenu).hide();
+           contextmenu = null;
+         }, 10)
+       }
+     }
+
+     var contextMenu;
+
      $(document).bind("contextmenu", function(event) {
        event.preventDefault();
        if (ngrInterface.getBodyAtMouse()) {
-         if (contextMenu) contextMenu.hide();
-         var contextMenu = angular.element("<div contextzmenu></div>");
-          var cmpl = $compile(contextMenu);
+         if (contextMenu) $(contextMenu).hide();
+         contextMenu = angular.element("<div customcontextmenu></div>");
+         var cmpl = $compile(contextMenu);
          $('body').append(contextMenu);
-     //    ('makers').append(el);
+         //    ('makers').append(el);
          $scope.contextBody = ngrInterface.getBodyAtMouse();
-          cmpl($scope);
+         cmpl($scope);
 
          //contextMenu = $("<div class='custom-menu'>Custom menu</div>");
          $(contextMenu)
@@ -42,27 +59,35 @@
 
          $(document).bind("mousedown", function(event) {
            //  event.preventDefault();
-           if (contextMenu) $(contextMenu).hide();
+           // console.log("hiding menu",event);
+           if (event.target.tagName == "LI") return true; 
+           if (contextMenu) {
+            setTimeout(function(){
+           $(contextMenu).hide();
+           },10)
+           }
+           //return true;
 
          })
        }
      });
    })
-  .directive('contextzmenu',function() {
-    return {
-      restrict: 'A',
-      replace: false,
-      scope: {
-
-      },
-      templateUrl: function(elem, atts) {
+   .directive('customcontextmenu', function() {
+     return {
+       restrict: 'A',
+       replace: false,
+       templateUrl: function(elem, atts) {
          return "shapemaker/contextmenu.html";
        },
-      link: function() {
-          console.log("hey context menue!");
-      }
-    }
-  })
+       link: function() {
+         //     console.log("hey context menue!");
+       },
+       controller: function($scope) {
+         // console.log("Context controller...", $scope);
+
+       }
+     }
+   })
    .directive('shapemaker', function() {
      return {
        restrict: 'AE',

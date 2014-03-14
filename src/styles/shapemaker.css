@@ -36,10 +36,11 @@ worldcontroller {
 	overflow: hidden;
 }
 
-[contextzmenu] {
+[customcontextmenu] {
 	position: absolute;
 	border: 1px solid #323;
-	padding: 1em;
+	padding: 0.3em;
+	width: 10rem;
 	font-size: 11px;
 	border-radius: 0.3em;
 	background-color: #fef;
@@ -47,12 +48,22 @@ worldcontroller {
 		-webkit-animation: fadeIn 0.2s ease-in;
 }
 
-[contextzmenu] ul {
+[customcontextmenu] ul {
 	list-style: none;
 	padding-left: 10px;
 	padding-right: 10px;
 }
 
-[contextzmenu] li {
+[customcontextmenu] li {
 	margin-left: 0px;
+	text-align: center;
+	padding: 0.4rem;
+	transition: 0.2s all;
+	background: rgb(250,150,150, 0);
+	cursor: pointer;
+}
+
+[customcontextmenu] li:hover {
+	
+	background: rgba(250,150,150,1);
 }
