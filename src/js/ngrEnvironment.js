@@ -25,7 +25,6 @@
      }
 
      this.getFloor = function() {
-      console.log("Returning floor,",_floorObj);
       return _floorObj;
      }
 
@@ -155,11 +154,9 @@
      }
 
      this.clearAll = function() {
-
        ngrWorld.clearAll();
        ngrStage.clearAll();
        ngrLoop.clearHooks();
-
      }
 
      this.toggleDebug = function() {
@@ -168,8 +165,6 @@
 
 
      this.debug = function() {
-       
-       
        ngrDebug.debug(debugCanvas);
      }
 
