@@ -20,7 +20,13 @@
        options = options || {};
        var floor = ngrModels.floor(options);
        _floorObj = e.add('box', floor.options);
+       ngrWorld.getWorld().m_groundBody = _floorObj;
 
+     }
+
+     this.getFloor = function() {
+      console.log("Returning floor,",_floorObj);
+      return _floorObj;
      }
 
      this.leftWall = function(options) {

@@ -3,7 +3,7 @@
 
      ngrEnvironment.init({
        scale: 15,
-      // scale: 'auto',
+       // scale: 'auto',
        worldHeight: 30
      });
 
@@ -19,55 +19,86 @@
        ngrEnvironment.floor();
      };
 
-     var targeter = new MouseTargeter($('canvas')[0],ngrState.getScale());
-     targeter.onclick(function(r){
-      //  console.log("mouse is over the canvas", r)      ;
-      var body = getBodyAtMouse(r);
-      console.log("Body?",body,r);
+     var targeter = new MouseTargeter($('canvas')[0], ngrState.getScale());
+     targeter.onclick(function(r) {
+       //  console.log("mouse is over the canvas", r)      ;
+       var body = getBodyAtMouse(r);
+       console.log("Body?", body, r);
+       var state = ngrState.getState();
+       console.log("Stae?", state);
+       //var box = new bTest(60, false, state.width, state.height, state.scale);
 
-      if (body) {
-            var m_world = ngrWorld.getWorld();
-            var mouse_joint = new b2MouseJointDef();
-            var pixels_in_a_meter = ngrState.getScale();
-            var mouseX = r.mousePosX;
-            var mouseY = r.mousePosY;
-            mouse_joint.bodyA = m_world.GetGroundBody();
-            mouse_joint.bodyB = body;
-            mouse_joint.target.Set(r.worldPosX, r.worldPosY);
-            mouse_joint.maxForce = 10000;
-            //mouse_joint.timeStep = 1 / 60;
-            console.log("Mouse joint?",mouse_joint);
-            mouseJoint = m_world.CreateJoint(mouse_joint);
-        }
+       if (body) {
+         var m_world = ngrWorld.getWorld();
+         var mouse_joint = new b2MouseJointDef();
+         var pixels_in_a_meter = ngrState.getScale();
+         var mouseX = r.mousePosX;
+         var mouseY = r.mousePosY;
+        
+        // box.mouseDownAt(mouseX, mouseY);
+         mouse_joint.bodyA = ngrWorld.getWorld().GetGroundBody();
+         mouse_joint.bodyB = body;
+         mouse_joint.target.Set(r.worldPosX, r.worldPosY);
+         mouse_joint.collideConnected = true;
+
+         //mouse_joint.m_bodyA = ngrEnvironment.getFloor();
+         //   mouse_joint.m_bodyB = body;
+         //mouse_joint.m_edgeA = {};
+         //mouse_joint.m_edgeB = {};
+
+         mouse_joint.maxForce = 100000;
+         //mouse_joint.timeStep = 1 / 60;
+         console.log("Mouse joint?", mouse_joint);
+        var  mouseJointBody = m_world.CreateJoint(mouse_joint);
+         window.j = mouseJointBody;
+
+  //       box.update();
+    //     bodiesState = box.getState();
+
+      //   console.log("Bodies state?",bodiesState);
+
+        // for (var id in bodiesState) {
+         //  var entity = world[id];
+       //    if (entity) entity.update(bodiesState[id]);
+       //  }
+
+         $(document).mouseup(function(e) {
+           // console.log("Destroying",mouse_joint);
+           m_world.DestroyJoint(mouseJointBody);
+         })
+       }
 
      })
 
      function getBodyAtMouse(r) {
-      $scope.r = r;
-      $scope.$apply();
+       $scope.r = r;
+       $scope.$apply();
 
-      var targetVec = {x:r.worldPosX,y:r.worldPosY};
-      var pVec = new b2Vec2(targetVec.x,targetVec.y);
-      var aabb = new b2AABB();
-      aabb.lowerBound.Set(targetVec.x - 0.001, targetVec.y - 0.001);
-      aabb.upperBound.Set(targetVec.x + 0.001, targetVec.y + 0.001);
+       var targetVec = {
+         x: r.worldPosX,
+         y: r.worldPosY
+       };
+       var pVec = new b2Vec2(targetVec.x, targetVec.y);
+       var aabb = new b2AABB();
+       aabb.lowerBound.Set(targetVec.x - 0.001, targetVec.y - 0.001);
+       aabb.upperBound.Set(targetVec.x + 0.001, targetVec.y + 0.001);
 
-      var targetBody = null;
-      var Fixture;
+       var targetBody = null;
+       var Fixture;
 
-      function GetBodyCallback(Fixture) {
+       function GetBodyCallback(Fixture) {
          var shape = Fixture.GetShape();
-         var Inside = shape.TestPoint(Fixture.GetBody().GetTransform(),pVec);
+         var Inside = shape.TestPoint(Fixture.GetBody().GetTransform(), pVec);
          if (Inside) {
-            targetBody = Fixture.GetBody();
-            return false;
+           targetBody = Fixture.GetBody();
+           return false;
          }
          return true;
-      }
+       }
 
-      ngrWorld.getWorld().QueryAABB(GetBodyCallback, aabb);
-      //console.log('target?',targetBody);
-      return targetBody;
+       ngrWorld.getWorld().QueryAABB(GetBodyCallback, aabb);
+       //console.log('target?',targetBody);
+       return targetBody;
      }
 
    })
@@ -238,8 +269,8 @@
            case 'scale':
              $scope.max = 30;
              $scope.min = 2;
-            case 'focusX':
-            case 'focusY':
+           case 'focusX':
+           case 'focusY':
              $scope.max = 1000;
              $scope.min = -1000;
              break;
