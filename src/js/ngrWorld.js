@@ -31,6 +31,26 @@ angular.module('Rectangular')
     return b;
   };
 
+  this.pin = function(body, target) {
+    var m_world = world;
+    var r = target;
+    var mouse_joint = new b2MouseJointDef();
+    //if (mouseJointBody) m_world.DestroyJoint(mouseJointBody);
+    
+    mouse_joint.bodyA = ngrWorld.getWorld().GetGroundBody();
+    mouse_joint.bodyB = body;
+    mouse_joint.target.Set(r.worldPosX, r.worldPosY);
+    mouse_joint.collideConnected = true;
+
+    mouse_joint.maxForce = 100000;
+    mouseJointBody = m_world.CreateJoint(mouse_joint);
+    return mouseJointBody;
+  }
+
+  this.destroyJoint = function(joint) {
+    world.DestroyJoint(joint);
+  }
+
   this.cycleBody = function(b) {
 
     var options = b.options;

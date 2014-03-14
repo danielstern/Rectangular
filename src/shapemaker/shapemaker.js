@@ -31,25 +31,13 @@
        body = ngrInterface.getBodyAtMouse(r);
        var state = ngrState.getState();
 
-
-
        if (body) {
-         var m_world = ngrWorld.getWorld();
-         var mouseX = r.mousePosX;
-         var mouseY = r.mousePosY;
-         var mouse_joint = new b2MouseJointDef();
-         if (mouseJointBody) m_world.DestroyJoint(mouseJointBody);
-        
-         mouse_joint.bodyA = ngrWorld.getWorld().GetGroundBody();
-         mouse_joint.bodyB = body;
-         mouse_joint.target.Set(r.worldPosX, r.worldPosY);
-         mouse_joint.collideConnected = true;
 
-         mouse_joint.maxForce = 100000;
-         mouseJointBody = m_world.CreateJoint(mouse_joint);
+        mouseJointBody = ngrWorld.pin(body,r);
+      
 
          $(document).mouseup(function(e) {
-           m_world.DestroyJoint(mouseJointBody);
+           ngrWorld.destroyJoint(mouseJointBody);
            mouseJointBody = null;
          })
        }
