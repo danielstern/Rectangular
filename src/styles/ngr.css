@@ -1,4 +1,4 @@
-#debugCanvas {
+#debugcanvas {
 	position: absolute;
 	top: 0;
 	opacity: 1;
@@ -7,6 +7,14 @@
 	background-color: rgba(100, 100, 100, 0.1);
 	left: 0;
 }
+
+canvas {
+	position: absolute;
+	top: 0;
+	opacity: 1;
+	left: 0;
+}
+
 
 .untouchable {
 	pointer-events: none;

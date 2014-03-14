@@ -15,6 +15,8 @@ function MouseTargeter(_canvas, scale) {
   var onmoveListeners = [];
   var onclicklisteners = [];
 
+  console.log("Mousetargeter...",SCALE);
+
   this.onmove = function(listener) {
     onmoveListeners.push(listener);
   }
