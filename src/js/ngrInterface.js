@@ -4,10 +4,15 @@ angular.module('Rectangular')
     var grabJoint;
     var targeter;
     var i = this;
+    var mouseX;
+    var mouseY;
 
     this.enableDrag = function() {
     	targeter = new MouseTargeter($('canvas')[0], ngrState.getScale());
     	targeter.onclick(function(r) {
+        mouseX = r.worldPosX;
+        mouseY = r.worldPosY;
+        console.log("click?",r)
         i.grab(r);
       })
     }
@@ -16,35 +21,27 @@ angular.module('Rectangular')
       body = i.getBodyAtMouse(r);
       var state = ngrState.getState();
 
-      //var mouseJointBody;
       targeter.onmove(function(r) {
-     //   $scope.r = r;
-      //  $scope.$apply();
         if (grabJoint) grabJoint.SetTarget(new b2Vec2(r.worldPosX, r.worldPosY))
 
       })
-      
 
       if (body) {
 
         grabJoint = ngrWorld.pin(body, r);
 
-
         $(document).mouseup(function(e) {
-          ngrWorld.destroyJoint(grabJoint);
+          if (grabJoint) ngrWorld.destroyJoint(grabJoint);
           grabJoint = null;
         })
-
-
       }
-
     }
 
     this.getBodyAtMouse = function(r) {
 
       var targetVec = {
-        x: r.worldPosX,
-        y: r.worldPosY
+        x: mouseX,
+        y: mouseY
       };
       var pVec = new b2Vec2(targetVec.x, targetVec.y);
       var aabb = new b2AABB();

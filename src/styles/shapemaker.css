@@ -31,6 +31,10 @@ worldcontroller {
 
 .main {
 	width: 750px;
-	height: 500px;
+	height: 630px;
 	overflow: hidden;
+}
+
+.custom-menu {
+	position: absolute;
 }

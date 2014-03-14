@@ -42,7 +42,7 @@ angular.module('Rectangular')
     mouse_joint.target.Set(r.worldPosX, r.worldPosY);
     mouse_joint.collideConnected = true;
 
-    mouse_joint.maxForce = 100000;
+    mouse_joint.maxForce = body.mass * 300;
     mouseJointBody = m_world.CreateJoint(mouse_joint);
     return mouseJointBody;
   }

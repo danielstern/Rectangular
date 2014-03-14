@@ -1,8 +1,8 @@
  angular.module("BallAgentApp", ['ngAudio', 'Rectangular'])
-   .controller('myDemoCtrl', function($scope, $element, ngrWorld, ngrInterface,  ngrEnvironment, ngrState, ngAudio, $compile) {
+   .controller('myDemoCtrl', function($scope, $element, ngrWorld, ngrInterface, ngrEnvironment, ngrState, ngAudio, $compile) {
 
      ngrEnvironment.init({
-      // scale: 15,
+       // scale: 15,
        scale: 'auto',
        worldHeight: 20
      });
@@ -19,9 +19,27 @@
        ngrEnvironment.floor();
      };
 
-    ngrInterface.enableDrag();
+     ngrInterface.enableDrag();
+     var contextMenu;
 
+     $(document).bind("contextmenu", function(event) {
+         event.preventDefault();
+         if (ngrInterface.getBodyAtMouse()) {
+           if (contextMenu) contextMenu.hide();
+           contextMenu = $("<div class='custom-menu'>Custom menu</div>")
+             .appendTo("body")
+             .css({
+               top: event.pageY + "px",
+               left: event.pageX + "px"
+             });
 
+       $(document).bind("mousedown", function(event) {
+         //  event.preventDefault();
+         if (contextMenu) contextMenu.hide();
+
+       })
+     }
+    });
    })
    .directive('shapemaker', function() {
      return {
