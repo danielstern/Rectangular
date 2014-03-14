@@ -8,16 +8,47 @@ angular.module('Rectangular')
   var properties = {};
   var ngrWorld = this;
   var env;
+  var w = this;
+  window.ngrWorld = w;
 
   var elements = [];
 
   var gravity = new b2Vec2(0, 0);
   var hooks = [];
 
+  this.getJSON = function() {
+    var r = {};
+    r.properties = ngrState.getState();
+    r.elements = elements;
+    console.log("Making string...",r);
+    var str = JSON.stringify(r);
+    return str;
+  }
+
+  this.load = function(json) {
+    console.log("Loading...",json);
+    //ngrState.setProperties(properties);
+    _.each(json.elements,function(element){
+      console.log("Adding,",element);
+//      w.addElement(element.definition, element.options);
+    })
+  }
+
 
   this.addElement = function(definition, options) {
-    var b = world.CreateBody(definition.b);
-    var f = b.CreateFixture(definition.f);
+    console.log("adding",definition,options);
+  //  var b = world.CreateBody(new NgShape(definition.options).getBodyDef());
+  //  var f = b.CreateFixture(new NgShape(definition.options).getFixtureDef());
+
+  var defintion = new NgShape(definition);
+
+    var b = world.CreateBody(definition.getBodyDef());
+    var f = b.CreateFixture(definition.getFixtureDef());
+
+    var elementDef = {};
+    elementDef.definition = definition;
+    elementDef.options = options;
+    elements.push(elementDef);
 
     options = _.clone(options) || {};
 
@@ -80,9 +111,11 @@ angular.module('Rectangular')
   }
 
   this.clearAll = function() {
+    console.log("world clearing all");
     _.each(bodies, function(body) {
       world.DestroyBody(body);
       bodies = [];
+      elements = [];
     });
 
   }

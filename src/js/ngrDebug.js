@@ -15,9 +15,9 @@ angular.module('Rectangular')
 
     debugDraw.SetFillAlpha(0.5);
     debugDraw.SetLineThickness(1.0);
-    //debugDraw.SetFlags(b2DebugDraw.e_shapeBit | b2DebugDraw.e_jointBit);
+    debugDraw.SetFlags(b2DebugDraw.e_shapeBit | b2DebugDraw.e_jointBit);
     //debugDraw.SetFlags(b2DebugDraw.e_shapeBit | b2DebugDraw.e_jointBit | b2DebugDraw.e_aabbBit |  b2DebugDraw.e_pairBit |  b2DebugDraw.e_centerOfMassBit);
-    debugDraw.SetFlags(b2DebugDraw.e_shapeBit | b2DebugDraw.e_jointBit |  b2DebugDraw.e_pairBit |  b2DebugDraw.e_centerOfMassBit);
+  //  debugDraw.SetFlags(b2DebugDraw.e_shapeBit | b2DebugDraw.e_jointBit |  b2DebugDraw.e_pairBit |  b2DebugDraw.e_centerOfMassBit);
     world.SetDebugDraw(debugDraw);
 
   }

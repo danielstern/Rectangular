@@ -1,5 +1,5 @@
  angular.module("BallAgentApp", ['ngAudio', 'Rectangular'])
-   .controller('myDemoCtrl', function($scope, $element, ngrWorld, ngrInterface, ngrEnvironment, ngrState, ngAudio, $compile) {
+   .controller('myDemoCtrl', function($scope, $element, ngrDefaults, ngrWorld, ngrInterface, ngrEnvironment, ngrState, ngAudio, $compile) {
 
      ngrEnvironment.init({
        // scale: 15,
@@ -68,6 +68,11 @@
        hideContextMenu();
      }
 
+     $scope.save = function() {
+      var worldString = ngrWorld.getJSON();
+      console.log("Worldstr?",worldString);
+     }
+
 
      Mousetrap.bind({
        'f': function() {
@@ -102,9 +107,7 @@
        }
      }
 
-     function createContextMenu() {
-
-     }
+     ngrWorld.load(ngrDefaults.testWorld1);
 
      var contextMenu;
      var contextPin;
