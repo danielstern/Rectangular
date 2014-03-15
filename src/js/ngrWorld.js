@@ -38,9 +38,11 @@ angular.module('Rectangular')
       var o = pair.element.options;
       var pos = pair.body.GetPosition();
       var angle = pair.body.GetAngle();
+      var type = pair.body.GetType();
       o.x = pos.x;
       o.y = pos.y;
       o.angle = angle;
+      o.position = type;
     });
 
   })
@@ -50,15 +52,21 @@ angular.module('Rectangular')
 
     var def = new NgShape(definition);
 
+    var id = guid();
+    console.log("adding element?",id);
+
     var b = world.CreateBody(def.getBodyDef());
     var f = b.CreateFixture(def.getFixtureDef());
+
+    b.id = id;
 
     var elementDef = {};
     elementDef.definition = definition;
     elementDef.options = def.options;
+    elementDef.id = id;
     elements.push(elementDef);
 
-    memoryPairs.push({element:elementDef,body:b});
+    memoryPairs.push({element:elementDef,body:b,id:id});
 
     options = _.clone(options) || {};
 
@@ -116,9 +124,32 @@ angular.module('Rectangular')
   }
 
   this.removeElement = function(body) {
+    console.log("removing",body);
+    var elId = body.id;
     world.DestroyBody(body);
+    
+    bodies = _.map(bodies,function(_body){
+      if (_body.id != elId) return _body;
+    })
+
+    elements = _.map(elements,function(_el){
+      if (_el.id != elId) return _el;
+    })
+
+
+    memoryPairs = _.map(memoryPairs,function(_pair){
+      if (_pair.id != elId) return _pair;
+    })
+
+    memoryPairs = _.compact(memoryPairs);
+    elements = _.compact(elements);
+    bodies = _.compact(bodies);
 
   }
+
+  _.mixin({
+
+  })
 
   this.clearAll = function() {
     _.each(bodies, function(body) {

@@ -16,16 +16,16 @@
 <div ng-if="contextBody">
 	<table>
 		<tr>
-	<td>Mass: </td><td>{{contextBody.m_mass}}</td>
+	<td>Mass: </td><td>{{contextBody.m_mass | number:2}}</td>
 </tr>
 <tr>
-	<td>Density:</td> <td>{{contextBody.m_fixtureList.m_density}}</td>
+	<td>Density:</td> <td>{{contextBody.m_fixtureList.m_density | number:2}}</td>
 	</tr>
 <tr>
-	<td>Friction:</td> <td>{{contextBody.m_fixtureList.m_friction}}</td>
+	<td>Friction:</td> <td>{{contextBody.m_fixtureList.m_friction | number:2}}</td>
 	</tr>
 <tr>
-	<td>Resitution: </td><td>{{contextBody.m_fixtureList.m_restitution}}</td>
+	<td>Resitution: </td><td>{{contextBody.m_fixtureList.m_restitution | number:2}}</td>
 </table>
 <pre>
 [F] Freeze / Unfreeze

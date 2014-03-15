@@ -53,12 +53,26 @@ angular.module('Rectangular')
    		this.getBodyDef = function() {
    			var b = new b2BodyDef();
 
+   			console.log("Creating body definition",options);
+
    			b.position.Set(options.x , options.y);
    			b.angle = options.angle;
 
+   			switch (options.position) {
+   				case 'dynamic':
+   				case b2Body.b2_dynamicBody:
+   					b.type = b2Body.b2_dynamicBody;
+   					break;
+   				case 'static':
+   				case b2Body.b2_staticBody:
+   				default:
+   					b.type = b2Body.b2_staticBody;
+   					break;
+   			}
+/*
    			if (options.position == 'dynamic') {
    				b.type = b2Body.b2_dynamicBody;
-   			}
+   			}*/
 
    			return b;
 
@@ -67,14 +81,20 @@ angular.module('Rectangular')
    		this.getFixtureDef = function() {
    			var f = new b2FixtureDef;
 
-   			if (options.type == 'box') {
-   				f.shape = new b2PolygonShape();
-   				f.shape.SetAsBox( options.width , options.height );
-   			}
-
-   			if (options.type == 'circle') {
-   				f.shape = new b2CircleShape();
-   				f.shape.SetRadius( options.radius );
+   			switch (options.type) {
+   				case 'box':
+   					f.shape = new b2PolygonShape();
+   					f.shape.SetAsBox( options.width , options.height );
+   				break;
+   				case 'circle':
+	   				f.shape = new b2CircleShape();
+	   				f.shape.SetRadius( options.radius );
+	   			break;
+	   			
+	   			default:
+	   				f.shape = new b2PolygonShape();
+   					f.shape.SetAsBox( options.width , options.height );
+	   			break;
    			}
 
    			f.density = options.density;
