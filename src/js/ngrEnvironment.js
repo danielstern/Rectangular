@@ -20,7 +20,7 @@
        options = options || {};
        var floor = ngrModels.floor(options);
        _floorObj = e.add('box', floor.options);
-       ngrWorld.getWorld().m_groundBody = _floorObj;
+    //   ngrWorld.getWorld().m_groundBody = _floorObj;
 
      }
 
