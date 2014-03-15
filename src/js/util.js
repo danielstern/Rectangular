@@ -96,3 +96,43 @@ Mousetrap = (function(Mousetrap) {
 
     return self;
 }) (Mousetrap);
+
+/*
+private function createTriangle(x:Number, y:Number, 
+                                width:Number, height:Number, 
+                                isDynamic:Boolean, 
+                                density:Number = 1, friction:Number = .5, 
+                                fixedRotation:Boolean = false, 
+                                name:String = ""):b2Body
+{
+  var bWidth:Number = p2m(width);
+  var bHeight:Number = p2m(height);
+ 
+  // shape
+  var shape:b2PolygonShape = new b2PolygonShape();
+  var vertices:Array = [];
+  vertices.push(new b2Vec2(bWidth / 2, bHeight / 2));  // right bottom
+  vertices.push(new b2Vec2(-bWidth / 2, bHeight / 2)); // left bottom
+  vertices.push(new b2Vec2(0, -bHeight / 2));          // middle top
+  shape.SetAsArray(vertices);
+ 
+  // fixture
+  var fixture:b2FixtureDef = new b2FixtureDef();
+  fixture.density = density;
+  fixture.friction = friction;
+  fixture.shape = shape;
+  fixture.userData = new UserDataInfo(name, bWidth, bHeight);
+ 
+  // body definition
+  var bodyDef:b2BodyDef = new b2BodyDef();
+  bodyDef.position.Set(p2m(x) + bWidth / 2, p2m(y) + bHeight / 2);
+  bodyDef.type = isDynamic ? 
+                          b2Body.b2_dynamicBody : b2Body.b2_staticBody;
+  bodyDef.fixedRotation = fixedRotation;
+ 
+  // body
+  var body:b2Body = ourWorld.CreateBody(bodyDef);
+  body.CreateFixture(fixture);
+  return body;
+}
+*/
