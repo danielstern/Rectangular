@@ -48,7 +48,7 @@ angular.module('Rectangular')
 
       if (body) {
 
-        if (grabJoint) ngWorld.unpin(grabJoint);
+        if (grabJoint) ngrWorld.unpin(grabJoint);
         grabJoint = ngrWorld.pin(body, r);
 
         _.each(ongrabListeners, function(_listener) {

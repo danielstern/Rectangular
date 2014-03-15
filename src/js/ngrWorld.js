@@ -53,7 +53,6 @@ angular.module('Rectangular')
     var def = new NgShape(definition);
 
     var id = guid();
-    console.log("adding element?",id);
 
     var b = world.CreateBody(def.getBodyDef());
     var f = b.CreateFixture(def.getFixtureDef());
