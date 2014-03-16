@@ -73,9 +73,15 @@ function NgShape(options) {
 
         console.log("Drawin' triangle,",options);
         var basePoint = {x:0,y:0}
-        //var points = [{x: 0, y: 0}, {x: 1, y: 0}, {x: 0, y:2}];
-        var topPoint = {x:0,y:options.adjacent};
-        var rightPoint = {x:options.opposite,y:0};
+        var topPoint = {x:0,y:Number(options.adjacent)};
+        var innerAngleRadians = (options.innerAngle / 180) * Math.PI;
+        console.log("inner angle radians?", innerAngleRadians);
+        var rightPoint = {
+          x:Math.sin(innerAngleRadians) * options.opposite,
+          y: Math.cos(innerAngleRadians) * options.adjacent
+        }
+        
+        //var rightPoint = {x:options.opposite,y:0};
 
         var points = [basePoint,rightPoint,topPoint];
 
