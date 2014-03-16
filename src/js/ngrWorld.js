@@ -9,6 +9,7 @@ angular.module('Rectangular')
   var ngrWorld = this;
   var env;
   var w = this;
+  var pins = [];
 
   var hooks = [];
   var memoryPairs = [];
@@ -16,7 +17,22 @@ angular.module('Rectangular')
   this.load = function(json) {
     ngrState.setProperties(json.properties);
     _.each(json.elements,function(element){
-     w.addElement(element.options);
+      element.options.id = element.id;
+      w.addElement(element.options);
+    })
+
+    _.each(json.pins,function(pin){
+      console.log("reconstituting pin", pin);
+      var body = w.getBodyById(pin.bodyId);
+      if (!body) return;
+      if (!body) throw new Error("Can't find the body for this pin.");
+      w.pin(body, pin.target);
+    })
+  }
+
+  this.getBodyById = function(_id) {
+    return _.find(bodies,function(body){
+      if (body.id == _id) return body;
     })
   }
 
@@ -47,7 +63,7 @@ angular.module('Rectangular')
   this.addElement = function(options) {
 
     var def = new NgShape(options);
-    var id = guid();
+    var id = options.id || guid();
 
     var b = world.CreateBody(def.getBodyDef());
     b.CreateFixture(def.getFixtureDef());
@@ -80,6 +96,19 @@ angular.module('Rectangular')
     var m_world = world;
     var r = target;
     var mouse_joint = new b2MouseJointDef();
+
+    var pinMemo = {};
+    pinMemo.pinId = guid();
+    pinMemo.target = target;
+    pinMemo.bodyId = body.id;
+
+    mouse_joint.pinId = pinMemo.pinId;
+
+    ngrState.addPin(pinMemo);
+
+    pins.push(mouse_joint);
+
+//    console.log("Pinning",body.id, 'to', target, 'mousejoint?',mouse_joint);
     
     mouse_joint.bodyA = ngrWorld.getWorld().GetGroundBody();
     mouse_joint.bodyB = body;
@@ -88,11 +117,16 @@ angular.module('Rectangular')
 
     mouse_joint.maxForce = body.mass * 300;
     mouseJointBody = m_world.CreateJoint(mouse_joint);
+    mouseJointBody.pinId = pinMemo.pinId;
+    console.log("Mosue joint body?",mouseJointBody);
     return mouseJointBody;
   }
 
   this.destroyJoint = function(joint) {
+    console.log("Destryoign joint",joint);
+    ngrState.removePin(joint.pinId);
     if (joint) world.DestroyJoint(joint);
+
   }
 
   this.unpin = this.destroyJoint;
@@ -143,10 +177,16 @@ angular.module('Rectangular')
 
   this.clearAll = function() {
     _.each(bodies, function(body) {
-      world.DestroyBody(body);
-      bodies = [];
-      ngrState.clearElements();
+      w.removeElement(body);
     });
+
+    _.each(pins, function(pin) {
+      w.destroyJoint(pin);
+    });
+
+    bodies = [];
+    pins = []
+    ngrState.clearElements();
 
   }
 

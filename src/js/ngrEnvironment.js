@@ -1,5 +1,5 @@
  angular.module('Rectangular')
-   .service('ngrEnvironment', function(ngrWorld, ngrStage, ngrModels, ngrDefaults, $q, ngrState, ngrDebug, ngrLoop, ngrDisplay) {
+   .service('ngrEnvironment', function(ngrWorld, ngrInterface, ngrStage, ngrModels, ngrDefaults, $q, ngrState, ngrDebug, ngrLoop, ngrDisplay) {
 
      this.addHook = ngrLoop.addHook;
      this.clearHooks = ngrLoop.clearHooks;
@@ -7,6 +7,7 @@
      this.setWorldHeight = ngrState.setWorldHeight;
      this.getJSON = ngrState.getJSON;
      this.blocker = ngrStage.blocker;
+     this.pin = ngrInterface.pinToMouse;
 
      var e = this;
      var _canvas;

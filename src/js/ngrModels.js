@@ -90,7 +90,7 @@ angular.module('Rectangular')
     }
 
   this.floor = {
-    height: 0.6,
+    height: 0.3,
     type: 'static',
     friction: 0.3,
     density: 0.4,

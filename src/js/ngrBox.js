@@ -48,7 +48,7 @@ function NgShape(options) {
         b.type = b2Body.b2_staticBody;
         break;
       default:
-        throw new Error ("You must define a body type in your options",this.options);
+        throw new Error("You must define a body type in your options", this.options);
         break;
     }
 
@@ -71,31 +71,37 @@ function NgShape(options) {
         break;
       case 'triangle':
 
-        console.log("Drawin' triangle,",options);
-        var basePoint = {x:0,y:0}
-        var topPoint = {x:0,y:Number(options.adjacent)};
+        console.log("Drawin' triangle,", options);
+        var basePoint = {
+          x: 0,
+          y: 0
+        }
+        var topPoint = {
+          x: 0,
+          y: Number(options.adjacent)
+        };
         var innerAngleRadians = (options.innerAngle / 180) * Math.PI;
         console.log("inner angle radians?", innerAngleRadians);
         var rightPoint = {
-          x:Math.sin(innerAngleRadians) * options.opposite,
+          x: Math.sin(innerAngleRadians) * options.opposite,
           y: Math.cos(innerAngleRadians) * options.adjacent
         }
-        
+
         //var rightPoint = {x:options.opposite,y:0};
 
-        var points = [basePoint,rightPoint,topPoint];
+        var points = [basePoint, rightPoint, topPoint];
 
         for (var i = 0; i < points.length; i++) {
-            var vec = new b2Vec2();
-            vec.Set(points[i].x, points[i].y);
-            points[i] = vec;
+          var vec = new b2Vec2();
+          vec.Set(points[i].x, points[i].y);
+          points[i] = vec;
         }
-     
+
         f.shape = new b2PolygonShape();
         f.shape.SetAsArray(points, points.length);
         break;
       default:
-        throw new Error ("You must defind a shapeKind in your options.");
+        throw new Error("You must defind a shapeKind in your options.");
         break;
     }
 

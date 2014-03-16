@@ -4,7 +4,7 @@
      ngrEnvironment.init({
        // scale: 15,
        scale: 'auto',
-       worldHeight: 25
+       worldHeight: 20
      });
 
      $scope.newMaker = function() {
@@ -52,7 +52,7 @@
 
      $scope.pinContextItem = function() {
        var cti = $scope.contextBody;
-       var pin = ngrInterface.pinToMouse(cti);
+       var pin = ngrEnvironment.pin(cti);
        cti.pins = cti.pins || [];
        cti.pins.push(pin);
        hideContextMenu();
@@ -108,7 +108,7 @@
        }
      }
 
-    // if ( localStorage['lastSaved']) ngrWorld.load( JSON.parse(localStorage['lastSaved']));
+     if ( localStorage['lastSaved']) ngrWorld.load( JSON.parse(localStorage['lastSaved']));
 
      var contextMenu;
      var contextPin;

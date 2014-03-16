@@ -3,12 +3,14 @@ angular.module('Rectangular')
 
     var state;
     var elements = [];
+    var pins = []
     var floor;
 
     this.getJSON = function() {
       var r = {};
       r.properties = state;
       r.elements = elements;
+      r.pins = pins;
       var str = JSON.stringify(r);
       return str;
     }
@@ -26,12 +28,25 @@ angular.module('Rectangular')
       window.state = state;
     }
 
+    this.addPin = function(pinDef) {
+      pins.push(pinDef);
+    }
+
+    this.removePin = function(pinId) {
+      pins = _.map(pins,function(_pin){
+        console.log("removing pin...",pinId,_pin)
+        if (_pin.pinId != pinId) return _pin;
+      })
+      pins = _.compact(pins);
+    }
+
     this.addElement = function(elementDef) {
       elements.push(elementDef)
     }
 
     this.clearElements = function() {
       elements = [];
+      pins = [];
     }
 
     this.removeElement = function(body) {
