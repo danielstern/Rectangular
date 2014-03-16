@@ -9,13 +9,9 @@ angular.module('Rectangular')
   var ngrWorld = this;
   var env;
   var w = this;
-  window.ngrWorld = w;
 
   var elements = [];
-
-  var gravity = new b2Vec2(0, 0);
   var hooks = [];
-
   var memoryPairs = [];
 
   this.getJSON = function() {
@@ -48,33 +44,30 @@ angular.module('Rectangular')
   })
 
 
-  this.addElement = function(definition, options) {
+  this.addElement = function(options) {
 
-    var def = new NgShape(definition);
-
+    var def = new NgShape(options);
     var id = guid();
 
     var b = world.CreateBody(def.getBodyDef());
-    var f = b.CreateFixture(def.getFixtureDef());
+    b.CreateFixture(def.getFixtureDef());
+    if (options.userData) b.SetUserData(options.userData);
 
     b.id = id;
 
     var elementDef = {};
-    elementDef.definition = definition;
-    elementDef.options = def.options;
+    elementDef.options = options;
     elementDef.id = id;
     elements.push(elementDef);
 
     memoryPairs.push({element:elementDef,body:b,id:id});
 
-    options = _.clone(options) || {};
+    var privateOptions = _.clone(options);
 
-    options.cycle = 0;
-    b.options = _.clone(options);
+    privateOptions.cycle = 0;
+    b.options = privateOptions;
 
     bodies.push(b);
-
-    if (options.userData) b.SetUserData(options.userData);
 
     return b;
   };
@@ -127,9 +120,13 @@ angular.module('Rectangular')
     var elId = body.id;
     world.DestroyBody(body);
     
-    bodies = _.map(bodies,function(_body){
+    bodies = _.chain(bodies)
+    .map(function(_body){
       if (_body.id != elId) return _body;
     })
+    .compact()
+    .value();
+
 
     elements = _.map(elements,function(_el){
       if (_el.id != elId) return _el;
@@ -142,13 +139,9 @@ angular.module('Rectangular')
 
     memoryPairs = _.compact(memoryPairs);
     elements = _.compact(elements);
-    bodies = _.compact(bodies);
+   // bodies = _.compact(bodies);
 
   }
-
-  _.mixin({
-
-  })
 
   this.clearAll = function() {
     _.each(bodies, function(body) {
@@ -169,11 +162,8 @@ angular.module('Rectangular')
 
     var gravity = new b2Vec2(gravityX, gravityY);
     var doSleep = sleep;
-    env = ngrState.getProperties();
-
+    
     world = world || new b2World(gravity, false);
-
-    window.world = world;
 
     worldLoop = ngrLoop.addPermanentHook(function() {
 

@@ -1,9 +1,10 @@
 angular.module('Rectangular')
   .service("ngrBox", function(ngrState, ngrDefaults) {
 
-    this.shape = function(type, options) {
+    this.shape = function(options) {
 
-      //default options
+      if (!_.isObject(options)) throw new Error("You must define options to create a shape.")
+
       var defaults = _.clone(ngrDefaults.body);
 
       options = _.extend(defaults, options);
@@ -11,7 +12,7 @@ angular.module('Rectangular')
         if (!isNaN(Number(value))) options[key] = Number(value);
       })
 
-      switch (type) {
+      switch (options.shapeKind) {
         case 'box':
         case 'rectangle':
         case 'square':
@@ -26,6 +27,7 @@ angular.module('Rectangular')
           break;
         default:
           console.log("Can't do that");
+          throw new Error();
           return;
       }
 
