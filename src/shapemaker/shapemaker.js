@@ -4,7 +4,7 @@
      ngrEnvironment.init({
        // scale: 15,
        scale: 'auto',
-       worldHeight: 50
+       worldHeight: 25
      });
 
      $scope.newMaker = function() {
@@ -108,7 +108,7 @@
        }
      }
 
-     if ( localStorage['lastSaved']) ngrWorld.load( JSON.parse(localStorage['lastSaved']));
+    // if ( localStorage['lastSaved']) ngrWorld.load( JSON.parse(localStorage['lastSaved']));
 
      var contextMenu;
      var contextPin;
@@ -177,9 +177,13 @@
          q.angle = 0;
          q.shape = $attrs.shape || 'circle';
 
+         q.innerAngle = 60;
+         q.adjacent = 2;
+         q.opposite = 2;
+
          $scope.defaults = {
            box: 'height width restitution density friction gravityScale linearDamping angle',
-           triangle: 'height width restitution density friction gravityScale linearDamping angle',
+           triangle: 'innerAngle adjacent opposite restitution density friction gravityScale linearDamping angle',
            circle: 'radius restitution density friction gravityScale linearDamping angle'
          }
          switch ($attrs.shape) {
@@ -248,8 +252,9 @@
          $scope.addTriangle = function() {
            ngrEnvironment.add('triangle', {
              x: Math.random() * 40 / ngrState.getScale() * 20,
-             height: q.height / 2,
-             width: q.width / 2,
+             innerAngle: q.innerAngle,
+             adjacent: q.adjacent,
+             opposite: q.opposite,
              type: 'dynamic',
              restitution: q.restitution,
              density: q.density,
@@ -334,6 +339,9 @@
              break;
            case 'angle':
              $scope.max = 6.28;
+             break;
+           case 'innerAngle':
+             $scope.max = 179;
              break;
            case 'gravity':
              $scope.max = 100;

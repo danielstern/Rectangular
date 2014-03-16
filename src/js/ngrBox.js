@@ -71,7 +71,13 @@ function NgShape(options) {
         break;
       case 'triangle':
 
-        var points = [{x: 0, y: 0}, {x: 1, y: 0}, {x: 0, y:2}];
+        console.log("Drawin' triangle,",options);
+        var basePoint = {x:0,y:0}
+        //var points = [{x: 0, y: 0}, {x: 1, y: 0}, {x: 0, y:2}];
+        var topPoint = {x:0,y:options.adjacent};
+        var rightPoint = {x:options.opposite,y:0};
+
+        var points = [basePoint,rightPoint,topPoint];
 
         for (var i = 0; i < points.length; i++) {
             var vec = new b2Vec2();
