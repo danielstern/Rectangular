@@ -69,7 +69,7 @@
      }
 
      $scope.save = function() {
-      var worldString = ngrWorld.getJSON();
+      var worldString = ngrEnvironment.getJSON();
       console.log("Worldstr?",worldString);
       localStorage['lastSaved'] = worldString;
      }

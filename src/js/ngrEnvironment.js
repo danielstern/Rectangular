@@ -5,6 +5,8 @@
      this.clearHooks = ngrLoop.clearHooks;
      this.setGravity = ngrWorld.setGravity;
      this.setWorldHeight = ngrState.setWorldHeight;
+     this.getJSON = ngrState.getJSON;
+     
      var e = this;
      var _canvas;
 
@@ -83,7 +85,7 @@
      this.add = function(type, options) {
        if (!options) throw new Error("You can't add a shape without options.");
        options.shapeKind = type;
-       
+
        var b = ngrWorld.addElement(options);
 
        if (!options.hidden) ngrDisplay.skin(b, options);

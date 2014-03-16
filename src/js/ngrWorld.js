@@ -10,17 +10,8 @@ angular.module('Rectangular')
   var env;
   var w = this;
 
-  var elements = [];
   var hooks = [];
   var memoryPairs = [];
-
-  this.getJSON = function() {
-    var r = {};
-    r.properties = ngrState.getState();
-    r.elements = elements;
-    var str = JSON.stringify(r);
-    return str;
-  }
 
   this.load = function(json) {
     ngrState.setProperties(json.properties);
@@ -39,9 +30,18 @@ angular.module('Rectangular')
       o.y = pos.y;
       o.angle = angle;
       o.type = type;
-    });
 
-  })
+    });
+  });
+
+  ngrLoop.addPermanentHook(function(){
+    _.each(bodies,function(body){
+    
+      var pos = body.GetPosition();
+      if (pos.y > 500) w.removeElement(body);
+
+    });
+  });
 
 
   this.addElement = function(options) {
@@ -60,7 +60,7 @@ angular.module('Rectangular')
     var elementDef = {};
     elementDef.options = def.options;
     elementDef.id = id;
-    elements.push(elementDef);
+    ngrState.addElement(elementDef);
 
     memoryPairs.push({element:elementDef,body:b,id:id});
 
@@ -129,10 +129,9 @@ angular.module('Rectangular')
     .compact()
     .value();
 
+    ngrState.removeElement(body);
 
-    elements = _.map(elements,function(_el){
-      if (_el.id != elId) return _el;
-    })
+
 
 
     memoryPairs = _.map(memoryPairs,function(_pair){
@@ -140,7 +139,7 @@ angular.module('Rectangular')
     })
 
     memoryPairs = _.compact(memoryPairs);
-    elements = _.compact(elements);
+
    // bodies = _.compact(bodies);
 
   }

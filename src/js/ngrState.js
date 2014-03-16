@@ -2,10 +2,34 @@ angular.module('Rectangular')
   .service('ngrState', function() {
 
     var state;
+    var elements = [];
+
+    this.getJSON = function() {
+      var r = {};
+      r.properties = state;
+      r.elements = elements;
+      var str = JSON.stringify(r);
+      return str;
+    }
 
     this.setProperties = function(_properties) {
       state = _properties;
       window.state = state;
+    }
+
+    this.addElement = function(elementDef) {
+      elements.push(elementDef)
+    }
+
+    this.removeElement = function(body) {
+
+      var elId = body.id;
+
+      elements = _.map(elements,function(_el){
+        if (_el.id != elId) return _el;
+      });
+
+      elements = _.compact(elements);
     }
 
     this.getScale = function() {
