@@ -12,25 +12,6 @@ angular.module('Rectangular')
         if (!isNaN(Number(value))) options[key] = Number(value);
       })
 
-      switch (options.shapeKind) {
-        case 'box':
-        case 'rectangle':
-        case 'square':
-          options.type = 'box';
-          break;
-        case 'circle':
-        case 'ellipse':
-          options.type = 'circle';
-          break;
-        case 'triangle':
-          options.type = 'triangle';
-          break;
-        default:
-          console.log("Can't do that");
-          throw new Error();
-          return;
-      }
-
 
       var s = new NgShape(options);
 
@@ -87,6 +68,19 @@ function NgShape(options) {
       case 'circle':
         f.shape = new b2CircleShape();
         f.shape.SetRadius(Number(options.radius));
+        break;
+      case 'triangle':
+
+        var points = [{x: 0, y: 0}, {x: 1, y: 0}, {x: 0, y:2}];
+
+        for (var i = 0; i < points.length; i++) {
+            var vec = new b2Vec2();
+            vec.Set(points[i].x, points[i].y);
+            points[i] = vec;
+        }
+     
+        f.shape = new b2PolygonShape();
+        f.shape.SetAsArray(points, points.length);
         break;
       default:
         throw new Error ("You must defind a shapeKind in your options.");

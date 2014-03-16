@@ -4,7 +4,7 @@
      ngrEnvironment.init({
        // scale: 15,
        scale: 'auto',
-       worldHeight: 25
+       worldHeight: 50
      });
 
      $scope.newMaker = function() {
@@ -179,6 +179,7 @@
 
          $scope.defaults = {
            box: 'height width restitution density friction gravityScale linearDamping angle',
+           triangle: 'height width restitution density friction gravityScale linearDamping angle',
            circle: 'radius restitution density friction gravityScale linearDamping angle'
          }
          switch ($attrs.shape) {
@@ -205,6 +206,9 @@
            }, {
              name: 'Rectangle',
              type: 'box'
+           }, {
+             name: 'Triangle',
+             type: 'triangle'
            }
 
          ]
@@ -218,6 +222,9 @@
              case 'circle':
                $scope.addCircle();
                break;
+              case 'triangle':
+                $scope.addTriangle();
+                break;
              default:
                console.error("Unavailable shape,", shape);
                break;
@@ -237,6 +244,21 @@
              angle: q.angle,
            });
          }
+
+         $scope.addTriangle = function() {
+           ngrEnvironment.add('triangle', {
+             x: Math.random() * 40 / ngrState.getScale() * 20,
+             height: q.height / 2,
+             width: q.width / 2,
+             type: 'dynamic',
+             restitution: q.restitution,
+             density: q.density,
+             gravityScale: q.gravityScale,
+             friction: q.friction,
+             angle: q.angle,
+           });
+         }
+
 
          $scope.destroy = function() {
            $($element).hide();
