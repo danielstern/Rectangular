@@ -6,7 +6,6 @@
      this.setGravity = ngrWorld.setGravity;
      this.setWorldHeight = ngrState.setWorldHeight;
      var e = this;
-     var _floorObj;
      var _canvas;
 
      this.init = function(worldInitObject) {
@@ -36,16 +35,14 @@
        ngrWorld.setWorld(0, options.gravity, true);
 
        e.start();
-       //e.floor();
+      // e.floor();
 
      }
 
      this.floor = function(options) {
 
-       if (_floorObj) e.remove(_floorObj);
-       options = options || {};
        var floor = ngrModels.floor(options);
-       _floorObj = e.add('box', floor.options);
+        e.add('box', floor.options);
      }
 
      this.getFloor = function() {
@@ -84,9 +81,9 @@
      }
 
      this.add = function(type, options) {
-       var options = options || {};
-       options.shapeKind = type || 'box';
-       //var s = ngrBox.shape(options);
+       if (!options) throw new Error("You can't add a shape without options.");
+       options.shapeKind = type;
+       
        var b = ngrWorld.addElement(options);
 
        if (!options.hidden) ngrDisplay.skin(b, options);

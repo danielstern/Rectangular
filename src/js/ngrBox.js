@@ -45,26 +45,28 @@ function NgShape(options) {
     return options;
   }
 
-  this.options = options;
-
+  this.options = _.clone(options);
   this.isShape = true;
 
 
   this.getBodyDef = function() {
+
     var b = new b2BodyDef();
 
-    b.position.Set(options.x, options.y);
-    b.angle = options.angle;
+    b.position.Set(Number(this.options.x || 0), Number(this.options.y || 0));
+    b.angle = Number(this.options.angle || 0);
 
-    switch (options.position) {
+    switch (this.options.type) {
       case 'dynamic':
       case b2Body.b2_dynamicBody:
         b.type = b2Body.b2_dynamicBody;
         break;
       case 'static':
       case b2Body.b2_staticBody:
-      default:
         b.type = b2Body.b2_staticBody;
+        break;
+      default:
+        throw new Error ("You must define a body type in your options",this.options);
         break;
     }
 
@@ -76,25 +78,23 @@ function NgShape(options) {
   this.getFixtureDef = function() {
     var f = new b2FixtureDef;
 
-    switch (options.type) {
+    switch (options.shapeKind) {
       case 'box':
         f.shape = new b2PolygonShape();
         f.shape.SetAsBox(options.width, options.height);
         break;
       case 'circle':
         f.shape = new b2CircleShape();
-        f.shape.SetRadius(options.radius);
+        f.shape.SetRadius(Number(options.radius));
         break;
-
       default:
-        f.shape = new b2PolygonShape();
-        f.shape.SetAsBox(options.width, options.height);
+        throw new Error ("You must defind a shapeKind in your options.");
         break;
     }
 
-    f.density = options.density;
-    f.friction = options.friction;
-    f.restitution = options.restitution;
+    f.density = Number(options.density);
+    f.friction = Number(options.friction);
+    f.restitution = Number(options.restitution);
 
     return f;
   }

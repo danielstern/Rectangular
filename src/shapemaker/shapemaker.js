@@ -228,6 +228,7 @@
              x: Math.random() * 40 / ngrState.getScale() * 20,
              height: q.height / 2,
              width: q.width / 2,
+             type: 'dynamic',
              restitution: q.restitution,
              density: q.density,
              gravityScale: q.gravityScale,
@@ -244,6 +245,7 @@
            ngrEnvironment.add('circle', {
              x: Math.random() * 40 / ngrState.getScale() * 20,
              radius: q.radius,
+             type: 'dynamic',
              restitution: q.restitution,
              density: q.density,
            });

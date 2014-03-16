@@ -38,7 +38,7 @@ angular.module('Rectangular')
       o.x = pos.x;
       o.y = pos.y;
       o.angle = angle;
-      o.position = type;
+      o.type = type;
     });
 
   })
@@ -49,6 +49,8 @@ angular.module('Rectangular')
     var def = new NgShape(options);
     var id = guid();
 
+    console.log("Adding element:, shape:",def,options);
+
     var b = world.CreateBody(def.getBodyDef());
     b.CreateFixture(def.getFixtureDef());
     if (options.userData) b.SetUserData(options.userData);
@@ -56,7 +58,7 @@ angular.module('Rectangular')
     b.id = id;
 
     var elementDef = {};
-    elementDef.options = options;
+    elementDef.options = def.options;
     elementDef.id = id;
     elements.push(elementDef);
 
@@ -116,7 +118,7 @@ angular.module('Rectangular')
   }
 
   this.removeElement = function(body) {
-    console.log("removing",body);
+
     var elId = body.id;
     world.DestroyBody(body);
     
