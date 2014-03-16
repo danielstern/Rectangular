@@ -93,6 +93,9 @@ angular.module('Rectangular')
   };
 
   this.pin = function(body, target) {
+
+    if (!body) throw new Error("Can't pin nothing.");
+    body.pins = body.pins || [];
     var m_world = world;
     var r = target;
     var mouse_joint = new b2MouseJointDef();
@@ -106,7 +109,6 @@ angular.module('Rectangular')
 
     ngrState.addPin(pinMemo);
 
-    pins.push(mouse_joint);
 
 //    console.log("Pinning",body.id, 'to', target, 'mousejoint?',mouse_joint);
     
@@ -118,12 +120,15 @@ angular.module('Rectangular')
     mouse_joint.maxForce = body.mass * 300;
     mouseJointBody = m_world.CreateJoint(mouse_joint);
     mouseJointBody.pinId = pinMemo.pinId;
-    console.log("Mosue joint body?",mouseJointBody);
+
+    body.pins.push(mouseJointBody);
+    pins.push(mouseJointBody);
+    //console.log("Mosue joint body?",mouseJointBody);
     return mouseJointBody;
   }
 
   this.destroyJoint = function(joint) {
-    console.log("Destryoign joint",joint);
+    //console.log("Destryoign joint",joint);
     ngrState.removePin(joint.pinId);
     if (joint) world.DestroyJoint(joint);
 

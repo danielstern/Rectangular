@@ -34,7 +34,7 @@ angular.module('Rectangular')
 
     this.removePin = function(pinId) {
       pins = _.map(pins,function(_pin){
-        console.log("removing pin...",pinId,_pin)
+        //console.log("removing pin...",pinId,_pin)
         if (_pin.pinId != pinId) return _pin;
       })
       pins = _.compact(pins);
