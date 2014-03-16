@@ -3,6 +3,7 @@ angular.module('Rectangular')
 
     var state;
     var elements = [];
+    var floor;
 
     this.getJSON = function() {
       var r = {};
@@ -12,6 +13,14 @@ angular.module('Rectangular')
       return str;
     }
 
+    this.setFloor = function(_floor) {
+      floor = _floor;
+    }
+
+    this.getFloor = function() {
+      return floor;
+    }
+
     this.setProperties = function(_properties) {
       state = _properties;
       window.state = state;
@@ -19,6 +28,10 @@ angular.module('Rectangular')
 
     this.addElement = function(elementDef) {
       elements.push(elementDef)
+    }
+
+    this.clearElements = function() {
+      elements = [];
     }
 
     this.removeElement = function(body) {

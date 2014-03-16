@@ -64,7 +64,7 @@ angular.module('Rectangular')
 
     this.pinToMouse = function(body) {
       var pin = ngrWorld.pin(body, last);
-      console.log("pin?",pin);
+      //console.log("pin?",pin);
       return pin;
 
     }

@@ -46,14 +46,18 @@ angular.module('Rectangular')
 
   this.addElement = function(options) {
 
+    console.log("Adding element",options);
+
     var def = new NgShape(options);
     var id = guid();
-
-    console.log("Adding element:, shape:",def,options);
 
     var b = world.CreateBody(def.getBodyDef());
     b.CreateFixture(def.getFixtureDef());
     if (options.userData) b.SetUserData(options.userData);
+    if (options.isFloor) {
+      if (ngrState.getFloor()) w.removeElement(ngrState.getFloor());
+      ngrState.setFloor(b);
+    }
 
     b.id = id;
 
@@ -131,16 +135,11 @@ angular.module('Rectangular')
 
     ngrState.removeElement(body);
 
-
-
-
     memoryPairs = _.map(memoryPairs,function(_pair){
       if (_pair.id != elId) return _pair;
     })
 
     memoryPairs = _.compact(memoryPairs);
-
-   // bodies = _.compact(bodies);
 
   }
 
@@ -148,7 +147,7 @@ angular.module('Rectangular')
     _.each(bodies, function(body) {
       world.DestroyBody(body);
       bodies = [];
-      elements = [];
+      ngrState.clearElements();
     });
 
   }

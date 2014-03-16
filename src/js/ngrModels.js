@@ -65,7 +65,7 @@ angular.module('Rectangular')
 {
   this.wall = {
     width: 0.3,
-    position: 'static',
+    type: 'static',
     x: 0,
     src: 'img/tile.png',
     bg: 'tiled'
@@ -83,13 +83,17 @@ angular.module('Rectangular')
       'linearDamping' : 0.0 ,
       'angularDamping' : 0.0 ,
       gravityScale : 1.0 ,
-      position : 'dynamic' ,
+      type : 'dynamic' ,
       angle: 0,
     }
 
   this.floor = {
-    height: 0.3,
-    position: 'static',
+    height: 0.6,
+    type: 'static',
+    friction: 0.3,
+    density: 0.4,
+    restitution: 0.2,
+    isFloor: true,
     shapeKind: 'box',
     /*src: 'img/tile-blue.png',*/
     bg: 'tiled',

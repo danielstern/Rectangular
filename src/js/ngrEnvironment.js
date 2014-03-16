@@ -6,7 +6,7 @@
      this.setGravity = ngrWorld.setGravity;
      this.setWorldHeight = ngrState.setWorldHeight;
      this.getJSON = ngrState.getJSON;
-     
+
      var e = this;
      var _canvas;
 
@@ -37,7 +37,7 @@
        ngrWorld.setWorld(0, options.gravity, true);
 
        e.start();
-      // e.floor();
+       e.floor();
 
      }
 

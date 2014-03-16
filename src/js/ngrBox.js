@@ -45,7 +45,8 @@ function NgShape(options) {
     return options;
   }
 
-  this.options = _.clone(options);
+  options = _.clone(options);
+  this.options = options;
   this.isShape = true;
 
 
@@ -81,7 +82,7 @@ function NgShape(options) {
     switch (options.shapeKind) {
       case 'box':
         f.shape = new b2PolygonShape();
-        f.shape.SetAsBox(options.width, options.height);
+        f.shape.SetAsBox(Number(options.width), Number(options.height));
         break;
       case 'circle':
         f.shape = new b2CircleShape();
@@ -92,9 +93,11 @@ function NgShape(options) {
         break;
     }
 
-    f.density = Number(options.density);
-    f.friction = Number(options.friction);
-    f.restitution = Number(options.restitution);
+    f.density = Number(options.density || 0);
+    f.friction = Number(options.friction || 0);
+    f.restitution = Number(options.restitution || 0);
+
+    console.log("returning fixture definition,",f);
 
     return f;
   }

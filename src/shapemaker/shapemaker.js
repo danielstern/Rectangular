@@ -248,6 +248,7 @@
              type: 'dynamic',
              restitution: q.restitution,
              density: q.density,
+             friction: q.friction
            });
          }
 
