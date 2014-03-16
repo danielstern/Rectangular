@@ -16,12 +16,13 @@ angular.module('Rectangular')
 
     var s = this;
 
-    window._stage = this.stage;
+    var p = $(canvas).parent();
 
-    var focusPoint = {
-      x: 0,
-      y: 0
+    if (!$('.blocker')[0]) {
+      p.append('<div class="blocker"></div>');
+      $('.blocker').append('<div class="blocker-inner"></div>');
     }
+
 
     this.getContext = function() {
       return ctx;
@@ -71,13 +72,6 @@ angular.module('Rectangular')
 
     function tick() {
 
-      if (target) {
-        //        var pos = target.GetPosition();
-        //       focusPoint.x = pos.x;
-        //      focusPoint.y = pos.y;
-
-      }
-
       var env = ngrState.getState();
       ctx.save();
       c.x = env.width / 2 - focusPoint.x;
@@ -87,6 +81,30 @@ angular.module('Rectangular')
         actor.update();
       })
       stage.update();
+
+    }
+
+    var blockerRunning = false;
+    var r;
+
+    this.blocker = function() {
+
+      if (blockerRunning) return r.promise;
+
+      r = $q.defer();
+      $('.blocker-inner').addClass('slide');
+      blockerRunning = true;
+
+      setTimeout(function() {
+        r.resolve();
+        blockerRunning = false;
+      }, 500);
+
+      setTimeout(function() {
+        $('.blocker-inner').removeClass('slide');
+      }, 1000);
+
+      return r.promise;
 
     }
 

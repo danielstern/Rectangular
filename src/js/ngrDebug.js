@@ -3,7 +3,26 @@ angular.module('Rectangular')
   var d = this;
   var p;
   var oldScale;
-  this.debug = function(debugCanvas) {
+  this.debug = function(canvas) {
+
+
+    var p = $(canvas).parent();
+    var state = ngrState.getState();
+    var debugCanvas;
+
+    if ($('#debugCanvas')[0]) {
+      debugCanvas = $('#debugCanvas')[0];
+    } else 
+    {
+      p.append("<canvas id='debugCanvas'></canvas>");
+      debugCanvas = $('#debugCanvas')[0];
+      $(debugCanvas)
+        .attr('height', state.height)
+        .attr('width', state.width);
+    }
+
+    console.log("Debug canvas?",debugCanvas);
+
 
     var ctx = debugCanvas.getContext('2d');
 
