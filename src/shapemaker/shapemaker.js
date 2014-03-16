@@ -173,6 +173,7 @@
          q.density = 0.5;
          q.friction = 0.5;
          q.linearDamping = 0.5;
+         q.gravityScale = 0.5;
          q.angle = 0;
          q.shape = $attrs.shape || 'circle';
 
@@ -299,7 +300,7 @@
          $scope.atts = attr;
 
          $scope.min = 0;
-         $scope.max = 10;
+         $scope.max = 25;
          var t = attr.type;
 
          switch (t) {

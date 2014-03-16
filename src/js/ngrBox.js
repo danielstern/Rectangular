@@ -97,8 +97,6 @@ function NgShape(options) {
     f.friction = Number(options.friction || 0);
     f.restitution = Number(options.restitution || 0);
 
-    console.log("returning fixture definition,",f);
-
     return f;
   }
 

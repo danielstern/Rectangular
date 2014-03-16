@@ -6,6 +6,7 @@
      this.setGravity = ngrWorld.setGravity;
      this.setWorldHeight = ngrState.setWorldHeight;
      this.getJSON = ngrState.getJSON;
+     this.blocker = ngrStage.blocker;
 
      var e = this;
      var _canvas;

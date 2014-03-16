@@ -45,7 +45,7 @@ angular.module('BallAgentModels', [])
 
 .service('BallAgentDefaults',function(){
   this.column = {
-        position: 'static',
+        type: 'static',
         width: 0.3,
         friction: 3,
         src: 'img/tile-orange.png',
@@ -54,7 +54,7 @@ angular.module('BallAgentModels', [])
 
   this.exit = {
         x: 20,
-        position: 'static',
+        type: 'static',
         src: 'img/exit.png',
         y: 15.5,
         height: 1,
@@ -66,7 +66,7 @@ angular.module('BallAgentModels', [])
       };
 
   this.platform = {
-        position: 'static',
+        type: 'static',
         height: 0.3,
         src: 'img/tile-blue.png',
         bg: 'tiled',

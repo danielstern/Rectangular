@@ -46,8 +46,6 @@ angular.module('Rectangular')
 
   this.addElement = function(options) {
 
-    console.log("Adding element",options);
-
     var def = new NgShape(options);
     var id = guid();
 

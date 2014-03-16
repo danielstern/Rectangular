@@ -1,5 +1,5 @@
 angular.module('Rectangular')
-  .service('ngrStage', function(ngrLoop, ngrState) {
+  .service('ngrStage', function(ngrLoop, ngrState, $q) {
 
     var canvas = $('canvas')[0];
 

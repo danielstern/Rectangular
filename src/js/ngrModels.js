@@ -14,8 +14,9 @@ angular.module('Rectangular')
 
       options.height = env.worldHeight / 2;
       options.y = env.worldHeight / 2;
+      options.shapeKind = 'box';
 
-      var leftWall = ngrBox.shape('box', options);
+      var leftWall = ngrBox.shape(options);
 
       leftWall.options = options;
 
@@ -34,7 +35,8 @@ angular.module('Rectangular')
       options.height = env.worldHeight / 2;
       options.x = env.worldWidth;
       options.y = env.worldHeight / 2;
-      var rightWall = ngrBox.shape('box', options);
+      options.shapeKind = 'box';
+      var rightWall = ngrBox.shape(options);
 
       rightWall.options = options;
 
