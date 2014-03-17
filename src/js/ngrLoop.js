@@ -27,7 +27,7 @@ angular.module('Rectangular')
   };
 
   this.removeHook = function(_ind) {
-    console.log("removing hook",_ind);
+  //  console.log("removing hook",_ind);
     hooks.splice(_ind,1);
   }
 

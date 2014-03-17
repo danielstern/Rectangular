@@ -9,6 +9,10 @@ html * {
 
 }
 
+.addContext input {
+	width: 50px;
+	
+}
 canvas {
 	cursor: pointer;
 }

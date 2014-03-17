@@ -78,7 +78,20 @@ Mouse: {{r.worldPosX | number:2}} , {{r.worldPosY | number:2}}
 [del] Delete
 </pre>
 
+<h3>User Data</h3>
+<div ng-repeat="(key,data) in contextBody.m_userData">
+    {{key}} :: {{data}}
 </div>
+<div class='addContext'>
+Add Context Data
+<input ng-model='userDataKey' placeholder='key'>
+<input ng-model='userDataValue' placeholder='value'>
+<button ng-click='addUserData(contextBody, userDataKey,userDataValue)'>Go!</button>
+</div>
+
+</div>
+
+<h3>File</h3>
 <div>
     <button ng-click='save()'>SAVE</button>
 </div>

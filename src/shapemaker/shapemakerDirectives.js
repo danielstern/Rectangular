@@ -22,9 +22,9 @@ angular.module('shapemaker')
 
          $scope.q = {};
          var q = $scope.q;
-         q.height = 1;
+         q.height = 2;
          q.width = 1;
-         q.radius = 0.5;
+         q.radius = 2;
          q.restitution = 0.3;
          q.density = 0.5;
          q.friction = 0.5;
@@ -175,6 +175,13 @@ angular.module('shapemaker')
            ngrEnvironment.setZoom(q.zoom);
          });
 
+         $scope.addUserData = function(body,key,value) {
+           console.log("adding user data",arguments);
+           var data = body.GetUserData() || {};
+           data[key] = value;
+           body.SetUserData(data);
+         }
+
 
        }
      }
@@ -234,16 +241,16 @@ angular.module('shapemaker')
      return {
        restrict: 'AE',
        controller: function($scope, $attrs, $element, ngrEnvironment) {
-         console.log("hey clickput.");
+         
          var editing;
          var input = $element.find('input')[0];
-         //console.log("input?",input);
+         
          $($element).click(function() {
            console.log("You clicked the clickput");
            $element.find('entry').removeClass('invisible');
            $element.find('display').addClass('invisible');
 
-           //window.focus(input);
+         
            input.focus();
            input.select();
            Mousetrap.bind('Enter', onFocusOut);
@@ -256,7 +263,7 @@ angular.module('shapemaker')
              $element.find('entry').addClass('invisible');
              $element.find('display').removeClass('invisible');
              input.blur();
-             //$scope.$apply();
+         
 
            }
          })

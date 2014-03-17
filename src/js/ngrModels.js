@@ -38,7 +38,7 @@ angular.module('Rectangular')
       options.shapeKind = 'box';
       var rightWall = ngrBox.shape(options);
 
-      console.log("making rightwall", options);
+      //console.log("making rightwall", options);
 
       rightWall.options = options;
 

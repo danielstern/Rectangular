@@ -46,7 +46,7 @@ angular.module('Rectangular')
       ngrState.setFocus({x:pos.x,y:pos.y});
     });
 
-    console.log("Following, follow hook?",followHook);
+    //console.log("Following, follow hook?",followHook);
   }
 
   this.unfollow = function() {
