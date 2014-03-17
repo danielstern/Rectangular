@@ -70,6 +70,16 @@ angular.module('Rectangular')
 
     }
 
+    this.focusToMouse = function() {
+      var r = targeter.getInfo();
+      var focus = {
+        x:r.worldPosX,
+        y:r.worldPosY
+      };
+
+      ngrState.setFocus(focus);
+    }
+
     this.getBodyAtMouse = function(r) {
 
       var targetVec = {
@@ -108,12 +118,18 @@ angular.module('Rectangular')
         };
       }
 
+      var lastR = undefined;
+
       var canvas = _canvas;
       var context;
       var SCALE = scale;
 
       var onmoveListeners = [];
       var onclicklisteners = [];
+
+      this.getInfo = function() {
+        return lastR;
+      }
 
       this.onmove = function(listener) {
         onmoveListeners.push(listener);
@@ -140,12 +156,14 @@ angular.module('Rectangular')
         var zoom = ngrState.getZoom();
         var focus = ngrState.getFocus();
         var mousePos = getMousePos(canvas, evt);
-        r.worldPosX = (mousePos.x - focus.x - 0.5*canvas.width) / SCALE / zoom;
-        r.worldPosY = (mousePos.y - focus.y - 0.5*canvas.height) / SCALE / zoom;
+        r.worldPosX = focus.x + (mousePos.x - 0.5*canvas.width) / SCALE / zoom;
+        r.worldPosY = focus.y + (mousePos.y - 0.5*canvas.height) / SCALE / zoom;
      //   r.worldPosX = (mousePos.x + 0.5 * canvas.width) / SCALE / zoom;
      //   r.worldPosY = mousePos.y / SCALE * zoom;
         r.mousePosX = mousePos.x;
         r.mousePosY = mousePos.y;
+
+        lastR = r;
 
         return r;
 

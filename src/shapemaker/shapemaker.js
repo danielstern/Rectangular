@@ -33,7 +33,16 @@
      ngrInterface.ongrab(function(body) {
        $scope.contextBody = body;
        window.contextBody = body;
+
      })
+
+     $('canvas')[0].addEventListener('dblclick', function(){ 
+
+       // Some dazzling stuff happens be here
+       console.log("Double click!");
+       ngrInterface.focusToMouse();
+
+     });
 
      $scope.deleteContextItem = function() {
        ngrEnvironment.remove($scope.contextBody);
