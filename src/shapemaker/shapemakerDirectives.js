@@ -182,6 +182,14 @@ angular.module('shapemaker')
            body.SetUserData(data);
          }
 
+         $scope.removeUserData = function(body,key) {
+           //console.log("adding user data",arguments);
+           var data = body.GetUserData() || {};
+           delete data[key];
+           body.SetUserData(data);
+         }
+
+
 
        }
      }

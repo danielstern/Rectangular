@@ -80,7 +80,7 @@ Mouse: {{r.worldPosX | number:2}} , {{r.worldPosY | number:2}}
 
 <h3>User Data</h3>
 <div ng-repeat="(key,data) in contextBody.m_userData">
-    {{key}} :: {{data}}
+    {{key}} :: {{data}} <button ng-click='removeUserData(contextBody,key)'>X</button>
 </div>
 <div class='addContext'>
 Add Context Data
