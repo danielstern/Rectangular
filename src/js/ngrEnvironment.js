@@ -39,7 +39,7 @@
        ngrWorld.setWorld(0, options.gravity, true);
 
        e.start();
-       e.floor();
+       if (options.floor) e.floor();
 
      }
 

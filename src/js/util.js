@@ -40,7 +40,7 @@ function MouseTargeter(_canvas, scale) {
   }, false);
 
   canvas.addEventListener('mousedown', function(evt) {
-    if (event.which == 1 ) {
+    if (event.which == 1) {
       var r = {}
       var mousePos = getMousePos(canvas, evt);
       r.worldPosX = mousePos.x / SCALE;
@@ -74,28 +74,28 @@ function MouseTargeter(_canvas, scale) {
  */
 /* global Mousetrap:true */
 Mousetrap = (function(Mousetrap) {
-    var self = Mousetrap,
-        _oldBind = self.bind,
-        args;
+  var self = Mousetrap,
+    _oldBind = self.bind,
+    args;
 
-    self.bind = function() {
-        args = arguments;
+  self.bind = function() {
+    args = arguments;
 
-        // normal call
-        if (typeof args[0] == 'string' || args[0] instanceof Array) {
-            return _oldBind(args[0], args[1], args[2]);
-        }
+    // normal call
+    if (typeof args[0] == 'string' || args[0] instanceof Array) {
+      return _oldBind(args[0], args[1], args[2]);
+    }
 
-        // object passed in
-        for (var key in args[0]) {
-            if (args[0].hasOwnProperty(key)) {
-                _oldBind(key, args[0][key], args[1]);
-            }
-        }
-    };
+    // object passed in
+    for (var key in args[0]) {
+      if (args[0].hasOwnProperty(key)) {
+        _oldBind(key, args[0][key], args[1]);
+      }
+    }
+  };
 
-    return self;
-}) (Mousetrap);
+  return self;
+})(Mousetrap);
 
 /*
 private function createTriangle(x:Number, y:Number, 
@@ -139,11 +139,29 @@ private function createTriangle(x:Number, y:Number,
 
 function s4() {
   return Math.floor((1 + Math.random()) * 0x10000)
-             .toString(16)
-             .substring(1);
+    .toString(16)
+    .substring(1);
 };
 
 function guid() {
   return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
-         s4() + '-' + s4() + s4() + s4();
+    s4() + '-' + s4() + s4() + s4();
+}
+
+if (Box2D) {
+  var b2Vec2 = Box2D.Common.Math.b2Vec2,
+    b2AABB = Box2D.Collision.b2AABB,
+    b2BodyDef = Box2D.Dynamics.b2BodyDef,
+    b2Body = Box2D.Dynamics.b2Body,
+    b2FixtureDef = Box2D.Dynamics.b2FixtureDef,
+    b2Fixture = Box2D.Dynamics.b2Fixture,
+    b2World = Box2D.Dynamics.b2World,
+    b2PolygonShape = Box2D.Collision.Shapes.b2PolygonShape,
+    b2CircleShape = Box2D.Collision.Shapes.b2CircleShape,
+    b2DebugDraw = Box2D.Dynamics.b2DebugDraw,
+    b2MouseJointDef = Box2D.Dynamics.Joints.b2MouseJointDef,
+    b2Shape = Box2D.Collision.Shapes.b2Shape,
+    b2RevoluteJointDef = Box2D.Dynamics.Joints.b2RevoluteJointDef,
+    b2Joint = Box2D.Dynamics.Joints.b2Joint,
+    b2PrismaticJointDef = Box2D.Dynamics.Joints.b2PrismaticJointDef;
 }
