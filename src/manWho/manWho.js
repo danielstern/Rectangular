@@ -68,10 +68,10 @@
    function Hero() {
      var h = this;
      h.height = 1.2;
-     h.width = 0.4;
+     h.width = 0.7;
      h.type = 'dynamic';
      h.friction = 0.3;
-     h.density = 0.7;
+     h.density = 0.4;
      //console.log("i'm a hero");
 
      var state = {
@@ -82,6 +82,11 @@
        jumpWait: 0,
        airborneGraceTime: 0,
        usedGroundSmash: false,
+       dashInputTimeRight: 0,
+       dashInputTimeLeft: 0,
+       dashCurrentCooldown: 0,
+       dashReadyRight: false,
+       dashReadyLeft: false,
      }
 
      var stats = {
@@ -91,7 +96,12 @@
        jumpForce: 1500,
        doubleJumpForce: 400,
        airborneGrace: 20,
-       groundSmashPower: 15000,
+       groundSmashPower: 3000,
+       dashInputTimeoutRight: 5,
+       dashInputTimeoutLeft: 5,
+       dashCooldown: 40,
+       dashForce: 1000,
+       dashForceAir: 500,
      }
 
      this.getState = function() {
@@ -110,18 +120,40 @@
        } else {
          if (!state.airborneGraceTime) state.airborne = true;
        }
+
+
        if (state.goingLeft) {
          var s = stats;
          var heroBody = h.body;
+         if (state.dashReadyLeft) {
+         //	console.log("dashing.");
+         	var force = state.airborne ? s.dashForceAir : s.dashForce;
+         	heroBody.ApplyForce(new b2Vec2(-force, 0), heroBody.GetWorldCenter());
+         	state.dashReadyLeft = false;
+         	state.dashCurrentCooldown = stats.dashCooldown;
+         }
+         state.dashInputTimeLeft = s.dashInputTimeoutLeft;
          var force = state.airborne ? s.lateralSpeedJumping : s.lateralSpeed;
          heroBody.ApplyForce(new b2Vec2(-force, 0), heroBody.GetWorldCenter());
-       }
+       } else if (state.dashInputTimeLeft) {
+              		if (!state.dashCurrentCooldown) state.dashReadyLeft = true;
+              }
 
        if (state.goingRight) {
          var s = stats;
          var heroBody = h.body;
+         if (state.dashReadyRight) {
+         //	console.log("dashing.");
+         	var force = state.airborne ? s.dashForceAir : s.dashForce;
+         	heroBody.ApplyForce(new b2Vec2(force, 0), heroBody.GetWorldCenter());
+         	state.dashReadyRight = false;
+         	state.dashCurrentCooldown = stats.dashCooldown;
+         }
+         state.dashInputTimeRight = s.dashInputTimeoutRight;
          var force = state.airborne ? s.lateralSpeedJumping : s.lateralSpeed;
          heroBody.ApplyForce(new b2Vec2(force, 0), heroBody.GetWorldCenter());
+       } else if (state.dashInputTimeRight) {
+       		if (!state.dashCurrentCooldown) state.dashReadyRight = true;
        }
 
        if (state.isJumping) {
@@ -148,6 +180,9 @@
 
        if (state.jumpWait) state.jumpWait--;
        if (state.airborneGraceTime) state.airborneGraceTime--;
+       if (state.dashInputTimeRight) state.dashInputTimeRight--;
+       if (state.dashInputTimeLeft) state.dashInputTimeLeft--;
+       if (state.dashCurrentCooldown) state.dashCurrentCooldown--;
 
 
        h.body.SetAngle(0);
