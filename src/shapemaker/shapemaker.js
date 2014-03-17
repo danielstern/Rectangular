@@ -2,7 +2,7 @@
    .controller('myDemoCtrl', function($scope, $element, ngrDefaults, ngrLoop, ngrWorld, ngrInterface, ngrEnvironment, ngrState, ngAudio, $compile) {
 
      ngrEnvironment.init({
-        scale: 15,
+       scale: 30,
        //scale: 'auto',
        floor: true,
        worldHeight: 30
@@ -39,7 +39,7 @@
      $('canvas')[0].addEventListener('dblclick', function(){ 
 
        // Some dazzling stuff happens be here
-       console.log("Double click!");
+       //console.log("Double click!");
        ngrInterface.focusToMouse();
 
      });

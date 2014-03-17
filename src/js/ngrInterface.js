@@ -39,7 +39,7 @@ angular.module('Rectangular')
 
     this.grab = function(r) {
       body = i.getBodyAtMouse(r);
-      console.log("Grabbing",body,r);
+ //     console.log("Grabbing",body,r);
       var state = ngrState.getState();
 
       targeter.onmove(function(r) {
