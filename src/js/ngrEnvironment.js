@@ -8,6 +8,7 @@
      this.getJSON = ngrState.getJSON;
      this.blocker = ngrStage.blocker;
      this.pin = ngrInterface.pinToMouse;
+     this.load = ngrWorld.load;
 
      var e = this;
      var _canvas;

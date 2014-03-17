@@ -1,9 +1,17 @@
  angular.module("manWho", ['ngAudio', 'Rectangular'])
-   .controller('manWho', function($scope, $element, ngrDefaults, ngrLoop, ngrWorld, ngrInterface, ngrEnvironment, ngrState, ngAudio, $compile) {
+   .service('manWho', function(ngrEnvironment,manWhoLevels) {
+     console.log("Don't give a FUCK!");
 
      ngrEnvironment.init({
-       floor: true,
-       scale: 'auto',
-       worldHeight: 20
+         floor: true,
+         scale: 'auto',
+         worldHeight: 20
      });
-});
+
+     this.gotoLevel = function(_lvl) {
+     	 ngrEnvironment.load(manWhoLevels.getLevel(_lvl || 1))
+     }
+
+   })
+
+   

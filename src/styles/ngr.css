@@ -41,6 +41,11 @@ clickput input {
 	z-index: 2;
 }
 
+.main {
+	position: relative;
+	margin: 20px;
+}
+
 .blocker-inner {
 	width: 1250px;
 	height: 500px;
