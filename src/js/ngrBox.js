@@ -89,7 +89,7 @@ function NgShape(options) {
 
         //var rightPoint = {x:options.opposite,y:0};
 
-        var points = [rightPoint,topPoint,basePoint];
+        var points = [topPoint,basePoint,rightPoint];
 
         for (var i = 0; i < points.length; i++) {
           var vec = new b2Vec2();

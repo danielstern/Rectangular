@@ -99,6 +99,7 @@ angular.module('Rectangular')
     var m_world = world;
     var r = target;
     var mouse_joint = new b2MouseJointDef();
+    mouse_joint.maxForce = 10000;
 
     var pinMemo = {};
     pinMemo.pinId = guid();

@@ -71,7 +71,7 @@
      h.width = 0.4;
      h.type = 'dynamic';
      h.friction = 0.3;
-     h.density = 0.4;
+     h.density = 0.7;
      //console.log("i'm a hero");
 
      var state = {
@@ -88,10 +88,10 @@
        lateralSpeed: 40,
        lateralSpeedJumping: 30,
        jumpCooldown: 25,
-       jumpForce: 1000,
-       doubleJumpForce: 100,
+       jumpForce: 1500,
+       doubleJumpForce: 400,
        airborneGrace: 20,
-       groundSmashPower: 2000,
+       groundSmashPower: 15000,
      }
 
      this.getState = function() {
