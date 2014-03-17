@@ -159,12 +159,12 @@ angular.module('shapemaker')
        },
        controller: function($scope, $attrs, $element, ngrEnvironment) {
 
-         $scope.q = {};
+       
          var q = $scope.q;
          q.scale = 2;
          q.gravity = 30;
          q.speed = 60;
-         q.zoom = 0.5;
+         q.zoom = 0.3;
 
          $scope.properties = "gravity speed zoom".split(' ')
 
@@ -172,7 +172,7 @@ angular.module('shapemaker')
            ngrEnvironment.setGravity(q.gravity);
            ngrEnvironment.setWorldSpeed(q.speed);
            ngrEnvironment.setZoom(q.zoom);
-         })
+         });
 
 
        }

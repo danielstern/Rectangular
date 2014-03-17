@@ -28,11 +28,12 @@
        options.height = _canvas.height;
        options.width = _canvas.width;
 
-       if (options.scale == 'auto') {
-         options.SCALE = 1 / options.worldHeight * options.height;
-       } else {
-         options.SCALE = options.scale;
+       if (options.room) {
+        options.worldHeight = options.room.height;
+        options.worldWidth = options.room.width;
        }
+
+       options.SCALE = 30;
 
        options.speed = options.fps;
 
@@ -51,6 +52,9 @@
         if (r.leftWall) e.leftWall();
         if (r.rightWall) e.rightWall();
         if (r.roof) e.roof();
+
+        ngrState.setFocus({x:r.width / 2,y:r.height / 2});
+        ngrState.setZoom(0.2);
        }
 
      }

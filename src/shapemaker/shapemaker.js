@@ -4,6 +4,7 @@
      var contextMenu;
      $scope.editingContext = false;
      $scope.stats = {};
+       $scope.q = {};
 
      ngrEnvironment.init({
        scale: 30,
@@ -15,11 +16,11 @@
          floor: true,
          leftWall: true,
          rightWall: true,
-         roof: true 
+         roof: false 
        }
      });
 
-     ngrState.setZoom(0.5);
+   //  ngrState.setZoom(0.5);
      ngrInterface.enableDrag();
 
      ngrInterface.onmove(function(r) {
@@ -147,6 +148,7 @@
              y: bodyPos.y
            };
            $scope.contextPos.angle = bodyAngle;
+           
 
 
          }
@@ -154,6 +156,7 @@
 
        $scope.stats.focus = ngrState.getFocus();
        $scope.stats.scale = ngrState.getScale();
+       $scope.q.zoom = ngrState.getZoom();
        $scope.$apply();
 
      })
