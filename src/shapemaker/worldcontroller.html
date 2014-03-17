@@ -39,10 +39,30 @@
             {{contextPos.x | number:2}} ,
         </display>
         <entry class='invisible'>
-            <input ng-model='contextPos.x'  type='number' ng-focus='editContext()' ng-blur='stopEditContext()' ng-maxlength='4' maxlength='4'>
+            <input ng-model='contextPos.x'  ng-focus='editContext()' ng-blur='stopEditContext()' ng-maxlength='4'>
         </entry>
     </clickput>
-    {{contextPos.y | number:2}}
+    
+    <clickput>
+        <display>
+    				{{contextPos.y | number:2}}
+        </display>
+        <entry class='invisible'>
+            <input ng-model='contextPos.y' ng-focus='editContext()' ng-blur='stopEditContext()' ng-maxlength='4'>
+        </entry>
+    </clickput>
+    <p>
+    	<clickput>
+    		Angle: 
+    	    <display>
+    					{{contextPos.angle | number:2}}
+    	    </display>
+    	    <entry class='invisible'>
+    	        <input ng-model='contextPos.angle'  ng-focus='editContext()' ng-blur='stopEditContext()' ng-maxlength='4'>
+    	    </entry>
+    	</clickput>
+    </p>
+
     <pre>
 [F] Freeze / Unfreeze
 [P] Add Pin

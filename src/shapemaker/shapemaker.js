@@ -64,7 +64,9 @@
 
          if (!$scope.editingContext) {
            var bodyPos = contextBody.GetPosition();
+           var bodyAngle = contextBody.GetAngle();
            $scope.contextPos = {x:bodyPos.x,y:bodyPos.y};
+           $scope.contextPos.angle = bodyAngle;
            $scope.$apply();
          }
        }
@@ -75,7 +77,10 @@
      $scope.$watchCollection("contextPos", function() {
        //    console.log("Edited contextpos...",$scope.contextPos);
        if ($scope.editingContext) {
-         if (contextBody) contextBody.SetPosition(new b2Vec2(Number($scope.contextPos.x),Number($scope.contextPos.y)));
+         if (contextBody) {
+          contextBody.SetPosition(new b2Vec2(Number($scope.contextPos.x),Number($scope.contextPos.y)));
+          contextBody.SetAngle(Number($scope.contextPos.angle))
+        }
        }
      })
 
