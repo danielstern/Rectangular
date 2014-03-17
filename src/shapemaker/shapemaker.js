@@ -351,12 +351,14 @@
          q.scale = 2;
          q.gravity = 30;
          q.speed = 60;
+         q.zoom = 0.5;
 
-         $scope.properties = "gravity speed".split(' ')
+         $scope.properties = "gravity speed zoom".split(' ')
 
          $scope.$watchCollection('q', function() {
            ngrEnvironment.setGravity(q.gravity);
            ngrEnvironment.setWorldSpeed(q.speed);
+           ngrEnvironment.setZoom(q.zoom);
          })
 
 
@@ -386,6 +388,10 @@
            case 'innerAngle':
              $scope.max = 179;
              break;
+           case 'zoom':
+             $scope.min = 0.2;
+             $scope.max = 3;
+            break;
            case 'gravity':
              $scope.max = 100;
              $scope.min = -100;
