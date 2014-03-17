@@ -39,6 +39,7 @@ angular.module('Rectangular')
 
     this.grab = function(r) {
       body = i.getBodyAtMouse(r);
+      console.log("Grabbing",body,r);
       var state = ngrState.getState();
 
       targeter.onmove(function(r) {
@@ -96,4 +97,72 @@ angular.module('Rectangular')
       ngrWorld.getWorld().QueryAABB(GetBodyCallback, aabb);
       return targetBody;
     }
+
+    function MouseTargeter(_canvas, scale) {
+
+      function getMousePos(canvas, evt) {
+        var rect = canvas.getBoundingClientRect();
+        return {
+          x: evt.clientX - rect.left,
+          y: evt.clientY - rect.top
+        };
+      }
+
+      var canvas = _canvas;
+      var context;
+      var SCALE = scale;
+
+      var onmoveListeners = [];
+      var onclicklisteners = [];
+
+      this.onmove = function(listener) {
+        onmoveListeners.push(listener);
+      }
+
+      this.onclick = function(listener) {
+        onclicklisteners.push(listener);
+      }
+
+      context = canvas.getContext('2d');
+
+      canvas.addEventListener('mousemove', function(evt) {
+        var r = getInfo(evt);
+
+        _.each(onmoveListeners, function(_listener) {
+          _listener(r);
+        })
+
+
+      }, false);
+
+      function getInfo(evt) {
+        var r = {}
+        var zoom = ngrState.getZoom();
+        var focus = ngrState.getFocus();
+        var mousePos = getMousePos(canvas, evt);
+        r.worldPosX = (mousePos.x - focus.x - 0.5*canvas.width) / SCALE / zoom;
+        r.worldPosY = (mousePos.y - focus.y - 0.5*canvas.height) / SCALE / zoom;
+     //   r.worldPosX = (mousePos.x + 0.5 * canvas.width) / SCALE / zoom;
+     //   r.worldPosY = mousePos.y / SCALE * zoom;
+        r.mousePosX = mousePos.x;
+        r.mousePosY = mousePos.y;
+
+        return r;
+
+      }
+
+      canvas.addEventListener('mousedown', function(evt) {
+        if (event.which == 1) {
+          var r = getInfo(evt);
+     
+
+          _.each(onclicklisteners, function(_listener) {
+            _listener(r);
+          })
+        }
+      }, false);
+
+
+    }
+
   })

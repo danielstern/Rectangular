@@ -21,13 +21,21 @@ angular.module('Rectangular')
       floor = _floor;
     }
 
+    this.setZoom = function(_z) {
+       state.zoom = _z;
+     }
+
+     this.getZoom = function() {
+      return state.zoom;
+     }
+
     this.getFloor = function() {
       return floor;
     }
 
-    this.setFocus = function(_f) {
+    this.setFocus = function(_f, _inst) {
       focusTo = {x:_f.x,y:_f.y};
-  //    focus = {x:_f.x,y:_f.y};
+      if (_inst)    focus = {x:_f.x,y:_f.y};
     }
 
     this.getFocus = function() {
@@ -45,8 +53,8 @@ angular.module('Rectangular')
 
     ngrLoop.addPermanentHook(function(){
      // console.log("Checking focus,",focusTo);
-     var inc = 0.1;
-      if (Math.abs(focusTo.x - focus.x) < 0.2) {
+     var inc = 0.5;
+      if (Math.abs(focusTo.x - focus.x) < inc * 2) {
         focus.x = focusTo.x;
       } else if (focusTo.x > focus.x) {
         focus.x+=inc;
@@ -54,7 +62,7 @@ angular.module('Rectangular')
         focus.x-=inc;
       }
 
-      if (Math.abs(focusTo.y - focus.y) < 0.2) {
+      if (Math.abs(focusTo.y - focus.y) < inc * 2) {
 
         focus.y = focusTo.y;
 
@@ -63,6 +71,8 @@ angular.module('Rectangular')
       } else {
         focus.y-=inc;
       }
+
+      state.focus = focus;
 
     })
 

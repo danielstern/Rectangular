@@ -49,15 +49,13 @@
        ngrStage.init();   
        ngrWorld.setWorld(0, options.gravity, true);
 
+       console.log("initing",options)
        e.start();
        if (options.floor) e.floor();
 
      }
 
-     this.setZoom = function(_z) {
-      var state = ngrState.getState();
-      state.zoom = _z;
-     }
+     this.setZoom = ngrState.setZoom;
 
      this.floor = function(options) {
 

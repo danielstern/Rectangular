@@ -15,7 +15,8 @@ angular.module('Rectangular')
   var memoryPairs = [];
 
   this.load = function(json) {
-    ngrState.setProperties(json.properties);
+    //ngrState.setProperties(json.properties);
+
     _.each(json.elements,function(element){
       element.options.id = element.id;
       w.addElement(element.options);
@@ -37,6 +38,8 @@ angular.module('Rectangular')
   }
 
   this.follow = function(body) {
+    ngrState.setFocus(body.GetWorldCenter(),true)
+
     ngrLoop.addHook(function(){
       var pos = body.GetWorldCenter();
       ngrState.setFocus({x:pos.x,y:pos.y});
@@ -117,9 +120,6 @@ angular.module('Rectangular')
 
     ngrState.addPin(pinMemo);
 
-
-//    console.log("Pinning",body.id, 'to', target, 'mousejoint?',mouse_joint);
-    
     mouse_joint.bodyA = ngrWorld.getWorld().GetGroundBody();
     mouse_joint.bodyB = body;
     mouse_joint.target.Set(r.worldPosX, r.worldPosY);

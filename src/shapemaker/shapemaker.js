@@ -2,8 +2,9 @@
    .controller('myDemoCtrl', function($scope, $element, ngrDefaults, ngrLoop, ngrWorld, ngrInterface, ngrEnvironment, ngrState, ngAudio, $compile) {
 
      ngrEnvironment.init({
-       // scale: 15,
-       scale: 'auto',
+        scale: 15,
+       //scale: 'auto',
+       floor: true,
        worldHeight: 30
      });
 
@@ -18,6 +19,8 @@
        ngrEnvironment.clearAll();
        ngrEnvironment.floor();
      };
+
+     ngrState.setZoom(0.5);
 
      ngrInterface.enableDrag();
      var contextMenu;

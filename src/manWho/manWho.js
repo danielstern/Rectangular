@@ -4,7 +4,7 @@
 
      ngrEnvironment.init({
        scale: '15',
-      
+
      });
 
      var currentLevel;
@@ -21,7 +21,7 @@
 
        hero.body = heroBody;
        bindControls(hero);
-       ngrEnvironment.setZoom(1.2);
+       ngrEnvironment.setZoom(0.5);
        ngrEnvironment.follow(hero.body);
      }
 
@@ -72,7 +72,7 @@
      h.width = 0.7;
      h.type = 'dynamic';
      h.friction = 0.3;
-     h.density = 0.4;
+     h.density = 0;
      //console.log("i'm a hero");
 
      var state = {
@@ -88,6 +88,7 @@
        dashCurrentCooldown: 0,
        dashReadyRight: false,
        dashReadyLeft: false,
+       idling: false,
      }
 
      var stats = {
@@ -98,11 +99,10 @@
        doubleJumpForce: 400,
        airborneGrace: 20,
        groundSmashPower: 3000,
-       dashInputTimeoutRight: 5,
-       dashInputTimeoutLeft: 5,
+       dashInputTimeout: 5,
        dashCooldown: 40,
-       dashForce: 1000,
-       dashForceAir: 500,
+       dashForce: 500,
+       dashForceAir: 250,
      }
 
      this.getState = function() {
@@ -127,34 +127,40 @@
          var s = stats;
          var heroBody = h.body;
          if (state.dashReadyLeft) {
-         //	console.log("dashing.");
-         	var force = state.airborne ? s.dashForceAir : s.dashForce;
-         	heroBody.ApplyForce(new b2Vec2(-force, 0), heroBody.GetWorldCenter());
-         	state.dashReadyLeft = false;
-         	state.dashCurrentCooldown = stats.dashCooldown;
+           // console.log("dashing.");
+           var force = state.airborne ? s.dashForceAir : s.dashForce;
+           heroBody.ApplyForce(new b2Vec2(-force, 0), heroBody.GetWorldCenter());
+           state.dashReadyLeft = false;
+           state.dashCurrentCooldown = stats.dashCooldown;
          }
-         state.dashInputTimeLeft = s.dashInputTimeoutLeft;
+         if (state.idling) state.dashInputTimeLeft = s.dashInputTimeout;
          var force = state.airborne ? s.lateralSpeedJumping : s.lateralSpeed;
          heroBody.ApplyForce(new b2Vec2(-force, 0), heroBody.GetWorldCenter());
        } else if (state.dashInputTimeLeft) {
-              		if (!state.dashCurrentCooldown) state.dashReadyLeft = true;
-              }
+         if (!state.dashCurrentCooldown) state.dashReadyLeft = true;
+       }
 
        if (state.goingRight) {
          var s = stats;
          var heroBody = h.body;
          if (state.dashReadyRight) {
-         //	console.log("dashing.");
-         	var force = state.airborne ? s.dashForceAir : s.dashForce;
-         	heroBody.ApplyForce(new b2Vec2(force, 0), heroBody.GetWorldCenter());
-         	state.dashReadyRight = false;
-         	state.dashCurrentCooldown = stats.dashCooldown;
+           // console.log("dashing.");
+           var force = state.airborne ? s.dashForceAir : s.dashForce;
+           heroBody.ApplyForce(new b2Vec2(force, 0), heroBody.GetWorldCenter());
+           state.dashReadyRight = false;
+           state.dashCurrentCooldown = stats.dashCooldown;
          }
-         state.dashInputTimeRight = s.dashInputTimeoutRight;
+         if (state.idling) state.dashInputTimeRight = s.dashInputTimeout;
          var force = state.airborne ? s.lateralSpeedJumping : s.lateralSpeed;
          heroBody.ApplyForce(new b2Vec2(force, 0), heroBody.GetWorldCenter());
        } else if (state.dashInputTimeRight) {
-       		if (!state.dashCurrentCooldown) state.dashReadyRight = true;
+         if (!state.dashCurrentCooldown) state.dashReadyRight = true;
+       }
+
+       if (!state.goingRight && !state.goingLeft) {
+        state.idling = true;
+       } else {
+        state.idling = false;
        }
 
        if (state.isJumping) {
