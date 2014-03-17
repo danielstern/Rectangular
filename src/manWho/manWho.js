@@ -1,5 +1,5 @@
  angular.module("manWho", ['ngAudio', 'Rectangular'])
-   .service('manWho', function(ngrEnvironment, manWhoLevels,heroGenerator) {
+   .service('manWho', function(ngrEnvironment, manWhoLevels, heroGenerator) {
      console.log("Don't give a FUCK!");
 
      ngrEnvironment.init({
@@ -21,7 +21,7 @@
        var heroBody = ngrEnvironment.add('box', hero);
 
        hero.body = heroBody;
-     		bindControls(hero);
+       bindControls(hero);
      }
 
 
@@ -39,6 +39,9 @@
          'w': function() {
            state.isJumping = true;
          },
+         's': function() {
+           state.isCrouching = true;
+         },
        }, 'keydown');
 
        Mousetrap.bind({
@@ -50,6 +53,9 @@
          },
          'w': function() {
            state.isJumping = false;
+         },
+         's': function() {
+           state.isCrouching = false;
          },
        }, 'keyup');
 
@@ -65,77 +71,90 @@
      h.width = 0.4;
      h.type = 'dynamic';
      h.friction = 0.3;
-     h.density =  0.4;
+     h.density = 0.4;
      //console.log("i'm a hero");
 
      var state = {
-     	goingLeft:false,
-     	goingRight:false,
-     	isJumping:false,
-     	airBorne:false,
-     	jumpWait:0,
-     	airborneGraceTime: 0
+       goingLeft: false,
+       goingRight: false,
+       isJumping: false,
+       airBorne: false,
+       jumpWait: 0,
+       airborneGraceTime: 0,
+       usedGroundSmash: false,
      }
 
      var stats = {
-     	lateralSpeed: 40,
-     	lateralSpeedJumping: 30,
-     	jumpCooldown: 25,
-     	jumpForce: 1000,
-     	doubleJumpForce:100,
-     	airborneGrace: 20,
+       lateralSpeed: 40,
+       lateralSpeedJumping: 30,
+       jumpCooldown: 25,
+       jumpForce: 1000,
+       doubleJumpForce: 100,
+       airborneGrace: 20,
+       groundSmashPower: 2000,
      }
 
      this.getState = function() {
-     	return state;
+       return state;
      }
 
-     ngrEnvironment.addHook(function(){
+     ngrEnvironment.addHook(function() {
 
-     	var contacts = h.body.GetContactList();
-     	if (contacts && contacts.contact.IsTouching()) {
-     		state.airborne = false;
-     		state.airborneGraceTime = stats.airborneGrace;
-     	} else {
-     		if (!state.airborneGraceTime) state.airborne = true;
-     	}
-     	if (state.goingLeft) {
-     		var s = stats;
-     		var heroBody = h.body;
-     		var force = state.airborne ? s.lateralSpeedJumping : s.lateralSpeed;
-     		heroBody.ApplyForce(new b2Vec2(-force, 0), heroBody.GetWorldCenter());
-     	}
+       var heroBody = h.body;
 
-     	if (state.goingRight) {
-     		var s = stats;
-     		var heroBody = h.body;
-     		var force = state.airborne ? s.lateralSpeedJumping : s.lateralSpeed;
-     		heroBody.ApplyForce(new b2Vec2(force, 0), heroBody.GetWorldCenter());
-     	}
+       var contacts = h.body.GetContactList();
+       if (contacts && contacts.contact.IsTouching()) {
+         state.airborne = false;
+         state.airborneGraceTime = stats.airborneGrace;
+         state.usedGroundSmash = false;
+       } else {
+         if (!state.airborneGraceTime) state.airborne = true;
+       }
+       if (state.goingLeft) {
+         var s = stats;
+         var heroBody = h.body;
+         var force = state.airborne ? s.lateralSpeedJumping : s.lateralSpeed;
+         heroBody.ApplyForce(new b2Vec2(-force, 0), heroBody.GetWorldCenter());
+       }
 
-     	if (state.isJumping) {
-     		var s = stats;
-     		var heroBody = h.body;
+       if (state.goingRight) {
+         var s = stats;
+         var heroBody = h.body;
+         var force = state.airborne ? s.lateralSpeedJumping : s.lateralSpeed;
+         heroBody.ApplyForce(new b2Vec2(force, 0), heroBody.GetWorldCenter());
+       }
 
-     		if (!state.jumpWait) {
+       if (state.isJumping) {
+         var s = stats;
 
-     			console.log("Jumping")
-	     		state.jumpWait = stats.jumpCooldown;
-	     		var force = state.airborne ? s.doubleJumpForce : s.jumpForce;
-	     		heroBody.ApplyForce(new b2Vec2(0, -force), heroBody.GetWorldCenter());
+         if (!state.jumpWait) {
 
-     		}
-     	}
+           console.log("Jumping")
+           state.jumpWait = stats.jumpCooldown;
+           var force = state.airborne ? s.doubleJumpForce : s.jumpForce;
+           heroBody.ApplyForce(new b2Vec2(0, -force), heroBody.GetWorldCenter());
 
-     	if (state.jumpWait) state.jumpWait--;
-     	if (state.airborneGraceTime) state.airborneGraceTime--;
+         }
+       }
+
+       if (state.airborne && state.isCrouching) {
+         if (!state.usedGroundSmash) {
+           var force = stats.groundSmashPower;
+           heroBody.ApplyForce(new b2Vec2(0, stats.groundSmashPower), heroBody.GetWorldCenter());
+           state.usedGroundSmash = true;
+         }
+
+       }
+
+       if (state.jumpWait) state.jumpWait--;
+       if (state.airborneGraceTime) state.airborneGraceTime--;
 
 
-     	h.body.SetAngle(0);
+       h.body.SetAngle(0);
      })
    }
 
    this.getHero = function() {
-  	 return new Hero();
- 	}
+     return new Hero();
+   }
  })
