@@ -255,7 +255,154 @@ angular.module('manWho')
         "bodyId": "93b97c44-1af4-051a-2c5e-e30ad9289f75"
       }]
     }
-    levels.push(level1)
+    levels.push(level1);
+
+    var level2 = {
+      "properties": {
+        "height": 600,
+        "width": 800,
+        "SCALE": 30,
+        "worldWidth": 1000,
+        "worldHeight": 20
+      },
+      "elements": [{
+        "options": {
+          "height": 0.3,
+          "type": 0,
+          "friction": 0.3,
+          "density": 0.4,
+          "restitution": 0.2,
+          "isFloor": true,
+          "shapeKind": "box",
+          "bg": "tiled",
+          "userData": {
+            "isFloor": true
+          },
+          "y": 29.99999999999998,
+          "width": 500,
+          "x": 499.99999999999915,
+          "angle": 0,
+          "id": "dd15b5db-e29f-29f3-8943-a315c43a9d72"
+        },
+        "id": "dd15b5db-e29f-29f3-8943-a315c43a9d72"
+      }, {
+        "options": {
+          "x": 15.013451862539126,
+          "radius": 0.5,
+          "type": 2,
+          "restitution": 0.3,
+          "density": 0.5,
+          "friction": 0.5,
+          "shapeKind": "circle",
+          "y": 29.200280020751453,
+          "angle": 11.71755440724307,
+          "id": "56d94865-897c-902b-b3a0-97d2f6a7f09b"
+        },
+        "id": "56d94865-897c-902b-b3a0-97d2f6a7f09b"
+      }, {
+        "options": {
+          "x": 20.62650178956677,
+          "radius": "4.41",
+          "type": 2,
+          "restitution": 0.3,
+          "density": "1.45",
+          "friction": 0.5,
+          "shapeKind": "circle",
+          "y": 25.286375348210786,
+          "angle": 4.240939725860788,
+          "id": "a135f58a-7c3c-fb32-2e95-3f7f551c1550"
+        },
+        "id": "a135f58a-7c3c-fb32-2e95-3f7f551c1550"
+      }, {
+        "options": {
+          "x": 23.740614492295993,
+          "innerAngle": 60,
+          "adjacent": "1",
+          "opposite": "1",
+          "type": 2,
+          "restitution": 0.3,
+          "density": 0.5,
+          "gravityScale": 0.5,
+          "friction": "0.82",
+          "angle": 8.946588620178293,
+          "shapeKind": "triangle",
+          "y": 29.69522750720793,
+          "id": "b794df23-7472-fb69-8240-6059550a19a7"
+        },
+        "id": "b794df23-7472-fb69-8240-6059550a19a7"
+      }, {
+        "options": {
+          "x": 12.806395311893144,
+          "height": 0.3,
+          "width": 5.81,
+          "type": 2,
+          "restitution": 0.3,
+          "density": 0.5,
+          "gravityScale": 0.5,
+          "friction": 0.5,
+          "angle": -2.838093540629985,
+          "shapeKind": "box",
+          "y": 27.669827183613684,
+          "id": "b97a4321-ca38-39ef-74f1-36780c13e763"
+        },
+        "id": "b97a4321-ca38-39ef-74f1-36780c13e763"
+      }, {
+        "options": {
+          "x": 37.88254844125775,
+          "height": 3.48,
+          "width": 0.5,
+          "type": 2,
+          "restitution": 0.3,
+          "density": "3.14",
+          "gravityScale": 0.5,
+          "friction": 0.5,
+          "angle": -3.143772248244871,
+          "shapeKind": "box",
+          "y": 26.21136713961476,
+          "id": "df634c89-3d32-2349-aeb9-8cefe0468bd1"
+        },
+        "id": "df634c89-3d32-2349-aeb9-8cefe0468bd1"
+      }],
+      "pins": [{
+        "pinId": "d8572fce-7b60-6cb4-3e9a-8ca93c7dbd95",
+        "target": {
+          "worldPosX": 15.237154150197629,
+          "worldPosY": 29.288537549407113,
+          "mousePosX": 257,
+          "mousePosY": 494
+        },
+        "bodyId": "56d94865-897c-902b-b3a0-97d2f6a7f09b"
+      }, {
+        "pinId": "3952aaee-d629-b431-1947-77256f11eda9",
+        "target": {
+          "worldPosX": 23.122529644268774,
+          "worldPosY": 29.288537549407113,
+          "mousePosX": 390,
+          "mousePosY": 494
+        },
+        "bodyId": "b794df23-7472-fb69-8240-6059550a19a7"
+      }, {
+        "pinId": "0b006d44-45d5-a72c-9f24-77401b9fb17f",
+        "target": {
+          "worldPosX": 20.51383399209486,
+          "worldPosY": 29.881422924901184,
+          "mousePosX": 346,
+          "mousePosY": 504
+        },
+        "bodyId": "b794df23-7472-fb69-8240-6059550a19a7"
+      }, {
+        "pinId": "81d2a00f-f2e1-9ae1-59f9-5188b59eb999",
+        "target": {
+          "worldPosX": 19.09090909090909,
+          "worldPosY": 29.525691699604742,
+          "mousePosX": 322,
+          "mousePosY": 498
+        },
+        "bodyId": "b794df23-7472-fb69-8240-6059550a19a7"
+      }]
+    };
+    levels.push(level2);
+
     this.getLevel = function(_levelNumber) {
       return _.clone(levels[_levelNumber - 1]);
     }

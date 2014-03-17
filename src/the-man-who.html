@@ -33,6 +33,11 @@
           #gameCanvas {
             margin: 10px;
           }
+
+          .controls {
+            top: 500px;
+            position: absolute;
+          }
         </style>
     </head>
 
@@ -41,8 +46,11 @@
 
         <div class='main'>
             <canvas ng-stage id='gameCanvas' width='800' height='450'></canvas>
+            <div class='controls'>
+            <button ng-click="gotoLevel(1)">LVL 1</button>
+            <button ng-click="gotoLevel(2)">LVL 2</button>
+            </div>
         </div>
-        <button ng-click="gotoLevel(1)">LVL 1</button>
 
     </body>
 

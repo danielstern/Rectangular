@@ -32,8 +32,8 @@ worldcontroller {
 
 .main {
 	width: 750px;
-	height: 630px;
-	overflow: hidden;
+	height: 530px;
+	/* overflow: hidden; */
 }
 
 [customcontextmenu] {

@@ -4,7 +4,7 @@
      ngrEnvironment.init({
        // scale: 15,
        scale: 'auto',
-       worldHeight: 20
+       worldHeight: 30
      });
 
      $scope.newMaker = function() {

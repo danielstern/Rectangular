@@ -31,6 +31,9 @@
          env.SCALE = options.scale;
        }
 
+       env.speed = options.fps;
+
+
        env.worldWidth = options.worldWidth;
        env.worldHeight = options.worldHeight;
 
