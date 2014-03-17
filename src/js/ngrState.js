@@ -10,9 +10,11 @@ angular.module('Rectangular')
 
     this.getJSON = function() {
       var r = {};
-      r.properties = state;
+      r.properties = _.clone(state);
+      r.properties.canvas = null;
       r.elements = elements;
       r.pins = pins;
+      console.log("Attempting to stringify", r)
       var str = JSON.stringify(r);
       return str;
     }

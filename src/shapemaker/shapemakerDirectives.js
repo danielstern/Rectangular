@@ -92,8 +92,9 @@ angular.module('shapemaker')
          }
 
          $scope.addBox = function() {
+
            ngrEnvironment.add('box', {
-             x: Math.random() * 40 / ngrState.getScale() * 20,
+             x: Math.random() * ngrState.getState().worldWidth,
              height: q.height / 2,
              width: q.width / 2,
              type: 'dynamic',
@@ -107,7 +108,7 @@ angular.module('shapemaker')
 
          $scope.addTriangle = function() {
            ngrEnvironment.add('triangle', {
-             x: Math.random() * 40 / ngrState.getScale() * 20,
+             x: Math.random() * ngrState.getState().worldWidth,
              innerAngle: q.innerAngle,
              adjacent: q.adjacent,
              opposite: q.opposite,
@@ -127,7 +128,7 @@ angular.module('shapemaker')
 
          $scope.addCircle = function() {
            ngrEnvironment.add('circle', {
-             x: Math.random() * 40 / ngrState.getScale() * 20,
+             x: Math.random() * ngrState.getState().worldWidth,
              radius: q.radius,
              type: 'dynamic',
              restitution: q.restitution,
