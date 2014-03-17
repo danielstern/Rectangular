@@ -14,20 +14,36 @@
 {{r.worldPosX | number:2}} , {{r.worldPosY | number:2}}
 
 <div ng-if="contextBody">
-	<table>
-		<tr>
-	<td>Mass: </td><td>{{contextBody.m_mass | number:2}}</td>
-</tr>
-<tr>
-	<td>Density:</td> <td>{{contextBody.m_fixtureList.m_density | number:2}}</td>
-	</tr>
-<tr>
-	<td>Friction:</td> <td>{{contextBody.m_fixtureList.m_friction | number:2}}</td>
-	</tr>
-<tr>
-	<td>Resitution: </td><td>{{contextBody.m_fixtureList.m_restitution | number:2}}</td>
-</table>
-<pre>
+    <h3>Selected</h3>
+    <table>
+        <tr>
+            <td>Mass:</td>
+            <td>
+                {{contextBody.m_mass | number:2}}
+            </td>
+        </tr>
+        <tr>
+            <td>Density:</td>
+            <td>{{contextBody.m_fixtureList.m_density | number:2}}</td>
+        </tr>
+        <tr>
+            <td>Friction:</td>
+            <td>{{contextBody.m_fixtureList.m_friction | number:2}}</td>
+        </tr>
+        <tr>
+            <td>Resitution:</td>
+            <td>{{contextBody.m_fixtureList.m_restitution | number:2}}</td>
+    </table>
+    <clickput>
+        <display>
+            {{contextPos.x | number:2}} ,
+        </display>
+        <entry class='invisible'>
+            <input ng-model='contextPos.x'  type='number' ng-focus='editContext()' ng-blur='stopEditContext()' ng-maxlength='4' maxlength='4'>
+        </entry>
+    </clickput>
+    {{contextPos.y | number:2}}
+    <pre>
 [F] Freeze / Unfreeze
 [P] Add Pin
 [U] Remove Pin
@@ -35,5 +51,5 @@
 
 </div>
 <div>
-<button ng-click='save()'>SAVE</button>
+    <button ng-click='save()'>SAVE</button>
 </div>

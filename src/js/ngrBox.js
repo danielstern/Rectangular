@@ -71,7 +71,7 @@ function NgShape(options) {
         break;
       case 'triangle':
 
-        console.log("Drawin' triangle,", options);
+       // console.log("Drawin' triangle,", options);
         var basePoint = {
           x: 0,
           y: 0
@@ -81,7 +81,7 @@ function NgShape(options) {
           y: Number(options.adjacent)
         };
         var innerAngleRadians = (options.innerAngle / 180) * Math.PI;
-        console.log("inner angle radians?", innerAngleRadians);
+       // console.log("inner angle radians?", innerAngleRadians);
         var rightPoint = {
           x: Math.sin(innerAngleRadians) * options.opposite,
           y: Math.cos(innerAngleRadians) * options.adjacent
@@ -89,7 +89,7 @@ function NgShape(options) {
 
         //var rightPoint = {x:options.opposite,y:0};
 
-        var points = [basePoint, rightPoint, topPoint];
+        var points = [rightPoint,topPoint,basePoint];
 
         for (var i = 0; i < points.length; i++) {
           var vec = new b2Vec2();

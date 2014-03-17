@@ -1,5 +1,5 @@
  angular.module("BallAgentApp", ['ngAudio', 'Rectangular'])
-   .controller('myDemoCtrl', function($scope, $element, ngrDefaults, ngrWorld, ngrInterface, ngrEnvironment, ngrState, ngAudio, $compile) {
+   .controller('myDemoCtrl', function($scope, $element, ngrDefaults, ngrLoop, ngrWorld, ngrInterface, ngrEnvironment, ngrState, ngAudio, $compile) {
 
      ngrEnvironment.init({
        // scale: 15,
@@ -28,21 +28,56 @@
      })
 
      ngrInterface.ongrab(function(body) {
-      $scope.contextBody = body;
-      window.contextBody = body;
+       $scope.contextBody = body;
+       window.contextBody = body;
      })
 
      $scope.deleteContextItem = function() {
-       console.log("Deleting", $scope.contextBody);
        ngrEnvironment.remove($scope.contextBody);
        hideContextMenu();
      }
 
      $scope.freezeContextItem = function() {
-       var cti = $scope.contextBody;
-       cti.SetType(b2Body.b2_staticBody);
+       $scope.contextBody.SetType(b2Body.b2_staticBody);
        hideContextMenu();
      }
+
+     $scope.editingContext = false;
+     $scope.editContext = function() {
+       console.log("You're editing context");
+       $scope.editingContext = true;
+       $scope.freezeContextItem();
+       $scope.unpinContextItem();
+     }
+
+     $scope.stopEditContext = function() {
+       console.log("You're done editing context");
+       $scope.editingContext = false;
+     //  $scope.unfreezeContextItem();
+       //$scope.contextPos = 
+     }
+
+
+     ngrLoop.addPermanentHook(function() {
+       var contextBody = $scope.contextBody;
+       if (contextBody) {
+
+         if (!$scope.editingContext) {
+           var bodyPos = contextBody.GetPosition();
+           $scope.contextPos = {x:bodyPos.x,y:bodyPos.y};
+           $scope.$apply();
+         }
+       }
+
+
+     })
+
+     $scope.$watchCollection("contextPos", function() {
+       //    console.log("Edited contextpos...",$scope.contextPos);
+       if ($scope.editingContext) {
+         if (contextBody) contextBody.SetPosition(new b2Vec2(Number($scope.contextPos.x),Number($scope.contextPos.y)));
+       }
+     })
 
      $scope.unfreezeContextItem = function() {
        var cti = $scope.contextBody;
@@ -61,40 +96,40 @@
      $scope.unpinContextItem = function() {
        var cti = $scope.contextBody;
        var pins = cti.pins;
-       _.each(pins,function(pin){
-          ngrWorld.unpin(pin);
+       _.each(pins, function(pin) {
+         ngrWorld.unpin(pin);
        })
 
        hideContextMenu();
      }
 
      $scope.save = function() {
-      var worldString = ngrEnvironment.getJSON();
-      console.log("Worldstr?",worldString);
-      localStorage['lastSaved'] = worldString;
+       var worldString = ngrEnvironment.getJSON();
+       console.log("Worldstr?", worldString);
+       localStorage['lastSaved'] = worldString;
      }
 
 
      Mousetrap.bind({
        'f': function() {
-        var cti = $scope.contextBody;
+         var cti = $scope.contextBody;
          if (!cti) return;
          if (cti.GetType() == 2) {
            $scope.freezeContextItem();
          } else {
-            $scope.unfreezeContextItem();
+           $scope.unfreezeContextItem();
          }
        },
        'p': function() {
-          $scope.pinContextItem();
+         $scope.pinContextItem();
        },
        'u': function() {
-          $scope.unpinContextItem();
+         $scope.unpinContextItem();
        },
        'del': function() {
-          $scope.deleteContextItem();
+         $scope.deleteContextItem();
        },
-       
+
      }, 'keydown');
 
 
@@ -108,7 +143,7 @@
        }
      }
 
-     if ( localStorage['lastSaved']) ngrWorld.load( JSON.parse(localStorage['lastSaved']));
+     if (localStorage['lastSaved']) ngrWorld.load(JSON.parse(localStorage['lastSaved']));
 
      var contextMenu;
      var contextPin;
@@ -131,7 +166,7 @@
              left: event.pageX + "px"
            });
 
-          contextPin =  ngrInterface.pinToMouse($scope.contextBody);
+         contextPin = ngrInterface.pinToMouse($scope.contextBody);
 
          $(document).bind("mousedown", function(event) {
            if (event.target.tagName == "LI") return true;
@@ -226,9 +261,9 @@
              case 'circle':
                $scope.addCircle();
                break;
-              case 'triangle':
-                $scope.addTriangle();
-                break;
+             case 'triangle':
+               $scope.addTriangle();
+               break;
              default:
                console.error("Unavailable shape,", shape);
                break;
@@ -365,5 +400,42 @@
        templateUrl: function(elem, atts) {
          return "shapemaker/slider.html";
        },
+     }
+   })
+   .directive('clickput', function() {
+     return {
+       restrict: 'AE',
+       controller: function($scope, $attrs, $element, ngrEnvironment) {
+         console.log("hey clickput.");
+         var editing;
+         var input = $element.find('input')[0];
+         //console.log("input?",input);
+         $($element).click(function() {
+           console.log("You clicked the clickput");
+           $element.find('entry').removeClass('invisible');
+           $element.find('display').addClass('invisible');
+
+           //window.focus(input);
+           input.focus();
+           input.select();
+           Mousetrap.bind('Enter', onFocusOut);
+
+
+           $($element).on('focusout', onFocusOut);
+
+           function onFocusOut() {
+             Mousetrap.unbind('Enter', onFocusOut);
+             $element.find('entry').addClass('invisible');
+             $element.find('display').removeClass('invisible');
+             input.blur();
+             //$scope.$apply();
+
+           }
+         })
+
+
+
+       }
+
      }
    })

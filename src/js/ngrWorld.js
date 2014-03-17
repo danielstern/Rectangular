@@ -22,7 +22,7 @@ angular.module('Rectangular')
     })
 
     _.each(json.pins,function(pin){
-      console.log("reconstituting pin", pin);
+    //  console.log("reconstituting pin", pin);
       var body = w.getBodyById(pin.bodyId);
       if (!body) return;
       if (!body) throw new Error("Can't find the body for this pin.");
@@ -117,7 +117,7 @@ angular.module('Rectangular')
     mouse_joint.target.Set(r.worldPosX, r.worldPosY);
     mouse_joint.collideConnected = true;
 
-    mouse_joint.maxForce = body.mass * 300;
+    mouse_joint.maxForce = Number(body.mass) * 300;
     mouseJointBody = m_world.CreateJoint(mouse_joint);
     mouseJointBody.pinId = pinMemo.pinId;
 
