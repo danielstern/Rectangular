@@ -9,6 +9,7 @@
      this.blocker = ngrStage.blocker;
      this.pin = ngrInterface.pinToMouse;
      this.load = ngrWorld.load;
+     this.follow = ngrWorld.follow;
 
      var e = this;
      var _canvas;

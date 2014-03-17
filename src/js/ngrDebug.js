@@ -37,13 +37,16 @@ angular.module('Rectangular')
       window.debugDraw = debugDraw;
 
       ngrLoop.addPermanentHook(function() {
-        setTimeout(function(){
-
-        },1)
+    
         var state = ngrState.getState();
-        //console.log("State?",state);
+        var focus = ngrState.getFocus();
+        var scale = ngrState.getScale();
+        //console.log("Focus?",focus);
         debugDraw.SetDrawScale(ngrState.getScale() * Number(state.zoom || 1));
-        ctx.translate(1, 1);
+        var newTranslation = {x:-focus.x * scale,y:-focus.y * scale}
+        ctx.translate(-ctxCurrentTranslation.x,-ctxCurrentTranslation.y);
+        ctx.translate(newTranslation.x,newTranslation.y);
+        ctxCurrentTranslation = newTranslation;
         ctx.save();
 
         // Use the identity matrix while clearing the canvas

@@ -36,6 +36,13 @@ angular.module('Rectangular')
     })
   }
 
+  this.follow = function(body) {
+    ngrLoop.addHook(function(){
+      var pos = body.GetWorldCenter();
+      ngrState.setFocus({x:pos.x,y:pos.y});
+    })
+  }
+
   ngrLoop.addPermanentHook(function(){
     _.each(memoryPairs,function(pair){
       var o = pair.element.options;

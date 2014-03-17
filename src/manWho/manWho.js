@@ -22,6 +22,7 @@
        hero.body = heroBody;
        bindControls(hero);
        ngrEnvironment.setZoom(2.0);
+       ngrEnvironment.follow(hero.body);
      }
 
 
