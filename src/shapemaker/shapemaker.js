@@ -112,6 +112,7 @@
 
      $('canvas')[0].addEventListener('dblclick', function() {
 
+       ngrEnvironment.unfollow();
        ngrInterface.focusToMouse();
 
      });

@@ -23,7 +23,13 @@ angular.module('Rectangular')
 
   this.addHook = function(func) {
     hooks.push(func);
+    return hooks.length - 1;
   };
+
+  this.removeHook = function(_ind) {
+    console.log("removing hook",_ind);
+    hooks.splice(_ind,1);
+  }
 
   this.addPermanentHook = function(func) {
     permanentHooks.push(func);

@@ -37,13 +37,20 @@ angular.module('Rectangular')
     })
   }
 
+  var followHook;
   this.follow = function(body) {
     ngrState.setFocus(body.GetWorldCenter(),true)
 
-    ngrLoop.addHook(function(){
+    followHook = ngrLoop.addHook(function(){
       var pos = body.GetWorldCenter();
       ngrState.setFocus({x:pos.x,y:pos.y});
-    })
+    });
+
+    console.log("Following, follow hook?",followHook);
+  }
+
+  this.unfollow = function() {
+    ngrLoop.removeHook(followHook);
   }
 
   ngrLoop.addPermanentHook(function(){

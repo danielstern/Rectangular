@@ -10,6 +10,7 @@
      this.pin = ngrInterface.pinToMouse;
      this.load = ngrWorld.load;
      this.follow = ngrWorld.follow;
+     this.unfollow = ngrWorld.unfollow;
 
      var e = this;
      var _canvas;
