@@ -1,11 +1,12 @@
 angular.module('Rectangular')
-  .service('ngrState', function() {
+  .service('ngrState', function(ngrLoop) {
 
     var state;
     var elements = [];
     var pins = []
     var floor;
-    var focus = {};
+    var focus = {x:0,y:0};
+    var focusTo = {x:0,y:0};
 
     this.getJSON = function() {
       var r = {};
@@ -25,7 +26,8 @@ angular.module('Rectangular')
     }
 
     this.setFocus = function(_f) {
-      focus = {x:_f.x,y:_f.y};
+      focusTo = {x:_f.x,y:_f.y};
+  //    focus = {x:_f.x,y:_f.y};
     }
 
     this.getFocus = function() {
@@ -40,6 +42,29 @@ angular.module('Rectangular')
     this.addPin = function(pinDef) {
       pins.push(pinDef);
     }
+
+    ngrLoop.addPermanentHook(function(){
+     // console.log("Checking focus,",focusTo);
+     var inc = 0.1;
+      if (Math.abs(focusTo.x - focus.x) < 0.2) {
+        focus.x = focusTo.x;
+      } else if (focusTo.x > focus.x) {
+        focus.x+=inc;
+      } else {
+        focus.x-=inc;
+      }
+
+      if (Math.abs(focusTo.y - focus.y) < 0.2) {
+
+        focus.y = focusTo.y;
+
+      } else  if (focusTo.y > focus.y) {
+        focus.y+=inc;
+      } else {
+        focus.y-=inc;
+      }
+
+    })
 
     this.removePin = function(pinId) {
       pins = _.map(pins,function(_pin){
