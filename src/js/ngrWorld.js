@@ -79,9 +79,10 @@ angular.module('Rectangular')
     b.CreateFixture(def.getFixtureDef());
     if (options.userData) b.SetUserData(options.userData);
     if (options.isFloor) {
-      if (ngrState.getFloor()) w.removeElement(ngrState.getFloor());
-      ngrState.setFloor(b);
+  //    if (ngrState.getFloor()) w.removeElement(ngrState.getFloor());
+   //   ngrState.setFloor(b);
     }
+
 
     b.id = id;
 
@@ -96,6 +97,7 @@ angular.module('Rectangular')
 
     privateOptions.cycle = 0;
     b.options = privateOptions;
+    //console.log("Creating element", b);
 
     bodies.push(b);
 

@@ -8,7 +8,15 @@
      ngrEnvironment.init({
        scale: 30,
        floor: true,
-       worldHeight: 30
+       worldHeight: 30,
+       room: {
+         width: 90,
+         height: 40,
+         floor: true,
+         leftWall: true,
+         rightWall: true,
+         roof: true 
+       }
      });
 
      ngrState.setZoom(0.5);
@@ -56,7 +64,7 @@
      }
 
 
-     if (localStorage['lastSaved']) ngrWorld.load(JSON.parse(localStorage['lastSaved']));
+//     if (localStorage['lastSaved']) ngrWorld.load(JSON.parse(localStorage['lastSaved']));
 
      $(document).bind("contextmenu", function(event) {
        event.preventDefault();

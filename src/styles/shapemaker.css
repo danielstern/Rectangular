@@ -30,6 +30,11 @@ worldcontroller {
 	top: 50px;
 }
 
+worldcontroller div {
+	margin-top:10px;
+	margin-bottom: 10px;
+}
+
 .main {
 	width: 750px;
 	height: 530px;

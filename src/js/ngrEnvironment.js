@@ -20,38 +20,38 @@
 
      this.init = function(worldInitObject) {
 
-       var env = {};
-
        var defaults = _.clone(ngrDefaults.initialize);
        var options = _.extend(defaults, worldInitObject);
 
        _canvas = options.canvas || $('canvas')[0];
        options.canvas = _canvas;
-       env.height = _canvas.height;
-       env.width = _canvas.width;
+       options.height = _canvas.height;
+       options.width = _canvas.width;
 
        if (options.scale == 'auto') {
-         env.SCALE = 1 / options.worldHeight * env.height;
+         options.SCALE = 1 / options.worldHeight * options.height;
        } else {
-         env.SCALE = options.scale;
+         options.SCALE = options.scale;
        }
 
-       env.speed = options.fps;
+       options.speed = options.fps;
 
-       env.zoom = options.zoom || 1;
-
-
-       env.worldWidth = options.worldWidth;
-       env.worldHeight = options.worldHeight;
-
-       ngrState.setProperties(env);
-       ngrLoop.initWorld(options.fps, env);
-       ngrStage.init();   
+       ngrState.setProperties(options);
+       ngrLoop.initWorld(options.fps);
+       ngrStage.init(_canvas);   
        ngrWorld.setWorld(0, options.gravity, true);
 
-       console.log("initing",options)
+//       console.log("initing",options)
        e.start();
-       if (options.floor) e.floor();
+
+       //if (options.floor) e.floor();
+       if (options.room) {
+        var r = options.room;
+        if (r.floor) e.floor();
+        if (r.leftWall) e.leftWall();
+        if (r.rightWall) e.rightWall();
+        if (r.roof) e.roof();
+       }
 
      }
 
@@ -63,13 +63,15 @@
         e.add('box', floor.options);
      }
 
-     this.getFloor = function() {
-       return _floorObj;
+     this.roof = function(options) {
+
+       var roof = ngrModels.roof(options);
+        e.add('box', roof.options);
      }
+
 
      this.leftWall = function(options) {
 
-       options = options || {};
        var leftWall = ngrModels.leftWall(options);
        e.add('box', leftWall.options);
 
@@ -78,7 +80,6 @@
 
      this.rightWall = function(options) {
 
-       options = options || {};
        var rightWall = ngrModels.rightWall(options);
        e.add('box', rightWall.options);
 

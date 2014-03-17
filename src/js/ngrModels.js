@@ -38,6 +38,8 @@ angular.module('Rectangular')
       options.shapeKind = 'box';
       var rightWall = ngrBox.shape(options);
 
+      console.log("making rightwall", options);
+
       rightWall.options = options;
 
       return rightWall;
@@ -53,6 +55,27 @@ angular.module('Rectangular')
       options = _.extend(defaults, options);
 
       options.y = env.worldHeight;
+      options.width = env.worldWidth / 2;
+      //options.width = 2;
+      options.x = env.worldWidth / 2;
+
+
+      var shape = ngrBox.shape(options);
+      shape.options = options;
+      //console.log("Making floor,",shape);
+      return shape;
+
+    }
+
+    this.roof = function(options)
+    {
+
+      env = ngrState.getProperties();
+
+      var defaults = _.clone(ngrDefaults.floor);
+      options = _.extend(defaults, options);
+
+      options.y = 0;
       options.width = env.worldWidth / 2;
       options.x = env.worldWidth / 2;
 
@@ -99,10 +122,6 @@ angular.module('Rectangular')
     shapeKind: 'box',
     /*src: 'img/tile-blue.png',*/
     bg: 'tiled',
-    userData:
-    {
-      isFloor: true
-    }
   }
 
   this.skin = {
@@ -124,8 +143,8 @@ angular.module('Rectangular')
     debug: true,
     zoom: 1,
     floor: true,
-    worldWidth: 1000,
-    worldHeight: 16.6
+    worldWidth: 90,
+    worldHeight: 40
   }
   
 })
