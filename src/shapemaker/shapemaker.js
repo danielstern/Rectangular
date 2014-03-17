@@ -11,7 +11,7 @@
        floor: true,
        worldHeight: 30,
        room: {
-         width: 90,
+         width: 80,
          height: 40,
          floor: true,
          leftWall: true,

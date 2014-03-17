@@ -164,7 +164,7 @@ angular.module('shapemaker')
          q.scale = 2;
          q.gravity = 30;
          q.speed = 60;
-         q.zoom = 0.3;
+         q.zoom = 0;
 
          $scope.properties = "gravity speed zoom".split(' ')
 

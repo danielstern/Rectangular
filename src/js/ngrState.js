@@ -22,7 +22,7 @@ angular.module('Rectangular')
     }
 
     this.setZoom = function(_z) {
-       state.zoom = _z;
+       if (_z) state.zoom = _z;
      }
 
      this.getZoom = function() {

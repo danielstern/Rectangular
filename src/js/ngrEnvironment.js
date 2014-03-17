@@ -54,7 +54,8 @@
         if (r.roof) e.roof();
 
         ngrState.setFocus({x:r.width / 2,y:r.height / 2});
-        ngrState.setZoom(0.2);
+        var zoomReq = r.height / ( _canvas.height / 4 );
+        ngrState.setZoom(zoomReq);
        }
 
      }

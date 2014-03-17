@@ -5,7 +5,7 @@ Scale: {{stats.scale}}
 <table>
     <tr ng-repeat='property in properties'>
         <td>
-            {{property}}
+            {{property | number:2}}
         </td>
         <td>
             <slider type='{{property}}'></slider>
