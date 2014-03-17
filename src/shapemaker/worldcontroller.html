@@ -1,4 +1,7 @@
 <h2>WORLD</h2>
+<div>
+Scale: {{stats.scale}}
+</div>
 <table>
     <tr ng-repeat='property in properties'>
         <td>
@@ -10,8 +13,12 @@
         </td>
     </tr>
 </table>
-
-{{r.worldPosX | number:2}} , {{r.worldPosY | number:2}}
+<div>
+Focus: {{stats.focus.x | number:1}}, {{stats.focus.y | number:1}}
+</div>
+<div>
+Mouse: {{r.worldPosX | number:2}} , {{r.worldPosY | number:2}}
+</div>
 
 <div ng-if="contextBody">
     <h3>Selected</h3>
@@ -66,7 +73,9 @@
     <pre>
 [F] Freeze / Unfreeze
 [P] Add Pin
-[U] Remove Pin
+[U] Remove Pins
+[G] Follow
+[del] Delete
 </pre>
 
 </div>
