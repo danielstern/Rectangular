@@ -139,7 +139,7 @@ angular.module('Rectangular')
     canvas: undefined,
     scale: 30,
     fps:60,
-    gravity: 30,
+    gravity: 60,
     debug: true,
     zoom: 1,
     floor: true,

@@ -93,7 +93,18 @@ Add Context Data
 
 <h3>File</h3>
 <div>
-    <button ng-click='save()'>SAVE</button>
+    <button ng-click='save(worldName)'>SAVE</button><input ng-model='worldName'>
+</div>
+<div>
+    <select ng-model="selectedWorld" ng-options="world.name for world in savedWorlds">
+        <option ng-repeat="world in savedWorlds track by $index">
+            {{world.name}}
+        </option>
+    </select>
+</div>
+<div>
+    <button ng-click='load(selectedWorld)'>LOAD</button>
+    <button ng-click='deleteSavedWorld(selectedWorld)'>DELETE</button>
 </div>
 <div>
     

@@ -10,6 +10,7 @@ angular.module('Rectangular')
   var env;
   var w = this;
   var pins = [];
+  var followHook;
 
   var hooks = [];
   var memoryPairs = [];
@@ -37,7 +38,6 @@ angular.module('Rectangular')
     })
   }
 
-  var followHook;
   this.follow = function(body) {
     ngrState.setFocus(body.GetWorldCenter(),true)
 
@@ -63,6 +63,7 @@ angular.module('Rectangular')
       o.y = pos.y;
       o.angle = angle;
       o.type = type;
+      o.userData = pair.body.GetUserData();
 
     });
   });

@@ -107,3 +107,9 @@ if (Box2D) {
     b2Joint = Box2D.Dynamics.Joints.b2Joint,
     b2PrismaticJointDef = Box2D.Dynamics.Joints.b2PrismaticJointDef;
 }
+
+function epicId() {
+   var a = "infusive paleobotany telecourse lauenburg braird interwreathed humpless dogcatcher debutante perilaus excluded polyvoltine chemosmotic coadventuring ephah buncombe reconcentrate".split(" ");
+   var b = "brevetted jobyna ashkhabad trophozoite concentrate galopade mucking alcoholizing lud cystoid unreassuring monocarpous equestrienne shrimplike significative resystematizing freeing".split(" ");
+   return _.sample(a) + "-" + _.sample(b);
+}

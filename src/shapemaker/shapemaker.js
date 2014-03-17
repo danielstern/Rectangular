@@ -65,7 +65,10 @@
      }
 
 
-//     if (localStorage['lastSaved']) ngrWorld.load(JSON.parse(localStorage['lastSaved']));
+     if (localStorage['savedWorlds']) {
+      //console.log("saved worlds?",localStorage['savedWorlds'])
+        $scope.savedWorlds = JSON.parse(localStorage['savedWorlds']);
+      };
 
      $(document).bind("contextmenu", function(event) {
        event.preventDefault();
@@ -185,12 +188,7 @@
        hideContextMenu();
      }
 
-     $scope.save = function() {
-       var worldString = ngrEnvironment.getJSON();
-       console.log("Worldstr?", worldString);
-       localStorage['lastSaved'] = worldString;
-     }
-
+     
 
      $scope.$watchCollection("contextPos", function() {
        if ($scope.editingContext) {
