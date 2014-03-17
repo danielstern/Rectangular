@@ -3,9 +3,8 @@
      console.log("Don't give a FUCK!");
 
      ngrEnvironment.init({
-       floor: true,
-       scale: 'auto',
-       worldHeight: 30
+       scale: '15',
+      
      });
 
      var currentLevel;
@@ -22,6 +21,7 @@
 
        hero.body = heroBody;
        bindControls(hero);
+       ngrEnvironment.setZoom(2.0);
      }
 
 

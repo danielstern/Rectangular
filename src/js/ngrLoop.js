@@ -14,6 +14,7 @@ angular.module('Rectangular')
     _.each(hooks, function(hook) {
       hook();
     })
+
     _.each(permanentHooks, function(hook) {
       hook();
     })

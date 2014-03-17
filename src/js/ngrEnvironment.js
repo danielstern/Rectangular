@@ -13,6 +13,10 @@
      var e = this;
      var _canvas;
 
+     this.setFocus = function(focusObject) {
+      ngrState.setFocus(focusObject);
+     }
+
      this.init = function(worldInitObject) {
 
        var env = {};
@@ -33,6 +37,8 @@
 
        env.speed = options.fps;
 
+       env.zoom = options.zoom || 1;
+
 
        env.worldWidth = options.worldWidth;
        env.worldHeight = options.worldHeight;
@@ -45,6 +51,11 @@
        e.start();
        if (options.floor) e.floor();
 
+     }
+
+     this.setZoom = function(_z) {
+      var state = ngrState.getState();
+      state.zoom = _z;
      }
 
      this.floor = function(options) {

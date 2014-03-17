@@ -122,6 +122,7 @@ angular.module('Rectangular')
     fps:60,
     gravity: 30,
     debug: true,
+    zoom: 1,
     floor: true,
     worldWidth: 1000,
     worldHeight: 16.6

@@ -5,6 +5,7 @@ angular.module('Rectangular')
     var elements = [];
     var pins = []
     var floor;
+    var focus = {};
 
     this.getJSON = function() {
       var r = {};
@@ -21,6 +22,14 @@ angular.module('Rectangular')
 
     this.getFloor = function() {
       return floor;
+    }
+
+    this.setFocus = function(_f) {
+      focus = {x:_f.x,y:_f.y};
+    }
+
+    this.getFocus = function() {
+      return focus;
     }
 
     this.setProperties = function(_properties) {
