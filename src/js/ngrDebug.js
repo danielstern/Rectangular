@@ -65,9 +65,10 @@ angular.module('Rectangular')
 
 
           if (newTranslation.y - canvas.height < -roomHeightPixels) newTranslation.y = -roomHeightPixels + canvas.height ;
-          if (newTranslation.x > canvas.width / scale ) newTranslation.x =  canvas.width / scale ;
+          if (newTranslation.x - canvas.width / 2 < -roomWidthPixels ) newTranslation.x = roomWidthPixels / 2 - canvas.width / 2;
+         // if (newTranslation.x > canvas.width / scale ) newTranslation.x =  canvas.width / scale ;
        }
-       console.log('newtranslation?',newTranslation,roomHeightPixels)
+       //console.log('newtranslation?',newTranslation,roomWidthPixels)
 
         ctx.translate(-ctxCurrentTranslation.x,-ctxCurrentTranslation.y);
         ctx.translate(newTranslation.x,newTranslation.y);
