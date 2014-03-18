@@ -4,7 +4,6 @@ angular.module('Rectangular')
     var state;
     var elements = [];
     var pins = []
-    var floor;
     var focus = {x:0,y:0};
     var focusTo = {x:0,y:0};
 
@@ -19,9 +18,6 @@ angular.module('Rectangular')
       return str;
     }
 
-    this.setFloor = function(_floor) {
-      floor = _floor;
-    }
 
     this.getRoom = function() {
       return state.room;
@@ -46,10 +42,6 @@ angular.module('Rectangular')
      this.getZoom = function() {
       return state.zoom;
      }
-
-    this.getFloor = function() {
-      return floor;
-    }
 
     this.setFocus = function(_f, _inst) {
       focusTo = {x:_f.x,y:_f.y};
@@ -96,7 +88,6 @@ angular.module('Rectangular')
 
     this.removePin = function(pinId) {
       pins = _.map(pins,function(_pin){
-        //console.log("removing pin...",pinId,_pin)
         if (_pin.pinId != pinId) return _pin;
       })
       pins = _.compact(pins);

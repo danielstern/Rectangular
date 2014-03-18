@@ -17,7 +17,7 @@
      var roomBodies = {};
 
      this.setFocus = function(focusObject) {
-      ngrState.setFocus(focusObject);
+       ngrState.setFocus(focusObject);
      }
 
      this.init = function(worldInitObject) {
@@ -31,8 +31,8 @@
        options.width = _canvas.width;
 
        if (options.room) {
-        options.worldHeight = options.room.height;
-        options.worldWidth = options.room.width;
+         options.worldHeight = options.room.height;
+         options.worldWidth = options.room.width;
        }
 
        options.SCALE = 30;
@@ -41,57 +41,52 @@
 
        ngrState.setProperties(options);
        ngrLoop.initWorld(options.fps);
-       ngrStage.init(_canvas);   
+       ngrStage.init(_canvas);
        ngrWorld.setWorld(0, options.gravity, true);
 
-//       console.log("initing",options)
-       e.start();
 
-       //if (options.floor) e.floor();
        if (options.room) {
-        ngrState.setRoom(options.room);
-        e.createRoom();
+         ngrState.setRoom(options.room);
+         e.createRoom();
 
-        var r = options.room;
-        ngrState.setFocus({x:r.width / 2,y:r.height / 2});
-        var zoomReq = r.height / ( _canvas.height / 4 );
-        ngrState.setZoom(zoomReq);
-        
+         var r = options.room;
+         ngrState.setFocus({
+           x: r.width / 2,
+           y: r.height / 2
+         });
+         var zoomReq = r.height / (_canvas.height / 4);
+         ngrState.setZoom(zoomReq);
        }
 
+       e.start();
 
      }
 
      this.setZoom = ngrState.setZoom;
 
      this.floor = function(options) {
-
        if (roomBodies.floor) e.remove(roomBodies.floor);
        var floor = ngrModels.floor(options);
        roomBodies.floor = e.add('box', floor.options);
-
      }
 
      this.updateRoom = function(_room) {
-        ngrState.setRoomWidth(Number(_room.width));
-        ngrState.setRoomHeight(Number(_room.height));
-
-        //if (_room.floor) e.floor();
-        e.createRoom();
+       ngrState.setRoomWidth(Number(_room.width));
+       ngrState.setRoomHeight(Number(_room.height));
+       e.createRoom();
      }
 
      this.createRoom = function() {
-      var r = ngrState.getRoom();
-      
-      if (r.floor) e.floor();
-      if (r.leftWall) e.leftWall();
-      if (r.rightWall) e.rightWall();
-      if (r.roof) e.roof();
+       var r = ngrState.getRoom();
+       if (r.floor) e.floor();
+       if (r.leftWall) e.leftWall();
+       if (r.rightWall) e.rightWall();
+       if (r.roof) e.roof();
      }
 
      this.roof = function(options) {
 
-      if (roomBodies.roof) e.remove(roomBodies.roof);
+       if (roomBodies.roof) e.remove(roomBodies.roof);
        var roof = ngrModels.roof(options);
        roomBodies.roof = e.add('box', roof.options);
      }
@@ -99,20 +94,16 @@
 
      this.leftWall = function(options) {
 
-      if (roomBodies.leftWall) e.remove(roomBodies.leftWall);
+       if (roomBodies.leftWall) e.remove(roomBodies.leftWall);
        var leftWall = ngrModels.leftWall(options);
        roomBodies.leftWall = e.add('box', leftWall.options);
-
-
      }
 
      this.rightWall = function(options) {
 
-      if (roomBodies.rightWall) e.remove(roomBodies.rightWall);
+       if (roomBodies.rightWall) e.remove(roomBodies.rightWall);
        var rightWall = ngrModels.rightWall(options);
        roomBodies.rightWall = e.add('box', rightWall.options);
-
-
      }
 
      e.setWorldSpeed = function(speed) {

@@ -13,45 +13,44 @@ angular.module('Rectangular')
   var memoryPairs = [];
 
   this.load = function(json) {
-      ngrState.setProperties(json.properties);
+    ngrState.setProperties(json.properties);
 
-    _.each(json.elements,function(element){
+    _.each(json.elements, function(element) {
       element.options.id = element.id;
       w.addElement(element.options);
     })
 
-    _.each(json.pins,function(pin){
-    //  console.log("reconstituting pin", pin);
+    _.each(json.pins, function(pin) {
       var body = w.getBodyById(pin.bodyId);
-      if (!body) return;
-      if (!body) throw new Error("Can't find the body for this pin.");
-      w.pin(body, pin.target);
+      if (!body) console.error("Can't find the body for this pin.");
+      if (body) w.pin(body, pin.target);
     })
   }
 
   this.getBodyById = function(_id) {
-    return _.find(bodies,function(body){
+    return _.find(bodies, function(body) {
       if (body.id == _id) return body;
     })
   }
 
   this.follow = function(body) {
-    ngrState.setFocus(body.GetWorldCenter(),true)
+    ngrState.setFocus(body.GetWorldCenter(), true)
 
-    followHook = ngrLoop.addHook(function(){
+    followHook = ngrLoop.addHook(function() {
       var pos = body.GetWorldCenter();
-      ngrState.setFocus({x:pos.x,y:pos.y});
+      ngrState.setFocus({
+        x: pos.x,
+        y: pos.y
+      });
     });
-
-    //console.log("Following, follow hook?",followHook);
   }
 
   this.unfollow = function() {
     ngrLoop.removeHook(followHook);
   }
 
-  ngrLoop.addPermanentHook(function(){
-    _.each(memoryPairs,function(pair){
+  ngrLoop.addPermanentHook(function() {
+    _.each(memoryPairs, function(pair) {
       var o = pair.element.options;
       var pos = pair.body.GetPosition();
       var angle = pair.body.GetAngle();
@@ -65,9 +64,9 @@ angular.module('Rectangular')
     });
   });
 
-  ngrLoop.addPermanentHook(function(){
-    _.each(bodies,function(body){
-    
+  ngrLoop.addPermanentHook(function() {
+    _.each(bodies, function(body) {
+
       var pos = body.GetPosition();
       if (pos.y > 500) w.removeElement(body);
 
@@ -75,10 +74,9 @@ angular.module('Rectangular')
   });
 
   this.getBodyByAttribute = function(key, val) {
-    return _.find(bodies,function(body){
-      console.log("Does body match?",body.options)
+    return _.find(bodies, function(body) {
       if (body.options[key] == val) return true;
-    }) 
+    })
   }
 
 
@@ -90,15 +88,9 @@ angular.module('Rectangular')
     var b = world.CreateBody(def.getBodyDef());
     b.CreateFixture(def.getFixtureDef());
     if (options.userData) b.SetUserData(options.userData);
-    if (options.isFloor) {
-  //    if (ngrState.getFloor()) w.removeElement(ngrState.getFloor());
-   //   ngrState.setFloor(b);
-    }
 
     if (options.memo) {
-      console.log('making memo object',options.memo);
-      var prev = w.getBodyByAttribute('memo',options.memo);
-      console.log("Matching?",prev);
+      var prev = w.getBodyByAttribute('memo', options.memo);
       if (prev) w.removeElement(prev);
     }
 
@@ -110,13 +102,16 @@ angular.module('Rectangular')
     elementDef.id = id;
     ngrState.addElement(elementDef);
 
-    memoryPairs.push({element:elementDef,body:b,id:id});
+    memoryPairs.push({
+      element: elementDef,
+      body: b,
+      id: id
+    });
 
     var privateOptions = _.clone(options);
 
     privateOptions.cycle = 0;
     b.options = privateOptions;
-    //console.log("Creating element", b);
 
     bodies.push(b);
 
@@ -152,12 +147,10 @@ angular.module('Rectangular')
 
     body.pins.push(mouseJointBody);
     pins.push(mouseJointBody);
-    //console.log("Mosue joint body?",mouseJointBody);
     return mouseJointBody;
   }
 
   this.destroyJoint = function(joint) {
-    //console.log("Destryoign joint",joint);
     ngrState.removePin(joint.pinId);
     if (joint) world.DestroyJoint(joint);
 
@@ -191,22 +184,21 @@ angular.module('Rectangular')
 
     var elId = body.id;
     world.DestroyBody(body);
-    
+
     bodies = _.chain(bodies)
-    .map(function(_body){
-      if (_body.id != elId) return _body;
-    })
-    .compact()
-    .value();
+      .map(function(_body) {
+        if (_body.id != elId) return _body;
+      })
+      .compact()
+      .value();
 
     ngrState.removeElement(body);
 
-    memoryPairs = _.map(memoryPairs,function(_pair){
+    memoryPairs = _.map(memoryPairs, function(_pair) {
       if (_pair.id != elId) return _pair;
     })
 
     memoryPairs = _.compact(memoryPairs);
-
   }
 
   this.clearAll = function() {
@@ -221,7 +213,6 @@ angular.module('Rectangular')
     bodies = [];
     pins = []
     ngrState.clearElements();
-
   }
 
   this.setGravity = function(grav) {
@@ -234,7 +225,7 @@ angular.module('Rectangular')
 
     var gravity = new b2Vec2(gravityX, gravityY);
     var doSleep = sleep;
-    
+
     world = world || new b2World(gravity, false);
 
     worldLoop = ngrLoop.addPermanentHook(function() {

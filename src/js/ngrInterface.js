@@ -15,7 +15,6 @@ angular.module('Rectangular')
     	targeter.onclick(function(r) {
         mouseX = r.worldPosX;
         mouseY = r.worldPosY;
-     //   console.log("click?",r)
         i.grab(r);
       })
 
@@ -39,7 +38,6 @@ angular.module('Rectangular')
 
     this.grab = function(r) {
       body = i.getBodyAtMouse(r);
- //     console.log("Grabbing",body,r);
       var state = ngrState.getState();
 
       targeter.onmove(function(r) {
@@ -158,8 +156,6 @@ angular.module('Rectangular')
         var mousePos = getMousePos(canvas, evt);
         r.worldPosX = focus.x + (mousePos.x - 0.5*canvas.width) / SCALE / zoom;
         r.worldPosY = focus.y + (mousePos.y - 0.5*canvas.height) / SCALE / zoom;
-     //   r.worldPosX = (mousePos.x + 0.5 * canvas.width) / SCALE / zoom;
-     //   r.worldPosY = mousePos.y / SCALE * zoom;
         r.mousePosX = mousePos.x;
         r.mousePosY = mousePos.y;
 
@@ -179,8 +175,5 @@ angular.module('Rectangular')
           })
         }
       }, false);
-
-
     }
-
   })

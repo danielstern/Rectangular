@@ -6,7 +6,7 @@
      $scope.stats = {};
      $scope.q = {};
 
-     ngrEnvironment.init({
+     var worldDefaults = {
        scale: 30,
        floor: true,
        worldHeight: 30,
@@ -18,9 +18,10 @@
          rightWall: true,
          roof: false
        }
-     });
+     }
 
-     //  ngrState.setZoom(0.5);
+     ngrEnvironment.init(worldDefaults);
+
      ngrInterface.enableDrag();
 
      ngrInterface.onmove(function(r) {
@@ -66,7 +67,6 @@
 
 
      if (localStorage['savedWorlds']) {
-       //console.log("saved worlds?",localStorage['savedWorlds'])
        $scope.savedWorlds = JSON.parse(localStorage['savedWorlds']);
      };
 
@@ -109,15 +109,13 @@
 
      $scope.clearAll = function() {
        ngrEnvironment.clearAll();
-       ngrEnvironment.floor();
+       ngrEnvironment.createRoom();
      };
 
 
      $('canvas')[0].addEventListener('dblclick', function() {
-
        ngrEnvironment.unfollow();
        ngrInterface.focusToMouse();
-
      });
 
      $scope.deleteContextItem = function() {
@@ -155,8 +153,6 @@
              y: bodyPos.y
            };
            $scope.contextPos.angle = bodyAngle;
-
-
          }
        }
 
@@ -198,7 +194,6 @@
 
        hideContextMenu();
      }
-
 
 
      $scope.$watchCollection("contextPos", function() {

@@ -30,7 +30,6 @@ angular.module('Rectangular')
 
     this.addChild = function(container) {
       c.addChild(container);
-      //c.addChild(container);
     }
 
     this.setFocusPoint = function(vec) {
@@ -39,7 +38,6 @@ angular.module('Rectangular')
     };
 
     this.follow = function(_target) {
-      //console.log("Following,", _target);
       target = _target;
 
     };

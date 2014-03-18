@@ -12,9 +12,7 @@ angular.module('Rectangular')
         if (!isNaN(Number(value))) options[key] = Number(value);
       })
 
-
       var s = new NgShape(options);
-
 
       return s;
     }
@@ -29,7 +27,6 @@ function NgShape(options) {
   options = _.clone(options);
   this.options = options;
   this.isShape = true;
-
 
   this.getBodyDef = function() {
 
@@ -52,7 +49,6 @@ function NgShape(options) {
         break;
     }
 
-
     return b;
 
   }
@@ -71,7 +67,6 @@ function NgShape(options) {
         break;
       case 'triangle':
 
-       // console.log("Drawin' triangle,", options);
         var basePoint = {
           x: 0,
           y: 0
@@ -81,15 +76,12 @@ function NgShape(options) {
           y: Number(options.adjacent)
         };
         var innerAngleRadians = (options.innerAngle / 180) * Math.PI;
-       // console.log("inner angle radians?", innerAngleRadians);
         var rightPoint = {
           x: Math.sin(innerAngleRadians) * options.opposite,
           y: Math.cos(innerAngleRadians) * options.adjacent
         }
 
-        //var rightPoint = {x:options.opposite,y:0};
-
-        var points = [topPoint,basePoint,rightPoint];
+        var points = [topPoint, basePoint, rightPoint];
 
         for (var i = 0; i < points.length; i++) {
           var vec = new b2Vec2();
@@ -111,5 +103,4 @@ function NgShape(options) {
 
     return f;
   }
-
 }

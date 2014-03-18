@@ -41,7 +41,6 @@ angular.module('Rectangular')
         var state = ngrState.getState();
         var focus = ngrState.getFocus();
         var scale = ngrState.getScale() * state.zoom;
-        //console.log("Focus?",focus);
 
         debugDraw.SetDrawScale(ngrState.getScale() * Number(state.zoom || 1));
         var newTranslation = {
@@ -53,14 +52,11 @@ angular.module('Rectangular')
         ctxCurrentTranslation = newTranslation;
         ctx.save();
 
-        // Use the identity matrix while clearing the canvas
         ctx.setTransform(1, 0, 0, 1, 0, 0);
         ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-        // Restore the transform
         ctx.restore();
         world.DrawDebugData();
-        //   ctx.clearRect ( 0 , 0 , 1000 , 1000 );
 
       })
 

@@ -1,7 +1,6 @@
 angular.module('Rectangular')
 .service('ngrLoop', function() {
   var l = this;
-  //	var ctx = ngrStage.context;
   var speed = 60;
   var loop;
   var world;
@@ -27,7 +26,6 @@ angular.module('Rectangular')
   };
 
   this.removeHook = function(_ind) {
-  //  console.log("removing hook",_ind);
     hooks.splice(_ind,1);
   }
 

@@ -1,4 +1,4 @@
-angular.module('shapemaker') 
+angular.module('shapemaker')
   .directive('worldcontroller', function() {
     return {
       restrict: 'AE',
@@ -39,7 +39,6 @@ angular.module('shapemaker')
           var worldString = JSON.parse(ngrEnvironment.getJSON());
           worldString.name = name;
           var savedWorlds = getSavedWorlds();
-          
 
           savedWorlds.push(worldString);
           localStorage['savedWorlds'] = JSON.stringify(savedWorlds);
@@ -66,10 +65,10 @@ angular.module('shapemaker')
         }
 
         $scope.deleteSavedWorld = function(_dWorld) {
-          
-         var savedWorlds = getSavedWorlds();
 
-          savedWorlds = _.filter(savedWorlds,function(world){
+          var savedWorlds = getSavedWorlds();
+
+          savedWorlds = _.filter(savedWorlds, function(world) {
             if (world.name != _dWorld.name) return true;
           })
 

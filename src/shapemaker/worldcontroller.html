@@ -1,6 +1,6 @@
 <h2>WORLD</h2>
 <div>
-Scale: {{stats.scale}}
+    Scale: {{stats.scale}}
 </div>
 <table>
     <tr ng-repeat='property in properties'>
@@ -14,30 +14,32 @@ Scale: {{stats.scale}}
     </tr>
 </table>
 <div>
-Focus: {{stats.focus.x | number:1}}, {{stats.focus.y | number:1}}
+    Focus: {{stats.focus.x | number:1}}, {{stats.focus.y | number:1}}
 </div>
 <div>
-Mouse: {{r.worldPosX | number:2}} , {{r.worldPosY | number:2}}
+    Mouse: {{r.worldPosX | number:2}} , {{r.worldPosY | number:2}}
 </div>
 
 <h3>ROOM</h3>
 <div>
-Width: <clickput>
+    Width:
+    <clickput>
         <display>
             {{state.room.width | number:2}}
         </display>
         <entry class='invisible'>
-            <input ng-model='contextRoom.width'  ng-focus='editContext()' ng-blur='stopEditContext()' ng-maxlength='4'>
+            <input ng-model='contextRoom.width' ng-focus='editContext()' ng-blur='stopEditContext()' ng-maxlength='4'>
         </entry>
     </clickput>
 </div>
 <div>
-Height: <clickput>
+    Height:
+    <clickput>
         <display>
             {{state.room.height | number:2}}
         </display>
         <entry class='invisible'>
-            <input ng-model='contextRoom.height'  ng-focus='editContext()' ng-blur='stopEditContext()' ng-maxlength='4'>
+            <input ng-model='contextRoom.height' ng-focus='editContext()' ng-blur='stopEditContext()' ng-maxlength='4'>
         </entry>
     </clickput>
 </div>
@@ -69,28 +71,28 @@ Height: <clickput>
             {{contextPos.x | number:2}} ,
         </display>
         <entry class='invisible'>
-            <input ng-model='contextPos.x'  ng-focus='editContext()' ng-blur='stopEditContext()' ng-maxlength='4'>
+            <input ng-model='contextPos.x' ng-focus='editContext()' ng-blur='stopEditContext()' ng-maxlength='4'>
         </entry>
     </clickput>
-    
+
     <clickput>
         <display>
-    				{{contextPos.y | number:2}}
+            {{contextPos.y | number:2}}
         </display>
         <entry class='invisible'>
             <input ng-model='contextPos.y' ng-focus='editContext()' ng-blur='stopEditContext()' ng-maxlength='4'>
         </entry>
     </clickput>
     <p>
-    	<clickput>
-    		Angle: 
-    	    <display>
-    					{{contextPos.angle | number:2}}
-    	    </display>
-    	    <entry class='invisible'>
-    	        <input ng-model='contextPos.angle'  ng-focus='editContext()' ng-blur='stopEditContext()' ng-maxlength='4'>
-    	    </entry>
-    	</clickput>
+        <clickput>
+            Angle:
+            <display>
+                {{contextPos.angle | number:2}}
+            </display>
+            <entry class='invisible'>
+                <input ng-model='contextPos.angle' ng-focus='editContext()' ng-blur='stopEditContext()' ng-maxlength='4'>
+            </entry>
+        </clickput>
     </p>
 
     <pre>
@@ -101,23 +103,25 @@ Height: <clickput>
 [del] Delete
 </pre>
 
-<h3>User Data</h3>
-<div ng-repeat="(key,data) in contextBody.m_userData">
-    {{key}} :: {{data}} <button ng-click='removeUserData(contextBody,key)'>X</button>
-</div>
-<div class='addContext'>
-Add Context Data
-<input ng-model='userDataKey' placeholder='key'>
-<input ng-model='userDataValue' placeholder='value'>
-<button ng-click='addUserData(contextBody, userDataKey,userDataValue)'>Go!</button>
-</div>
+    <h3>User Data</h3>
+    <div ng-repeat="(key,data) in contextBody.m_userData">
+        {{key}} :: {{data}}
+        <button ng-click='removeUserData(contextBody,key)'>X</button>
+    </div>
+    <div class='addContext'>
+        Add Context Data
+        <input ng-model='userDataKey' placeholder='key'>
+        <input ng-model='userDataValue' placeholder='value'>
+        <button ng-click='addUserData(contextBody, userDataKey,userDataValue)'>Go!</button>
+    </div>
 
 </div>
 
 <h3>File</h3>
 <h4>Save</h4>
 <div class='save'>
-    <button ng-click='save(worldName)'>SAVE</button><input placeholder="My World" ng-model='worldName'>
+    <button ng-click='save(worldName)'>SAVE</button>
+    <input placeholder="My World" ng-model='worldName'>
 </div>
 <h4>Projects</h4>
 <div>
@@ -131,11 +135,11 @@ Add Context Data
     <button ng-click='exportSavedWorld(selectedWorld)'>EXPORT</button>
 </div>
 <div ng-if="worldExport != null">
-    <textarea ng-model='worldExport'  id='export'>
+    <textarea ng-model='worldExport' id='export'>
     </textarea>
 </div>
 </div>
 </div>
 <div>
-    
+
 </div>
