@@ -14,6 +14,7 @@
 
      var e = this;
      var _canvas;
+     var roomBodies = {};
 
      this.setFocus = function(focusObject) {
       ngrState.setFocus(focusObject);
@@ -48,16 +49,16 @@
 
        //if (options.floor) e.floor();
        if (options.room) {
-        var r = options.room;
-        if (r.floor) e.floor();
-        if (r.leftWall) e.leftWall();
-        if (r.rightWall) e.rightWall();
-        if (r.roof) e.roof();
+        ngrState.setRoom(options.room);
+        e.createRoom();
 
+        var r = options.room;
         ngrState.setFocus({x:r.width / 2,y:r.height / 2});
         var zoomReq = r.height / ( _canvas.height / 4 );
         ngrState.setZoom(zoomReq);
+        
        }
+
 
      }
 
@@ -65,29 +66,52 @@
 
      this.floor = function(options) {
 
+       if (roomBodies.floor) e.remove(roomBodies.floor);
        var floor = ngrModels.floor(options);
-        e.add('box', floor.options);
+       roomBodies.floor = e.add('box', floor.options);
+
+     }
+
+     this.updateRoom = function(_room) {
+        ngrState.setRoomWidth(Number(_room.width));
+        ngrState.setRoomHeight(Number(_room.height));
+
+        //if (_room.floor) e.floor();
+        e.createRoom();
+     }
+
+     this.createRoom = function() {
+      var r = ngrState.getRoom();
+      
+      if (r.floor) e.floor();
+      if (r.leftWall) e.leftWall();
+      if (r.rightWall) e.rightWall();
+      if (r.roof) e.roof();
      }
 
      this.roof = function(options) {
 
+      if (roomBodies.roof) e.remove(roomBodies.roof);
        var roof = ngrModels.roof(options);
-        e.add('box', roof.options);
+       roomBodies.roof = e.add('box', roof.options);
      }
 
 
      this.leftWall = function(options) {
 
+      if (roomBodies.leftWall) e.remove(roomBodies.leftWall);
        var leftWall = ngrModels.leftWall(options);
-       e.add('box', leftWall.options);
+       roomBodies.leftWall = e.add('box', leftWall.options);
 
 
      }
 
      this.rightWall = function(options) {
 
+      if (roomBodies.rightWall) e.remove(roomBodies.rightWall);
        var rightWall = ngrModels.rightWall(options);
-       e.add('box', rightWall.options);
+       roomBodies.rightWall = e.add('box', rightWall.options);
+
 
      }
 

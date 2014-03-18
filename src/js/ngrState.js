@@ -23,6 +23,14 @@ angular.module('Rectangular')
       floor = _floor;
     }
 
+    this.getRoom = function() {
+      return state.room;
+    }
+
+    this.setRoom = function(_room) {
+      state.room = _room;
+    }
+
     this.setRoomHeight = function(_h) {
       state.room.height = Number(_h);
     }

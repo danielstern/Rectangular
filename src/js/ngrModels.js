@@ -12,8 +12,8 @@ angular.module('Rectangular')
       var defaults = _.clone(ngrDefaults.wall);
       options = _.extend(defaults, options);
 
-      options.height = env.worldHeight / 2;
-      options.y = env.worldHeight / 2;
+      options.height = env.room.height / 2;
+      options.y = env.room.height / 2;
       options.shapeKind = 'box';
 
       var leftWall = ngrBox.shape(options);
@@ -32,9 +32,9 @@ angular.module('Rectangular')
       var defaults = _.clone(ngrDefaults.wall);
       options = _.extend(defaults, options);
 
-      options.height = env.worldHeight / 2;
-      options.x = env.worldWidth;
-      options.y = env.worldHeight / 2;
+      options.height = env.room.height / 2;
+      options.x = env.room.width;
+      options.y = env.room.height / 2;
       options.shapeKind = 'box';
       var rightWall = ngrBox.shape(options);
 
@@ -54,10 +54,10 @@ angular.module('Rectangular')
       var defaults = _.clone(ngrDefaults.floor);
       options = _.extend(defaults, options);
 
-      options.y = env.worldHeight;
-      options.width = env.worldWidth / 2;
+      options.y = env.room.height;
+      options.width = env.room.width / 2;
       //options.width = 2;
-      options.x = env.worldWidth / 2;
+      options.x = env.room.width / 2;
 
 
       var shape = ngrBox.shape(options);
@@ -76,8 +76,8 @@ angular.module('Rectangular')
       options = _.extend(defaults, options);
 
       options.y = 0;
-      options.width = env.worldWidth / 2;
-      options.x = env.worldWidth / 2;
+      options.width = env.room.width / 2;
+      options.x = env.room.width / 2;
 
       var shape = ngrBox.shape(options);
       shape.options = options;
@@ -92,8 +92,7 @@ angular.module('Rectangular')
     width: 0.3,
     type: 'static',
     x: 0,
-    src: 'img/tile.png',
-    bg: 'tiled'
+
   };
 
   this.body = {
@@ -120,8 +119,6 @@ angular.module('Rectangular')
     restitution: 0.2,
     isFloor: true,
     shapeKind: 'box',
-    /*src: 'img/tile-blue.png',*/
-    bg: 'tiled',
   }
 
   this.skin = {
@@ -143,8 +140,10 @@ angular.module('Rectangular')
     debug: true,
     zoom: 1,
     floor: true,
-    worldWidth: 90,
-    worldHeight: 40
+    room: {
+      width: 90,
+      height: 40
+    }
   }
   
 })
