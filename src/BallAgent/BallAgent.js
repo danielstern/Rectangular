@@ -174,13 +174,15 @@ angular.module("BallAgent", ['Rectangular', 'ngAudio', 'BallAgentHero', 'BallAge
       var goingToNextLevel = false;
 
       ngrEnvironment.init({
-          scale: 30,
+          scale: 60,
           floor: true,
-          worldHeight: 30,
-          zoom:1,
+          
+          zoom:0.3,
+          worldWidth: 40,
+          worldHeight: 20,
           room: {
-            width: 90,
-            height: 40,
+            width: 40,
+            height: 20,
             floor: true,
             leftWall: true,
             rightWall: true,
@@ -218,21 +220,16 @@ angular.module("BallAgent", ['Rectangular', 'ngAudio', 'BallAgentHero', 'BallAge
               }, 3000);
 
               ngrEnvironment.start();
+              ngrEnvironment.createRoom();
 
-              if (l.floor) ngrEnvironment.floor({
-                src: 'img/tile-blue.png',
-                bg: 'tiled',
-              });
-              if (l.lWall) ngrEnvironment.leftWall();
-              if (l.rWall) ngrEnvironment.rightWall();
-
-              //  ngrEnvironment.debug();
               ngrDisplay.background(l.background || 'img/mountain-bg.jpg');
 
 
               hero = BallAgentHero.createNewHero();
               exit = m.createExit(l.exit);
               bindControls();
+
+          //    ngrEnvironment.follow(hero.body);
 
               goingToNextLevel = false;
 

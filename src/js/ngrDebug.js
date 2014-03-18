@@ -26,7 +26,7 @@ angular.module('Rectangular')
       var debugDraw = new b2DebugDraw();
       var debugContainer = new createjs.Container();
       window.debugContainer = debugContainer;
-      var scale = ngrState.getScale();
+      var scale = ngrState.getScale() * ngrState.getZoom();
       debugDraw.SetSprite(ctx);
       debugDraw.SetDrawScale(scale);
       debugDraw.SetFillAlpha(0.5);
@@ -37,7 +37,7 @@ angular.module('Rectangular')
       window.debugDraw = debugDraw;
 
       ngrLoop.addPermanentHook(function() {
-    
+    /*
         var state = ngrState.getState();
         var focus = ngrState.getFocus();
         var scale = ngrState.getScale() * state.zoom;
@@ -56,7 +56,7 @@ angular.module('Rectangular')
         ctx.clearRect(0, 0, canvas.width, canvas.height);
 
         ctx.restore();
-        world.DrawDebugData();
+        world.DrawDebugData();*/
 
       })
 

@@ -15,7 +15,7 @@ angular.module("BallAgentHero", ['Rectangular', 'ngAudio'])
 	  	rotationalAgilityStanding: 5,
 	  	directionalAgilityAirborne: 5,
 	  	rotationalAgilityAirborne: 5,
-	  	jumpPower: 300,
+	  	jumpPower: 1000,
 	  	radius: 0.5,
 	  }
 	};
@@ -24,6 +24,7 @@ angular.module("BallAgentHero", ['Rectangular', 'ngAudio'])
 	this.createNewHero = function() {
 		heroBody = this.createHero();
 		hero.entity = heroBody;
+		hero.body = heroBody;
 		return hero;
 	}
 
@@ -33,19 +34,6 @@ angular.module("BallAgentHero", ['Rectangular', 'ngAudio'])
 
 	
 	this.createHero = function(options) {
-
-/*	  var heroBox = ngrBox.shape({
-	    radius: state.stats.radius,
-	    shapeKind: 'circle',
-	    friction: 0.2,
-	    density: 0.15,
-	    x: 1.2,
-	    type: 'dynamic'
-	  });
-	  var heroBody = ngrWorld.addElement(heroBox);
-	  heroBody.SetUserData({
-	    isHero: true
-	  });*/
 
 		var heroOptions = {
 	    radius: state.stats.radius,
@@ -59,7 +47,7 @@ angular.module("BallAgentHero", ['Rectangular', 'ngAudio'])
 	    }
 	  }
 
-	  var heroBody = ngrEnvironment.add('circle',heroOptions);
+	  heroBody = ngrEnvironment.add('circle',heroOptions);
 	  
 	  window.heroBody = heroBody;
 

@@ -35,7 +35,7 @@
          options.worldWidth = options.room.width;
        }
 
-       options.SCALE = 30;
+       options.SCALE = options.scale || 30;
 
        options.speed = options.fps;
 
@@ -54,8 +54,11 @@
            x: r.width / 2,
            y: r.height / 2
          });
-         var zoomReq = r.height / (_canvas.height / 4);
-         ngrState.setZoom(zoomReq);
+
+         if (!options.zoom) {
+           var zoomReq = r.height / (_canvas.height / 4);
+          ngrState.setZoom(zoomReq);
+        }
        }
 
        e.start();
