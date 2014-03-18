@@ -2,6 +2,16 @@ angular.module('Rectangular')
   .service('ngrDebug', function(ngrWorld, ngrState, ngrLoop) {
     var d = this;
     var debugCanvas;
+    var ctxCurrentTranslation ;
+    var ctx;
+
+    this.reset = function() {
+      ctx.translate(-ctxCurrentTranslation.x,-ctxCurrentTranslation.y);
+      ctxCurrentTranslation = {
+        x: 0,
+        y: 0
+      }
+    }
     this.debug = function(canvas) {
 
       var p = $(canvas).parent();
@@ -17,8 +27,8 @@ angular.module('Rectangular')
           .attr('width', state.width);
       }
 
-      var ctx = debugCanvas.getContext('2d');
-      var ctxCurrentTranslation = {
+      ctx = debugCanvas.getContext('2d');
+      ctxCurrentTranslation = {
         x: 0,
         y: 0
       }
@@ -37,7 +47,7 @@ angular.module('Rectangular')
       window.debugDraw = debugDraw;
 
       ngrLoop.addPermanentHook(function() {
-    /*
+    
         var state = ngrState.getState();
         var focus = ngrState.getFocus();
         var scale = ngrState.getScale() * state.zoom;
@@ -56,7 +66,7 @@ angular.module('Rectangular')
         ctx.clearRect(0, 0, canvas.width, canvas.height);
 
         ctx.restore();
-        world.DrawDebugData();*/
+        world.DrawDebugData();
 
       })
 

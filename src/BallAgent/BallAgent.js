@@ -1,5 +1,5 @@
 angular.module("BallAgent", ['Rectangular', 'ngAudio', 'BallAgentHero', 'BallAgentModels'])
-  .service('BallAgent', function(BallAgentLevels, BallAgentHero, BallAgentModels, ngAudio, ngrEnvironment, ngrDisplay, ngrBox, ngrWorld) {
+  .service('BallAgent', function(BallAgentLevels, BallAgentHero, BallAgentModels, ngAudio, ngrEnvironment, ngrDisplay, ngrBox, ngrWorld,ngrDebug) {
 
       this.state = {};
       var state = this.state;
@@ -177,7 +177,7 @@ angular.module("BallAgent", ['Rectangular', 'ngAudio', 'BallAgentHero', 'BallAge
           scale: 60,
           floor: true,
           
-          zoom:0.3,
+          zoom:0.2,
           worldWidth: 40,
           worldHeight: 20,
           room: {
@@ -215,6 +215,7 @@ angular.module("BallAgent", ['Rectangular', 'ngAudio', 'BallAgentHero', 'BallAge
                 $('.levelName').addClass('animated slideInLeft');
               }, 1);
 
+              ngrDebug.reset();
               c = setTimeout(function() {
                 $('.levelName').addClass('animated slideOutLeft');
               }, 3000);
@@ -229,7 +230,7 @@ angular.module("BallAgent", ['Rectangular', 'ngAudio', 'BallAgentHero', 'BallAge
               exit = m.createExit(l.exit);
               bindControls();
 
-          //    ngrEnvironment.follow(hero.body);
+              ngrEnvironment.follow(hero.body);
 
               goingToNextLevel = false;
 
