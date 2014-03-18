@@ -77,6 +77,13 @@ angular.module('Rectangular')
     });
   });
 
+  this.getBodyByAttribute = function(key, val) {
+    return _.find(bodies,function(body){
+      console.log("Does body match?",body.options)
+      if (body.options[key] == val) return true;
+    }) 
+  }
+
 
   this.addElement = function(options) {
 
@@ -89,6 +96,13 @@ angular.module('Rectangular')
     if (options.isFloor) {
   //    if (ngrState.getFloor()) w.removeElement(ngrState.getFloor());
    //   ngrState.setFloor(b);
+    }
+
+    if (options.memo) {
+      console.log('making memo object',options.memo);
+      var prev = w.getBodyByAttribute('memo',options.memo);
+      console.log("Matching?",prev);
+      if (prev) w.removeElement(prev);
     }
 
 

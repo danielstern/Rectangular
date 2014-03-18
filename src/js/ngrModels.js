@@ -14,7 +14,7 @@ angular.module('Rectangular')
 
       options.height = env.room.height / 2;
       options.y = env.room.height / 2;
-      options.shapeKind = 'box';
+      options.memo = "leftWall";
 
       var leftWall = ngrBox.shape(options);
 
@@ -35,7 +35,7 @@ angular.module('Rectangular')
       options.height = env.room.height / 2;
       options.x = env.room.width;
       options.y = env.room.height / 2;
-      options.shapeKind = 'box';
+      options.memo = "rightWall";
       var rightWall = ngrBox.shape(options);
 
       //console.log("making rightwall", options);
@@ -58,6 +58,7 @@ angular.module('Rectangular')
       options.width = env.room.width / 2;
       //options.width = 2;
       options.x = env.room.width / 2;
+      options.memo = "floor";
 
 
       var shape = ngrBox.shape(options);
@@ -79,6 +80,8 @@ angular.module('Rectangular')
       options.width = env.room.width / 2;
       options.x = env.room.width / 2;
 
+      options.memo = "roof";
+
       var shape = ngrBox.shape(options);
       shape.options = options;
       return shape;
@@ -91,6 +94,7 @@ angular.module('Rectangular')
   this.wall = {
     width: 0.3,
     type: 'static',
+    shapeKind: 'box',
     x: 0,
 
   };
