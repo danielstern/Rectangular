@@ -15,7 +15,7 @@ angular.module("BallAgentHero", ['Rectangular', 'ngAudio'])
 	  	rotationalAgilityStanding: 5,
 	  	directionalAgilityAirborne: 5,
 	  	rotationalAgilityAirborne: 5,
-	  	jumpPower: 1000,
+	  	jumpPower: 750,
 	  	radius: 0.5,
 	  }
 	};

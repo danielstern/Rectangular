@@ -52,11 +52,17 @@ angular.module('Rectangular')
         var focus = ngrState.getFocus();
         var scale = ngrState.getScale() * state.zoom;
 
-        debugDraw.SetDrawScale(ngrState.getScale() * Number(state.zoom || 1));
+        debugDraw.SetDrawScale(scale);
         var newTranslation = {
           x:-focus.x * scale + 0.5*canvas.width,
           y:-focus.y * scale + 0.5*canvas.height
         }
+
+        if (state.constrainFocusToRoom) {
+          if (newTranslation.x < 0 ) newTranslation.x = 0;
+          if (newTranslation.x > canvas.width / scale ) newTranslation.x =  canvas.width / scale ;
+       }
+
         ctx.translate(-ctxCurrentTranslation.x,-ctxCurrentTranslation.y);
         ctx.translate(newTranslation.x,newTranslation.y);
         ctxCurrentTranslation = newTranslation;

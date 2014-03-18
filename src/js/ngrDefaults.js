@@ -33,6 +33,9 @@ angular.module('Rectangular')
     restitution: 0.2,
     isFloor: true,
     shapeKind: 'box',
+    userData: {
+      isFloor: true
+    }
   }
 
   this.skin = {
