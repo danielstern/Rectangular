@@ -5,9 +5,6 @@ angular.module('Rectangular')
 
   var world;
   var bodies = [];
-  var properties = {};
-  var ngrWorld = this;
-  var env;
   var w = this;
   var pins = [];
   var followHook;
@@ -144,7 +141,7 @@ angular.module('Rectangular')
 
     ngrState.addPin(pinMemo);
 
-    mouse_joint.bodyA = ngrWorld.getWorld().GetGroundBody();
+    mouse_joint.bodyA = w.getWorld().GetGroundBody();
     mouse_joint.bodyB = body;
     mouse_joint.target.Set(r.worldPosX, r.worldPosY);
     mouse_joint.collideConnected = true;
@@ -250,7 +247,7 @@ angular.module('Rectangular')
 
         if (body.options && body.options.movement) {
 
-          ngrWorld.cycleBody(body);
+          w.cycleBody(body);
         }
 
       })

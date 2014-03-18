@@ -212,7 +212,6 @@
 
      $scope.$watchCollection("contextRoom", function() {
        if ($scope.editingContext) {
-         console.log("You changed the room...",$scope.contextRoom);
          ngrEnvironment.updateRoom({
            width: $scope.contextRoom.width,
            height: $scope.contextRoom.height
