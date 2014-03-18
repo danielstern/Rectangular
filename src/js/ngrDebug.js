@@ -57,11 +57,11 @@ angular.module('Rectangular')
           x:-focus.x * scale + 0.5*canvas.width,
           y:-focus.y * scale + 0.5*canvas.height
         }
-
+/*
         if (state.constrainFocusToRoom) {
-          if (newTranslation.x < 0 ) newTranslation.x = 0;
+          if (focus.x * scale < -0.5 * canvas.width / 4) newTranslation.x = -canvas.width;
           if (newTranslation.x > canvas.width / scale ) newTranslation.x =  canvas.width / scale ;
-       }
+       }*/
 
         ctx.translate(-ctxCurrentTranslation.x,-ctxCurrentTranslation.y);
         ctx.translate(newTranslation.x,newTranslation.y);

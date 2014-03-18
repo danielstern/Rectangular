@@ -182,7 +182,7 @@ angular.module("BallAgent", ['Rectangular', 'ngAudio', 'BallAgentHero', 'BallAge
       worldHeight: 20,
       room: {
         width: 30,
-        height: 25,
+        height: 20,
         floor: true,
         leftWall: true,
         rightWall: true,
