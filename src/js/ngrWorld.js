@@ -16,7 +16,7 @@ angular.module('Rectangular')
   var memoryPairs = [];
 
   this.load = function(json) {
-    //ngrState.setProperties(json.properties);
+      ngrState.setProperties(json.properties);
 
     _.each(json.elements,function(element){
       element.options.id = element.id;
