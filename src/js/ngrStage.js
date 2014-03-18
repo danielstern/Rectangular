@@ -6,6 +6,10 @@ angular.module('Rectangular')
     var stage = new Stage(canvas);
     var c = new createjs.Container();
     var ctx = $(canvas).get(0).getContext('2d');
+    var ctxCurrentTranslation = {
+      x: 0,
+      y: 0
+    }
     var actors = [];
     this.actors = actors;
     this.stage = stage;
@@ -43,11 +47,11 @@ angular.module('Rectangular')
     };
 
     this.init = function() {
-      var e = ngrState.getState();
+      /*  var e = ngrState.getState();
       s.setFocusPoint({
         x: e.width / 2,
         y: e.height / 2
-      });
+      });*/
 
     }
 
@@ -64,16 +68,45 @@ angular.module('Rectangular')
       c = new createjs.Container();
       stage.addChild(c);
 
+      ctx.translate(-ctxCurrentTranslation.x, -ctxCurrentTranslation.y);
+      ctxCurrentTranslation = {
+        x: 0,
+        y: 0
+      }
+
       window.container = c;
 
     }
 
     function tick() {
 
-      var env = ngrState.getState();
-      ctx.save();
-      c.x = env.width / 2 - focusPoint.x;
-      c.y = env.height / 2 - focusPoint.y;
+      var state = ngrState.getState();
+      var focus = ngrState.getFocus();
+      var scale = ngrState.getScale() * state.zoom;
+
+      //debugDraw.SetDrawScale(scale);
+      var newTranslation = {
+        x: focus.x * scale - 0.5 * canvas.width,
+        y: -focus.y * scale + 0.5 * canvas.height
+      }
+        if (state.constrainFocusToRoom) {
+
+          var roomHeightPixels = state.room.height * scale;
+          var roomWidthPixels = state.room.height * scale;
+
+
+          
+          if (newTranslation.y < -roomHeightPixels) newTranslation.y = -roomHeightPixels;
+
+           // if (newTranslation.x < 0) newTranslation.x = 0;
+        }
+
+
+      c.x = -newTranslation.x;
+      c.y = newTranslation.y;
+      ctxCurrentTranslation = newTranslation;
+    
+
       ctx.restore();
       _.each(actors, function(actor) {
         actor.update();
@@ -124,8 +157,8 @@ angular.module('Rectangular')
     }
     this.update = function() { // translate box2d positions to pixels
       this.skin.rotation = this.body.GetAngle() * (180 / Math.PI);
-      this.skin.x = this.body.GetWorldCenter().x * ngrState.getScale();
-      this.skin.y = this.body.GetWorldCenter().y * ngrState.getScale();
+      this.skin.x = this.body.GetWorldCenter().x * ngrState.getScale() * ngrState.getZoom();
+      this.skin.y = this.body.GetWorldCenter().y * ngrState.getScale() * ngrState.getZoom();
     }
   }
 

@@ -2,11 +2,11 @@ angular.module('Rectangular')
   .service('ngrDebug', function(ngrWorld, ngrState, ngrLoop) {
     var d = this;
     var debugCanvas;
-    var ctxCurrentTranslation ;
+    var ctxCurrentTranslation;
     var ctx;
 
     this.reset = function() {
-      ctx.translate(-ctxCurrentTranslation.x,-ctxCurrentTranslation.y);
+      ctx.translate(-ctxCurrentTranslation.x, -ctxCurrentTranslation.y);
       ctxCurrentTranslation = {
         x: 0,
         y: 0
@@ -47,31 +47,38 @@ angular.module('Rectangular')
       window.debugDraw = debugDraw;
 
       ngrLoop.addPermanentHook(function() {
-    
+
         var state = ngrState.getState();
         var focus = ngrState.getFocus();
         var scale = ngrState.getScale() * state.zoom;
 
         debugDraw.SetDrawScale(scale);
         var newTranslation = {
-          x:-focus.x * scale + 0.5*canvas.width,
-          y:-focus.y * scale + 0.5*canvas.height
+          x: -focus.x * scale + 0.5 * canvas.width,
+          y: -focus.y * scale + 0.5 * canvas.height
         }
 
         if (state.constrainFocusToRoom) {
-        //  if (focus.x * scale < -0.5 * canvas.width / 4) newTranslation.x = -canvas.width;
+          //  if (focus.x * scale < -0.5 * canvas.width / 4) newTranslation.x = -canvas.width;
           var roomHeightPixels = state.room.height * scale;
           var roomWidthPixels = state.room.height * scale;
 
 
-          if (newTranslation.y - canvas.height < -roomHeightPixels) newTranslation.y = -roomHeightPixels + canvas.height ;
-          if (newTranslation.x - canvas.width / 2 < -roomWidthPixels ) newTranslation.x = roomWidthPixels / 2 - canvas.width / 2;
-         // if (newTranslation.x > canvas.width / scale ) newTranslation.x =  canvas.width / scale ;
-       }
-       //console.log('newtranslation?',newTranslation,roomWidthPixels)
+          if (newTranslation.y - canvas.height < -roomHeightPixels) newTranslation.y = -roomHeightPixels + canvas.height;
+          if (newTranslation.y > 0) newTranslation.y = 0;
 
-        ctx.translate(-ctxCurrentTranslation.x,-ctxCurrentTranslation.y);
-        ctx.translate(newTranslation.x,newTranslation.y);
+
+       ///   if (newTranslation.x /2 - canvas.width / 2 < -roomWidthPixels) {
+      //       newTranslation.x = -roomWidthPixels + canvas.width / 2;
+       //   } else {
+       //   }
+
+            if (newTranslation.x > 0) newTranslation.x = 0;
+        }
+        //console.log('newtranslation?', newTranslation)
+
+        ctx.translate(-ctxCurrentTranslation.x, -ctxCurrentTranslation.y);
+        ctx.translate(newTranslation.x, newTranslation.y);
         ctxCurrentTranslation = newTranslation;
         ctx.save();
 

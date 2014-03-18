@@ -4,6 +4,9 @@ angular.module('Rectangular')
     var nd = this;
     this.skin = function(body, options) {
 
+      var scale = ngrState.getScale() * ngrState.getZoom();
+
+
       var f = body.GetFixtureList();
       var s = f.GetShape();
       var actor = {};
@@ -34,13 +37,13 @@ angular.module('Rectangular')
 
       if (options.radius) {
 
-        options.width = options.radius * env.SCALE;
-        options.height = options.radius * env.SCALE;
+        options.width = options.radius * scale;
+        options.height = options.radius * scale;
 
       } else {
 
-        options.width = options.width * env.SCALE;
-        options.height = options.height * env.SCALE;
+        options.width = options.width * scale;
+        options.height = options.height * scale;
 
       }
 
@@ -89,7 +92,7 @@ angular.module('Rectangular')
     this.tile = function(img, options) {
 
       var container = new createjs.Container();
-      var SCALE = ngrState.getScale();
+      var SCALE = ngrState.getScale() * ngrState.getZoom();
 
       var regX = 0;
       var regY = 0;
@@ -158,7 +161,7 @@ angular.module('Rectangular')
       function initImg(bgData) {
 
         var env = ngrState.getState();
-        var scaleX = env.width / bgData.image.width * 1.2;
+        var scaleX = env.width / bgData.image.width * ngrState.getZoom() * 2.4// ngrState.getScale();
         bgData.scaleX = scaleX;
         bgData.scaleY = scaleX;
 
