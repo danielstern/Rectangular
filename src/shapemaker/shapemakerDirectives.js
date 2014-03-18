@@ -253,6 +253,11 @@ angular.module('shapemaker')
           ngrEnvironment.clearAll();
           ngrEnvironment.load(_world);
         }
+
+        $scope.exportSavedWorld = function(_world) {
+          console.log("Exporting... world",_world);
+          $scope.worldExport = JSON.stringify(_world);
+        }
       }
     }
   })

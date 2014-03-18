@@ -20,6 +20,11 @@ Focus: {{stats.focus.x | number:1}}, {{stats.focus.y | number:1}}
 Mouse: {{r.worldPosX | number:2}} , {{r.worldPosY | number:2}}
 </div>
 
+<h3>ROOM</h3>
+Width: ? 
+Height: ?
+
+
 <div ng-if="contextBody">
     <h3>Selected</h3>
     <table>
@@ -92,19 +97,26 @@ Add Context Data
 </div>
 
 <h3>File</h3>
-<div>
-    <button ng-click='save(worldName)'>SAVE</button><input ng-model='worldName'>
+<h4>Save</h4>
+<div class='save'>
+    <button ng-click='save(worldName)'>SAVE</button><input placeholder="My World" ng-model='worldName'>
 </div>
+<h4>Projects</h4>
 <div>
     <select ng-model="selectedWorld" ng-options="world.name for world in savedWorlds">
-        <option ng-repeat="world in savedWorlds track by $index">
-            {{world.name}}
-        </option>
+        <option>Select a World</option>
     </select>
 </div>
 <div>
     <button ng-click='load(selectedWorld)'>LOAD</button>
     <button ng-click='deleteSavedWorld(selectedWorld)'>DELETE</button>
+    <button ng-click='exportSavedWorld(selectedWorld)'>EXPORT</button>
+</div>
+<div ng-if="worldExport != null">
+    <textarea ng-model='worldExport'  id='export'>
+    </textarea>
+</div>
+</div>
 </div>
 <div>
     

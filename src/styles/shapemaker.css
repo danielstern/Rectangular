@@ -17,6 +17,12 @@ canvas {
 	cursor: pointer;
 }
 
+creationPanel {
+	position: absolute;
+	bottom: 50px;
+	width: 850px
+}
+
 shapemaker div {
 	opacity: 1;
 	border: 1px solid #323;
