@@ -23,6 +23,14 @@ angular.module('Rectangular')
       floor = _floor;
     }
 
+    this.setRoomHeight = function(_h) {
+      state.room.height = Number(_h);
+    }
+
+    this.setRoomWidth = function(_w) {
+      state.room.width = Number(_w);
+    }
+
     this.setZoom = function(_z) {
        if (_z) state.zoom = _z;
      }

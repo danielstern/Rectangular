@@ -4,23 +4,23 @@
      var contextMenu;
      $scope.editingContext = false;
      $scope.stats = {};
-       $scope.q = {};
+     $scope.q = {};
 
      ngrEnvironment.init({
        scale: 30,
        floor: true,
        worldHeight: 30,
        room: {
-         width: 80,
+         width: 90,
          height: 40,
          floor: true,
          leftWall: true,
          rightWall: true,
-         roof: false 
+         roof: false
        }
      });
 
-   //  ngrState.setZoom(0.5);
+     //  ngrState.setZoom(0.5);
      ngrInterface.enableDrag();
 
      ngrInterface.onmove(function(r) {
@@ -55,20 +55,20 @@
          $scope.deleteContextItem();
        },
        'g': function() {
-        $scope.followContextItem();
+         $scope.followContextItem();
        }
 
      }, 'keydown');
 
      $scope.followContextItem = function() {
-      ngrWorld.follow($scope.contextBody);
+       ngrWorld.follow($scope.contextBody);
      }
 
 
      if (localStorage['savedWorlds']) {
-      //console.log("saved worlds?",localStorage['savedWorlds'])
-        $scope.savedWorlds = JSON.parse(localStorage['savedWorlds']);
-      };
+       //console.log("saved worlds?",localStorage['savedWorlds'])
+       $scope.savedWorlds = JSON.parse(localStorage['savedWorlds']);
+     };
 
      $(document).bind("contextmenu", function(event) {
        event.preventDefault();
@@ -126,14 +126,17 @@
      }
 
      $scope.freezeContextItem = function() {
-       $scope.contextBody.SetType(b2Body.b2_staticBody);
+       if ($scope.contextBody) $scope.contextBody.SetType(b2Body.b2_staticBody);
        hideContextMenu();
      }
 
      $scope.editContext = function() {
+      console.log("Ediing context...",$scope)
        $scope.editingContext = true;
-       $scope.freezeContextItem();
-       $scope.unpinContextItem();
+       if ($scope.contextBody) {
+         $scope.freezeContextItem();
+         $scope.unpinContextItem();
+       }
      }
 
      $scope.stopEditContext = function() {
@@ -142,9 +145,9 @@
 
      ngrLoop.addPermanentHook(function() {
        var contextBody = $scope.contextBody;
-       if (contextBody) {
-
-         if (!$scope.editingContext) {
+       var state = ngrState.getState();
+       if (!$scope.editingContext) {
+         if (contextBody) {
            var bodyPos = contextBody.GetPosition();
            var bodyAngle = contextBody.GetAngle();
            $scope.contextPos = {
@@ -152,15 +155,23 @@
              y: bodyPos.y
            };
            $scope.contextPos.angle = bodyAngle;
-           
 
 
+         }
+       }
+
+       if (!$scope.editingContext) {
+         $scope.contextRoom = {
+           width: Number(state.room.width),
+           height: Number(state.room.height),
          }
        }
 
        $scope.stats.focus = ngrState.getFocus();
        $scope.stats.scale = ngrState.getScale();
        $scope.q.zoom = ngrState.getZoom();
+
+       $scope.state = ngrState.getState();
        $scope.$apply();
 
      })
@@ -188,7 +199,7 @@
        hideContextMenu();
      }
 
-     
+
 
      $scope.$watchCollection("contextPos", function() {
        if ($scope.editingContext) {
@@ -196,6 +207,14 @@
            contextBody.SetPosition(new b2Vec2(Number($scope.contextPos.x), Number($scope.contextPos.y)));
            contextBody.SetAngle(Number($scope.contextPos.angle))
          }
+       }
+     })
+
+     $scope.$watchCollection("contextRoom", function() {
+       if ($scope.editingContext) {
+         console.log("You changed the room...",$scope.contextRoom);
+         ngrState.setRoomWidth(Number($scope.contextRoom.width));
+         ngrState.setRoomHeight(Number($scope.contextRoom.height));
        }
      })
 

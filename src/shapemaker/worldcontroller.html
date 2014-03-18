@@ -21,8 +21,26 @@ Mouse: {{r.worldPosX | number:2}} , {{r.worldPosY | number:2}}
 </div>
 
 <h3>ROOM</h3>
-Width: ? 
-Height: ?
+<div>
+Width: <clickput>
+        <display>
+            {{state.room.width | number:2}}
+        </display>
+        <entry class='invisible'>
+            <input ng-model='contextRoom.width'  ng-focus='editContext()' ng-blur='stopEditContext()' ng-maxlength='4'>
+        </entry>
+    </clickput>
+</div>
+<div>
+Height: <clickput>
+        <display>
+            {{state.room.height | number:2}}
+        </display>
+        <entry class='invisible'>
+            <input ng-model='contextRoom.height'  ng-focus='editContext()' ng-blur='stopEditContext()' ng-maxlength='4'>
+        </entry>
+    </clickput>
+</div>
 
 
 <div ng-if="contextBody">
