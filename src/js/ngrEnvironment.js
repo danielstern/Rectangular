@@ -11,6 +11,7 @@
      this.load = ngrWorld.load;
      this.follow = ngrWorld.follow;
      this.unfollow = ngrWorld.unfollow;
+     this.setFocusOffset = ngrState.setFocusOffset;
 
      var e = this;
      var _canvas;

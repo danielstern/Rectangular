@@ -177,7 +177,7 @@ angular.module("BallAgent", ['Rectangular', 'ngAudio', 'BallAgentHero', 'BallAge
       scale: 60,
       floor: true,
       constrainFocusToRoom: true,
-      zoom: 0.4,
+      zoom: 0.5,
       worldWidth: 30,
       worldHeight: 20,
       room: {
@@ -231,7 +231,12 @@ angular.module("BallAgent", ['Rectangular', 'ngAudio', 'BallAgentHero', 'BallAge
           exit = m.createExit(l.exit);
           bindControls();
 
-          ngrEnvironment.follow(hero.body);
+          ngrEnvironment.setFocusOffset({
+            x:0,
+            y:0
+          })
+
+         ngrEnvironment.follow(hero.body);
 
           goingToNextLevel = false;
 

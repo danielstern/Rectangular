@@ -6,6 +6,7 @@ angular.module('Rectangular')
     var pins = []
     var focus = {x:0,y:0};
     var focusTo = {x:0,y:0};
+    var focusOffset = {x:0,y:0}
 
     this.getJSON = function() {
       var r = {};
@@ -16,6 +17,10 @@ angular.module('Rectangular')
       console.log("Attempting to stringify", r)
       var str = JSON.stringify(r);
       return str;
+    }
+
+    this.setFocusOffset = function(_off) {
+      focusOffset = _off;
     }
 
 
@@ -49,7 +54,10 @@ angular.module('Rectangular')
     }
 
     this.getFocus = function() {
-      return focus;
+      return {
+        x:focus.x + focusOffset.x,
+        y:focus.y + focusOffset.y
+      };
     }
 
     this.setProperties = function(_properties) {
