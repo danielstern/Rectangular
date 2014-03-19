@@ -177,13 +177,13 @@ angular.module("BallAgent", ['Rectangular', 'ngAudio', 'BallAgentHero', 'BallAge
       scale: 60,
       floor: true,
       constrainFocusToRoom: true,
-      zoom: 1,
+      zoom: 1.5,
       worldWidth: 30,
       worldHeight: 20,
       room: {
         width: 30,
         height: 20,
-        floor: true,
+        floor: false,
         leftWall: true,
         rightWall: true,
         roof: false
@@ -226,6 +226,11 @@ angular.module("BallAgent", ['Rectangular', 'ngAudio', 'BallAgentHero', 'BallAge
             src: 'img/tile.png',
             bg: 'tiled'
           });
+
+          if (l.floor) ngrEnvironment.floor({
+            src: 'img/tile.png',
+            bg: 'tiled'
+          })
 
           ngrDisplay.background(l.background || 'img/mountain-bg.jpg');
 

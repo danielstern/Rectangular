@@ -75,8 +75,10 @@
      }
 
      this.updateRoom = function(_room) {
-       ngrState.setRoomWidth(Number(_room.width));
-       ngrState.setRoomHeight(Number(_room.height));
+       /*ngrState.setRoomWidth(Number(_room.width));
+       ngrState.setRoomHeight(Number(_room.height));*/
+       ngrState.setRoom(_room);
+
        e.createRoom();
      }
 

@@ -59,23 +59,21 @@ angular.module('Rectangular')
         }
 
         if (state.constrainFocusToRoom) {
-          //  if (focus.x * scale < -0.5 * canvas.width / 4) newTranslation.x = -canvas.width;
           var roomHeightPixels = state.room.height * scale;
           var roomWidthPixels = state.room.height * scale;
 
+          /* top and left*/
+          if (newTranslation.y > 0) newTranslation.y = 0; 
+          if (newTranslation.x > 0) newTranslation.x = 0;
 
+          // bottom
           if (newTranslation.y - canvas.height < -roomHeightPixels) newTranslation.y = -roomHeightPixels + canvas.height;
-          if (newTranslation.y > 0) newTranslation.y = 0;
 
-
-       ///   if (newTranslation.x /2 - canvas.width / 2 < -roomWidthPixels) {
-      //       newTranslation.x = -roomWidthPixels + canvas.width / 2;
-       //   } else {
-       //   }
-
-            if (newTranslation.x > 0) newTranslation.x = 0;
+          // right
+          //if (newTranslation.x < -roomWidthPixels) newTranslation.x = roomWidthPixels / 2 - canvas.width;
+           //console.log("new translation x?",newTranslation.x,canvas.width, roomWidthPixels);
         }
-        //console.log('newtranslation?', newTranslation)
+
 
         ctx.translate(-ctxCurrentTranslation.x, -ctxCurrentTranslation.y);
         ctx.translate(newTranslation.x, newTranslation.y);
