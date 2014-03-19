@@ -77,11 +77,20 @@
      this.updateRoom = ngrState.updateRoom;
 
      this.createRoom = function(options) {
+       this.clearRoom();
        var r = ngrState.getRoom();
        if (r.floor) e.floor(options);
        if (r.leftWall) e.leftWall(options);
        if (r.rightWall) e.rightWall(options);
        if (r.roof) e.roof();
+     }
+
+     this.clearRoom = function() {
+       if (roomBodies.roof) e.remove(roomBodies.roof);
+       if (roomBodies.leftWall) e.remove(roomBodies.leftWall);
+       if (roomBodies.rightWall) e.remove(roomBodies.rightWall);
+       if (roomBodies.floor) e.remove(roomBodies.floor);
+       roomBodies = {};
      }
 
      this.roof = function(options) {

@@ -123,6 +123,8 @@
 
 
      function MouseWheelHandler(e) {
+
+      e.preventDefault();
       
        if (e.wheelDelta < 0) {
          $scope.q.zoom -= 0.05;
@@ -174,10 +176,16 @@
        }
 
        if (!$scope.editingContext) {
-         $scope.contextRoom = {
-           width: Number(state.room.width),
-           height: Number(state.room.height),
-         }
+
+        $scope.contextRoom = $scope.contextRoom || {};
+         $scope.contextRoom.width = Number(state.room.width);
+         $scope.contextRoom.height = Number(state.room.height);
+         $scope.contextRoom.floor = state.room.floor;
+         $scope.contextRoom.leftWall = state.room.leftWall;
+         $scope.contextRoom.rightWall = state.room.rightWall;
+         $scope.contextRoom.roof = state.room.roof;
+       
+         
        }
 
        $scope.stats.focus = ngrState.getFocus();
@@ -226,12 +234,25 @@
        if ($scope.editingContext) {
          ngrEnvironment.updateRoom({
            width: $scope.contextRoom.width,
-           height: $scope.contextRoom.height
+           height: $scope.contextRoom.height,
+           
          })
 
-         ngrEnvironment.createRoom();
        }
-     })
+
+
+     });
+
+     $scope.updateRoom = function() {
+       ngrEnvironment.updateRoom({
+         floor: $scope.contextRoom.floor,
+         leftWall: $scope.contextRoom.leftWall,
+         rightWall: $scope.contextRoom.rightWall,
+         roof: $scope.contextRoom.roof,
+       })
+
+       ngrEnvironment.createRoom();
+     }
 
      function hideContextMenu() {
        if (contextMenu) {

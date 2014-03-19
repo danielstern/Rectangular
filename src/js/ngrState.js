@@ -37,6 +37,16 @@ angular.module('Rectangular')
     this.updateRoom  = function(_room) {
        if (_room.width) st.setRoomWidth(Number(_room.width));
        if (_room.height) st.setRoomHeight(Number(_room.height));
+
+       _.each(['floor','roof','leftWall','rightWall'],function(area){
+          if (_room[area] == true) state.room[area] = true;
+          if (_room[area] === false) state.room[area] = false;
+
+       })
+       
+       
+
+       console.log("Updating room...", state.room);
        //ngrState.setRoom(_room);
 
        //e.createRoom();

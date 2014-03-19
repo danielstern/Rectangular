@@ -21,6 +21,8 @@ creationPanel {
 	position: absolute;
 	bottom: 50px;
 	width: 850px
+;
+	height: 350px;
 }
 
 shapemaker div {

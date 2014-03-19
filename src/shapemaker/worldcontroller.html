@@ -43,6 +43,18 @@
         </entry>
     </clickput>
 </div>
+<div>
+    <label for="roof">Roof</label><input ng-model='contextRoom.roof' type='checkbox' id='roof' ng-change='updateRoom()' checked>
+</div>
+<div>
+    <label for="leftWall">Left Wall</label><input ng-model='contextRoom.leftWall' type='checkbox' id='leftWall' ng-change='updateRoom()' checked>
+</div>
+<div>
+    <label for="rightWall">Right Wall</label><input ng-model='contextRoom.rightWall' type='checkbox' id='rightWall' ng-change='updateRoom()' checked>
+</div>
+<div>
+    <label for="floor">Floor</label><input ng-model='contextRoom.floor' type='checkbox' id='floor' ng-change='updateRoom()' checked>
+</div>
 
 
 <div ng-if="contextBody">
