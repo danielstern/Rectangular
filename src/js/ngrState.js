@@ -34,6 +34,13 @@ angular.module('Rectangular')
       state.room = _room;
     }
 
+    this.getRoomCenter = function() {
+      return {
+        x: state.room.height / 2,
+        y: state.room.width / 2
+      }
+    }
+
     this.updateRoom  = function(_room) {
        if (_room.width) st.setRoomWidth(Number(_room.width));
        if (_room.height) st.setRoomHeight(Number(_room.height));

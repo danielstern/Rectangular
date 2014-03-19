@@ -2,9 +2,10 @@ angular.module('Rectangular')
   .service('ngrStage', function(ngrLoop, ngrState, $q) {
 
     var canvas = $('canvas')[0];
-
+    var parallaxCenter;
     var stage = new Stage(canvas);
     var c = new createjs.Container();
+    var bgContainer = new createjs.Container();
     var ctx = $(canvas).get(0).getContext('2d');
     var ctxCurrentTranslation = {
       x: 0,
@@ -21,6 +22,8 @@ angular.module('Rectangular')
     var s = this;
 
     var p = $(canvas).parent();
+
+
 
     if (!$('.blocker')[0]) {
       p.append('<div class="blocker"></div>');
@@ -53,11 +56,17 @@ angular.module('Rectangular')
         y: e.height / 2
       });*/
 
+      parallaxCenter = ngrState.getRoomCenter();
+
     }
 
-    this.addChildAt = function(container, index) {
+    this.addChildAt = function(container, index, background) {
       c.addChildAt(container, index);
+      if (background) {
+        bgContainer.addChild(container);
+      }
     }
+
 
 
     this.clearAll = function() {
@@ -66,6 +75,7 @@ angular.module('Rectangular')
       ctx.save();
       ctx.restore();
       c = new createjs.Container();
+      stage.addChild(bgContainer);
       stage.addChild(c);
 
       ctx.translate(-ctxCurrentTranslation.x, -ctxCurrentTranslation.y);
@@ -105,6 +115,8 @@ angular.module('Rectangular')
 
       c.x = -newTranslation.x;
       c.y = newTranslation.y;
+      bgContainer.x = c.x / 2;
+      bgContainer.y = c.y / 2;
       ctxCurrentTranslation = newTranslation;
 
 

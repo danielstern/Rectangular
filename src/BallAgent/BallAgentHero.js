@@ -89,7 +89,7 @@ angular.module("BallAgentHero", ['Rectangular', 'ngAudio'])
 		var s = state.stats;
 		var force = state.airborne ? s.directionalAgilityAirborne : s.directionalAgilityStanding;
 		heroBody.ApplyForce(new b2Vec2(force, 0), heroBody.GetWorldCenter());
-		//heroBody.ApplyTorque(s.rotationalAgilityStanding);
+		heroBody.ApplyTorque(s.rotationalAgilityStanding);
 	}
 
 	this.goLeft = function() {

@@ -154,18 +154,19 @@ angular.module('Rectangular')
 
     }
 
-    this.background = function(src) {
+    this.background = function(src, closeness) {
       loadBitmap(src)
         .then(initImg);
 
       function initImg(bgData) {
 
         var env = ngrState.getState();
-        var scaleX = env.width / bgData.image.width * ngrState.getZoom() * 2.4// ngrState.getScale();
+        var scaleX = env.width / bgData.image.width * 2.4// ngrState.getScale();
         bgData.scaleX = scaleX;
         bgData.scaleY = scaleX;
+        bgData.closeness = closeness || 0;
 
-        ngrStage.addChildAt(bgData);
+        ngrStage.addChildAt(bgData, 0, true);
         window.stage = ngrStage.stage;
 
       }
