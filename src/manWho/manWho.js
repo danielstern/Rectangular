@@ -5,6 +5,7 @@
      ngrEnvironment.init({
        scale: '30',
 
+
      });
 
      var currentLevel;
@@ -26,7 +27,7 @@
 
        hero.body = heroBody;
        bindControls(hero);
-       ngrEnvironment.setZoom(0.5, true);
+       ngrEnvironment.setZoom(1, true);
        ngrEnvironment.follow(hero.body);
      }
 

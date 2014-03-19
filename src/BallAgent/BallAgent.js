@@ -174,7 +174,7 @@ angular.module("BallAgent", ['Rectangular', 'ngAudio', 'BallAgentHero', 'BallAge
     var goingToNextLevel = false;
 
     ngrEnvironment.init({
-      scale: 60,
+      scale: 30,
       floor: true,
       constrainFocusToRoom: true,
       zoom: 0.7,
