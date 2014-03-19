@@ -91,11 +91,12 @@ angular.module('Rectangular')
       }
       if (state.constrainFocusToRoom) {
         var roomHeightPixels = state.room.height * scale;
-        var roomWidthPixels = state.room.height * scale;
-        
+        var roomWidthPixels = state.room.width * scale;
+
 
 
         if (newTranslation.y - canvas.height < -roomHeightPixels) newTranslation.y = -roomHeightPixels + canvas.height;
+        if (newTranslation.x + canvas.width > roomWidthPixels) newTranslation.x = roomWidthPixels - canvas.width;
         if (newTranslation.y > 0) newTranslation.y = 0;
         if (newTranslation.x < 0) newTranslation.x = 0;
 
@@ -105,7 +106,7 @@ angular.module('Rectangular')
       c.x = -newTranslation.x;
       c.y = newTranslation.y;
       ctxCurrentTranslation = newTranslation;
-    
+
 
       ctx.restore();
       _.each(actors, function(actor) {

@@ -13,8 +13,9 @@ canvas {
 	top: 0;
 	opacity: 1;
 	left: 0;
-	-webkit-touch-callout: none;  -webkit-user-select: none;  -khtml-user-select: none;  -moz-user-select: none;  -ms-user-select: none;  user-select: none;
+	width: 750px;  -webkit-user-select: none;  -khtml-user-select: none;  -moz-user-select: none;  -ms-user-select: none;  user-select: none;
 	webkit-user-select: none;
+	height: 500px;
 }
 
 
