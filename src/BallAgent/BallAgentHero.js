@@ -15,7 +15,7 @@ angular.module("BallAgentHero", ['Rectangular', 'ngAudio'])
 	  	rotationalAgilityStanding: 5,
 	  	directionalAgilityAirborne: 5,
 	  	rotationalAgilityAirborne: 5,
-	  	jumpPower: 750,
+	  	jumpPower: 200,
 	  	radius: 0.5,
 	  }
 	};
@@ -39,7 +39,7 @@ angular.module("BallAgentHero", ['Rectangular', 'ngAudio'])
 	    radius: state.stats.radius,
 	    shapeKind: 'circle',
 	    friction: 0.2,
-	    density: 0.49,
+	    density: 0.21,
 	    x: 1.2,
 	    type: 'dynamic',
 	    userData: {
