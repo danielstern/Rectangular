@@ -12,6 +12,7 @@
      this.follow = ngrWorld.follow;
      this.unfollow = ngrWorld.unfollow;
      this.setFocusOffset = ngrState.setFocusOffset;
+     this.getBodyByUserData = ngrWorld.getBodyByUserData;
 
      var e = this;
      var _canvas;

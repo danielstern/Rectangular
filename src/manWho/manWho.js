@@ -14,9 +14,13 @@
        ngrEnvironment.clearAll();
        currentLevel = manWhoLevels.getLevel(_lvl || 1);
        ngrEnvironment.load(currentLevel);
+       var heroPlaceholder = ngrEnvironment.getBodyByUserData('hero',"true");
+       if (!heroPlaceholder) throw new Error("You must make a body with the attribute 'hero = true' to make a level. Or else, where would the hero start?");
+       console.log("heroPlaceholder?",heroPlaceholder);
        hero = heroGenerator.getHero();
-       hero.x = 18;
-       hero.y = 12;
+       hero.x = heroPlaceholder.GetWorldCenter().x;
+       hero.y = heroPlaceholder.GetWorldCenter.y;
+       ngrEnvironment.remove(heroPlaceholder);
        var heroBody = ngrEnvironment.add('box', hero);
 
        hero.body = heroBody;
@@ -128,7 +132,7 @@
        var currentSpeed = heroBody.GetLinearVelocity().x;
        var speedingL = currentSpeed < -stats.maxSpeed;
        var speedingR = currentSpeed > stats.maxSpeed;
-       console.log("Current speed?",currentSpeed);
+      // console.log("Current speed?",currentSpeed);
 
        var contacts = h.body.GetContactList();
        if (contacts && contacts.contact.IsTouching()) {

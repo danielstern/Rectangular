@@ -35,6 +35,8 @@ angular.module('Rectangular')
     })
   }
 
+
+
   this.follow = function(body) {
     ngrState.setFocus(body.GetWorldCenter(), true)
 
@@ -78,6 +80,14 @@ angular.module('Rectangular')
   this.getBodyByAttribute = function(key, val) {
     return _.find(bodies, function(body) {
       if (body.options[key] == val) return true;
+    })
+  }
+
+
+  this.getBodyByUserData = function(key, val) {
+    console.log("Bodies?",bodies);
+    return _.find(bodies, function(body) {
+      if (body.GetUserData() && body.GetUserData()[key] == val) return true;
     })
   }
 
