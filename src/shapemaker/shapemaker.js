@@ -238,6 +238,8 @@
            
          })
 
+         ngrEnvironment.createRoom();
+
        }
 
 

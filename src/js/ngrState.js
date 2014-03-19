@@ -44,12 +44,6 @@ angular.module('Rectangular')
 
        })
        
-       
-
-       console.log("Updating room...", state.room);
-       //ngrState.setRoom(_room);
-
-       //e.createRoom();
      }
 
     this.setRoomHeight = function(_h) {
