@@ -4,8 +4,8 @@ angular.module('Rectangular')
     var debugCanvas;
     var _canvas;
     var ctxCurrentTranslation = {
-      x:0,
-      y:0
+      x: 0,
+      y: 0
     };
     var ctx;
 
@@ -40,7 +40,6 @@ angular.module('Rectangular')
       var world = ngrWorld.getWorld();
       var debugDraw = new b2DebugDraw();
       var debugContainer = new createjs.Container();
-  //    window.debugContainer = debugContainer;
       var scale = ngrState.getScale() * ngrState.getZoom();
       debugDraw.SetSprite(ctx);
       debugDraw.SetDrawScale(scale);
@@ -51,49 +50,23 @@ angular.module('Rectangular')
 
       window.debugDraw = debugDraw;
 
-      //ngrLoop.addPermanentHook()
-
     }
 
     this.update = function(translation, scale) {
       var world = ngrWorld.getWorld();
-            var state = ngrState.getState();
+      var state = ngrState.getState();
 
-        //var state = ngrState.getState();
-        //var focus = ngrState.getFocus();
-        //var scale = ngrState.getScale() * state.zoom;
+      debugDraw.SetDrawScale(scale);
 
-        debugDraw.SetDrawScale(scale);
-        //var newTranslation = {
-         // x: -focus.x * scale + 0.5 * canvas.width,
-         // y: -focus.y * scale + 0.5 * canvas.height
-        //}
+      ctx.translate(-ctxCurrentTranslation.x, -ctxCurrentTranslation.y);
+      ctx.translate(translation.x, translation.y);
+      ctxCurrentTranslation = translation;
+      ctx.save();
 
-        //if (state.constrainFocusToRoom) {
-         // var roomHeightPixels = state.room.height * scale;
-      /*    var roomWidthPixels = state.room.width * scale;
+      ctx.setTransform(1, 0, 0, 1, 0, 0);
+      ctx.clearRect(0, 0, _canvas.width * 10, _canvas.height * 10);
 
-         
-          if (newTranslation.y > 0) newTranslation.y = 0; 
-          if (newTranslation.x > 0) newTranslation.x = 0;
-
-          // bottom
-          if (newTranslation.y - canvas.height < -roomHeightPixels) newTranslation.y = -roomHeightPixels + canvas.height;
-          if (newTranslation.x - canvas.width < -roomWidthPixels) newTranslation.x = -roomWidthPixels + canvas.width;
-
-          
-        }*/
-
-        ctx.translate(-ctxCurrentTranslation.x, -ctxCurrentTranslation.y);
-        ctx.translate(translation.x, translation.y);
-        ctxCurrentTranslation = translation;
-        ctx.save();
-
-        ctx.setTransform(1, 0, 0, 1, 0, 0);
-        ctx.clearRect(0, 0, state.canvas.width * 10, state.canvas.height * 10);
-
-        ctx.restore();
-        //world.DrawDebugData();
+      ctx.restore();
 
     }
 

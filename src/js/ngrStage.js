@@ -55,11 +55,6 @@ angular.module('Rectangular')
     };
 
     this.init = function() {
-      /*  var e = ngrState.getState();
-      s.setFocusPoint({
-        x: e.width / 2,
-        y: e.height / 2
-      });*/
 
       parallaxCenter = ngrState.getRoomCenter();
 
@@ -106,7 +101,6 @@ angular.module('Rectangular')
       var focus = ngrState.getFocus();
       var scale = ngrState.getScale() * state.zoom;
 
-      //debugDraw.SetDrawScale(scale);
       var newTranslation = {
         x: focus.x * scale - 0.5 * canvas.width,
         y: -focus.y * scale + 0.5 * canvas.height
@@ -115,14 +109,11 @@ angular.module('Rectangular')
         var roomHeightPixels = state.room.height * scale;
         var roomWidthPixels = state.room.width * scale;
 
-
-
         if (newTranslation.y - canvas.height < -roomHeightPixels) newTranslation.y = -roomHeightPixels + canvas.height;
         if (newTranslation.x + canvas.width > roomWidthPixels) newTranslation.x = roomWidthPixels - canvas.width;
         if (newTranslation.y > 0) newTranslation.y = 0;
         if (newTranslation.x < 0) newTranslation.x = 0;
 
-        //if (newTranslation.x - canvas.width < roomWidthPixels / 2) newTranslation.x = -roomWidthPixels / 2 + canvas.width;
       }
 
       c.x = -newTranslation.x;
