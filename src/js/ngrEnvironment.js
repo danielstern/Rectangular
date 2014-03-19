@@ -1,5 +1,5 @@
  angular.module('Rectangular')
-   .service('ngrEnvironment', function(ngrWorld, ngrInterface, ngrStage, ngrModels, ngrDefaults, $q, ngrState, ngrDebug, ngrLoop, ngrDisplay) {
+   .service('ngrEnvironment', function(ngrWorld, ngrInterface, ngrStage, ngrModels, ngrDefaults, $q, ngrState, ngrLoop, ngrDisplay) {
 
      this.addHook = ngrLoop.addHook;
      this.clearHooks = ngrLoop.clearHooks;
@@ -151,10 +151,8 @@
        ngrLoop.clearHooks();
      }
 
-     this.toggleDebug = ngrDebug.toggleDebug;
+     this.toggleDebug = ngrStage.toggleDebug;
 
-     this.debug = function() {
-       ngrDebug.debug(_canvas);
-     }
+     this.debug = ngrStage.debug;
 
    })

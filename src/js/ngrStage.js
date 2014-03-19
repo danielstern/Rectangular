@@ -1,5 +1,5 @@
 angular.module('Rectangular')
-  .service('ngrStage', function(ngrLoop, ngrState, $q) {
+  .service('ngrStage', function(ngrLoop, ngrState, $q, ngrDebug) {
 
     var canvas = $('canvas')[0];
     var parallaxCenter;
@@ -16,12 +16,17 @@ angular.module('Rectangular')
     this.stage = stage;
     var e;
 
+
     var following = false;
     var target = null;
 
     var s = this;
 
     var p = $(canvas).parent();
+
+    this.toggleDebug = function() {
+      ngrDebug.toggleDebug();
+    }
 
 
 
@@ -58,6 +63,7 @@ angular.module('Rectangular')
 
       parallaxCenter = ngrState.getRoomCenter();
 
+
     }
 
     this.addChildAt = function(container, index, background) {
@@ -87,6 +93,12 @@ angular.module('Rectangular')
       window.container = c;
 
     }
+
+    this.debug = function() {
+      ngrDebug.debug(canvas);
+    }
+
+
 
     function tick() {
 
@@ -118,6 +130,11 @@ angular.module('Rectangular')
       bgContainer.x = c.x / 2;
       bgContainer.y = c.y / 2;
       ctxCurrentTranslation = newTranslation;
+
+      ngrDebug.update({
+        x:-newTranslation.x,
+        y: newTranslation.y
+      },scale,canvas)
 
 
       ctx.restore();
