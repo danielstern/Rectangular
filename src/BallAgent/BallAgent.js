@@ -176,7 +176,7 @@ angular.module("BallAgent", ['Rectangular', 'ngAudio', 'BallAgentHero', 'BallAge
     ngrEnvironment.init({
       scale: 60,
       floor: true,
-      constrainFocusToRoom: false,
+      constrainFocusToRoom: true,
       zoom: 1,
       worldWidth: 30,
       worldHeight: 20,
@@ -222,7 +222,10 @@ angular.module("BallAgent", ['Rectangular', 'ngAudio', 'BallAgentHero', 'BallAge
           }, 3000);
 
           ngrEnvironment.start();
-          ngrEnvironment.createRoom();
+          ngrEnvironment.createRoom({
+            src: 'img/tile.png',
+            bg: 'tiled'
+          });
 
           ngrDisplay.background(l.background || 'img/mountain-bg.jpg');
 

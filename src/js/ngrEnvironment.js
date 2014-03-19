@@ -80,11 +80,11 @@
        e.createRoom();
      }
 
-     this.createRoom = function() {
+     this.createRoom = function(options) {
        var r = ngrState.getRoom();
-       if (r.floor) e.floor();
-       if (r.leftWall) e.leftWall();
-       if (r.rightWall) e.rightWall();
+       if (r.floor) e.floor(options);
+       if (r.leftWall) e.leftWall(options);
+       if (r.rightWall) e.rightWall(options);
        if (r.roof) e.roof();
      }
 
