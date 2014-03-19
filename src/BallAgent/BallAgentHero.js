@@ -16,6 +16,7 @@ angular.module("BallAgentHero", ['Rectangular', 'ngAudio'])
 	  	directionalAgilityAirborne: 5,
 	  	rotationalAgilityAirborne: 5,
 	  	jumpPower: 250,
+	  	brakePower: 5,
 	  	radius: 0.5,
 	  }
 	};
@@ -68,10 +69,10 @@ angular.module("BallAgentHero", ['Rectangular', 'ngAudio'])
 
   	if (state.goingRight) {
   	  hero.goRight();
-  	}
-
-  	if (state.goingLeft) {
+  	} else if (state.goingLeft) {
   	  hero.goLeft();
+  	} else {
+  		hero.brake();
   	}
 
   	if (state.isJumping) {
@@ -88,7 +89,7 @@ angular.module("BallAgentHero", ['Rectangular', 'ngAudio'])
 		var s = state.stats;
 		var force = state.airborne ? s.directionalAgilityAirborne : s.directionalAgilityStanding;
 		heroBody.ApplyForce(new b2Vec2(force, 0), heroBody.GetWorldCenter());
-		heroBody.ApplyTorque(s.rotationalAgilityStanding);
+		//heroBody.ApplyTorque(s.rotationalAgilityStanding);
 	}
 
 	this.goLeft = function() {
@@ -96,6 +97,14 @@ angular.module("BallAgentHero", ['Rectangular', 'ngAudio'])
 		var force = state.airborne ? s.directionalAgilityAirborne : s.directionalAgilityStanding;
 		heroBody.ApplyForce(new b2Vec2(-force, 0), heroBody.GetWorldCenter());
 		heroBody.ApplyTorque(-s.rotationalAgilityStanding);
+	}
+
+	this.brake = function() {
+		var y = heroBody.GetLinearVelocity().x * heroBody.GetInertia();
+		var n = heroBody.GetAngularVelocity() * heroBody.GetInertia();
+		//console.log("Braking",y)
+		heroBody.ApplyForce(new b2Vec2(-y * 10, 0), heroBody.GetWorldCenter());
+		heroBody.ApplyTorque(-n * 10);
 	}
 
 	this.jump = function() {

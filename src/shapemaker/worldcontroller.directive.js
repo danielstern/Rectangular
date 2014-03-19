@@ -13,6 +13,47 @@ angular.module('shapemaker')
         q.speed = 60;
         q.zoom = 0;
 
+        
+        $scope.$watchCollection("contextPos", function() {
+          if ($scope.editingContext) {
+            if (contextBody) {
+              contextBody.SetPosition(new b2Vec2(Number($scope.contextPos.x), Number($scope.contextPos.y)));
+              contextBody.SetAngle(Number($scope.contextPos.angle))
+            }
+          }
+        })
+
+        $scope.$watchCollection("contextRoom", function() {
+          if ($scope.editingContext) {
+            ngrEnvironment.updateRoom({
+              width: $scope.contextRoom.width,
+              height: $scope.contextRoom.height,
+              
+            })
+            ngrEnvironment.createRoom();
+          }
+        });
+        
+        $scope.clearAll = function() {
+          ngrEnvironment.clearAll();
+          ngrEnvironment.createRoom();
+        };
+
+        $scope.followContextItem = function() {
+          ngrEnvironment.follow($scope.contextBody);
+        }
+
+        $scope.updateRoom = function() {
+          ngrEnvironment.updateRoom({
+            floor: $scope.contextRoom.floor,
+            leftWall: $scope.contextRoom.leftWall,
+            rightWall: $scope.contextRoom.rightWall,
+            roof: $scope.contextRoom.roof,
+          })
+
+          ngrEnvironment.createRoom();
+        }
+
         $scope.properties = "gravity speed zoom".split(' ')
 
         $scope.$watchCollection('q', function() {

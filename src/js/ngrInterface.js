@@ -2,16 +2,25 @@ angular.module('Rectangular')
 
 .service('ngrInterface', function(ngrWorld, ngrState, ngrLoop) {
 
-  var grabJoint;
-  var targeter;
-  var i = this;
-  var mouseX;
-  var mouseY;
-  var last;
-  var onmoveListeners = [];
-  var ongrabListeners = [];
-  var panStartPoint = {};
-  var panning = false;
+  var grabJoint,
+    targeter,
+    i = this,
+    mouseX,
+    mouseY,
+    last,
+    onmoveListeners = [],
+    ongrabListeners = [],
+    panStartPoint = {},
+    panning = false;
+
+
+  $(document).mouseup(function(e) {
+    panning = false;
+
+    if (grabJoint) ngrWorld.destroyJoint(grabJoint);
+    grabJoint = null;
+
+  })
 
   this.enableDrag = function() {
     targeter = new MouseTargeter($('canvas')[0], ngrState.getScale());
@@ -41,7 +50,6 @@ angular.module('Rectangular')
 
   this.grab = function(r) {
     body = i.getBodyAtMouse(r);
-    console.log("Body, r?", body,r);
     var state = ngrState.getState();
 
     targeter.onmove(function(r) {
@@ -53,23 +61,17 @@ angular.module('Rectangular')
           x: panStartPoint.worldPosX - r.worldPosX,
           y: panStartPoint.worldPosY - r.worldPosY,
         }
-  //      console.log("panning", dif, panStartPoint, focus);
 
         ngrState.setFocus({
           x: focus.x + dif.x,
           y: focus.y + dif.y,
         }, false)
 
-        $(document).mouseup(function(e) {
-          panning = false;
-        })
-
       }
-
     })
 
     if (body) {
-      console.log("Grabbing body..");
+
       if (grabJoint) ngrWorld.unpin(grabJoint);
       grabJoint = ngrWorld.pin(body, r);
 
@@ -77,24 +79,17 @@ angular.module('Rectangular')
         _listener(body);
       })
 
-      $(document).mouseup(function(e) {
-        if (grabJoint) ngrWorld.destroyJoint(grabJoint);
-        grabJoint = null;
-      })
     } else {
       panStartPoint = _.clone(r);
       ngrWorld.unfollow();
 
-     // console.log("panning", panStartPoint);
       panning = true;
-      //console.log("hook");
 
     }
   }
 
   this.pinToMouse = function(body) {
     var pin = ngrWorld.pin(body, last);
-    //console.log("pin?",pin);
     return pin;
 
   }
@@ -105,12 +100,10 @@ angular.module('Rectangular')
       x: r.worldPosX,
       y: r.worldPosY
     };
-
     ngrState.setFocus(focus);
   }
 
   this.getBodyAtMouse = function(r) {
-
     var targetVec = {
       x: mouseX,
       y: mouseY
@@ -123,7 +116,7 @@ angular.module('Rectangular')
     var targetBody = null;
     var Fixture;
 
-    function GetBodyCallback(Fixture) {
+    ngrWorld.getWorld().QueryAABB(function(Fixture) {
       var shape = Fixture.GetShape();
       var Inside = shape.TestPoint(Fixture.GetBody().GetTransform(), pVec);
       if (Inside) {
@@ -131,9 +124,7 @@ angular.module('Rectangular')
         return false;
       }
       return true;
-    }
-
-    ngrWorld.getWorld().QueryAABB(GetBodyCallback, aabb);
+    }, aabb);
     return targetBody;
   }
 
@@ -199,7 +190,6 @@ angular.module('Rectangular')
     canvas.addEventListener('mousedown', function(evt) {
       if (event.which == 1) {
         var r = getInfo(evt);
-
 
         _.each(onclicklisteners, function(_listener) {
           _listener(r);
