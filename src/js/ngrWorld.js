@@ -45,7 +45,7 @@ angular.module('Rectangular')
     });
   }
 
-  this.unfollow = function() {
+  this.unfollow = function(followHook) {
     ngrLoop.removeHook(followHook);
   }
 

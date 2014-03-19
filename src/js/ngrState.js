@@ -69,25 +69,26 @@ angular.module('Rectangular')
       pins.push(pinDef);
     }
 
-    ngrLoop.addPermanentHook(function(){
-     // console.log("Checking focus,",focusTo);
-     var inc = 0.5;
-      if (Math.abs(focusTo.x - focus.x) < inc * 2) {
+    ngrLoop.addPermanentHook(function updateFocus(){
+     var incX = Math.abs(focusTo.x - focus.x) * 0.05;
+      if (Math.abs(focusTo.x - focus.x) < incX * 2) {
         focus.x = focusTo.x;
       } else if (focusTo.x > focus.x) {
-        focus.x+=inc;
+        focus.x+=incX;
       } else {
-        focus.x-=inc;
+        focus.x-=incX;
       }
 
-      if (Math.abs(focusTo.y - focus.y) < inc * 2) {
+      var incY = Math.abs(focusTo.y - focus.y) * 0.05;
+
+      if (Math.abs(focusTo.y - focus.y) < incY * 2) {
 
         focus.y = focusTo.y;
 
       } else  if (focusTo.y > focus.y) {
-        focus.y+=inc;
+        focus.y+=incY;
       } else {
-        focus.y-=inc;
+        focus.y-=incY;
       }
 
       state.focus = focus;
