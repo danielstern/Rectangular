@@ -19,8 +19,9 @@
        console.log("heroPlaceholder?",heroPlaceholder);
        hero = heroGenerator.getHero();
        hero.x = heroPlaceholder.GetWorldCenter().x;
-       hero.y = heroPlaceholder.GetWorldCenter.y;
+       hero.y = heroPlaceholder.GetWorldCenter().y;
        ngrEnvironment.remove(heroPlaceholder);
+       //console.log("hero")
        var heroBody = ngrEnvironment.add('box', hero);
 
        hero.body = heroBody;
