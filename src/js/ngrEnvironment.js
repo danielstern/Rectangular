@@ -74,13 +74,7 @@
        roomBodies.floor = e.add('box', floor.options);
      }
 
-     this.updateRoom = function(_room) {
-       /*ngrState.setRoomWidth(Number(_room.width));
-       ngrState.setRoomHeight(Number(_room.height));*/
-       ngrState.setRoom(_room);
-
-       e.createRoom();
-     }
+     this.updateRoom = ngrState.updateRoom;
 
      this.createRoom = function(options) {
        var r = ngrState.getRoom();

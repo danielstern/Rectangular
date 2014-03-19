@@ -3,7 +3,7 @@
      console.log("Don't give a FUCK!");
 
      ngrEnvironment.init({
-       scale: '15',
+       scale: '30',
 
      });
 
@@ -21,7 +21,7 @@
 
        hero.body = heroBody;
        bindControls(hero);
-       ngrEnvironment.setZoom(0.5);
+       ngrEnvironment.setZoom(2);
        ngrEnvironment.follow(hero.body);
      }
 

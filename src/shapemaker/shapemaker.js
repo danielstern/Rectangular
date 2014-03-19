@@ -212,6 +212,8 @@
            width: $scope.contextRoom.width,
            height: $scope.contextRoom.height
          })
+
+         ngrEnvironment.createRoom();
        }
      })
 

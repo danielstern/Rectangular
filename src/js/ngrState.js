@@ -2,6 +2,7 @@ angular.module('Rectangular')
   .service('ngrState', function(ngrLoop) {
 
     var state;
+    var st = this;
     var elements = [];
     var pins = []
     var focus = {x:0,y:0};
@@ -31,6 +32,14 @@ angular.module('Rectangular')
     this.setRoom = function(_room) {
       state.room = _room;
     }
+
+    this.updateRoom  = function(_room) {
+       if (_room.width) st.setRoomWidth(Number(_room.width));
+       if (_room.height) st.setRoomHeight(Number(_room.height));
+       //ngrState.setRoom(_room);
+
+       //e.createRoom();
+     }
 
     this.setRoomHeight = function(_h) {
       state.room.height = Number(_h);
