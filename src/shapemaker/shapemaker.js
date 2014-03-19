@@ -119,6 +119,22 @@
        ngrInterface.focusToMouse();
      });
 
+     $('canvas')[0].addEventListener("mousewheel", MouseWheelHandler, false);
+
+
+     function MouseWheelHandler(e) {
+      
+       if (e.wheelDelta < 0) {
+         $scope.q.zoom -= 0.05;
+       } else {
+         $scope.q.zoom += 0.05;
+       }
+
+       if ($scope.q.zoom < 0.05) $scope.q.zoom = 0.05; 
+
+      $scope.$apply();
+     }
+
      $scope.deleteContextItem = function() {
        ngrEnvironment.remove($scope.contextBody);
        hideContextMenu();
@@ -166,7 +182,7 @@
 
        $scope.stats.focus = ngrState.getFocus();
        $scope.stats.scale = ngrState.getScale();
-       $scope.q.zoom = ngrState.getZoom();
+       $scope.q.zoom = ngrState.getZoom(true);
 
        $scope.state = ngrState.getState();
        $scope.$apply();

@@ -76,12 +76,17 @@ angular.module('shapemaker')
 
           input.focus();
           input.select();
-          Mousetrap.bind('Enter', onFocusOut);
+         // Mousetrap.bind('enter', onFocusOut);
+          $(input).keypress(function(e){
+            if(e.which == 13){
+                $(this).blur();    
+            }
+          });
 
           $($element).on('focusout', onFocusOut);
 
           function onFocusOut() {
-            Mousetrap.unbind('Enter', onFocusOut);
+         //   Mousetrap.unbind('Enter', onFocusOut);
             $element.find('entry').addClass('invisible');
             $element.find('display').removeClass('invisible');
             input.blur();

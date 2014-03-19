@@ -7,7 +7,8 @@ angular.module('Rectangular')
     var pins = []
     var focus = {x:0,y:0};
     var focusTo = {x:0,y:0};
-    var focusOffset = {x:0,y:0}
+    var focusOffset = {x:0,y:0};
+    var zoomTo = 0.15;
 
     this.getJSON = function() {
       var r = {};
@@ -49,12 +50,16 @@ angular.module('Rectangular')
       state.room.width = Number(_w);
     }
 
-    this.setZoom = function(_z) {
-       if (_z) state.zoom = _z;
+    this.setZoom = function(_z, instant) {
+       if (_z) zoomTo = _z;
+       
+       if (_z && instant) state.zoom = _z;
      }
 
-     this.getZoom = function() {
-      return state.zoom;
+     this.getZoom = function(focus) {
+      if (focus) return zoomTo;
+       return state.zoom;
+     // return zoomTo;
      }
 
     this.setFocus = function(_f, _inst) {
@@ -71,6 +76,7 @@ angular.module('Rectangular')
 
     this.setProperties = function(_properties) {
       state = _properties;
+      zoomTo = state.zoom;
       window.state = state;
     }
 
@@ -101,6 +107,13 @@ angular.module('Rectangular')
       }
 
       state.focus = focus;
+
+      var incZ = Math.abs(zoomTo - state.zoom) * 0.05;
+      if (zoomTo > state.zoom) {
+        state.zoom += incZ;
+      } else {
+        state.zoom -= incZ;
+      }
 
     })
 
