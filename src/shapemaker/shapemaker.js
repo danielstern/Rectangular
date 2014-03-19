@@ -10,6 +10,7 @@
        scale: 30,
        floor: true,
        worldHeight: 30,
+       constrainFocusToRoom: false,
        zoom: 0.2,
        room: {
          width: 90,

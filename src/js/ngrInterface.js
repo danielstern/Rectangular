@@ -41,6 +41,7 @@ angular.module('Rectangular')
 
   this.grab = function(r) {
     body = i.getBodyAtMouse(r);
+    console.log("Body, r?", body,r);
     var state = ngrState.getState();
 
     targeter.onmove(function(r) {
@@ -52,7 +53,7 @@ angular.module('Rectangular')
           x: panStartPoint.worldPosX - r.worldPosX,
           y: panStartPoint.worldPosY - r.worldPosY,
         }
-        console.log("panning", dif, panStartPoint, focus);
+  //      console.log("panning", dif, panStartPoint, focus);
 
         ngrState.setFocus({
           x: focus.x + dif.x,
@@ -68,7 +69,7 @@ angular.module('Rectangular')
     })
 
     if (body) {
-
+      console.log("Grabbing body..");
       if (grabJoint) ngrWorld.unpin(grabJoint);
       grabJoint = ngrWorld.pin(body, r);
 
@@ -82,9 +83,10 @@ angular.module('Rectangular')
       })
     } else {
       panStartPoint = _.clone(r);
-      console.log("panning", panStartPoint);
-      panning = true;
+      ngrWorld.unfollow();
 
+     // console.log("panning", panStartPoint);
+      panning = true;
       //console.log("hook");
 
     }
