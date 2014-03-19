@@ -15,13 +15,13 @@
        currentLevel = manWhoLevels.getLevel(_lvl || 1);
        ngrEnvironment.load(currentLevel);
        hero = heroGenerator.getHero();
-       hero.x = 2;
-       hero.y = 3;
+       hero.x = 18;
+       hero.y = 12;
        var heroBody = ngrEnvironment.add('box', hero);
 
        hero.body = heroBody;
        bindControls(hero);
-       ngrEnvironment.setZoom(2, true);
+       ngrEnvironment.setZoom(0.5, true);
        ngrEnvironment.follow(hero.body);
      }
 
@@ -71,8 +71,8 @@
      h.height = 1.2;
      h.width = 0.7;
      h.type = 'dynamic';
-     h.friction = 0.3;
-     h.density = 0;
+     h.friction = 0.1;
+     h.density = 0.2;
      //console.log("i'm a hero");
 
      var state = {
@@ -92,8 +92,8 @@
      }
 
      var stats = {
-       lateralSpeed: 40,
-       lateralSpeedJumping: 30,
+       lateralSpeed: 60,
+       lateralSpeedJumping: 45,
        jumpCooldown: 25,
        jumpForce: 1500,
        doubleJumpForce: 400,
@@ -102,16 +102,33 @@
        dashInputTimeout: 5,
        dashCooldown: 40,
        dashForce: 500,
+       maxSpeed: 30,
        dashForceAir: 250,
+       brakeSpeed: 0.5
      }
 
      this.getState = function() {
        return state;
      }
 
+     this.brake = function() {
+      var heroBody = h.body;
+
+       var y = heroBody.GetLinearVelocity().x * heroBody.GetInertia();
+       var n = heroBody.GetAngularVelocity() * heroBody.GetInertia();
+       //console.log("Braking",y)
+       heroBody.ApplyForce(new b2Vec2(-y * 10, 0), heroBody.GetWorldCenter());
+       heroBody.ApplyTorque(-n * 10);
+     }
+
      ngrEnvironment.addHook(function() {
 
        var heroBody = h.body;
+
+       var currentSpeed = heroBody.GetLinearVelocity().x;
+       var speedingL = currentSpeed < -stats.maxSpeed;
+       var speedingR = currentSpeed > stats.maxSpeed;
+       console.log("Current speed?",currentSpeed);
 
        var contacts = h.body.GetContactList();
        if (contacts && contacts.contact.IsTouching()) {
@@ -123,7 +140,7 @@
        }
 
 
-       if (state.goingLeft) {
+       if (state.goingLeft && !speedingL) {
          var s = stats;
          var heroBody = h.body;
          if (state.dashReadyLeft) {
@@ -138,9 +155,9 @@
          heroBody.ApplyForce(new b2Vec2(-force, 0), heroBody.GetWorldCenter());
        } else if (state.dashInputTimeLeft) {
          if (!state.dashCurrentCooldown) state.dashReadyLeft = true;
-       }
+       } else
 
-       if (state.goingRight) {
+       if (state.goingRight && !speedingR) {
          var s = stats;
          var heroBody = h.body;
          if (state.dashReadyRight) {
@@ -158,9 +175,10 @@
        }
 
        if (!state.goingRight && !state.goingLeft) {
-        state.idling = true;
+         state.idling = true;
+         h.brake()
        } else {
-        state.idling = false;
+         state.idling = false;
        }
 
        if (state.isJumping) {
