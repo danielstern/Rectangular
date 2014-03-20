@@ -54,13 +54,13 @@
 
        if (!$scope.editingContext) {
 
-         $scope.contextRoom = $scope.contextRoom || {};
-         $scope.contextRoom.width = Number(state.room.width);
-         $scope.contextRoom.height = Number(state.room.height);
-         $scope.contextRoom.floor = state.room.floor;
-         $scope.contextRoom.leftWall = state.room.leftWall;
-         $scope.contextRoom.rightWall = state.room.rightWall;
-         $scope.contextRoom.roof = state.room.roof;
+         $scope.context.room = $scope.contextRoom || {};
+         $scope.context.room.width = Number(state.room.width);
+         $scope.context.room.height = Number(state.room.height);
+         $scope.context.room.floor = state.room.floor;
+         $scope.context.room.leftWall = state.room.leftWall;
+         $scope.context.room.rightWall = state.room.rightWall;
+         $scope.context.room.roof = state.room.roof;
 
        }
 

@@ -46,18 +46,13 @@ angular.module('shapemaker')
         };
 
         
-        $scope.$watchCollection("context", function() {
-          if ($scope.editingContext) {
-           
-          }
-        })
 
         $scope.$watch("context", function() {
           console.log("context changed...");
           if ($scope.editingContext) {
             ngrEnvironment.updateRoom({
-              width: $scope.context.room.height,
-              height: $scope.context.room.width,
+              width: $scope.context.room.width,
+              height: $scope.context.room.height,
               
             })
             ngrEnvironment.createRoom();
@@ -96,10 +91,7 @@ angular.module('shapemaker')
 
         $scope.properties = "gravity speed zoom".split(' ')
 
-        $scope.$watchCollection('context', function() {
-       
-        });
-
+ 
         $scope.addUserData = function(body, key, value) {
           if (!key || !body || !value) throw new Error("You must define a key, body and value to set user data", arguments);
           var data = body.GetUserData() || {};
