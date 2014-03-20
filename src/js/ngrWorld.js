@@ -164,6 +164,7 @@ angular.module('Rectangular')
 
   this.destroyJoint = function(joint) {
     ngrState.removePin(joint.pinId);
+    console.log("removing pin",joint);
     if (joint) world.DestroyJoint(joint);
 
   }

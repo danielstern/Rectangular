@@ -8,16 +8,16 @@ angular.module('shapemaker')
       controller: function($scope, $attrs, $element, ngrEnvironment, ngrStage, ngrState, ngrLoop) {
 
         $scope.context = {
-          scale:30,
-          gravity:60,
+          scale: 30,
+          gravity: 60,
           zoom: 0.2,
           speed: 60,
-          drawDebug:true,
-          drawSprites:true,
-          selectedX:0,
-          scale:2,
-          selectedY:0,
-          selectedAngle:0,
+          drawDebug: true,
+          drawSprites: true,
+          selectedX: 0,
+          scale: 2,
+          selectedY: 0,
+          selectedAngle: 0,
           room: {
             height: 0,
             width: 0,
@@ -31,9 +31,9 @@ angular.module('shapemaker')
         $scope.q = $scope.context;
 
         $scope.updateDraw = function() {
-         
-           ngrStage.debug($scope.context.drawDebug);
-           ngrStage.toggleStage($scope.context.drawSprites);
+
+          ngrStage.debug($scope.context.drawDebug);
+          ngrStage.toggleStage($scope.context.drawSprites);
 
         };
 
@@ -65,6 +65,8 @@ angular.module('shapemaker')
 
           }
 
+         // console.log("updating zoom", $scope.context);
+
           $scope.stats.focus = ngrState.getFocus();
           $scope.stats.scale = ngrState.getScale();
           $scope.context.zoom = ngrState.getZoom(true);
@@ -74,37 +76,45 @@ angular.module('shapemaker')
 
         })
 
+        var oldRoom = {};
+
         $scope.$watch("context", function() {
-          //console.log("context changed...",$scope.context);
+          console.log("context changed...",$scope.context);
           if ($scope.editingContext) {
             ngrEnvironment.updateRoom({
-              width: $scope.context.room.width,
-              height: $scope.context.room.height,
-              
+              width: Number($scope.context.room.width),
+              height: Number($scope.context.room.height),
+
             })
             ngrEnvironment.createRoom();
-          }
 
-          if ($scope.contextBody) {
-            $scope.contextBody.SetPosition(new b2Vec2(Number($scope.selectedX), Number($scope.selectedY)));
-            $scope.contextBody.SetAngle(Number($scope.selectedAngle))
+
+            if ($scope.contextBody) {
+              $scope.contextBody.SetPosition(new b2Vec2(Number($scope.selectedX), Number($scope.selectedY)));
+              $scope.contextBody.SetAngle(Number($scope.selectedAngle))
+            }
           }
 
           ngrEnvironment.setGravity($scope.context.gravity);
           ngrEnvironment.setWorldSpeed($scope.context.speed);
           ngrEnvironment.setZoom($scope.context.zoom);
 
-          ngrEnvironment.updateRoom({
-            floor: $scope.context.room.floor,
-            leftWall: $scope.context.room.leftWall,
-            rightWall: $scope.context.room.rightWall,
-            roof: $scope.context.room.roof,
-          })
+          if (!_.isEqual(oldRoom, $scope.context.room)) {
+
+            ngrEnvironment.updateRoom({
+              floor: $scope.context.room.floor,
+              leftWall: $scope.context.room.leftWall,
+              rightWall: $scope.context.room.rightWall,
+              roof: $scope.context.room.roof,
+            })
+          }
+
+          oldRoom = $scope.context.room;
 
           ngrEnvironment.createRoom();
 
-        },true);
-        
+        }, true);
+
         $scope.clearAll = function() {
           ngrEnvironment.clearAll();
           ngrEnvironment.createRoom();
@@ -116,7 +126,7 @@ angular.module('shapemaker')
 
         $scope.properties = "gravity speed zoom".split(' ')
 
- 
+
         $scope.addUserData = function(body, key, value) {
           if (!key || !body || !value) throw new Error("You must define a key, body and value to set user data", arguments);
           var data = body.GetUserData() || {};

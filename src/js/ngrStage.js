@@ -189,7 +189,7 @@ angular.module('Rectangular')
     var originalZoom = ngrState.getZoom()
     var originalObjectScale = this.skin.scaleX;
     var originalScale = ngrState.getScale() * ngrState.getZoom();
-    console.log("original scale?",originalScale);
+    //console.log("original scale?",originalScale);
 
     this.GetPosition = function() {
       return body.GetPosition();
