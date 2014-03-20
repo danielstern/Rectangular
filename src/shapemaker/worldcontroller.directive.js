@@ -5,13 +5,30 @@ angular.module('shapemaker')
       templateUrl: function(elem, atts) {
         return "shapemaker/worldcontroller.html";
       },
-      controller: function($scope, $attrs, $element, ngrEnvironment) {
+      controller: function($scope, $attrs, $element, ngrEnvironment, ngrStage) {
 
         var q = $scope.q;
         q.scale = 2;
         q.gravity = 60;
         q.speed = 60;
         q.zoom = 0;
+
+        $scope.context = {
+          drawDebug:true,
+          drawSprites:true
+        };
+
+        $scope.updateDraw = function() {
+          console.log("Updating draw,", $scope.context)
+          if ($scope.context.drawDebug) {
+            ngrStage.debug(true);
+          } else {
+            ngrStage.debug(false);
+          }
+
+           ngrStage.toggleStage($scope.context.drawSprites);
+
+        };
 
         
         $scope.$watchCollection("contextPos", function() {

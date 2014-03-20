@@ -24,9 +24,7 @@ angular.module('Rectangular')
 
     var p = $(canvas).parent();
 
-    this.toggleDebug = function() {
-      ngrDebug.toggleDebug();
-    }
+    this.debug = ngrDebug.toggleDebug;
 
 
 
@@ -38,6 +36,14 @@ angular.module('Rectangular')
 
     this.getContext = function() {
       return ctx;
+    }
+
+    this.toggleStage = function(toggle) {
+      if (toggle) {
+        c.alpha = 1;
+      } else {
+        c.alpha = 0;
+      }
     }
 
     this.addChild = function(container) {
@@ -58,6 +64,8 @@ angular.module('Rectangular')
 
       console.log("inited");
       s.clearAll();
+
+      ngrDebug.debug(canvas);
 
 
       parallaxCenter = ngrState.getRoomCenter();
@@ -92,11 +100,6 @@ angular.module('Rectangular')
       window.container = c;
 
     }
-
-    this.debug = function() {
-      ngrDebug.debug(canvas);
-    }
-
 
 
     function tick() {

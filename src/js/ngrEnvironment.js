@@ -43,8 +43,8 @@
 
        ngrState.setProperties(options);
        ngrLoop.initWorld(options.fps);
-       ngrStage.init(_canvas);
        ngrWorld.setWorld(0, options.gravity, true);
+       ngrStage.init(_canvas);
 
 
        if (options.room) {
@@ -127,7 +127,7 @@
 
      this.start = function() {
        ngrLoop.start();
-       e.debug();
+       //e.debug();
      }
 
      this.add = function(type, options) {
