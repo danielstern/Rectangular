@@ -1,12 +1,11 @@
  angular.module("shapemaker", ['ngAudio', 'Rectangular'])
    .controller('myDemoCtrl', function($scope, $element, ngrDefaults, ngrLoop, ngrWorld, ngrInterface, ngrEnvironment, ngrState, ngAudio, $compile) {
 
-     var contextMenu;     
+     var contextMenu;
      var contextPin;
 
      $scope.editingContext = false;
      $scope.stats = {};
-     $scope.q = {};
 
      var worldDefaults = {
        scale: 30,
@@ -67,7 +66,7 @@
 
        $scope.stats.focus = ngrState.getFocus();
        $scope.stats.scale = ngrState.getScale();
-       $scope.q.zoom = ngrState.getZoom(true);
+       $scope.context.q.zoom = ngrState.getZoom(true);
 
        $scope.state = ngrState.getState();
        $scope.$apply();
@@ -99,7 +98,7 @@
        }
      }, 'keydown');
 
-   
+
 
      if (localStorage['savedWorlds']) {
        $scope.savedWorlds = JSON.parse(localStorage['savedWorlds']);
@@ -157,12 +156,12 @@
        e.preventDefault();
 
        if (e.wheelDelta < 0) {
-         $scope.q.zoom -= 0.05;
+         $scope.context.q.zoom -= 0.05;
        } else {
-         $scope.q.zoom += 0.05;
+         $scope.context.q.zoom += 0.05;
        }
 
-       if ($scope.q.zoom < 0.05) $scope.q.zoom = 0.05;
+       if ($scope.context.q.zoom < 0.05) $scope.q.zoom = 0.05;
 
        $scope.$apply();
      }
@@ -190,7 +189,7 @@
        $scope.editingContext = false;
      }
 
-     
+
 
      $scope.unfreezeContextItem = function() {
        $scope.contextBody.SetType(b2Body.b2_dynamicBody);

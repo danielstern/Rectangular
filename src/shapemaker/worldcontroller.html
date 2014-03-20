@@ -28,7 +28,7 @@
             {{state.room.width | number:2}}
         </display>
         <entry class='invisible'>
-            <input ng-model='contextRoom.width' ng-focus='editContext()' ng-blur='stopEditContext()' ng-maxlength='4'>
+            <input ng-model='context.room.width' ng-focus='editContext()' ng-blur='stopEditContext()' ng-maxlength='4'>
         </entry>
     </clickput>
 </div>
@@ -39,21 +39,21 @@
             {{state.room.height | number:2}}
         </display>
         <entry class='invisible'>
-            <input ng-model='contextRoom.height' ng-focus='editContext()' ng-blur='stopEditContext()' ng-maxlength='4'>
+            <input ng-model='context.room.height' ng-focus='editContext()' ng-blur='stopEditContext()' ng-maxlength='4'>
         </entry>
     </clickput>
 </div>
 <div>
-    <label for="roof">Roof</label><input ng-model='contextRoom.roof' type='checkbox' id='roof' ng-change='updateRoom()' checked>
+    <label for="roof">Roof</label><input ng-model='context.room.roof' type='checkbox' id='roof' ng-change='updateRoom()' checked>
 </div>
 <div>
-    <label for="leftWall">Left Wall</label><input ng-model='contextRoom.leftWall' type='checkbox' id='leftWall' ng-change='updateRoom()' checked>
+    <label for="leftWall">Left Wall</label><input ng-model='context.room.leftWall' type='checkbox' id='leftWall' ng-change='updateRoom()' checked>
 </div>
 <div>
-    <label for="rightWall">Right Wall</label><input ng-model='contextRoom.rightWall' type='checkbox' id='rightWall' ng-change='updateRoom()' checked>
+    <label for="rightWall">Right Wall</label><input ng-model='context.room.rightWall' type='checkbox' id='rightWall' ng-change='updateRoom()' checked>
 </div>
 <div>
-    <label for="floor">Floor</label><input ng-model='contextRoom.floor' type='checkbox' id='floor' ng-change='updateRoom()' checked>
+    <label for="floor">Floor</label><input ng-model='context.room.floor' type='checkbox' id='floor' ng-change='updateRoom()' checked>
 </div>
 
 
@@ -80,29 +80,29 @@
     </table>
     <clickput>
         <display>
-            {{contextPos.x | number:2}} ,
+            {{context.selectedX | number:2}} ,
         </display>
         <entry class='invisible'>
-            <input ng-model='contextPos.x' ng-focus='editContext()' ng-blur='stopEditContext()' ng-maxlength='4'>
+            <input ng-model='context.selectedX' ng-focus='editContext()' ng-blur='stopEditContext()' ng-maxlength='4'>
         </entry>
     </clickput>
 
     <clickput>
         <display>
-            {{contextPos.y | number:2}}
+            {{context.selectedY | number:2}}
         </display>
         <entry class='invisible'>
-            <input ng-model='contextPos.y' ng-focus='editContext()' ng-blur='stopEditContext()' ng-maxlength='4'>
+            <input ng-model='contextPos.selectedY' ng-focus='editContext()' ng-blur='stopEditContext()' ng-maxlength='4'>
         </entry>
     </clickput>
     <p>
         <clickput>
             Angle:
             <display>
-                {{contextPos.angle | number:2}}
+                {{context.selectedAngle | number:2}}
             </display>
             <entry class='invisible'>
-                <input ng-model='contextPos.angle' ng-focus='editContext()' ng-blur='stopEditContext()' ng-maxlength='4'>
+                <input ng-model='context.selectedAngle' ng-focus='editContext()' ng-blur='stopEditContext()' ng-maxlength='4'>
             </entry>
         </clickput>
     </p>
