@@ -8,7 +8,7 @@ angular.module('Rectangular')
       r.properties.world = null;
       r.elements = ngrState.getElements();
       r.pins = ngrState.getPins();
-      //console.log("Attempting to stringify", r)
+      console.log("Attempting to stringify", r)
       var str = JSON.stringify(r);
       return str;
     }
@@ -24,6 +24,7 @@ angular.module('Rectangular')
 
       _.each(json.elements, function(element) {
         element.options.id = element.id;
+        console.log("Loading element",_.clone(element.options));
         w.addElement(element.options);
       })
 

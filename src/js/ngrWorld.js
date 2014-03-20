@@ -1,7 +1,7 @@
 angular.module('Rectangular')
 /* Creates an instance of the world of the simulation, 
    and provides an interface for it. */
-.service("ngrWorld", function(ngrBox, ngrModels, ngrState, ngrStage, ngrLoop) {
+.service("ngrWorld", function (ngrBox, ngrModels, ngrState, ngrStage, ngrLoop) {
 
   var world;
   var bodies = [];
@@ -12,21 +12,16 @@ angular.module('Rectangular')
   var hooks = [];
   var memoryPairs = [];
 
-
-
-  this.getBodyById = function(_id) {
-    return _.find(bodies, function(body) {
+  this.getBodyById = function (_id) {
+    return _.find(bodies, function (body) {
       if (body.id == _id) return body;
     })
   }
 
-
-
-
-  this.follow = function(body) {
+  this.follow = function (body) {
     ngrState.setFocus(body.GetWorldCenter(), true)
 
-    followHook = ngrLoop.addHook(function() {
+    followHook = ngrLoop.addHook(function () {
       var pos = body.GetWorldCenter();
       ngrState.setFocus({
         x: pos.x,
@@ -35,12 +30,12 @@ angular.module('Rectangular')
     });
   }
 
-  this.unfollow = function(followHook) {
+  this.unfollow = function (followHook) {
     ngrLoop.removeHook(followHook);
   }
 
-  ngrLoop.addPermanentHook(function() {
-    _.each(memoryPairs, function(pair) {
+  ngrLoop.addPermanentHook(function () {
+    _.each(memoryPairs, function (pair) {
       var o = pair.element.options;
       var pos = pair.body.GetPosition();
       var angle = pair.body.GetAngle();
@@ -54,8 +49,8 @@ angular.module('Rectangular')
     });
   });
 
-  ngrLoop.addPermanentHook(function() {
-    _.each(bodies, function(body) {
+  ngrLoop.addPermanentHook(function () {
+    _.each(bodies, function (body) {
 
       var pos = body.GetPosition();
       if (pos.y > 500) w.removeElement(body);
@@ -63,23 +58,21 @@ angular.module('Rectangular')
     });
   });
 
-  this.getBodyByAttribute = function(key, val) {
-    return _.find(bodies, function(body) {
+  this.getBodyByAttribute = function (key, val) {
+    return _.find(bodies, function (body) {
       if (body.options[key] == val) return true;
     })
   }
 
-
-  this.getBodyByUserData = function(key, val) {
-    console.log("Bodies?",bodies);
-    return _.find(bodies, function(body) {
+  this.getBodyByUserData = function (key, val) {
+    console.log("Bodies?", bodies);
+    return _.find(bodies, function (body) {
       if (body.GetUserData() && body.GetUserData()[key] == val) return true;
     })
   }
 
+  this.addElement = function (options) {
 
-  this.addElement = function(options) {
-    
     var def = ngrBox.shape(options);
     var id = options.id || guid();
 
@@ -93,13 +86,14 @@ angular.module('Rectangular')
       if (prev) ngrStage.removeChild(prev.container);
     }
 
-
     b.id = id;
 
     var elementDef = {};
     elementDef.options = def.options;
     elementDef.id = id;
     ngrState.addElement(elementDef);
+
+    console.log("saving element defintion,",elementDef);
 
     memoryPairs.push({
       element: elementDef,
@@ -116,11 +110,10 @@ angular.module('Rectangular')
 
     ngrStage.addSprite(b, options);
 
-
     return b;
   };
 
-  this.pin = function(body, target) {
+  this.pin = function (body, target) {
 
     if (!body) throw new Error("Can't pin nothing.");
     body.pins = body.pins || [];
@@ -152,16 +145,16 @@ angular.module('Rectangular')
     return mouseJointBody;
   }
 
-  this.destroyJoint = function(joint) {
+  this.destroyJoint = function (joint) {
     ngrState.removePin(joint.pinId);
-    
+
     if (joint) world.DestroyJoint(joint);
 
   }
 
   this.unpin = this.destroyJoint;
 
-  this.cycleBody = function(b) {
+  this.cycleBody = function (b) {
 
     var options = b.options;
 
@@ -183,13 +176,13 @@ angular.module('Rectangular')
 
   }
 
-  this.removeElement = function(body) {
+  this.removeElement = function (body) {
 
     var elId = body.id;
     world.DestroyBody(body);
 
     bodies = _.chain(bodies)
-      .map(function(_body) {
+      .map(function (_body) {
         if (_body.id != elId) return _body;
       })
       .compact()
@@ -197,7 +190,7 @@ angular.module('Rectangular')
 
     ngrState.removeElement(body);
 
-    memoryPairs = _.map(memoryPairs, function(_pair) {
+    memoryPairs = _.map(memoryPairs, function (_pair) {
       if (_pair.id != elId) return _pair;
     })
 
@@ -206,12 +199,12 @@ angular.module('Rectangular')
     ngrStage.removeChild(body.container);
   }
 
-  this.clearAll = function() {
-    _.each(bodies, function(body) {
+  this.clearAll = function () {
+    _.each(bodies, function (body) {
       w.removeElement(body);
     });
 
-    _.each(pins, function(pin) {
+    _.each(pins, function (pin) {
       w.destroyJoint(pin);
     });
 
@@ -220,26 +213,26 @@ angular.module('Rectangular')
     ngrState.clearElements();
   }
 
-  this.setGravity = function(grav) {
+  this.setGravity = function (grav) {
     world.SetGravity(new b2Vec2(0, grav))
   }
 
   var worldLoop = undefined;
 
-  this.setWorld = function(gravityX, gravityY, sleep) {
+  this.setWorld = function (gravityX, gravityY, sleep) {
 
     var gravity = new b2Vec2(gravityX, gravityY);
     var doSleep = sleep;
 
     world = world || new b2World(gravity, false);
 
-    worldLoop = ngrLoop.addPermanentHook(function() {
+    worldLoop = ngrLoop.addPermanentHook(function () {
 
       world.Step(1 / 60, 10, 10)
       world.ClearForces();
       world.DrawDebugData();
 
-      _.each(bodies, function(body) {
+      _.each(bodies, function (body) {
 
         if (body.options && body.options.movement) {
 
@@ -254,7 +247,7 @@ angular.module('Rectangular')
     return world;
   }
 
-  this.getWorld = function() {
+  this.getWorld = function () {
     return world;
   }
 })

@@ -33,21 +33,25 @@ angular.module('Rectangular')
       var env = ngrState.getProperties();
 
       var imgData;
+      console.log("skinning body,", options);
+      console.log("Scale?",scale)
+   
+        if (options.shapeKind == 'circle') {
 
-      if (options.radius) {
+          options.spriteWidth = options.radius * scale;
+          options.spriteHeight = options.radius * scale;
 
-        options.width = options.radius * scale;
-        options.height = options.radius * scale;
+        } else {
 
-      } else {
+          options.spriteWidth = options.width * scale;
+          options.spriteHeight = options.height * scale;
 
-        options.width = options.width * scale;
-        options.height = options.height * scale;
+        }
 
-      }
+        body.options = _.extend(body.options, options)
+    
 
       var _container = new createjs.Container();
-
 
       _body.container = _container;
 
@@ -62,8 +66,8 @@ angular.module('Rectangular')
 
             var container = new createjs.Container();
 
-            var scaleY = options.height / img.height * 2;
-            var scaleX = options.width / img.width * 2;
+            var scaleY = options.spriteHeight / img.height * 2;
+            var scaleX = options.spriteWidth / img.width * 2;
 
             var regY = (img.height) / 2;
             var regX = (img.width) / 2;
@@ -86,10 +90,10 @@ angular.module('Rectangular')
 
         })
 
-        return {
-          actor:actor,
-          container:_container
-        }
+      return {
+        actor: actor,
+        container: _container
+      }
 
     };
 
@@ -102,8 +106,8 @@ angular.module('Rectangular')
       var regY = 0;
 
       var config = {};
-      config.totalColumns = Math.ceil(options.width * 2 / img.width);
-      config.totalRows = Math.ceil(options.height * 2 / img.height);
+      config.totalColumns = Math.ceil(options.spriteWidth * 2 / img.width);
+      config.totalRows = Math.ceil(options.spriteHeight * 2 / img.height);
       config.totalTiles = config.totalColumns * config.totalRows;
       config.tiles = [];
       config.options = options;
@@ -112,8 +116,8 @@ angular.module('Rectangular')
       config.totalBitmapWidth = config.totalColumns * img.width / 2;
       config.totalBitmapHeight = config.totalRows * img.height / 2;
 
-      config.objectHeight = options.height;
-      config.objectWidth = options.width;
+      config.objectHeight = options.spriteHeight;
+      config.objectWidth = options.spriteWidth;
 
       config.scaleY = config.objectHeight / config.totalBitmapHeight;
       config.scaleX = config.scaleY;
@@ -153,15 +157,15 @@ angular.module('Rectangular')
         container.addChild(_imgData);
       });
 
-      container.regX = -options.width;
-      container.regY = -options.height;
+      container.regX = -options.spriteWidth;
+      container.regY = -options.spriteHeight;
 
       var mask = new createjs.Shape();
       mask.graphics.beginFill("rgba(0, 0, 0, 0)")
       if (options.shapeKind == 'box') {
-        mask.graphics.drawRect(-options.width, -options.height, options.width * 2, options.height * 2);
+        mask.graphics.drawRect(-options.spriteWidth, -options.spriteHeight, options.spriteWidth * 2, options.spriteHeight * 2);
       } else if (options.shapeKind == 'circle') {
-        mask.graphics.drawCircle(0, 0, options.height);
+        mask.graphics.drawCircle(0, 0, options.spriteHeight);
       }
 
       container.mask = mask;
@@ -194,7 +198,6 @@ angular.module('Rectangular')
 
         sprite.container.addChild(bgData);
 
-       
       }
     }
 
