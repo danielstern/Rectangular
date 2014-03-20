@@ -103,7 +103,8 @@ angular.module('Rectangular')
 
     if (options.memo) {
       var prev = w.getBodyByAttribute('memo', options.memo);
-      if (prev) w.removeElement(prev);
+      if (prev) e.removeElement(prev);
+      if (prev) ngrStage.removeChild(prev.container);
     }
 
 
@@ -198,8 +199,6 @@ angular.module('Rectangular')
     var elId = body.id;
     world.DestroyBody(body);
 
-    //console.log("removing element",body);
-
     bodies = _.chain(bodies)
       .map(function(_body) {
         if (_body.id != elId) return _body;
@@ -208,7 +207,6 @@ angular.module('Rectangular')
       .value();
 
     ngrState.removeElement(body);
-    //ngrStage.removeChild(body);
 
     memoryPairs = _.map(memoryPairs, function(_pair) {
       if (_pair.id != elId) return _pair;

@@ -70,10 +70,11 @@
      this.setZoom = ngrState.setZoom;
 
      this.floor = function(options) {
-      //console.log("Drawing floor,",roomBodies);
+        console.log("Drawing floor,",roomBodies);
        if (roomBodies.floor) e.remove(roomBodies.floor);
        var floor = ngrModels.floor(options);
        roomBodies.floor = e.add('box', floor.options);
+       console.log("roombodies?",roomBodies);
      }
 
      this.updateRoom = ngrState.updateRoom;
@@ -89,6 +90,7 @@
      }
 
      this.clearRoom = function() {
+           console.log("Clearing room...",roomBodies);
        if (roomBodies.roof) e.remove(roomBodies.roof);
        if (roomBodies.leftWall) e.remove(roomBodies.leftWall);
        if (roomBodies.rightWall) e.remove(roomBodies.rightWall);
@@ -138,14 +140,20 @@
 
        var b = ngrWorld.addElement(options);
 
-       if (!options.hidden) ngrDisplay.skin(b, options);
+       ngrDisplay.skin(b, options);
+
+       console.log("adding...",b);
 
        return b;
      }
 
      this.remove = function(body) {
+
+      console.log("Removing body",body);
+      //if (!body.container) throw new Error("Body has no container");
+      
        ngrStage.removeChild(body.container);
-       return ngrWorld.removeElement(body);
+       ngrWorld.removeElement(body);
 
      }
 

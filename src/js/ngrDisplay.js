@@ -2,7 +2,9 @@ angular.module('Rectangular')
   .service('ngrDisplay', function(ngrStage, ngrState, ngrDefaults, $q, ngrActor) {
 
       var nd = this;
+      var _body;
       this.skin = function(body, options) {
+        _body = body;
 
         var scale = ngrState.getScale() * ngrState.getZoom();
 
@@ -90,10 +92,12 @@ angular.module('Rectangular')
 
               }
 
+              console.log("Skinned body",_body);
+
 
               ngrStage.addChild(container);
 
-              body.container = container;
+              _body.container = container;
 
               actor = ngrActor.newActor(body, container);
               ngrStage.actors.push(actor);
@@ -169,7 +173,7 @@ angular.module('Rectangular')
       container.regX = -options.width;
       container.regY = -options.height;
 
-      console.log("tiling",options);
+      //console.log("tiling",options);
 
       var mask = new createjs.Shape();
       mask.graphics.beginFill("rgba(0, 0, 0, 0)")

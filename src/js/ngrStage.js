@@ -51,8 +51,8 @@ angular.module('Rectangular')
     }
 
     this.removeChild = function(container) {
-      if (!container) throw new Error("can't remove nothing");
-      if (container.parent) container.parent.removeChild(container);
+      //if (!container) throw new Error("can't remove nothing");
+      if (container && container.parent) container.parent.removeChild(container);
     }
 
     this.setFocusPoint = function(vec) {
