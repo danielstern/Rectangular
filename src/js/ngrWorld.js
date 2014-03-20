@@ -116,6 +116,7 @@ angular.module('Rectangular')
 
     ngrStage.addSprite(b, options);
 
+
     return b;
   };
 
@@ -153,7 +154,7 @@ angular.module('Rectangular')
 
   this.destroyJoint = function(joint) {
     ngrState.removePin(joint.pinId);
-    console.log("removing pin",joint);
+    
     if (joint) world.DestroyJoint(joint);
 
   }
@@ -201,6 +202,8 @@ angular.module('Rectangular')
     })
 
     memoryPairs = _.compact(memoryPairs);
+
+    ngrStage.removeChild(body.container);
   }
 
   this.clearAll = function() {

@@ -16,6 +16,12 @@
      this.setFocus = ngrState.setFocus;
      this.setZoom = ngrState.setZoom;
      this.updateRoom = ngrState.updateRoom;
+     this.remove = ngrWorld.removeElement;
+     this.toggleDebug = ngrStage.toggleDebug;
+     this.debug = ngrStage.debug;
+     this.setWorldSpeed = ngrLoop.setSpeed;
+     this.stop = ngrLoop.stop;
+     this.start = ngrLoop.start;
      this.createRoom = ngrRoom.createRoom;
      this.clearRoom = ngrRoom.clearRoom;
 
@@ -66,39 +72,13 @@
 
      }
 
-     e.setWorldSpeed = function (speed) {
-       ngrLoop.setSpeed(speed);
-     }
-
-     this.stop = function () {
-       ngrLoop.stop();
-     }
-
-     this.start = function () {
-       ngrLoop.start();
-       //e.debug();
-     }
-
      this.add = function (type, options) {
        if (!options) throw new Error("You can't add a shape without options.");
        options.shapeKind = type;
 
        var b = ngrWorld.addElement(options);
 
-       console.log("adding...", b);
-
-      // ngrDisplay.skin(b, options);
-
        return b;
-     }
-
-     this.remove = function (body) {
-
-       console.log("Removing body", body);
-
-       ngrStage.removeChild(body.container);
-       ngrWorld.removeElement(body);
-
      }
 
      this.clearAll = function () {
@@ -107,9 +87,4 @@
        ngrLoop.clearHooks();
      }
 
-     this.toggleDebug = ngrStage.toggleDebug;
-
-     this.debug = ngrStage.debug;
-
    })
-  
