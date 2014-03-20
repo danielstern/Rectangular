@@ -8,7 +8,7 @@ angular.module('shapemaker')
       scope: {
 
       },
-      controller: function ($scope, $attrs, $element, ngrEnvironment, ngrState) {
+      controller: function ($scope, $attrs, $element, ngrEnvironment, ngrState, shapecreatorDefaults) {
 
         $scope.q = {};
         var q = $scope.q;
@@ -80,38 +80,35 @@ angular.module('shapemaker')
           }
         }
 
+
         $scope.addBox = function () {
 
-          ngrEnvironment.add('box', {
-            x: Math.random() * ngrState.getState().worldWidth,
+          ngrEnvironment.add('box', shapecreatorDefaults.shape({
+            
             height: q.height / 2,
             width: q.width / 2,
-            type: 'dynamic',
             restitution: q.restitution,
             density: q.density,
-            bg: 'tiled',
             src: 'img/box.png',
             gravityScale: q.gravityScale,
             friction: q.friction,
             angle: q.angle,
-          });
+          }));
         }
 
         $scope.addTriangle = function () {
-          ngrEnvironment.add('triangle', {
+          ngrEnvironment.add('triangle', shapecreatorDefaults.shape({
             x: Math.random() * ngrState.getState().worldWidth,
             innerAngle: q.innerAngle,
             adjacent: q.adjacent,
             opposite: q.opposite,
-            type: 'dynamic',
-            bg: 'tiled',
             src: 'img/stoneCenter.png',
             restitution: q.restitution,
             density: q.density,
             gravityScale: q.gravityScale,
             friction: q.friction,
             angle: q.angle,
-          });
+          }));
         }
 
         $scope.destroy = function () {
@@ -147,3 +144,19 @@ angular.module('shapemaker')
       }
     }
   })
+
+.service('shapecreatorDefaults',function(ngrState){
+  var Shape = function(){
+    return {
+     bg: 'tiled',
+     type: 'dynamic',
+     src: 'img/stoneCenter.png',
+     x: Math.random() * ngrState.getState().worldWidth,
+   }
+  }
+
+  this.shape = function(options){
+    return _.extend(_.clone(new Shape), _.clone(options));
+  }
+
+})
