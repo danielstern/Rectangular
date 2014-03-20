@@ -4,6 +4,10 @@
         {{option.name}}
     </option>
 </select>
+
+<select  ng-model="q.skin" id='skin' ng-options="skin.name for skin in skins">
+    
+</select>
         <button ng-click='destroy()'>-</button>
 <table>
     <tr ng-repeat='property in properties'>

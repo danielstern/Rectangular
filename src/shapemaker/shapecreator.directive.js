@@ -60,9 +60,13 @@ angular.module('shapemaker')
             type: 'triangle'
           }
 
-        ]
+        ];
+
+        $scope.skins = shapecreatorDefaults.skins;
 
         $scope.addShape = function (shape) {
+
+          if (q.skin) q.src = q.skin.src;
 
           switch (q.shape) {
           case 'box':
@@ -80,20 +84,9 @@ angular.module('shapemaker')
           }
         }
 
-
         $scope.addBox = function () {
 
-          ngrEnvironment.add('box', shapecreatorDefaults.shape({
-            
-            height: q.height / 2,
-            width: q.width / 2,
-            restitution: q.restitution,
-            density: q.density,
-            src: 'img/box.png',
-            gravityScale: q.gravityScale,
-            friction: q.friction,
-            angle: q.angle,
-          }));
+          ngrEnvironment.add('box', shapecreatorDefaults.shape(q));
         }
 
         $scope.addTriangle = function () {
@@ -106,7 +99,7 @@ angular.module('shapemaker')
 
         $scope.addCircle = function () {
           ngrEnvironment.add('circle', shapecreatorDefaults.shape(q));
-        
+
         };
 
         setTimeout(function () {
@@ -125,18 +118,42 @@ angular.module('shapemaker')
     }
   })
 
-.service('shapecreatorDefaults',function(ngrState){
-  var Shape = function(){
+.service('shapecreatorDefaults', function (ngrState) {
+  var Shape = function () {
     return {
-     bg: 'tiled',
-     type: 'dynamic',
-     src: 'img/stoneCenter.png',
-     x: Math.random() * ngrState.getState().worldWidth,
-   }
+      bg: 'tiled',
+      type: 'dynamic',
+      src: 'img/stoneCenter.png',
+      x: Math.random() * ngrState.getState().worldWidth,
+    }
   }
 
-  this.shape = function(options){
+  this.shape = function (options) {
     return _.extend(_.clone(new Shape), _.clone(options));
   }
+
+  this.skins = [{
+      name: 'Stone',
+      type: 'stone',
+      src: 'img/stoneCenter.png'
+    }, {
+      name: 'Boxy',
+      type: 'boxy',
+      src: 'img/box.png'
+    }, {
+      name: 'Dirt',
+      type: 'dirt',
+      src: 'img/grassCenter.png'
+    }, {
+      name: 'Castle',
+      type: 'castle',
+      src: 'img/castleCenter.png'
+    }, {
+      name: 'Snow',
+      type: 'snow',
+      src: 'img/snowCenter.png'
+    }
+
+  ]
 
 })
