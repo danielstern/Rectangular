@@ -54,7 +54,7 @@
 
        if (options.room) {
          ngrState.setRoom(options.room);
-         e.createRoom();
+       //  e.createRoom();
 
          var r = options.room;
          ngrState.setFocus({

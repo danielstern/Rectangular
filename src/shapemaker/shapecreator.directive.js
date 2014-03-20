@@ -1,14 +1,14 @@
 angular.module('shapemaker')
- .directive('shapemaker', function() {
+  .directive('shapemaker', function () {
     return {
       restrict: 'AE',
-      templateUrl: function(elem, atts) {
+      templateUrl: function (elem, atts) {
         return "shapemaker/tmpl/shapecreator.html";
       },
       scope: {
 
       },
-      controller: function($scope, $attrs, $element, ngrEnvironment, ngrState) {
+      controller: function ($scope, $attrs, $element, ngrEnvironment, ngrState) {
 
         $scope.q = {};
         var q = $scope.q;
@@ -29,7 +29,7 @@ angular.module('shapemaker')
 
         $scope.defaults = {
           box: {
-            params:'height width restitution density friction gravityScale linearDamping angle',
+            params: 'height width restitution density friction gravityScale linearDamping angle',
           },
           triangle: {
             params: 'innerAngle adjacent opposite restitution density friction gravityScale linearDamping angle',
@@ -39,17 +39,15 @@ angular.module('shapemaker')
           }
         }
 
-
-        $scope.newShape = function(input) {
+        $scope.newShape = function (input) {
           $scope.addShape($attrs.shape);
         }
 
-
-        $scope.$watch('q', function() {
+        $scope.$watch('q', function () {
           //console.log("q changed...");
           if ($scope.defaults) $scope.properties = $scope.defaults[$scope.q.shape].params.split(' ');
-   
-        },true)
+
+        }, true)
 
         $scope.options = [{
             name: 'Circle',
@@ -64,25 +62,25 @@ angular.module('shapemaker')
 
         ]
 
-        $scope.addShape = function(shape) {
+        $scope.addShape = function (shape) {
 
           switch (q.shape) {
-            case 'box':
-              $scope.addBox();
-              break;
-            case 'circle':
-              $scope.addCircle();
-              break;
-            case 'triangle':
-              $scope.addTriangle();
-              break;
-            default:
-              console.error("Unavailable shape,", shape);
-              break;
+          case 'box':
+            $scope.addBox();
+            break;
+          case 'circle':
+            $scope.addCircle();
+            break;
+          case 'triangle':
+            $scope.addTriangle();
+            break;
+          default:
+            console.error("Unavailable shape,", shape);
+            break;
           }
         }
 
-        $scope.addBox = function() {
+        $scope.addBox = function () {
 
           ngrEnvironment.add('box', {
             x: Math.random() * ngrState.getState().worldWidth,
@@ -99,13 +97,15 @@ angular.module('shapemaker')
           });
         }
 
-        $scope.addTriangle = function() {
+        $scope.addTriangle = function () {
           ngrEnvironment.add('triangle', {
             x: Math.random() * ngrState.getState().worldWidth,
             innerAngle: q.innerAngle,
             adjacent: q.adjacent,
             opposite: q.opposite,
             type: 'dynamic',
+            bg: 'tiled',
+            src: 'img/stoneCenter.png',
             restitution: q.restitution,
             density: q.density,
             gravityScale: q.gravityScale,
@@ -114,12 +114,11 @@ angular.module('shapemaker')
           });
         }
 
-
-        $scope.destroy = function() {
+        $scope.destroy = function () {
           $($element).hide();
         }
 
-        $scope.addCircle = function() {
+        $scope.addCircle = function () {
           ngrEnvironment.add('circle', {
             x: Math.random() * ngrState.getState().worldWidth,
             radius: q.radius,
@@ -133,7 +132,7 @@ angular.module('shapemaker')
           });
         }
 
-        setTimeout(function() {
+        setTimeout(function () {
 
           var dropdown = $element.find('select');
           var ddl = dropdown[0];

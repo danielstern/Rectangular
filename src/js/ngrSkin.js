@@ -6,6 +6,8 @@ angular.module('Rectangular')
     this.skin = function (body, options) {
       _body = body;
 
+      console.log("skinnign this body...", body)
+
       var scale = ngrState.getScale() * ngrState.getZoom();
 
       var f = body.GetFixtureList();
@@ -33,23 +35,25 @@ angular.module('Rectangular')
       var env = ngrState.getProperties();
 
       var imgData;
-   
-        if (options.shapeKind === 'circle') {
 
-          console.log("Skinning a circle", options);
+      if (options.shapeKind === 'circle') {
 
-          options.spriteWidth = options.radius * scale;
-          options.spriteHeight = options.radius * scale;
+        options.spriteWidth = options.radius * scale;
+        options.spriteHeight = options.radius * scale;
 
-        } else {
+      } else if (options.shapeKind === "box") {
 
-          options.spriteWidth = options.width * scale;
-          options.spriteHeight = options.height * scale;
+        options.spriteWidth = options.width * scale;
+        options.spriteHeight = options.height * scale;
 
-        }
+      } else if (options.shapeKind === "triangle") {
 
-        body.options = _.extend(body.options, options)
-    
+        options.spriteWidth = options.adjacent * scale;
+        options.spriteHeight = options.opposite * scale;
+
+      }
+
+      body.options = _.extend(body.options, options)
 
       var _container = new createjs.Container();
 
@@ -70,8 +74,8 @@ angular.module('Rectangular')
 
             if (options.shapeKind === 'box') {
 
-            scaleY = options.spriteHeight / img.height * 2;
-            scaleX = options.spriteWidth / img.width * 2;
+              scaleY = options.spriteHeight / img.height * 2;
+              scaleX = options.spriteWidth / img.width * 2;
 
             } else {
               scaleY = options.spriteHeight / img.height;
@@ -87,7 +91,7 @@ angular.module('Rectangular')
             imgData.regX = regX;
             imgData.regY = regY;
 
-      //      imgData.snapToPixel = options.snapToPixel;
+            //      imgData.snapToPixel = options.snapToPixel;
             imgData.mouseEnabled = options.mouseEnabled;
             _container.addChild(imgData)
 
@@ -109,7 +113,7 @@ angular.module('Rectangular')
     this.tile = function (img, options) {
 
       var container = new createjs.Container();
-      var SCALE = ngrState.getScale() * ngrState.getZoom();
+      var scale = ngrState.getScale() * ngrState.getZoom();
 
       var regX = 0;
       var regY = 0;
@@ -171,12 +175,40 @@ angular.module('Rectangular')
       container.regX = -options.spriteWidth;
       container.regY = -options.spriteHeight;
 
+     
+
       var mask = new createjs.Shape();
       mask.graphics.beginFill("rgba(0, 0, 0, 0)")
       if (options.shapeKind == 'box') {
         mask.graphics.drawRect(-options.spriteWidth, -options.spriteHeight, options.spriteWidth * 2, options.spriteHeight * 2);
       } else if (options.shapeKind == 'circle') {
         mask.graphics.drawCircle(0, 0, options.spriteHeight);
+      } else if (options.shapeKind === 'triangle') {
+
+        console.log("Drawing this triangle...",options,_body.GetLocalCenter());
+        var center = _body.GetLocalCenter();
+        var innerAngleRads = options.innerAngle * Math.PI / 180;
+
+        var points = options.points;
+        var p1 = points[0];
+        //p1.x = (points[2].x) / 2;
+        //p1.y = (points[2].y) / 2;
+        var p2 = points[1];
+        //p2.x -= (points[1].x) / 2;
+       // p2.y -= (points[2].y) / 2;
+
+        var p3 = points[2];
+        //p3.x -= (points[1].x) / 2;
+        //p3.y -= (points[2].y) / 2;
+        console.log("Points?",points);
+        //mask.graphics.beginPath();
+   //     mask.graphics.f('#000').moveTo().lineTo(p2.x * scale, p2.y * scale).lineTo(p3.x * scale, p3.y * scale).lineTo(p1.x * scale, p1.y * scale);
+        mask.graphics.f('#000').lineTo(p1.x * scale, p1.y * scale).lineTo(p2.x * scale, p2.y * scale).lineTo(p3.x * scale, p3.y * scale);
+        //mask.y = points[1].x * scale / 2;
+        mask.x = -center.x * scale;
+        mask.y = -center.y * scale;
+        //mask.rotation = -30;
+
       }
 
       container.mask = mask;

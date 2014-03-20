@@ -77,11 +77,16 @@ angular.module('Rectangular')
     var id = options.id || guid();
 
     var b = world.CreateBody(def.getBodyDef());
-    b.CreateFixture(def.getFixtureDef());
+    var f = def.getFixtureDef()
+    b.CreateFixture(f);
+
+    options.points = f.points;
+    
     if (options.userData) b.SetUserData(options.userData);
 
     if (options.memo) {
       var prev = w.getBodyByAttribute('memo', options.memo);
+      //console.log("Option's previous...",options.memo, prev);
       if (prev) w.removeElement(prev);
       if (prev) ngrStage.removeChild(prev.container);
     }

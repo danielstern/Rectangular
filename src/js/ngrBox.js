@@ -23,7 +23,7 @@ angular.module('Rectangular')
         return options;
       }
 
-      options = _.clone(options);
+     // options = _.clone(options);
       this.options = options;
       this.isShape = true;
 
@@ -80,7 +80,8 @@ angular.module('Rectangular')
             y: Math.cos(innerAngleRadians) * options.adjacent
           }
 
-          var points = [topPoint, basePoint, rightPoint];
+          var points = [basePoint, rightPoint, topPoint];;
+          //options.points = points;
 
           for (var i = 0; i < points.length; i++) {
             var vec = new b2Vec2();
@@ -90,6 +91,7 @@ angular.module('Rectangular')
 
           f.shape = new b2PolygonShape();
           f.shape.SetAsArray(points, points.length);
+          f.points = points;
           break;
         default:
           throw new Error("You must defind a shapeKind in your options.");

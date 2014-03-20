@@ -6,7 +6,7 @@ angular.module('Rectangular')
      var w = ngrWorld;;
 
      this.floor = function (options) {
-       if (roomBodies.floor) e.remove(roomBodies.floor);
+       if (roomBodies.floor) w.removeElement(roomBodies.floor);
        var floor = ngrModels.floor(options);
        roomBodies.floor = w.addElement(floor.options);
      }
@@ -14,6 +14,7 @@ angular.module('Rectangular')
      this.createRoom = function (options) {
        this.clearRoom();
        var r = ngrState.getRoom();
+
        if (r.floor) e.floor(options);
        if (r.leftWall) e.leftWall(options);
        if (r.rightWall) e.rightWall(options);
@@ -22,6 +23,7 @@ angular.module('Rectangular')
      }
 
      this.clearRoom = function () {
+      console.error("Clearing room...",roomBodies.leftWall);
 
        if (roomBodies.roof) w.removeElement(roomBodies.roof);
        if (roomBodies.leftWall) w.removeElement(roomBodies.leftWall);

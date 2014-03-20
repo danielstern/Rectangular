@@ -1,5 +1,5 @@
 angular.module('Rectangular')
-.service('ngrData',function(ngrState,ngrWorld){
+.service('ngrData',function(ngrState,ngrWorld,ngrRoom){
 
     this.getJSON = function() {
       var r = {};
@@ -8,7 +8,7 @@ angular.module('Rectangular')
       r.properties.world = null;
       r.elements = ngrState.getElements();
       r.pins = ngrState.getPins();
-      console.log("Attempting to stringify", r)
+    //  console.log("Attempting to stringify", r)
       var str = JSON.stringify(r);
       return str;
     }
@@ -19,12 +19,15 @@ angular.module('Rectangular')
 
     	var w = ngrWorld;
 
+      ngrRoom.clearRoom();
+      ngrRoom.createRoom();
+
       console.log(JSON.stringify(json));
       ngrState.setProperties(json.properties);
 
       _.each(json.elements, function(element) {
         element.options.id = element.id;
-        console.log("Loading element",_.clone(element.options));
+        //console.log("Loading element",_.clone(element.options));
         w.addElement(element.options);
       })
 
@@ -33,6 +36,9 @@ angular.module('Rectangular')
         if (!body) console.error("Can't find the body for this pin.");
         if (body) w.pin(body, pin.target);
       })
+
+      ngrRoom.clearRoom();
+      ngrRoom.createRoom();
     }
 
 		this.save = this.getJSON;

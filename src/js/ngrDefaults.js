@@ -29,14 +29,14 @@ angular.module('Rectangular')
     }
 
   this.floor = {
-    height: 1.5,
+    height: 0.5,
     type: 'static',
     friction: 0.3,
     density: 0.4,
     restitution: 0.2,
     isFloor: true,
     shapeKind: 'box',
-    src: 'img/castleCenter.png',
+    src: 'img/stoneMid.png',
     bg: 'tiled',
     userData: {
       isFloor: true

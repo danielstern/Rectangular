@@ -1,5 +1,5 @@
 angular.module("BallAgent", ['Rectangular', 'ngAudio', 'BallAgentHero', 'BallAgentModels'])
-  .service('BallAgent', function(BallAgentLevels, BallAgentHero, ngrStage,BallAgentModels, ngAudio, ngrEnvironment, ngrBox, ngrWorld) {
+  .service('BallAgent', function (BallAgentLevels, BallAgentHero, ngrStage, BallAgentModels, ngAudio, ngrEnvironment, ngrBox, ngrWorld) {
 
     this.state = {};
     var state = this.state;
@@ -15,44 +15,43 @@ angular.module("BallAgent", ['Rectangular', 'ngAudio', 'BallAgentHero', 'BallAge
       controls,
       jumpReleased = true;
 
-    this.onStateChange = function(listener) {
+    this.onStateChange = function (listener) {
       stateChangeListeners.push(listener);
     }
 
     function updateState() {
-      _.each(stateChangeListeners, function(l) {
+      _.each(stateChangeListeners, function (l) {
         l(state);
       })
     }
 
-    this.onGameOver = function(listener) {
+    this.onGameOver = function (listener) {
       gameOverListeners.push(listener);
     }
 
-    this.onWin = function(listener) {
+    this.onWin = function (listener) {
       winListeners.push(listener);
     }
 
-    this.gotoLevel = function(level) {
+    this.gotoLevel = function (level) {
       state.currentLevel = level - 1;
       nextLevel();
     }
 
     ngAudio.muteAll();
 
-
     function bindControls() {
 
       var heroState = BallAgentHero.getState();
 
       Mousetrap.bind({
-        'd': function() {
+        'd': function () {
           heroState.goingRight = true;
         },
-        'a': function() {
+        'a': function () {
           heroState.goingLeft = true;
         },
-        'w': function() {
+        'w': function () {
           if (!jumpReleased) return;
           heroState.isJumping = true;
           jumpReleasedTimer = 15;
@@ -61,13 +60,13 @@ angular.module("BallAgent", ['Rectangular', 'ngAudio', 'BallAgentHero', 'BallAge
       }, 'keydown');
 
       Mousetrap.bind({
-        'd': function() {
+        'd': function () {
           heroState.goingRight = false;
         },
-        'a': function() {
+        'a': function () {
           heroState.goingLeft = false;
         },
-        'w': function() {
+        'w': function () {
           heroState.isJumping = false;
           jumpReleased = true;
         },
@@ -88,29 +87,27 @@ angular.module("BallAgent", ['Rectangular', 'ngAudio', 'BallAgentHero', 'BallAge
 
     function gameOver() {
       ngrEnvironment.stop();
-      _.each(gameOverListeners, function(l) {
+      _.each(gameOverListeners, function (l) {
         l(state);
       });
 
       ngrEnvironment.blocker()
-        .then(function() {
+        .then(function () {
           ngrEnvironment.clearAll();
         })
     }
 
     function win() {
       ngrEnvironment.stop();
-      _.each(winListeners, function(l) {
+      _.each(winListeners, function (l) {
         l(state);
       });
 
       ngrEnvironment.blocker()
-        .then(function() {
+        .then(function () {
           ngrEnvironment.clearAll();
         })
     }
-
-
 
     function newGame() {
       state.lives = LIVES;
@@ -161,12 +158,10 @@ angular.module("BallAgent", ['Rectangular', 'ngAudio', 'BallAgentHero', 'BallAge
         }
       }
 
-
       if (position.y > 50) {
         ngAudio.play('die');
         handleDeath();
       }
-
 
     }
 
@@ -196,7 +191,7 @@ angular.module("BallAgent", ['Rectangular', 'ngAudio', 'BallAgentHero', 'BallAge
 
       ngrEnvironment.stop();
       ngrEnvironment.blocker()
-        .then(function() {
+        .then(function () {
           state.currentLevel++;
           var l = BallAgentLevels.levels[state.currentLevel - 1];
 
@@ -207,7 +202,6 @@ angular.module("BallAgent", ['Rectangular', 'ngAudio', 'BallAgentHero', 'BallAge
 
           ngrEnvironment.setZoom(0.5);
 
-
           ngrEnvironment.clearAll();
           if (c) clearTimeout(c);
 
@@ -216,42 +210,45 @@ angular.module("BallAgent", ['Rectangular', 'ngAudio', 'BallAgentHero', 'BallAge
 
           $('.levelName').removeClass('slideInLeft')
             .removeClass('slideOutLeft')
-          setTimeout(function() {
+          setTimeout(function () {
             $('.levelName').addClass('animated slideInLeft');
           }, 1);
 
           //ngrDebug.reset();
-          c = setTimeout(function() {
+          c = setTimeout(function () {
             $('.levelName').addClass('animated slideOutLeft');
           }, 3000);
 
           ngrEnvironment.start();
-          
-          if (l.floor) ngrEnvironment.updateRoom({
-            floor: true,
-          })
-          
+
+          if (l.floor) {
+            ngrEnvironment.updateRoom({
+              floor: true,
+            })
+          } else {
+            ngrEnvironment.updateRoom({
+              floor: false,
+            })
+
+          }
+
           ngrEnvironment.createRoom({
             src: 'img/tile.png',
             bg: 'tiled'
           });
 
-          
-
           ngrStage.background(l.background || 'img/mountain-bg.jpg');
-
 
           hero = BallAgentHero.createNewHero();
           exit = m.createExit(l.exit);
           bindControls();
 
-
           ngrEnvironment.setFocusOffset({
-            x:0,
-            y:0
+            x: 0,
+            y: 0
           })
 
-         ngrEnvironment.follow(hero.body);
+          ngrEnvironment.follow(hero.body);
 
           goingToNextLevel = false;
 
@@ -260,9 +257,7 @@ angular.module("BallAgent", ['Rectangular', 'ngAudio', 'BallAgentHero', 'BallAge
 
           ngrEnvironment.addHook(tick);
 
-
         });
-
 
     }
 
