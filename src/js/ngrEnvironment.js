@@ -70,7 +70,7 @@
      this.setZoom = ngrState.setZoom;
 
      this.floor = function(options) {
-        console.log("Drawing floor,",roomBodies);
+        //console.log("Drawing floor,",roomBodies);
        if (roomBodies.floor) e.remove(roomBodies.floor);
        var floor = ngrModels.floor(options);
        roomBodies.floor = e.add('box', floor.options);
@@ -82,6 +82,7 @@
      this.createRoom = function(options) {
        this.clearRoom();
        var r = ngrState.getRoom();
+       console.log("Creating room...",options,r);
        if (r.floor) e.floor(options);
        if (r.leftWall) e.leftWall(options);
        if (r.rightWall) e.rightWall(options);
@@ -90,7 +91,8 @@
      }
 
      this.clearRoom = function() {
-           console.log("Clearing room...",roomBodies);
+         console.log("Clearing room...",roomBodies);
+         if (!roomBodies) return;
        if (roomBodies.roof) e.remove(roomBodies.roof);
        if (roomBodies.leftWall) e.remove(roomBodies.leftWall);
        if (roomBodies.rightWall) e.remove(roomBodies.rightWall);

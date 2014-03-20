@@ -71,7 +71,7 @@ angular.module('Rectangular')
     }
 
     this.toggleDebug = function(toggle) {
-      console.error("Toggling debug...",toggle);
+      //console.error("Toggling debug...",toggle);
       if (toggle) {
         $(debugCanvas).removeClass('invisible');
       } else {

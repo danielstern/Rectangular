@@ -103,7 +103,7 @@ angular.module('Rectangular')
 
     if (options.memo) {
       var prev = w.getBodyByAttribute('memo', options.memo);
-      if (prev) e.removeElement(prev);
+      if (prev) w.removeElement(prev);
       if (prev) ngrStage.removeChild(prev.container);
     }
 

@@ -12,6 +12,8 @@ angular.module('Rectangular')
         var s = f.GetShape();
         var actor = {};
 
+
+
         var defaults = _.clone(ngrDefaults.skin);
 
 //        console.log("skinning...",body,s);
@@ -55,6 +57,15 @@ angular.module('Rectangular')
 
         }
 
+        var _container = new createjs.Container();
+
+        ngrStage.addChild(_container);
+
+        _body.container = _container;
+
+        actor = ngrActor.newActor(body, _container);
+        ngrStage.actors.push(actor);
+
         loadBitmap(options.src)
           .then(function(imgData) {
 
@@ -78,7 +89,7 @@ angular.module('Rectangular')
 
                 imgData.snapToPixel = options.snapToPixel;
                 imgData.mouseEnabled = options.mouseEnabled;
-                container.addChild(imgData)
+                _container.addChild(imgData)
                 //ngrStage.addChild(container);
 
                 //body.container = container;
@@ -88,19 +99,14 @@ angular.module('Rectangular')
 
               } else {
 
-                var container = nd.tile(img, options);
+                _container.addChild(nd.tile(img, options));
 
               }
 
-              console.log("Skinned body",_body);
+              //console.log("Skinned body",_body);
 
 
-              ngrStage.addChild(container);
-
-              _body.container = container;
-
-              actor = ngrActor.newActor(body, container);
-              ngrStage.actors.push(actor);
+           
 
           
 
