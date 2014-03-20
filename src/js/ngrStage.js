@@ -33,6 +33,13 @@ angular.module('Rectangular')
       $('.blocker').append('<div class="blocker-inner"></div>');
     }
 
+    this.background = function(body, options) {
+      console.log("Backgrounding...",body,options);
+      var sprite = ngrSkin.background(body, options);
+      //s.addSprite(sprite);
+      bgContainer.addChild(sprite.container);
+    }
+
 
     this.getContext = function() {
       return ctx;

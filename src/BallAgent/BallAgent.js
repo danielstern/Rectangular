@@ -1,5 +1,5 @@
 angular.module("BallAgent", ['Rectangular', 'ngAudio', 'BallAgentHero', 'BallAgentModels'])
-  .service('BallAgent', function(BallAgentLevels, BallAgentHero, BallAgentModels, ngAudio, ngrEnvironment, ngrDisplay, ngrBox, ngrWorld, ngrDebug) {
+  .service('BallAgent', function(BallAgentLevels, BallAgentHero, ngrStage,BallAgentModels, ngAudio, ngrEnvironment, ngrBox, ngrWorld) {
 
     this.state = {};
     var state = this.state;
@@ -220,7 +220,7 @@ angular.module("BallAgent", ['Rectangular', 'ngAudio', 'BallAgentHero', 'BallAge
             $('.levelName').addClass('animated slideInLeft');
           }, 1);
 
-          ngrDebug.reset();
+          //ngrDebug.reset();
           c = setTimeout(function() {
             $('.levelName').addClass('animated slideOutLeft');
           }, 3000);
@@ -238,7 +238,7 @@ angular.module("BallAgent", ['Rectangular', 'ngAudio', 'BallAgentHero', 'BallAge
 
           
 
-          ngrDisplay.background(l.background || 'img/mountain-bg.jpg');
+          ngrStage.background(l.background || 'img/mountain-bg.jpg');
 
 
           hero = BallAgentHero.createNewHero();

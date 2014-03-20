@@ -1,5 +1,5 @@
 angular.module('BallAgentModels', [])
-  .service('BallAgentModels', function(ngrDisplay, BallAgentDefaults, ngrBox, ngrEnvironment, ngrWorld) {
+  .service('BallAgentModels', function(BallAgentDefaults, ngrBox, ngrEnvironment, ngrWorld) {
 
     this.createExit = function(options) {
 
