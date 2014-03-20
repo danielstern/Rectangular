@@ -12,12 +12,19 @@ angular.module('Rectangular')
 
         var defaults = _.clone(ngrDefaults.skin);
 
-        if (s.constructor == b2CircleShape) {
+//        console.log("skinning...",body,s);
 
+     //   options.shape = body.options.shapeKind;
+
+        if (s.constructor == b2CircleShape) {
+         // console.log("this is a circle");
+
+        //  options.constructor = 'circle';
           defaults.radius = s.GetRadius();
 
         } else {
 
+      //    options.constructor = 'box';
           var v = s.GetVertices();
           var height = v[2].y - v[0].y;
           var width = v[1].x - v[0].x;
@@ -162,10 +169,16 @@ angular.module('Rectangular')
       container.regX = -options.width;
       container.regY = -options.height;
 
+      console.log("tiling",options);
 
       var mask = new createjs.Shape();
-      mask.graphics.beginLinearGradientFill(["#000000", "rgba(0, 0, 0, 0)"], [0, 1], 0, 0, 100, 100)
+      mask.graphics.beginFill(["#000000", "rgba(0, 0, 0, 0)"], [0, 1], 0, 0, 100, 100)
+      if (options.shapeKind == 'box') {
       mask.graphics.drawRect(-options.width, -options.height, options.width *2, options.height * 2);
+    } else if (options.shapeKind == 'circle') {
+      console.log("masking circle")
+       mask.graphics.drawCircle(0, 0, options.height - 1);
+    }
       
       container.mask = mask;
 

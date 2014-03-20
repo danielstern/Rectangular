@@ -28,18 +28,17 @@ angular.module('shapemaker')
         q.opposite = 2;
 
         $scope.defaults = {
-          box: 'height width restitution density friction gravityScale linearDamping angle',
-          triangle: 'innerAngle adjacent opposite restitution density friction gravityScale linearDamping angle',
-          circle: 'radius restitution density friction gravityScale linearDamping angle'
+          box: {
+            params:'height width restitution density friction gravityScale linearDamping angle',
+          },
+          triangle: {
+            params: 'innerAngle adjacent opposite restitution density friction gravityScale linearDamping angle',
+          },
+          circle: {
+            params: 'radius restitution density friction gravityScale linearDamping angle'
+          }
         }
-        switch ($attrs.shape) {
-          case 'circle':
-            $scope.properties = $scope.defaults.circle.split(' ');
-            break;
-          case 'box':
-            $scope.properties = $scope.defaults.box.split(' ');
-            break;
-        }
+
 
         $scope.newShape = function(input) {
           $scope.addShape($attrs.shape);
@@ -48,7 +47,7 @@ angular.module('shapemaker')
 
         $scope.$watch('q', function() {
           //console.log("q changed...");
-          if ($scope.defaults) $scope.properties = $scope.defaults[$scope.q.shape].split(' ');
+          if ($scope.defaults) $scope.properties = $scope.defaults[$scope.q.shape].params.split(' ');
    
         },true)
 
@@ -92,6 +91,8 @@ angular.module('shapemaker')
             type: 'dynamic',
             restitution: q.restitution,
             density: q.density,
+            bg: 'tiled',
+            src: 'img/box.png',
             gravityScale: q.gravityScale,
             friction: q.friction,
             angle: q.angle,
@@ -122,7 +123,10 @@ angular.module('shapemaker')
           ngrEnvironment.add('circle', {
             x: Math.random() * ngrState.getState().worldWidth,
             radius: q.radius,
+            bg: 'tiled',
+            src: 'img/grassCenter.png',
             type: 'dynamic',
+            shape: 'circle',
             restitution: q.restitution,
             density: q.density,
             friction: q.friction
