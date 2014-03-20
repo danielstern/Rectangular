@@ -81,6 +81,8 @@ angular.module('Rectangular')
 
             ngrStage.addChild(container);
 
+            body.container = container;
+
             actor = ngrActor.newActor(body, container);
             ngrStage.actors.push(actor);
 

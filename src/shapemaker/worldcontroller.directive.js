@@ -3,7 +3,7 @@ angular.module('shapemaker')
     return {
       restrict: 'AE',
       templateUrl: function(elem, atts) {
-        return "shapemaker/worldcontroller.html";
+        return "shapemaker/tmpl/worldcontroller.html";
       },
       controller: function($scope, $attrs, $element, ngrEnvironment, ngrStage, ngrState, ngrLoop) {
 
@@ -94,6 +94,15 @@ angular.module('shapemaker')
           ngrEnvironment.setWorldSpeed($scope.context.speed);
           ngrEnvironment.setZoom($scope.context.zoom);
 
+          ngrEnvironment.updateRoom({
+            floor: $scope.context.room.floor,
+            leftWall: $scope.context.room.leftWall,
+            rightWall: $scope.context.room.rightWall,
+            roof: $scope.context.room.roof,
+          })
+
+          ngrEnvironment.createRoom();
+
         },true);
         
         $scope.clearAll = function() {
@@ -103,17 +112,6 @@ angular.module('shapemaker')
 
         $scope.followContextItem = function() {
           ngrEnvironment.follow($scope.contextBody);
-        }
-
-        $scope.updateRoom = function() {
-          ngrEnvironment.updateRoom({
-            floor: $scope.context.room.floor,
-            leftWall: $scope.context.room.leftWall,
-            rightWall: $scope.context.room.rightWall,
-            roof: $scope.context.room.roof,
-          })
-
-          ngrEnvironment.createRoom();
         }
 
         $scope.properties = "gravity speed zoom".split(' ')

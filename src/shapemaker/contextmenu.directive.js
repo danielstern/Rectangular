@@ -4,8 +4,7 @@ angular.module('shapemaker')
       restrict: 'A',
       replace: false,
       templateUrl: function(elem, atts) {
-        return "shapemaker/contextmenu.html";
+        return "shapemaker/tmpl/contextmenu.html";
       },
     }
   })
-

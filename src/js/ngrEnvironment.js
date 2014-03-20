@@ -142,6 +142,7 @@
      }
 
      this.remove = function(body) {
+       ngrStage.removeChild(body.container);
        return ngrWorld.removeElement(body);
 
      }

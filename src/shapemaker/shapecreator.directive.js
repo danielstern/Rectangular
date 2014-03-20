@@ -3,7 +3,7 @@ angular.module('shapemaker')
     return {
       restrict: 'AE',
       templateUrl: function(elem, atts) {
-        return "shapemaker/shapecreator.html";
+        return "shapemaker/tmpl/shapecreator.html";
       },
       scope: {
 

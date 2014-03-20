@@ -7,23 +7,8 @@
      $scope.editingContext = false;
      $scope.stats = {};
 
-     var worldDefaults = {
-       scale: 30,
-       floor: true,
-       worldHeight: 30,
-       constrainFocusToRoom: false,
-       zoom: 0.2,
-       room: {
-         width: 90,
-         height: 40,
-         floor: true,
-         leftWall: true,
-         rightWall: true,
-         roof: false
-       }
-     }
 
-     ngrEnvironment.init(worldDefaults);
+     ngrEnvironment.init($scope.context);
      ngrInterface.enableDrag();
 
 

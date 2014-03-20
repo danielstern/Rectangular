@@ -50,6 +50,11 @@ angular.module('Rectangular')
       c.addChild(container);
     }
 
+    this.removeChild = function(container) {
+      console.log("Removing child",container);
+      container.parent.removeChild(container);
+    }
+
     this.setFocusPoint = function(vec) {
       focusPoint = vec;
 
@@ -83,11 +88,13 @@ angular.module('Rectangular')
 
 
     this.clearAll = function() {
+      console.log("clearing stage");
       stage.removeAllChildren();
       stage.update();
       ctx.save();
       ctx.restore();
       c = new createjs.Container();
+      c.removeAllChildren();
       stage.addChild(bgContainer);
       stage.addChild(c);
 
