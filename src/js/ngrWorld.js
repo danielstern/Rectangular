@@ -37,6 +37,7 @@ angular.module('Rectangular')
 
 
 
+
   this.follow = function(body) {
     ngrState.setFocus(body.GetWorldCenter(), true)
 
@@ -127,6 +128,9 @@ angular.module('Rectangular')
     b.options = privateOptions;
 
     bodies.push(b);
+
+
+
 
     return b;
   };
