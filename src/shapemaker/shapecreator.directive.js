@@ -97,18 +97,7 @@ angular.module('shapemaker')
         }
 
         $scope.addTriangle = function () {
-          ngrEnvironment.add('triangle', shapecreatorDefaults.shape({
-            x: Math.random() * ngrState.getState().worldWidth,
-            innerAngle: q.innerAngle,
-            adjacent: q.adjacent,
-            opposite: q.opposite,
-            src: 'img/stoneCenter.png',
-            restitution: q.restitution,
-            density: q.density,
-            gravityScale: q.gravityScale,
-            friction: q.friction,
-            angle: q.angle,
-          }));
+          ngrEnvironment.add('triangle', shapecreatorDefaults.shape(q));
         }
 
         $scope.destroy = function () {
@@ -116,18 +105,9 @@ angular.module('shapemaker')
         }
 
         $scope.addCircle = function () {
-          ngrEnvironment.add('circle', {
-            x: Math.random() * ngrState.getState().worldWidth,
-            radius: q.radius,
-            bg: 'tiled',
-            src: 'img/grassCenter.png',
-            type: 'dynamic',
-            shape: 'circle',
-            restitution: q.restitution,
-            density: q.density,
-            friction: q.friction
-          });
-        }
+          ngrEnvironment.add('circle', shapecreatorDefaults.shape(q));
+        
+        };
 
         setTimeout(function () {
 
