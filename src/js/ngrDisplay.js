@@ -58,6 +58,8 @@ angular.module('Rectangular')
 
           if (options.bg != 'tiled') {
 
+              var container = new createjs.Container();
+
             var scaleY = options.height / img.height * 2;
             var scaleX = options.width / img.width * 2;
 
@@ -72,7 +74,10 @@ angular.module('Rectangular')
 
             imgData.snapToPixel = options.snapToPixel;
             imgData.mouseEnabled = options.mouseEnabled;
-            ngrStage.addChild(imgData);
+            container.addChild(imgData)
+            ngrStage.addChild(container);
+
+            body.container = container;
 
             actor = ngrActor.newActor(body, imgData);
             ngrStage.actors.push(actor);

@@ -86,7 +86,7 @@ angular.module('shapemaker')
               height: Number($scope.context.room.height),
 
             })
-            ngrEnvironment.createRoom();
+            //ngrEnvironment.createRoom();
 
 
             if ($scope.contextBody) {
