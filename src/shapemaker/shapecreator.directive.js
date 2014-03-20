@@ -3,7 +3,7 @@ angular.module('shapemaker')
     return {
       restrict: 'AE',
       templateUrl: function(elem, atts) {
-        return "shapemaker/creator.html";
+        return "shapemaker/shapecreator.html";
       },
       scope: {
 
@@ -46,9 +46,11 @@ angular.module('shapemaker')
         }
 
 
-        $scope.$watchCollection('q', function() {
-          $scope.properties = $scope.defaults[$scope.q.shape].split(' ');
-        })
+        $scope.$watch('q', function() {
+          //console.log("q changed...");
+          if ($scope.defaults) $scope.properties = $scope.defaults[$scope.q.shape].split(' ');
+   
+        },true)
 
         $scope.options = [{
             name: 'Circle',

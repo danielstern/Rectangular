@@ -4,7 +4,7 @@ angular.module('Rectangular')
     var nd = this;
     this.skin = function(body, options) {
 
-      console.log("Skinning...",body);
+      //console.log("Skinning...",body);
 
       var scale = ngrState.getScale() * ngrState.getZoom();
 

@@ -8,6 +8,9 @@ angular.module('shapemaker')
       $scope.min = 0;
       $scope.max = 25;
       var t = attr.type;
+      var target = attr.target;
+      $scope.q = $scope[target];
+
 
       switch (t) {
         case 'restitution':

@@ -5,20 +5,13 @@ angular.module('shapemaker')
       templateUrl: function(elem, atts) {
         return "shapemaker/worldcontroller.html";
       },
-      controller: function($scope, $attrs, $element, ngrEnvironment, ngrStage) {
-
-        /*var q = $scope.q;
-        q.scale = 2;
-        q.gravity = 60;
-        q.speed = 60;
-        q.zoom = 0;*/
+      controller: function($scope, $attrs, $element, ngrEnvironment, ngrStage, ngrState, ngrLoop) {
 
         $scope.context = {
-          q: {
-            scale:30,
-            gravity:60,
-            zoom: 0.2
-          },
+          scale:30,
+          gravity:60,
+          zoom: 0.2,
+          speed: 60,
           drawDebug:true,
           drawSprites:true,
           selectedX:0,
@@ -33,10 +26,9 @@ angular.module('shapemaker')
             leftWall: true,
             rightWall: true
           },
-          speed: 0,
-          gravity: 0,
-          zoom: 0
         };
+
+        $scope.q = $scope.context;
 
         $scope.updateDraw = function() {
          
@@ -45,10 +37,45 @@ angular.module('shapemaker')
 
         };
 
-        
+
+        ngrLoop.addPermanentHook(function() {
+          var contextBody = $scope.contextBody;
+          var state = ngrState.getState();
+          if (!$scope.editingContext) {
+            if (contextBody) {
+              var bodyPos = contextBody.GetPosition();
+              var bodyAngle = contextBody.GetAngle();
+              $scope.contextPos = {
+                x: bodyPos.x,
+                y: bodyPos.y
+              };
+              $scope.contextPos.angle = bodyAngle;
+            }
+          }
+
+          if (!$scope.editingContext) {
+
+            $scope.context.room = $scope.contextRoom || {};
+            $scope.context.room.width = Number(state.room.width);
+            $scope.context.room.height = Number(state.room.height);
+            $scope.context.room.floor = state.room.floor;
+            $scope.context.room.leftWall = state.room.leftWall;
+            $scope.context.room.rightWall = state.room.rightWall;
+            $scope.context.room.roof = state.room.roof;
+
+          }
+
+          $scope.stats.focus = ngrState.getFocus();
+          $scope.stats.scale = ngrState.getScale();
+          $scope.context.zoom = ngrState.getZoom(true);
+
+          $scope.state = ngrState.getState();
+          $scope.$apply();
+
+        })
 
         $scope.$watch("context", function() {
-          console.log("context changed...");
+          //console.log("context changed...",$scope.context);
           if ($scope.editingContext) {
             ngrEnvironment.updateRoom({
               width: $scope.context.room.width,
@@ -63,9 +90,9 @@ angular.module('shapemaker')
             $scope.contextBody.SetAngle(Number($scope.selectedAngle))
           }
 
-          ngrEnvironment.setGravity($scope.context.q.gravity);
-          ngrEnvironment.setWorldSpeed($scope.context.q.speed);
-          ngrEnvironment.setZoom($scope.context.q.zoom);
+          ngrEnvironment.setGravity($scope.context.gravity);
+          ngrEnvironment.setWorldSpeed($scope.context.speed);
+          ngrEnvironment.setZoom($scope.context.zoom);
 
         },true);
         

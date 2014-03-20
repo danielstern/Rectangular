@@ -37,41 +37,6 @@
        window.contextBody = body;
      })
 
-     ngrLoop.addPermanentHook(function() {
-       var contextBody = $scope.contextBody;
-       var state = ngrState.getState();
-       if (!$scope.editingContext) {
-         if (contextBody) {
-           var bodyPos = contextBody.GetPosition();
-           var bodyAngle = contextBody.GetAngle();
-           $scope.contextPos = {
-             x: bodyPos.x,
-             y: bodyPos.y
-           };
-           $scope.contextPos.angle = bodyAngle;
-         }
-       }
-
-       if (!$scope.editingContext) {
-
-         $scope.context.room = $scope.contextRoom || {};
-         $scope.context.room.width = Number(state.room.width);
-         $scope.context.room.height = Number(state.room.height);
-         $scope.context.room.floor = state.room.floor;
-         $scope.context.room.leftWall = state.room.leftWall;
-         $scope.context.room.rightWall = state.room.rightWall;
-         $scope.context.room.roof = state.room.roof;
-
-       }
-
-       $scope.stats.focus = ngrState.getFocus();
-       $scope.stats.scale = ngrState.getScale();
-       $scope.context.q.zoom = ngrState.getZoom(true);
-
-       $scope.state = ngrState.getState();
-       $scope.$apply();
-
-     })
 
 
      Mousetrap.bind({
@@ -156,12 +121,12 @@
        e.preventDefault();
 
        if (e.wheelDelta < 0) {
-         $scope.context.q.zoom -= 0.05;
+         $scope.context.zoom -= 0.05;
        } else {
-         $scope.context.q.zoom += 0.05;
+         $scope.context.zoom += 0.05;
        }
 
-       if ($scope.context.q.zoom < 0.05) $scope.q.zoom = 0.05;
+       if ($scope.context.zoom < 0.05) $scope.zoom = 0.05;
 
        $scope.$apply();
      }
