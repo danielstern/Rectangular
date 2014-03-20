@@ -93,8 +93,8 @@ angular.module('Rectangular')
 
 
   this.addElement = function(options) {
-
-    var def = new NgShape(options);
+    
+    var def = ngrBox.shape(options);
     var id = options.id || guid();
 
     var b = world.CreateBody(def.getBodyDef());

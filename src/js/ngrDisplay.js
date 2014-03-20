@@ -1,121 +1,97 @@
 angular.module('Rectangular')
-  .service('ngrDisplay', function(ngrStage, ngrState, ngrDefaults, $q, ngrActor) {
+  .service('ngrDisplay', function (ngrStage, ngrState, ngrDefaults, $q, ngrActor) {
 
-      var nd = this;
-      var _body;
-      this.skin = function(body, options) {
-        _body = body;
+    var nd = this;
+    var _body;
+    this.skin = function (body, options) {
+      _body = body;
 
-        var scale = ngrState.getScale() * ngrState.getZoom();
+      var scale = ngrState.getScale() * ngrState.getZoom();
 
-        var f = body.GetFixtureList();
-        var s = f.GetShape();
-        var actor = {};
+      var f = body.GetFixtureList();
+      var s = f.GetShape();
+      var actor = {};
 
+      var defaults = _.clone(ngrDefaults.skin);
 
+      if (s.constructor === b2CircleShape) {
 
-        var defaults = _.clone(ngrDefaults.skin);
+        defaults.radius = s.GetRadius();
 
-//        console.log("skinning...",body,s);
+      } else {
 
-     //   options.shape = body.options.shapeKind;
+        var v = s.GetVertices();
+        var height = v[2].y - v[0].y;
+        var width = v[1].x - v[0].x;
 
-        if (s.constructor == b2CircleShape) {
-         // console.log("this is a circle");
+        defaults.height = height;
+        defaults.width = width;
+      }
 
-        //  options.constructor = 'circle';
-          defaults.radius = s.GetRadius();
+      options = _.extend(defaults, options);
 
-        } else {
+      var env = ngrState.getProperties();
 
-      //    options.constructor = 'box';
-          var v = s.GetVertices();
-          var height = v[2].y - v[0].y;
-          var width = v[1].x - v[0].x;
+      var stage = ngrStage.stage;
+      var imgData;
 
-          defaults.height = height;
-          defaults.width = width;
-        }
+      if (options.radius) {
 
-        options = _.extend(defaults, options);
+        options.width = options.radius * scale;
+        options.height = options.radius * scale;
 
-        var env = ngrState.getProperties();
+      } else {
 
-        var stage = ngrStage.stage;
-        var imgData;
+        options.width = options.width * scale;
+        options.height = options.height * scale;
 
+      }
 
-        if (options.radius) {
+      var _container = new createjs.Container();
 
-          options.width = options.radius * scale;
-          options.height = options.radius * scale;
+      ngrStage.addChild(_container);
 
-        } else {
+      _body.container = _container;
 
-          options.width = options.width * scale;
-          options.height = options.height * scale;
+      actor = ngrActor.newActor(body, _container);
+      ngrStage.actors.push(actor);
 
-        }
+      loadBitmap(options.src)
+        .then(function (imgData) {
 
-        var _container = new createjs.Container();
+          var img = imgData.image;
 
-        ngrStage.addChild(_container);
+          if (options.bg != 'tiled') {
 
-        _body.container = _container;
+            var container = new createjs.Container();
 
-        actor = ngrActor.newActor(body, _container);
-        ngrStage.actors.push(actor);
+            var scaleY = options.height / img.height * 2;
+            var scaleX = options.width / img.width * 2;
 
-        loadBitmap(options.src)
-          .then(function(imgData) {
+            var regY = (img.height) / 2;
+            var regX = (img.width) / 2;
 
-              var img = imgData.image;
+            imgData.scaleX = scaleX;
+            imgData.scaleY = scaleY;
 
-              if (options.bg != 'tiled') {
+            imgData.regX = regX;
+            imgData.regY = regY;
 
-                var container = new createjs.Container();
+            imgData.snapToPixel = options.snapToPixel;
+            imgData.mouseEnabled = options.mouseEnabled;
+            _container.addChild(imgData)
 
-                var scaleY = options.height / img.height * 2;
-                var scaleX = options.width / img.width * 2;
+          } else {
 
-                var regY = (img.height) / 2;
-                var regX = (img.width) / 2;
+            _container.addChild(nd.tile(img, options));
 
-                imgData.scaleX = scaleX;
-                imgData.scaleY = scaleY;
-
-                imgData.regX = regX;
-                imgData.regY = regY;
-
-                imgData.snapToPixel = options.snapToPixel;
-                imgData.mouseEnabled = options.mouseEnabled;
-                _container.addChild(imgData)
-                //ngrStage.addChild(container);
-
-                //body.container = container;
-
-                //actor = ngrActor.newActor(body, imgData);
-                //  ngrStage.actors.push(actor);
-
-              } else {
-
-                _container.addChild(nd.tile(img, options));
-
-              }
-
-              //console.log("Skinned body",_body);
-
-
-           
-
-          
-
+          }
 
         })
 
     };
 
-    this.tile = function(img, options) {
+    this.tile = function (img, options) {
 
       var container = new createjs.Container();
       var SCALE = ngrState.getScale() * ngrState.getZoom();
@@ -137,7 +113,6 @@ angular.module('Rectangular')
       config.objectHeight = options.height;
       config.objectWidth = options.width;
 
-      //config.scaleX = config.objectWidth / config.totalBitmapWidth;
       config.scaleY = config.objectHeight / config.totalBitmapHeight;
       config.scaleX = config.scaleY;
 
@@ -164,7 +139,7 @@ angular.module('Rectangular')
         }
       }
 
-      _.each(config.tiles, function(tile) {
+      _.each(config.tiles, function (tile) {
         var _imgData = new createjs.Bitmap(tile.src || 'img/null.png');
 
         _imgData.regY = tile.y;
@@ -179,30 +154,25 @@ angular.module('Rectangular')
       container.regX = -options.width;
       container.regY = -options.height;
 
-      //console.log("tiling",options);
-
       var mask = new createjs.Shape();
       mask.graphics.beginFill("rgba(0, 0, 0, 0)")
       if (options.shapeKind == 'box') {
-      mask.graphics.drawRect(-options.width, -options.height, options.width *2, options.height * 2);
-    } else if (options.shapeKind == 'circle') {
-      console.log("masking circle")
-       mask.graphics.drawCircle(0, 0, options.height);
-    }
-      
+        mask.graphics.drawRect(-options.width, -options.height, options.width * 2, options.height * 2);
+      } else if (options.shapeKind == 'circle') {
+        mask.graphics.drawCircle(0, 0, options.height);
+      }
+
       container.mask = mask;
 
       var wrapper = new createjs.Container();
       wrapper.addChild(mask);
       wrapper.addChild(container);
 
-    
-
       return wrapper;
 
     }
 
-    this.background = function(src, closeness) {
+    this.background = function (src, closeness) {
       loadBitmap(src)
         .then(initImg);
 
@@ -215,11 +185,9 @@ angular.module('Rectangular')
         bgData.closeness = closeness || 0;
 
         ngrStage.addChildAt(bgData, 0, true);
-        window.stage = ngrStage.stage;
 
       }
     }
-
 
     function loadBitmap(src) {
       var r = $q.defer();
@@ -235,7 +203,7 @@ angular.module('Rectangular')
         }
       };
 
-      var awaitImageInterval = setInterval(function() {
+      var awaitImageInterval = setInterval(function () {
         if (checkImageReady()) {
 
           clearInterval(awaitImageInterval);
@@ -246,4 +214,4 @@ angular.module('Rectangular')
       return r.promise;
 
     }
-})
+  })

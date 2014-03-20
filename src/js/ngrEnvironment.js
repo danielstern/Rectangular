@@ -1,5 +1,5 @@
  angular.module('Rectangular')
-   .service('ngrEnvironment', function(ngrWorld, ngrInterface, ngrStage, ngrModels, ngrDefaults, $q, ngrState, ngrLoop, ngrDisplay) {
+   .service('ngrEnvironment', function (ngrWorld, ngrInterface, ngrStage, ngrModels, ngrDefaults, $q, ngrState, ngrLoop, ngrDisplay) {
 
      this.addHook = ngrLoop.addHook;
      this.clearHooks = ngrLoop.clearHooks;
@@ -13,16 +13,16 @@
      this.unfollow = ngrWorld.unfollow;
      this.setFocusOffset = ngrState.setFocusOffset;
      this.getBodyByUserData = ngrWorld.getBodyByUserData;
+     this.setFocus = ngrState.setFocus;
+     this.setZoom = ngrState.setZoom;
+     this.updateRoom = ngrState.updateRoom;
 
      var e = this;
      var _canvas;
      var roomBodies = {};
 
-     this.setFocus = function(focusObject) {
-       ngrState.setFocus(focusObject);
-     }
 
-     this.init = function(worldInitObject) {
+     this.init = function (worldInitObject) {
 
        var defaults = _.clone(ngrDefaults.initialize);
        var options = _.extend(defaults, worldInitObject);
@@ -46,7 +46,6 @@
        ngrWorld.setWorld(0, options.gravity, true);
        ngrStage.init(_canvas);
 
-
        if (options.room) {
          ngrState.setRoom(options.room);
          e.createRoom();
@@ -59,30 +58,25 @@
 
          if (!options.zoom) {
            var zoomReq = r.height / (_canvas.height / 4);
-          ngrState.setZoom(zoomReq);
-        }
+           ngrState.setZoom(zoomReq);
+         }
        }
 
        e.start();
 
      }
 
-     this.setZoom = ngrState.setZoom;
 
-     this.floor = function(options) {
-        //console.log("Drawing floor,",roomBodies);
+     this.floor = function (options) {
        if (roomBodies.floor) e.remove(roomBodies.floor);
        var floor = ngrModels.floor(options);
        roomBodies.floor = e.add('box', floor.options);
-       console.log("roombodies?",roomBodies);
      }
 
-     this.updateRoom = ngrState.updateRoom;
 
-     this.createRoom = function(options) {
+     this.createRoom = function (options) {
        this.clearRoom();
        var r = ngrState.getRoom();
-       console.log("Creating room...",options,r);
        if (r.floor) e.floor(options);
        if (r.leftWall) e.leftWall(options);
        if (r.rightWall) e.rightWall(options);
@@ -90,9 +84,8 @@
 
      }
 
-     this.clearRoom = function() {
-         console.log("Clearing room...",roomBodies);
-         if (!roomBodies) return;
+     this.clearRoom = function () {
+      
        if (roomBodies.roof) e.remove(roomBodies.roof);
        if (roomBodies.leftWall) e.remove(roomBodies.leftWall);
        if (roomBodies.rightWall) e.remove(roomBodies.rightWall);
@@ -100,43 +93,41 @@
        roomBodies = {};
      }
 
-     this.roof = function(options) {
+     this.roof = function (options) {
 
        if (roomBodies.roof) e.remove(roomBodies.roof);
        var roof = ngrModels.roof(options);
        roomBodies.roof = e.add('box', roof.options);
      }
 
-
-     this.leftWall = function(options) {
+     this.leftWall = function (options) {
 
        if (roomBodies.leftWall) e.remove(roomBodies.leftWall);
        var leftWall = ngrModels.leftWall(options);
        roomBodies.leftWall = e.add('box', leftWall.options);
      }
 
-     this.rightWall = function(options) {
+     this.rightWall = function (options) {
 
        if (roomBodies.rightWall) e.remove(roomBodies.rightWall);
        var rightWall = ngrModels.rightWall(options);
        roomBodies.rightWall = e.add('box', rightWall.options);
      }
 
-     e.setWorldSpeed = function(speed) {
+     e.setWorldSpeed = function (speed) {
        ngrLoop.setSpeed(speed);
      }
 
-
-     this.stop = function() {
+     this.stop = function () {
        ngrLoop.stop();
      }
 
-     this.start = function() {
+     this.start = function () {
        ngrLoop.start();
        //e.debug();
      }
 
-     this.add = function(type, options) {
+     this.add = function (type, options) {
        if (!options) throw new Error("You can't add a shape without options.");
        options.shapeKind = type;
 
@@ -144,22 +135,22 @@
 
        ngrDisplay.skin(b, options);
 
-       console.log("adding...",b);
+       console.log("adding...", b);
 
        return b;
      }
 
-     this.remove = function(body) {
+     this.remove = function (body) {
 
-      console.log("Removing body",body);
-      //if (!body.container) throw new Error("Body has no container");
-      
+       console.log("Removing body", body);
+       //if (!body.container) throw new Error("Body has no container");
+
        ngrStage.removeChild(body.container);
        ngrWorld.removeElement(body);
 
      }
 
-     this.clearAll = function() {
+     this.clearAll = function () {
        ngrWorld.clearAll();
        ngrStage.clearAll();
        ngrLoop.clearHooks();
