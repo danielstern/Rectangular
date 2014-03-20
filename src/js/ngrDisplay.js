@@ -83,21 +83,12 @@ angular.module('Rectangular')
 
               }
 
-              var mask = new createjs.Shape();
-              mask.graphics.beginLinearGradientFill(["#000000", "rgba(0, 0, 0, 1)"], [0, 1], 0, 0, 100, 100)
-              mask.graphics.drawRect(0, 0, options.width, options.height);
-              
-              container.mask = mask;
 
-              var wrapper = new createjs.Container();
-              wrapper.addChild(mask);
-              wrapper.addChild(container);
+              ngrStage.addChild(container);
 
-              ngrStage.addChild(wrapper);
+              body.container = container;
 
-              body.container = wrapper;
-
-              actor = ngrActor.newActor(body, wrapper);
+              actor = ngrActor.newActor(body, container);
               ngrStage.actors.push(actor);
 
           
@@ -171,9 +162,20 @@ angular.module('Rectangular')
       container.regX = -options.width;
       container.regY = -options.height;
 
+
+      var mask = new createjs.Shape();
+      mask.graphics.beginLinearGradientFill(["#000000", "rgba(0, 0, 0, 0)"], [0, 1], 0, 0, 100, 100)
+      mask.graphics.drawRect(-options.width, -options.height, options.width *2, options.height * 2);
+      
+      container.mask = mask;
+
+      var wrapper = new createjs.Container();
+      wrapper.addChild(mask);
+      wrapper.addChild(container);
+
     
 
-      return container;
+      return wrapper;
 
     }
 

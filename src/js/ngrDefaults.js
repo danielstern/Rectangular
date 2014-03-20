@@ -2,10 +2,10 @@ angular.module('Rectangular')
 .service('ngrDefaults', function()
 {
   this.wall = {
-    width: 0.3,
+    width: 1,
     type: 'static',
     shapeKind: 'box',
-    src: 'img/tile.png',
+    src: 'img/snowCenter.png',
     bg: 'tiled',
     x: 0,
 
