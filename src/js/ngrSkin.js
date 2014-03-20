@@ -68,16 +68,15 @@ angular.module('Rectangular')
 
           if (options.bg != 'tiled') {
 
-            var container = new createjs.Container();
             var scaleX;
             var scaleY;
 
             if (options.shapeKind === 'box') {
-
               scaleY = options.spriteHeight / img.height * 2;
               scaleX = options.spriteWidth / img.width * 2;
 
             } else {
+              console.log("adding non titled circle",options);
               scaleY = options.spriteHeight / img.height;
               scaleX = options.spriteWidth / img.width;
             }
@@ -85,12 +84,15 @@ angular.module('Rectangular')
             var regY = (img.height) / 2;
             var regX = (img.width) / 2;
 
-            imgData.scaleX = scaleX;
-            imgData.scaleY = scaleY;
+
+        //  imgData.width = options.spriteWidth / 5;
+      //    imgData.height = options.spriteHeight / 5;
 
             imgData.regX = regX;
             imgData.regY = regY;
-
+            console.log("scaling?",options.spriteWidth,img.width,options);
+            imgData.scaleX = options.spriteWidth / img.width * 2;
+            imgData.scaleY =  options.spriteHeight / img.height * 2;
             //      imgData.snapToPixel = options.snapToPixel;
             imgData.mouseEnabled = options.mouseEnabled;
             _container.addChild(imgData)
@@ -191,23 +193,11 @@ angular.module('Rectangular')
 
         var points = options.points;
         var p1 = points[0];
-        //p1.x = (points[2].x) / 2;
-        //p1.y = (points[2].y) / 2;
         var p2 = points[1];
-        //p2.x -= (points[1].x) / 2;
-       // p2.y -= (points[2].y) / 2;
-
         var p3 = points[2];
-        //p3.x -= (points[1].x) / 2;
-        //p3.y -= (points[2].y) / 2;
-        console.log("Points?",points);
-        //mask.graphics.beginPath();
-   //     mask.graphics.f('#000').moveTo().lineTo(p2.x * scale, p2.y * scale).lineTo(p3.x * scale, p3.y * scale).lineTo(p1.x * scale, p1.y * scale);
         mask.graphics.f('#000').lineTo(p1.x * scale, p1.y * scale).lineTo(p2.x * scale, p2.y * scale).lineTo(p3.x * scale, p3.y * scale);
-        //mask.y = points[1].x * scale / 2;
         mask.x = -center.x * scale;
         mask.y = -center.y * scale;
-        //mask.rotation = -30;
 
       }
 

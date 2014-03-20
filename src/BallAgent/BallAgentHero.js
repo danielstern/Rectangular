@@ -46,6 +46,8 @@ angular.module("BallAgentHero", ['Rectangular', 'ngAudio'])
 	    shapeKind: 'circle',
 	    friction: 0.2,
 	    density: 0.21,
+	    src: 'img/hero.png',
+	    radius: 0.5,
 	    x: 1.2,
 	    type: 'dynamic',
 	    userData: {
@@ -58,9 +60,9 @@ angular.module("BallAgentHero", ['Rectangular', 'ngAudio'])
 	  window.heroBody = heroBody;
 
 
-	  var actor = ngrStage.addSprite(heroBody, sprite);
-	  console.log("setting follow",actor);
-	  ngrStage.follow(actor);
+	 // var actor = ngrStage.addSprite(heroBody, sprite);
+	 // console.log("setting follow",actor);
+	  ngrStage.follow(heroBody);
 
 	  ngrLoop.addHook(tick);
 
