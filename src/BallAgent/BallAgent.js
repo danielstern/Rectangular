@@ -226,15 +226,17 @@ angular.module("BallAgent", ['Rectangular', 'ngAudio', 'BallAgentHero', 'BallAge
           }, 3000);
 
           ngrEnvironment.start();
+          
+          if (l.floor) ngrEnvironment.updateRoom({
+            floor: true,
+          })
+          
           ngrEnvironment.createRoom({
             src: 'img/tile.png',
             bg: 'tiled'
           });
 
-          if (l.floor) ngrEnvironment.floor({
-            src: 'img/tile.png',
-            bg: 'tiled'
-          })
+          
 
           ngrDisplay.background(l.background || 'img/mountain-bg.jpg');
 

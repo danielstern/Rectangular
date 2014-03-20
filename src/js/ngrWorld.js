@@ -129,6 +129,8 @@ angular.module('Rectangular')
 
     bodies.push(b);
 
+    ngrDisplay.skin(b,options);
+
 
 
 

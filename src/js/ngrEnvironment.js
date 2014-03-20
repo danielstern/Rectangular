@@ -87,7 +87,7 @@
 
        console.log("adding...", b);
 
-       ngrDisplay.skin(b, options);
+      // ngrDisplay.skin(b, options);
 
        return b;
      }
@@ -95,7 +95,6 @@
      this.remove = function (body) {
 
        console.log("Removing body", body);
-       //if (!body.container) throw new Error("Body has no container");
 
        ngrStage.removeChild(body.container);
        ngrWorld.removeElement(body);
@@ -113,64 +112,4 @@
      this.debug = ngrStage.debug;
 
    })
-   .service('ngrRoom', function (ngrWorld, ngrState, ngrStage, ngrDisplay, ngrModels) {
-
-     var roomBodies = {};
-     var e = this;
-
-     this.floor = function (options) {
-       if (roomBodies.floor) e.remove(roomBodies.floor);
-       var floor = ngrModels.floor(options);
-       roomBodies.floor = e.add('box', floor.options);
-     }
-
-     this.add = function (type, options) {
-
-       var b = ngrWorld.addElement(options);
-
-       ngrDisplay.skin(b, options);
-
-       return b;
-     }
-
-     this.createRoom = function (options) {
-       this.clearRoom();
-       var r = ngrState.getRoom();
-       if (r.floor) e.floor(options);
-       if (r.leftWall) e.leftWall(options);
-       if (r.rightWall) e.rightWall(options);
-       if (r.roof) e.roof();
-
-     }
-
-     this.clearRoom = function () {
-
-       if (roomBodies.roof) e.remove(roomBodies.roof);
-       if (roomBodies.leftWall) e.remove(roomBodies.leftWall);
-       if (roomBodies.rightWall) e.remove(roomBodies.rightWall);
-       if (roomBodies.floor) e.remove(roomBodies.floor);
-       roomBodies = {};
-     }
-
-     this.roof = function (options) {
-
-       if (roomBodies.roof) e.remove(roomBodies.roof);
-       var roof = ngrModels.roof(options);
-       roomBodies.roof = e.add('box', roof.options);
-     }
-
-     this.leftWall = function (options) {
-
-       if (roomBodies.leftWall) e.remove(roomBodies.leftWall);
-       var leftWall = ngrModels.leftWall(options);
-       roomBodies.leftWall = e.add('box', leftWall.options);
-     }
-
-     this.rightWall = function (options) {
-
-       if (roomBodies.rightWall) e.remove(roomBodies.rightWall);
-       var rightWall = ngrModels.rightWall(options);
-       roomBodies.rightWall = e.add('box', rightWall.options);
-     }
-
-   })
+  

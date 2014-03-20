@@ -3,6 +3,7 @@ angular.module('Rectangular')
     var d = this;
     var debugCanvas;
     var _canvas;
+    var debugDraw;
     var ctxCurrentTranslation = {
       x: 0,
       y: 0
@@ -38,7 +39,7 @@ angular.module('Rectangular')
         y: 0
       }
       var world = ngrState.getWorld();
-      var debugDraw = new b2DebugDraw();
+      debugDraw = new b2DebugDraw();
       var debugContainer = new createjs.Container();
       var scale = ngrState.getScale() * ngrState.getZoom();
       debugDraw.SetSprite(ctx);
@@ -47,8 +48,6 @@ angular.module('Rectangular')
       debugDraw.SetLineThickness(1.0);
       debugDraw.SetFlags(b2DebugDraw.e_shapeBit | b2DebugDraw.e_jointBit);
       world.SetDebugDraw(debugDraw);
-
-      window.debugDraw = debugDraw;
 
     }
 
@@ -71,7 +70,6 @@ angular.module('Rectangular')
     }
 
     this.toggleDebug = function(toggle) {
-      //console.error("Toggling debug...",toggle);
       if (toggle) {
         $(debugCanvas).removeClass('invisible');
       } else {
