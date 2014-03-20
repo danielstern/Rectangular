@@ -70,7 +70,7 @@
      this.setZoom = ngrState.setZoom;
 
      this.floor = function(options) {
-      console.log("Drawing floor,",roomBodies);
+      //console.log("Drawing floor,",roomBodies);
        if (roomBodies.floor) e.remove(roomBodies.floor);
        var floor = ngrModels.floor(options);
        roomBodies.floor = e.add('box', floor.options);
@@ -139,13 +139,11 @@
        var b = ngrWorld.addElement(options);
 
        if (!options.hidden) ngrDisplay.skin(b, options);
-       //console.log("Added...",b);
 
        return b;
      }
 
      this.remove = function(body) {
-      //console.log("removing...",body);
        ngrStage.removeChild(body.container);
        return ngrWorld.removeElement(body);
 

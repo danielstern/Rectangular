@@ -1,99 +1,106 @@
 angular.module('Rectangular')
   .service('ngrDisplay', function(ngrStage, ngrState, ngrDefaults, $q, ngrActor) {
 
-    var nd = this;
-    this.skin = function(body, options) {
+      var nd = this;
+      this.skin = function(body, options) {
 
-      //console.log("Skinning...",body);
+        var scale = ngrState.getScale() * ngrState.getZoom();
 
-      var scale = ngrState.getScale() * ngrState.getZoom();
+        var f = body.GetFixtureList();
+        var s = f.GetShape();
+        var actor = {};
 
+        var defaults = _.clone(ngrDefaults.skin);
 
-      var f = body.GetFixtureList();
-      var s = f.GetShape();
-      var actor = {};
+        if (s.constructor == b2CircleShape) {
 
-      var defaults = _.clone(ngrDefaults.skin);
+          defaults.radius = s.GetRadius();
 
-      if (s.constructor == b2CircleShape) {
+        } else {
 
-        defaults.radius = s.GetRadius();
+          var v = s.GetVertices();
+          var height = v[2].y - v[0].y;
+          var width = v[1].x - v[0].x;
 
-      } else {
+          defaults.height = height;
+          defaults.width = width;
+        }
 
-        var v = s.GetVertices();
-        var height = v[2].y - v[0].y;
-        var width = v[1].x - v[0].x;
+        options = _.extend(defaults, options);
 
-        defaults.height = height;
-        defaults.width = width;
-      }
+        var env = ngrState.getProperties();
 
-      options = _.extend(defaults, options);
-
-      var env = ngrState.getProperties();
-
-      var stage = ngrStage.stage;
-      var imgData;
+        var stage = ngrStage.stage;
+        var imgData;
 
 
-      if (options.radius) {
+        if (options.radius) {
 
-        console.log("Skinnign circle,",options);
+          options.width = options.radius * scale;
+          options.height = options.radius * scale;
 
-        options.width = options.radius * scale;
-        options.height = options.radius * scale;
+        } else {
 
-      } else {
+          options.width = options.width * scale;
+          options.height = options.height * scale;
 
-        options.width = options.width * scale;
-        options.height = options.height * scale;
+        }
 
-      }
+        loadBitmap(options.src)
+          .then(function(imgData) {
 
-      loadBitmap(options.src)
-        .then(function(imgData) {
+              var img = imgData.image;
 
-          var img = imgData.image;
+              if (options.bg != 'tiled') {
 
-          if (options.bg != 'tiled') {
+                var container = new createjs.Container();
 
-              var container = new createjs.Container();
+                var scaleY = options.height / img.height * 2;
+                var scaleX = options.width / img.width * 2;
 
-            var scaleY = options.height / img.height * 2;
-            var scaleX = options.width / img.width * 2;
+                var regY = (img.height) / 2;
+                var regX = (img.width) / 2;
 
-            var regY = (img.height) / 2;
-            var regX = (img.width) / 2;
+                imgData.scaleX = scaleX;
+                imgData.scaleY = scaleY;
 
-            imgData.scaleX = scaleX;
-            imgData.scaleY = scaleY;
+                imgData.regX = regX;
+                imgData.regY = regY;
 
-            imgData.regX = regX;
-            imgData.regY = regY;
+                imgData.snapToPixel = options.snapToPixel;
+                imgData.mouseEnabled = options.mouseEnabled;
+                container.addChild(imgData)
+                //ngrStage.addChild(container);
 
-            imgData.snapToPixel = options.snapToPixel;
-            imgData.mouseEnabled = options.mouseEnabled;
-            container.addChild(imgData)
-            ngrStage.addChild(container);
+                //body.container = container;
 
-            body.container = container;
+                //actor = ngrActor.newActor(body, imgData);
+                //  ngrStage.actors.push(actor);
 
-            actor = ngrActor.newActor(body, imgData);
-            ngrStage.actors.push(actor);
+              } else {
 
-          } else {
+                var container = nd.tile(img, options);
 
-            var container = nd.tile(img, options);
+              }
 
-            ngrStage.addChild(container);
+              var mask = new createjs.Shape();
+              mask.graphics.beginLinearGradientFill(["#000000", "rgba(0, 0, 0, 1)"], [0, 1], 0, 0, 100, 100)
+              mask.graphics.drawRect(0, 0, options.width, options.height);
+              
+              container.mask = mask;
 
-            body.container = container;
+              var wrapper = new createjs.Container();
+              wrapper.addChild(mask);
+              wrapper.addChild(container);
 
-            actor = ngrActor.newActor(body, container);
-            ngrStage.actors.push(actor);
+              ngrStage.addChild(wrapper);
 
-          }
+              body.container = wrapper;
+
+              actor = ngrActor.newActor(body, wrapper);
+              ngrStage.actors.push(actor);
+
+          
 
 
         })
@@ -122,8 +129,11 @@ angular.module('Rectangular')
       config.objectHeight = options.height;
       config.objectWidth = options.width;
 
-      config.scaleX = config.objectWidth / config.totalBitmapWidth;
+      //config.scaleX = config.objectWidth / config.totalBitmapWidth;
       config.scaleY = config.objectHeight / config.totalBitmapHeight;
+      config.scaleX = config.scaleY;
+
+      config.totalColumns *= 1 / config.scaleX;
 
       function Tile() {
         this.x;
@@ -161,6 +171,8 @@ angular.module('Rectangular')
       container.regX = -options.width;
       container.regY = -options.height;
 
+    
+
       return container;
 
     }
@@ -172,7 +184,7 @@ angular.module('Rectangular')
       function initImg(bgData) {
 
         var env = ngrState.getState();
-        var scaleX = env.width / bgData.image.width * 2.4// ngrState.getScale();
+        var scaleX = env.width / bgData.image.width * 2.4 // ngrState.getScale();
         bgData.scaleX = scaleX;
         bgData.scaleY = scaleX;
         bgData.closeness = closeness || 0;
@@ -209,4 +221,4 @@ angular.module('Rectangular')
       return r.promise;
 
     }
-  })
+})

@@ -23,7 +23,6 @@
      })
 
 
-
      Mousetrap.bind({
        'f': function() {
          var cti = $scope.contextBody;
@@ -91,6 +90,11 @@
        cmpl($scope);
      }
 
+
+     $scope.clearAll = function() {
+       ngrEnvironment.clearAll();
+       ngrEnvironment.createRoom();
+     };
 
 
      $('canvas')[0].addEventListener('dblclick', function() {
@@ -162,6 +166,61 @@
        })
 
        hideContextMenu();
+     }
+
+     
+     $scope.save = function(name) {
+       if (!name) name = epicId();
+       var worldString = JSON.parse(ngrEnvironment.getJSON());
+       worldString.name = name;
+       var savedWorlds = getSavedWorlds();
+
+       savedWorlds.push(worldString);
+       localStorage['savedWorlds'] = JSON.stringify(savedWorlds);
+
+       $scope.savedWorlds = savedWorlds;
+
+       $scope.worldName = '';
+
+     }
+
+     function getSavedWorlds() {
+       var savedWorlds;
+       var savedWorldsStr = localStorage['savedWorlds'];
+       if (savedWorldsStr) {
+         try {
+           savedWorlds = JSON.parse(savedWorldsStr);
+         } catch (e) {
+           console.error("Couldn't parse saved worlds", savedWorldsStr);
+         }
+       };
+
+       return savedWorlds || [];
+
+     }
+
+     $scope.deleteSavedWorld = function(_dWorld) {
+
+       var savedWorlds = getSavedWorlds();
+
+       savedWorlds = _.filter(savedWorlds, function(world) {
+         if (world.name != _dWorld.name) return true;
+       })
+
+       localStorage['savedWorlds'] = JSON.stringify(savedWorlds);
+
+       $scope.savedWorlds = savedWorlds;
+
+     }
+
+     $scope.load = function(_world) {
+       ngrEnvironment.clearAll();
+       ngrEnvironment.load(_world);
+       $scope.contextBody = undefined;
+     }
+
+     $scope.exportSavedWorld = function(_world) {
+       $scope.worldExport = JSON.stringify(_world);
      }
 
 

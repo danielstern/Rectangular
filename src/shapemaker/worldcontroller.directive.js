@@ -7,6 +7,8 @@ angular.module('shapemaker')
       },
       controller: function($scope, $attrs, $element, ngrEnvironment, ngrStage, ngrState, ngrLoop) {
 
+        var oldRoom = {};
+
         $scope.context = {
           scale: 30,
           gravity: 60,
@@ -27,16 +29,6 @@ angular.module('shapemaker')
             rightWall: true
           },
         };
-
-        $scope.q = $scope.context;
-
-        $scope.updateDraw = function() {
-
-          ngrStage.debug($scope.context.drawDebug);
-          ngrStage.toggleStage($scope.context.drawSprites);
-
-        };
-
 
         ngrLoop.addPermanentHook(function() {
           var contextBody = $scope.contextBody;
@@ -62,10 +54,7 @@ angular.module('shapemaker')
             $scope.context.room.leftWall = state.room.leftWall;
             $scope.context.room.rightWall = state.room.rightWall;
             $scope.context.room.roof = state.room.roof;
-
           }
-
-         // console.log("updating zoom", $scope.context);
 
           $scope.stats.focus = ngrState.getFocus();
           $scope.stats.scale = ngrState.getScale();
@@ -76,18 +65,15 @@ angular.module('shapemaker')
 
         })
 
-        var oldRoom = {};
+        
 
         $scope.$watch("context", function() {
-          console.log("context changed...",$scope.context);
           if ($scope.editingContext) {
             ngrEnvironment.updateRoom({
               width: Number($scope.context.room.width),
               height: Number($scope.context.room.height),
 
             })
-            //ngrEnvironment.createRoom();
-
 
             if ($scope.contextBody) {
               $scope.contextBody.SetPosition(new b2Vec2(Number($scope.selectedX), Number($scope.selectedY)));
@@ -106,19 +92,21 @@ angular.module('shapemaker')
               leftWall: $scope.context.room.leftWall,
               rightWall: $scope.context.room.rightWall,
               roof: $scope.context.room.roof,
+            
             })
+
+            ngrEnvironment.createRoom();
           }
 
           oldRoom = $scope.context.room;
 
-          ngrEnvironment.createRoom();
+          ngrStage.debug($scope.context.drawDebug);
+          ngrStage.toggleStage($scope.context.drawSprites);
+
 
         }, true);
 
-        $scope.clearAll = function() {
-          ngrEnvironment.clearAll();
-          ngrEnvironment.createRoom();
-        };
+       
 
         $scope.followContextItem = function() {
           ngrEnvironment.follow($scope.contextBody);
@@ -140,59 +128,6 @@ angular.module('shapemaker')
           body.SetUserData(data);
         }
 
-        $scope.save = function(name) {
-          if (!name) name = epicId();
-          var worldString = JSON.parse(ngrEnvironment.getJSON());
-          worldString.name = name;
-          var savedWorlds = getSavedWorlds();
-
-          savedWorlds.push(worldString);
-          localStorage['savedWorlds'] = JSON.stringify(savedWorlds);
-
-          $scope.savedWorlds = savedWorlds;
-
-          $scope.worldName = '';
-
-        }
-
-        function getSavedWorlds() {
-          var savedWorlds;
-          var savedWorldsStr = localStorage['savedWorlds'];
-          if (savedWorldsStr) {
-            try {
-              savedWorlds = JSON.parse(savedWorldsStr);
-            } catch (e) {
-              console.error("Couldn't parse saved worlds", savedWorldsStr);
-            }
-          };
-
-          return savedWorlds || [];
-
-        }
-
-        $scope.deleteSavedWorld = function(_dWorld) {
-
-          var savedWorlds = getSavedWorlds();
-
-          savedWorlds = _.filter(savedWorlds, function(world) {
-            if (world.name != _dWorld.name) return true;
-          })
-
-          localStorage['savedWorlds'] = JSON.stringify(savedWorlds);
-
-          $scope.savedWorlds = savedWorlds;
-
-        }
-
-        $scope.load = function(_world) {
-          ngrEnvironment.clearAll();
-          ngrEnvironment.load(_world);
-          $scope.contextBody = undefined;
-        }
-
-        $scope.exportSavedWorld = function(_world) {
-          $scope.worldExport = JSON.stringify(_world);
-        }
       }
     }
   })
