@@ -1,0 +1,71 @@
+<doctype HTML>
+
+    <html ng-app='Stones' ng-controller='GameOfStones'>
+
+    <head>
+        <title>A Game of Stones</title>
+        <script src="lib/angular.js"></script>
+        <script src="lib/jquery.js"></script>
+        <script src="lib/underscore.js"></script>
+        <script src="lib/mousetrap.js"></script>
+
+        <script src="lib/Box2d.js"></script>
+        <script src="js/util.js"></script>
+        <script src="js/Rectangular.js"></script>
+
+        <script src="js/ngrStage.js"></script>
+        <script src="js/ngrState.js"></script>
+        <script src="js/ngrWorld.js"></script>
+        <script src="js/ngrRoom.js"></script>
+        <script src="js/ngrSkin.js"></script>
+        <script src="js/ngrLoop.js"></script>
+        <script src="js/ngrActor.js"></script>
+        <script src="js/ngrDefaults.js"></script>
+        <script src="js/ngrData.js"></script>
+        <script src="js/ngrEnvironment.js"></script>
+        <script src="js/ngrModels.js"></script>
+        <script src="js/ngrDebug.js"></script>
+        <script src="js/ngrInterface.js"></script>
+        <script src="js/ngrBox.js"></script>
+        <script src="lib/angular.audio.js"></script>
+        <script type="text/javascript" src="lib/easel.js"></script>
+        <script type="text/javascript" src="lib/create.js"></script>
+
+        <script>
+        var b2Vec2 = Box2D.Common.Math.b2Vec2,
+            b2AABB = Box2D.Collision.b2AABB,
+            b2BodyDef = Box2D.Dynamics.b2BodyDef,
+            b2Body = Box2D.Dynamics.b2Body,
+            b2FixtureDef = Box2D.Dynamics.b2FixtureDef,
+            b2Fixture = Box2D.Dynamics.b2Fixture,
+            b2World = Box2D.Dynamics.b2World,
+            b2PolygonShape = Box2D.Collision.Shapes.b2PolygonShape,
+            b2CircleShape = Box2D.Collision.Shapes.b2CircleShape,
+            b2DebugDraw = Box2D.Dynamics.b2DebugDraw,
+            b2MouseJointDef = Box2D.Dynamics.Joints.b2MouseJointDef,
+            b2Shape = Box2D.Collision.Shapes.b2Shape,
+            b2RevoluteJointDef = Box2D.Dynamics.Joints.b2RevoluteJointDef,
+            b2Joint = Box2D.Dynamics.Joints.b2Joint,
+            b2PrismaticJointDef = Box2D.Dynamics.Joints.b2PrismaticJointDef;
+        </script>
+
+        <link rel="stylesheet" type="text/css" href="styles/ngr.css">
+        <link rel="stylesheet" type="text/css" href="styles/animate.css">
+        <link rel="stylesheet" type="text/css" href="stones/gameofstones.css">
+
+    </head>
+
+    <body>
+
+
+        <div class='main'>
+            <canvas ng-stage id='gameCanvas' width='750' height='500'></canvas>
+        </div>
+
+    </body>
+
+    </html>
+
+    <!-- ZOR -->
+    <script src='stones/stones.js'></script>
+    <script src='stones/stonesLevels.js'></script>
