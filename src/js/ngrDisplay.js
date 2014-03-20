@@ -172,12 +172,12 @@ angular.module('Rectangular')
       console.log("tiling",options);
 
       var mask = new createjs.Shape();
-      mask.graphics.beginFill(["#000000", "rgba(0, 0, 0, 0)"], [0, 1], 0, 0, 100, 100)
+      mask.graphics.beginFill("rgba(0, 0, 0, 0)")
       if (options.shapeKind == 'box') {
       mask.graphics.drawRect(-options.width, -options.height, options.width *2, options.height * 2);
     } else if (options.shapeKind == 'circle') {
       console.log("masking circle")
-       mask.graphics.drawCircle(0, 0, options.height - 1);
+       mask.graphics.drawCircle(0, 0, options.height);
     }
       
       container.mask = mask;
