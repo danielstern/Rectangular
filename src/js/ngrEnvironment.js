@@ -74,7 +74,7 @@
 
      this.add = function (type, options) {
        if (!options) throw new Error("You can't add a shape without options.");
-       options.shapeKind = type;
+       options.shapeKind = options.shapeKind || type;
 
        var b = ngrWorld.addElement(options);
 

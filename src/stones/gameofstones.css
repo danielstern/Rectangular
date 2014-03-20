@@ -1,3 +1,13 @@
 html {
 	background-color: #F5F5F1;
 }
+
+.debug {
+	position: absolute;
+	top: 500px;
+}
+
+canvas {
+	border: 1px solid #eee;
+	cursor: pointer;
+}

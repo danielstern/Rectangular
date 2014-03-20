@@ -1,6 +1,6 @@
 angular.module('Rectangular')
 
-.service('ngrInterface', function(ngrWorld, ngrState, ngrLoop) {
+.service('ngrInterface', function (ngrWorld, ngrState, ngrLoop) {
 
   var grabJoint,
     targeter,
@@ -8,13 +8,14 @@ angular.module('Rectangular')
     mouseX,
     mouseY,
     last,
+    scrollZooming = false,
     onmoveListeners = [],
     ongrabListeners = [],
+    grabOnly = false,
     panStartPoint = {},
     panning = false;
 
-
-  $(document).mouseup(function(e) {
+  $(document).mouseup(function (e) {
     panning = false;
 
     if (grabJoint) ngrWorld.destroyJoint(grabJoint);
@@ -22,37 +23,68 @@ angular.module('Rectangular')
 
   })
 
-  this.enableDrag = function() {
+  $('canvas')[0].addEventListener("mousewheel", MouseWheelHandler, false);
+
+  function MouseWheelHandler(e) {
+
+    e.preventDefault();
+
+    var zoomChange;
+
+    if (e.wheelDelta < 0) {
+      zoomChange = -0.10;
+    } else {
+      zoomChange = 0.10;
+    }
+
+    if (scrollZooming) {
+      var currentZoom = ngrState.getZoom();
+      ngrState.setZoom(currentZoom + zoomChange);
+    }
+
+  }
+
+  this.scrollToZoom = function(enable) {
+    scrollZooming = enable;
+  }
+
+  this.setGrabOnly = function(attr) {
+    grabOnly = attr;
+  }
+
+  this.enableDrag = function () {
     targeter = new MouseTargeter($('canvas')[0], ngrState.getScale());
-    targeter.onclick(function(r) {
+    targeter.onclick(function (r) {
       mouseX = r.worldPosX;
       mouseY = r.worldPosY;
-      i.grab(r);
+      
+        i.grab(r);
+      
     })
 
-    targeter.onmove(function(r) {
+    targeter.onmove(function (r) {
       last = r;
       mouseX = r.worldPosX;
       mouseY = r.worldPosY;
-      _.each(onmoveListeners, function(_listener) {
+      _.each(onmoveListeners, function (_listener) {
         _listener(r);
       })
     })
   }
 
-  this.onmove = function(listener) {
+  this.onmove = function (listener) {
     onmoveListeners.push(listener);
   }
 
-  this.ongrab = function(listener) {
+  this.ongrab = function (listener) {
     ongrabListeners.push(listener);
   }
 
-  this.grab = function(r) {
+  this.grab = function (r) {
     body = i.getBodyAtMouse(r);
     var state = ngrState.getState();
 
-    targeter.onmove(function(r) {
+    targeter.onmove(function (r) {
       if (grabJoint) {
         grabJoint.SetTarget(new b2Vec2(r.worldPosX, r.worldPosY))
       } else if (panning) {
@@ -72,12 +104,16 @@ angular.module('Rectangular')
 
     if (body) {
 
+      if (!grabOnly) {
+
       if (grabJoint) ngrWorld.unpin(grabJoint);
       grabJoint = ngrWorld.pin(body, r);
 
-      _.each(ongrabListeners, function(_listener) {
+      _.each(ongrabListeners, function (_listener) {
         _listener(body);
       })
+
+      }
 
     } else {
       panStartPoint = _.clone(r);
@@ -88,13 +124,13 @@ angular.module('Rectangular')
     }
   }
 
-  this.pinToMouse = function(body) {
+  this.pinToMouse = function (body) {
     var pin = ngrWorld.pin(body, last);
     return pin;
 
   }
 
-  this.focusToMouse = function() {
+  this.focusToMouse = function () {
     var r = targeter.getInfo();
     var focus = {
       x: r.worldPosX,
@@ -103,7 +139,7 @@ angular.module('Rectangular')
     ngrState.setFocus(focus);
   }
 
-  this.getBodyAtMouse = function(r) {
+  this.getBodyAtMouse = function (r) {
     var targetVec = {
       x: mouseX,
       y: mouseY
@@ -116,7 +152,7 @@ angular.module('Rectangular')
     var targetBody = null;
     var Fixture;
 
-    ngrWorld.getWorld().QueryAABB(function(Fixture) {
+    ngrWorld.getWorld().QueryAABB(function (Fixture) {
       var shape = Fixture.GetShape();
       var Inside = shape.TestPoint(Fixture.GetBody().GetTransform(), pVec);
       if (Inside) {
@@ -147,27 +183,26 @@ angular.module('Rectangular')
     var onmoveListeners = [];
     var onclicklisteners = [];
 
-    this.getInfo = function() {
+    this.getInfo = function () {
       return lastR;
     }
 
-    this.onmove = function(listener) {
+    this.onmove = function (listener) {
       onmoveListeners.push(listener);
     }
 
-    this.onclick = function(listener) {
+    this.onclick = function (listener) {
       onclicklisteners.push(listener);
     }
 
     context = canvas.getContext('2d');
 
-    canvas.addEventListener('mousemove', function(evt) {
+    canvas.addEventListener('mousemove', function (evt) {
       var r = getInfo(evt);
 
-      _.each(onmoveListeners, function(_listener) {
+      _.each(onmoveListeners, function (_listener) {
         _listener(r);
       })
-
 
     }, false);
 
@@ -187,11 +222,11 @@ angular.module('Rectangular')
 
     }
 
-    canvas.addEventListener('mousedown', function(evt) {
+    canvas.addEventListener('mousedown', function (evt) {
       if (event.which == 1) {
         var r = getInfo(evt);
 
-        _.each(onclicklisteners, function(_listener) {
+        _.each(onclicklisteners, function (_listener) {
           _listener(r);
         })
       }

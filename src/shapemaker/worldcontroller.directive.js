@@ -40,7 +40,7 @@ angular.module('shapemaker')
   
               $scope.context.selectedY =  bodyPos.y;
               $scope.context.selectedX = bodyPos.x;
-              $scope.context.selectedAngle = bodyAngle;
+              $scope.context.selectedAngle = bodyAngle / Math.PI * 180;
             }
           }
 
@@ -77,7 +77,7 @@ angular.module('shapemaker')
             if ($scope.contextBody) {
               //console.log("setting context body stuff",)
               $scope.contextBody.SetPosition(new b2Vec2(Number($scope.context.selectedX), Number($scope.context.selectedY)));
-               $scope.contextBody.SetAngle(Number($scope.context.selectedAngle))
+               $scope.contextBody.SetAngle(Number($scope.context.selectedAngle * Math.PI / 180))
             }
           }
 
