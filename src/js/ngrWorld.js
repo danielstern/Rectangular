@@ -1,7 +1,7 @@
 angular.module('Rectangular')
 /* Creates an instance of the world of the simulation, 
    and provides an interface for it. */
-.service("ngrWorld", function(ngrBox, ngrModels, ngrState, ngrDisplay, ngrLoop) {
+.service("ngrWorld", function(ngrBox, ngrModels, ngrState, ngrStage, ngrDisplay, ngrLoop) {
 
   var world;
   var bodies = [];
@@ -12,22 +12,7 @@ angular.module('Rectangular')
   var hooks = [];
   var memoryPairs = [];
 
-  this.load = function(json) {
 
-    console.log(JSON.stringify(json));
-    ngrState.setProperties(json.properties);
-
-    _.each(json.elements, function(element) {
-      element.options.id = element.id;
-      w.addElement(element.options);
-    })
-
-    _.each(json.pins, function(pin) {
-      var body = w.getBodyById(pin.bodyId);
-      if (!body) console.error("Can't find the body for this pin.");
-      if (body) w.pin(body, pin.target);
-    })
-  }
 
   this.getBodyById = function(_id) {
     return _.find(bodies, function(body) {

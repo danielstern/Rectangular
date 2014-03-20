@@ -1,14 +1,14 @@
  angular.module('Rectangular')
-   .service('ngrEnvironment', function (ngrWorld, ngrInterface, ngrRoom, ngrStage, ngrModels, ngrDefaults, $q, ngrState, ngrLoop, ngrDisplay) {
+   .service('ngrEnvironment', function (ngrWorld, ngrInterface, ngrRoom, ngrStage, ngrModels, ngrDefaults, $q, ngrState, ngrLoop, ngrDisplay, ngrData) {
 
      this.addHook = ngrLoop.addHook;
      this.clearHooks = ngrLoop.clearHooks;
      this.setGravity = ngrWorld.setGravity;
      this.setWorldHeight = ngrState.setWorldHeight;
-     this.getJSON = ngrState.getJSON;
      this.blocker = ngrStage.blocker;
      this.pin = ngrInterface.pinToMouse;
-     this.load = ngrWorld.load;
+     this.getJSON = ngrData.getJSON;
+     this.load = ngrData.load;
      this.follow = ngrWorld.follow;
      this.unfollow = ngrWorld.unfollow;
      this.setFocusOffset = ngrState.setFocusOffset;

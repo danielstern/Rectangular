@@ -10,20 +10,16 @@ angular.module('Rectangular')
     var focusOffset = {x:0,y:0};
     var zoomTo = 0.15;
 
-    this.getJSON = function() {
-      var r = {};
-      r.properties = _.clone(state);
-      r.properties.canvas = null;
-      r.properties.world = null;
-      r.elements = elements;
-      r.pins = pins;
-      console.log("Attempting to stringify", r)
-      var str = JSON.stringify(r);
-      return str;
-    }
-
     this.setFocusOffset = function(_off) {
       focusOffset = _off;
+    }
+
+    this.getElements = function() {
+      return elements;
+    }
+
+    this.getPins = function() {
+      return pins;
     }
 
 
