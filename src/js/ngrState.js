@@ -14,6 +14,7 @@ angular.module('Rectangular')
       var r = {};
       r.properties = _.clone(state);
       r.properties.canvas = null;
+      r.properties.world = null;
       r.elements = elements;
       r.pins = pins;
       console.log("Attempting to stringify", r)
@@ -28,6 +29,14 @@ angular.module('Rectangular')
 
     this.getRoom = function() {
       return state.room;
+    }
+
+    this.setWorld = function(_world) {
+      state.world = _world;
+    }
+
+    this.getWorld = function() {
+      return state.world;
     }
 
     this.setRoom = function(_room) {

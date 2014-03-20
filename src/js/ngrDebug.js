@@ -1,5 +1,5 @@
 angular.module('Rectangular')
-  .service('ngrDebug', function(ngrWorld, ngrState) {
+  .service('ngrDebug', function(ngrState) {
     var d = this;
     var debugCanvas;
     var _canvas;
@@ -37,7 +37,7 @@ angular.module('Rectangular')
         x: 0,
         y: 0
       }
-      var world = ngrWorld.getWorld();
+      var world = ngrState.getWorld();
       var debugDraw = new b2DebugDraw();
       var debugContainer = new createjs.Container();
       var scale = ngrState.getScale() * ngrState.getZoom();
@@ -53,7 +53,7 @@ angular.module('Rectangular')
     }
 
     this.update = function(translation, scale) {
-      var world = ngrWorld.getWorld();
+      
       var state = ngrState.getState();
 
       debugDraw.SetDrawScale(scale);
