@@ -1,5 +1,5 @@
 angular.module('Rectangular')
-  .service('ngrStage', function(ngrLoop, ngrState, $q, ngrDebug) {
+  .service('ngrStage', function(ngrLoop, ngrState, ngrSkin, $q, ngrDebug) {
 
     var canvas = $('canvas')[0];
     var parallaxCenter;
@@ -53,6 +53,14 @@ angular.module('Rectangular')
     this.removeChild = function(container) {
       //if (!container) throw new Error("can't remove nothing");
       if (container && container.parent) container.parent.removeChild(container);
+    }
+
+    this.addSprite = function(b,options) {
+
+      var sprite = ngrSkin.skin(b,options);
+      s.addChild(sprite.container);
+      actors.push(sprite.actor);
+
     }
 
     this.setFocusPoint = function(vec) {

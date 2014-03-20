@@ -1,5 +1,5 @@
 angular.module('Rectangular')
- .service('ngrRoom', function (ngrWorld, ngrState, ngrStage, ngrDisplay, ngrModels) {
+ .service('ngrRoom', function (ngrWorld, ngrState, ngrStage, ngrModels) {
 
      var roomBodies = {};
      var e = this;

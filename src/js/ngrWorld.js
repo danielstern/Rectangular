@@ -1,7 +1,7 @@
 angular.module('Rectangular')
 /* Creates an instance of the world of the simulation, 
    and provides an interface for it. */
-.service("ngrWorld", function(ngrBox, ngrModels, ngrState, ngrStage, ngrDisplay, ngrLoop) {
+.service("ngrWorld", function(ngrBox, ngrModels, ngrState, ngrStage, ngrLoop) {
 
   var world;
   var bodies = [];
@@ -114,10 +114,7 @@ angular.module('Rectangular')
 
     bodies.push(b);
 
-    ngrDisplay.skin(b,options);
-
-
-
+    ngrStage.addSprite(b, options);
 
     return b;
   };

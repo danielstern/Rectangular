@@ -1,5 +1,5 @@
  angular.module('Rectangular')
-   .service('ngrEnvironment', function (ngrWorld, ngrInterface, ngrRoom, ngrStage, ngrModels, ngrDefaults, $q, ngrState, ngrLoop, ngrDisplay, ngrData) {
+   .service('ngrEnvironment', function (ngrWorld, ngrInterface, ngrRoom, ngrStage, ngrModels, ngrDefaults, $q, ngrState, ngrLoop, ngrData) {
 
      this.addHook = ngrLoop.addHook;
      this.clearHooks = ngrLoop.clearHooks;

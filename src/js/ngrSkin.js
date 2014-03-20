@@ -1,5 +1,5 @@
 angular.module('Rectangular')
-  .service('ngrDisplay', function (ngrStage, ngrState, ngrDefaults, $q, ngrActor) {
+  .service('ngrSkin', function (ngrState, ngrDefaults, $q, ngrActor) {
 
     var nd = this;
     var _body;
@@ -32,7 +32,7 @@ angular.module('Rectangular')
 
       var env = ngrState.getProperties();
 
-      var stage = ngrStage.stage;
+     // var stage = ngrStage.stage;
       var imgData;
 
       if (options.radius) {
@@ -49,12 +49,12 @@ angular.module('Rectangular')
 
       var _container = new createjs.Container();
 
-      ngrStage.addChild(_container);
+      //ngrStage.addChild(_container);
 
       _body.container = _container;
 
       actor = ngrActor.newActor(body, _container);
-      ngrStage.actors.push(actor);
+      //ngrStage.actors.push(actor);
 
       loadBitmap(options.src)
         .then(function (imgData) {
@@ -88,6 +88,11 @@ angular.module('Rectangular')
           }
 
         })
+
+        return {
+          actor:actor,
+          container:_container
+        }
 
     };
 
@@ -184,8 +189,11 @@ angular.module('Rectangular')
         bgData.scaleY = scaleX;
         bgData.closeness = closeness || 0;
 
-        ngrStage.addChildAt(bgData, 0, true);
-
+        //ngrStage.addChildAt(bgData, 0, true);
+         return {
+          actor:null,
+          container:_bgData
+        }
       }
     }
 
