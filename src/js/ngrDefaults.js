@@ -5,6 +5,8 @@ angular.module('Rectangular')
     width: 0.3,
     type: 'static',
     shapeKind: 'box',
+    src: 'img/tile.png',
+    bg: 'tiled',
     x: 0,
 
   };
@@ -23,6 +25,7 @@ angular.module('Rectangular')
       gravityScale : 1.0 ,
       type : 'dynamic' ,
       angle: 0,
+      
     }
 
   this.floor = {
@@ -33,6 +36,8 @@ angular.module('Rectangular')
     restitution: 0.2,
     isFloor: true,
     shapeKind: 'box',
+    src: 'img/tile.png',
+    bg: 'tiled',
     userData: {
       isFloor: true
     }

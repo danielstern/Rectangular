@@ -56,6 +56,10 @@ angular.module('Rectangular')
 
     this.init = function() {
 
+      console.log("inited");
+      s.clearAll();
+
+
       parallaxCenter = ngrState.getRoomCenter();
 
 
@@ -178,8 +182,11 @@ angular.module('Rectangular')
     }
     this.update = function() { // translate box2d positions to pixels
       this.skin.rotation = this.body.GetAngle() * (180 / Math.PI);
-      this.skin.x = this.body.GetWorldCenter().x * ngrState.getScale() * ngrState.getZoom();
-      this.skin.y = this.body.GetWorldCenter().y * ngrState.getScale() * ngrState.getZoom();
+      var scale = ngrState.getScale() * ngrState.getZoom()
+      this.skin.x = this.body.GetWorldCenter().x * scale;
+      this.skin.y = this.body.GetWorldCenter().y * scale;
+      this.skin.scaleX = ngrState.getZoom() * 5;
+      this.skin.scaleY = ngrState.getZoom() * 5;
     }
   }
 

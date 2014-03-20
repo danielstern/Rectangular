@@ -1,11 +1,8 @@
  angular.module("manWho", ['ngAudio', 'Rectangular'])
    .service('manWho', function(ngrEnvironment, manWhoLevels, heroGenerator) {
-     console.log("Don't give a FUCK!");
 
      ngrEnvironment.init({
        scale: '30',
-
-
      });
 
      var currentLevel;
@@ -17,17 +14,15 @@
        ngrEnvironment.load(currentLevel);
        var heroPlaceholder = ngrEnvironment.getBodyByUserData('hero',"true");
        if (!heroPlaceholder) throw new Error("You must make a body with the attribute 'hero = true' to make a level. Or else, where would the hero start?");
-       console.log("heroPlaceholder?",heroPlaceholder);
        hero = heroGenerator.getHero();
        hero.x = heroPlaceholder.GetWorldCenter().x;
        hero.y = heroPlaceholder.GetWorldCenter().y;
        ngrEnvironment.remove(heroPlaceholder);
-       //console.log("hero")
        var heroBody = ngrEnvironment.add('box', hero);
 
        hero.body = heroBody;
        bindControls(hero);
-       ngrEnvironment.setZoom(1, true);
+       ngrEnvironment.setZoom(0.7, true);
        ngrEnvironment.follow(hero.body);
      }
 
@@ -67,8 +62,6 @@
        }, 'keyup');
 
      }
-
-
    })
 
  .service('heroGenerator', function(ngrEnvironment, ngrState) {
@@ -79,7 +72,6 @@
      h.type = 'dynamic';
      h.friction = 0.1;
      h.density = 0.2;
-     //console.log("i'm a hero");
 
      var state = {
        goingLeft: false,
