@@ -33,10 +33,10 @@ angular.module('Rectangular')
       var env = ngrState.getProperties();
 
       var imgData;
-      console.log("skinning body,", options);
-      console.log("Scale?",scale)
    
-        if (options.shapeKind == 'circle') {
+        if (options.shapeKind === 'circle') {
+
+          console.log("Skinning a circle", options);
 
           options.spriteWidth = options.radius * scale;
           options.spriteHeight = options.radius * scale;
@@ -65,9 +65,18 @@ angular.module('Rectangular')
           if (options.bg != 'tiled') {
 
             var container = new createjs.Container();
+            var scaleX;
+            var scaleY;
 
-            var scaleY = options.spriteHeight / img.height * 2;
-            var scaleX = options.spriteWidth / img.width * 2;
+            if (options.shapeKind === 'box') {
+
+            scaleY = options.spriteHeight / img.height * 2;
+            scaleX = options.spriteWidth / img.width * 2;
+
+            } else {
+              scaleY = options.spriteHeight / img.height;
+              scaleX = options.spriteWidth / img.width;
+            }
 
             var regY = (img.height) / 2;
             var regX = (img.width) / 2;
@@ -78,7 +87,7 @@ angular.module('Rectangular')
             imgData.regX = regX;
             imgData.regY = regY;
 
-            imgData.snapToPixel = options.snapToPixel;
+      //      imgData.snapToPixel = options.snapToPixel;
             imgData.mouseEnabled = options.mouseEnabled;
             _container.addChild(imgData)
 
@@ -153,6 +162,8 @@ angular.module('Rectangular')
 
         _imgData.scaleX = t.scaleX;
         _imgData.scaleY = t.scaleY;
+
+        _imgData.snapToPixel = false;
 
         container.addChild(_imgData);
       });

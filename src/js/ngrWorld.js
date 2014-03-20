@@ -93,7 +93,7 @@ angular.module('Rectangular')
     elementDef.id = id;
     ngrState.addElement(elementDef);
 
-    console.log("saving element defintion,",elementDef);
+    //console.log("saving element defintion,",elementDef);
 
     memoryPairs.push({
       element: elementDef,
