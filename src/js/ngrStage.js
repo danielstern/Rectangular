@@ -51,8 +51,8 @@ angular.module('Rectangular')
     }
 
     this.removeChild = function(container) {
-      console.log("Removing child",container);
-      container.parent.removeChild(container);
+      //console.log("Removing child",container);
+      if (container) container.parent.removeChild(container);
     }
 
     this.setFocusPoint = function(vec) {
@@ -186,17 +186,22 @@ angular.module('Rectangular')
   var actorObject = function(body, skin) {
     this.body = body;
     this.skin = skin;
+    var originalZoom = ngrState.getZoom()
+    var originalObjectScale = this.skin.scaleX;
+    var originalScale = ngrState.getScale() * ngrState.getZoom();
+    console.log("original scale?",originalScale);
 
     this.GetPosition = function() {
       return body.GetPosition();
     }
     this.update = function() { // translate box2d positions to pixels
       this.skin.rotation = this.body.GetAngle() * (180 / Math.PI);
-      var scale = ngrState.getScale() * ngrState.getZoom()
+      var scale = ngrState.getScale() * ngrState.getZoom();
+      //console.log("new scale?",scale);
       this.skin.x = this.body.GetWorldCenter().x * scale;
       this.skin.y = this.body.GetWorldCenter().y * scale;
-      this.skin.scaleX = ngrState.getZoom() * 5;
-      this.skin.scaleY = ngrState.getZoom() * 5;
+      this.skin.scaleX =  (ngrState.getZoom() / originalZoom) * originalObjectScale;
+      this.skin.scaleY =  (ngrState.getZoom() / originalZoom) * originalObjectScale;
     }
   }
 

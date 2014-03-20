@@ -197,7 +197,7 @@ angular.module('Rectangular')
     var elId = body.id;
     world.DestroyBody(body);
 
-    console.log("removing element",body);
+    //console.log("removing element",body);
 
     bodies = _.chain(bodies)
       .map(function(_body) {

@@ -21,6 +21,11 @@ angular.module("BallAgentHero", ['Rectangular', 'ngAudio'])
 	  }
 	};
 
+	var sprite = {
+		src: 'img/hero.png',
+		radius: 0.5,
+	}
+
 
 	this.createNewHero = function() {
 		heroBody = this.createHero();
@@ -52,11 +57,8 @@ angular.module("BallAgentHero", ['Rectangular', 'ngAudio'])
 	  
 	  window.heroBody = heroBody;
 
-	  var radius = state.stats.radius;
-	  var attrs = {};
-	  attrs.radius = radius;
-	  attrs.src = 'img/hero.png';
-	  var actor = ngrDisplay.skin(heroBody, attrs);
+
+	  var actor = ngrDisplay.skin(heroBody, sprite);
 	  console.log("setting follow",actor);
 	  ngrStage.follow(actor);
 

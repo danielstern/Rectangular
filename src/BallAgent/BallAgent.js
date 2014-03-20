@@ -177,7 +177,7 @@ angular.module("BallAgent", ['Rectangular', 'ngAudio', 'BallAgentHero', 'BallAge
       scale: 30,
       floor: true,
       constrainFocusToRoom: true,
-      zoom: 0.7,
+      zoom: 1,
       room: {
         width: 30,
         height: 20,
@@ -187,6 +187,8 @@ angular.module("BallAgent", ['Rectangular', 'ngAudio', 'BallAgentHero', 'BallAge
         roof: false
       }
     });
+
+    ngrEnvironment.setZoom(0.5);
 
     function nextLevel() {
       if (goingToNextLevel) return;
@@ -203,10 +205,14 @@ angular.module("BallAgent", ['Rectangular', 'ngAudio', 'BallAgentHero', 'BallAge
             return;
           }
 
+          ngrEnvironment.setZoom(0.5);
+
+
           ngrEnvironment.clearAll();
           if (c) clearTimeout(c);
 
           state.levelName = l.levelName;
+          updateState(state);
 
           $('.levelName').removeClass('slideInLeft')
             .removeClass('slideOutLeft')
@@ -237,6 +243,7 @@ angular.module("BallAgent", ['Rectangular', 'ngAudio', 'BallAgentHero', 'BallAge
           exit = m.createExit(l.exit);
           bindControls();
 
+
           ngrEnvironment.setFocusOffset({
             x:0,
             y:0
@@ -251,7 +258,6 @@ angular.module("BallAgent", ['Rectangular', 'ngAudio', 'BallAgentHero', 'BallAge
 
           ngrEnvironment.addHook(tick);
 
-          updateState(state);
 
         });
 

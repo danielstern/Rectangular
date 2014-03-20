@@ -39,6 +39,8 @@ angular.module('Rectangular')
 
       if (options.radius) {
 
+        console.log("Skinnign circle,",options);
+
         options.width = options.radius * scale;
         options.height = options.radius * scale;
 
