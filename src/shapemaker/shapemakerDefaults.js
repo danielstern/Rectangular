@@ -165,10 +165,10 @@ angular.module('shapemaker')
         src: 'img/box-red.png',
       },
       userData: {
-        explosive: {
-          volatility: 1,
-          force: 10,
-        }
+        explosive: true,
+        volatility: 1,
+        doodad: true,
+        force: 1
       },      
       presets: {
         height: 0.5,

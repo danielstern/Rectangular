@@ -15,7 +15,7 @@ angular.module("Stones", ['Rectangular'])
       x: 40,
       y: 5,
       width: 50,
-      height: 20
+      height: 25
     })
 
     ngrEnvironment.constrainZoom({
@@ -35,6 +35,7 @@ angular.module("Stones", ['Rectangular'])
       var base = ngrEnvironment.getBodiesByUserData('base', 'true');
       var prize = ngrEnvironment.getBodyByUserData('prize', 'true');
       var doodads = ngrEnvironment.getBodiesByUserData('doodad', 'true');
+      var explosives = ngrEnvironment.getBodiesByUserData('explosive', true);
 
       _.each(base, function (comp) {
         comp.SetType(b2Body.b2_dynamicBody);
@@ -42,6 +43,48 @@ angular.module("Stones", ['Rectangular'])
 
       _.each(doodads, function (doodad) {
         ngrWorld.freeze(doodad);
+      })
+
+      //console.log("Explosives?",explosives);
+
+      _.each(explosives, function (explosive) {
+        console.log("Explosive?", explosive);
+
+        //window.explosive = explosive;
+        var contact = explosive;
+        ngrWorld.unfreeze(explosive);
+        while (contact) {
+
+          var edge = explosive.GetContactList();
+          var contact = edge.contact;
+          var points = contact.m_oldManifold.m_points;
+          var other = edge.other;
+
+          ngrLoop.addHook(function () {
+            var explosiveMomentumX = explosive.GetLinearVelocity().x * explosive.GetInertia();
+            var explosiveMomentumY = explosive.GetLinearVelocity().y * explosive.GetInertia();
+            var otherMomentumX = other.GetLinearVelocity().x * other.GetInertia();
+            var otherMomentumY = other.GetLinearVelocity().y * other.GetInertia();
+
+            var diffX = Math.abs(explosiveMomentumX - otherMomentumX);
+            var diffY = Math.abs(explosiveMomentumY - otherMomentumY);
+            var vect = Math.sqrt(diffX + diffY);
+
+            var momentumDiff = {
+              x: diffX,
+              y: diffY,
+              vect: vect
+            }
+
+           // console.log(momentumDiff.vect);
+           if (momentumDiff.vect > 0.1) {
+            console.log("That's an impact!");
+           }
+          })
+
+          contact = edge.next;
+        }
+
       })
 
       prize.SetType(b2Body.b2_dynamicBody);

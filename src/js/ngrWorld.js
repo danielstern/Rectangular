@@ -60,6 +60,14 @@ angular.module('Rectangular')
     body.GetLocalCenter().Set(prev.x, prev.y);
   }
 
+
+  this.unfreeze = function (body) {
+    
+    if (body) body.SetType(b2Body.b2_dynamicBody);
+    
+  }
+
+
   function removeLostObjects() {
     _.each(bodies, function (body) {
 
