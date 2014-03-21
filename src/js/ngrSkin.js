@@ -197,8 +197,9 @@ angular.module('Rectangular')
         var p2 = points[1];
         var p3 = points[2];
         mask.graphics.f('#000').lineTo(p1.x * scale, p1.y * scale).lineTo(p2.x * scale, p2.y * scale).lineTo(p3.x * scale, p3.y * scale);
-        mask.x = -center.x * scale;
-        mask.y = -center.y * scale;
+        //mask.x = - p3.x * scale / 2;
+        mask.y = - options.opposite * scale / 2;
+       // mask.y = -center.y * scale;
 
       }
 

@@ -23,7 +23,7 @@ angular.module('shapemaker')
         q.angle = 0;
         q.shape = $attrs.shape || 'circle';
 
-        q.innerAngle = 60;
+        q.innerAngle = 90;
         q.adjacent = 2;
         q.opposite = 2;
 
