@@ -126,7 +126,13 @@
      }
 
      $scope.freezeContextItem = function() {
+      var prev = {
+        x:$scope.contextBody.options.center.x,
+        y:$scope.contextBody.options.center.y
+      }
        if ($scope.contextBody) $scope.contextBody.SetType(b2Body.b2_staticBody);
+       console.log("Setting local center...",prev);
+       $scope.contextBody.GetLocalCenter().Set(prev.x, prev.y);
        hideContextMenu();
      }
 
@@ -146,8 +152,13 @@
 
 
      $scope.unfreezeContextItem = function() {
-       $scope.contextBody.SetType(b2Body.b2_dynamicBody);
-       hideContextMenu();
+      var prev = {
+        x:$scope.contextBody.GetLocalCenter().x,
+        y:$scope.contextBody.GetLocalCenter().y,
+      }
+      $scope.contextBody.SetType(b2Body.b2_dynamicBody);
+     // $scope.contextBody.GetLocalCenter().Set(prev.x, prev.y);
+       
      }
 
      $scope.pinContextItem = function() {

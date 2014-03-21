@@ -187,7 +187,7 @@ angular.module('Rectangular')
         mask.graphics.drawCircle(0, 0, options.spriteHeight);
       } else if (options.shapeKind === 'triangle') {
 
-        var center = _body.GetLocalCenter();
+        var center = options.center || _body.GetLocalCenter();
         console.log("Drawing this triangle...",options, center);
         //setTimeout(function(){console.log(_body.GetLocalCenter())},500);
         var innerAngleRads = Number(options.innerAngle) * Math.PI / 180;
@@ -197,10 +197,10 @@ angular.module('Rectangular')
         var p2 = points[1];
         var p3 = points[2];
         mask.graphics.f('#000').lineTo(p1.x * scale, p1.y * scale).lineTo(p2.x * scale, p2.y * scale).lineTo(p3.x * scale, p3.y * scale);
-     //   mask.x = -center.x * scale;
-       // mask.y = -center.y * scale;
-       mask.x = -options.opposite / 3 * scale;
-       mask.y = -options.adjacent / 3 * scale;
+        mask.x = -center.x * scale;
+       mask.y = -center.y * scale;
+      // mask.x = -options.opposite / 3 * scale;
+      // mask.y = -options.adjacent / 3 * scale;
 
       }
 

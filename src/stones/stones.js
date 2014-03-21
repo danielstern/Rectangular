@@ -29,15 +29,13 @@ angular.module("Stones", ['Rectangular'])
     }
 
     $scope.startLevel = function () {
-      console.log("starting level...");
       var starter = ngrEnvironment.getBodyByUserData('worldStarter', 'true');
-      console.log("Starter?", starter);
       ngrEnvironment.remove(starter);
       ngrEnvironment.start();
       var base = ngrEnvironment.getBodiesByUserData('base', 'true');
       var prize = ngrEnvironment.getBodyByUserData('prize', 'true');
       var doodads = ngrEnvironment.getBodiesByUserData('doodad', 'true');
-      console.log("base?", base);
+
       _.each(base, function (comp) {
         comp.SetType(b2Body.b2_dynamicBody);
       })

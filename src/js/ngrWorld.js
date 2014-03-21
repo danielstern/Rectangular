@@ -95,6 +95,19 @@ angular.module('Rectangular')
 
     options.points = f.points;
     def.options.points = f.points;
+
+    console.log("Adding this element",options.center);
+    
+    var type = b.GetType();
+    
+    b.SetType(0);
+    b.SetType(2);
+    b.SetType(type);
+
+    if (b.GetType() == '0' && options.center) b.GetLocalCenter().Set(options.center.x, options.center.y);
+
+    options.center = b.GetLocalCenter();
+    def.options.center = options.center;
     
     if (options.userData) b.SetUserData(options.userData);
 
