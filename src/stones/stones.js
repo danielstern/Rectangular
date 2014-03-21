@@ -3,7 +3,7 @@ angular.module("Stones", ['Rectangular'])
     console.log("A Game of Stones");
     ngrEnvironment.init({
       canvas: $('canvas'),
-      constrainFocusToRoom: true
+      constrainFocusToRoom: false
     });
     ngrEnvironment.load(stonesLevels.getLevel(1));
     ngrEnvironment.debug(false);
@@ -65,12 +65,12 @@ angular.module("Stones", ['Rectangular'])
       if (success) {
         console.log("huzzah!");
         setTimeout(function () {
-            ngrEnvironment.blocker()
-              .then(function () {
-                ngrEnvironment.stop();
-              })
-          },3000);
-        };
+          ngrEnvironment.blocker()
+            .then(function () {
+              ngrEnvironment.stop();
+            })
+        }, 3000);
+      };
     }
 
     $scope.add = function (type) {

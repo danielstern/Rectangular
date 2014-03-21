@@ -50,6 +50,8 @@
 
        options.speed = options.fps;
 
+       console.log("initing...", options);
+
        ngrState.setProperties(options);
        ngrLoop.initWorld(options.fps);
        ngrWorld.setWorld(0, options.gravity, true);

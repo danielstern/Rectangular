@@ -139,6 +139,8 @@ angular.module('Rectangular')
         var roomHeightPixels = state.room.height * scale;
         var roomWidthPixels = state.room.width * scale;
 
+        //console.log("Constraining to room...");
+
         if (newTranslation.y - canvas.height < -roomHeightPixels) newTranslation.y = -roomHeightPixels + canvas.height;
         if (newTranslation.x + canvas.width > roomWidthPixels) newTranslation.x = roomWidthPixels - canvas.width;
         if (newTranslation.y > 0) newTranslation.y = 0;
@@ -147,8 +149,18 @@ angular.module('Rectangular')
       }
 
       if (constraint) {
-        console.log("Readjusting view again...");
+        var constraintXPixels = constraint.x * scale;
+        var constraintYPixels = constraint.y * scale;
+        var constraintWidthPixels = constraint.width * scale;
+        var constraintHeightPixels = constraint.height * scale;
+
+        
+        //if (newTranslation.x + canvas.width > roomWidthPixels) newTranslation.x = roomWidthPixels - canvas.width;
+   //     if (newTranslation.y > constraintYPixels) newTranslation.y = constraintYPixels;
+  //   if (newTranslation.x < constraintXPixels) newTranslation.x = constraintXPixels;
+
       }
+
 
       c.x = -newTranslation.x;
       c.y = newTranslation.y;
@@ -159,8 +171,17 @@ angular.module('Rectangular')
       ngrDebug.update({
         x: -newTranslation.x,
         y: newTranslation.y
-      }, scale, canvas)
+      }, scale, canvas);
 
+/*
+      setTimeout(function(){
+
+      ngrState.setFocus({
+        x: -newTranslation.x + 0.5 * canvas.width / scale ,
+        y: newTranslation.y + 0.5 * canvas.height / scale
+      }, false);
+
+      },5)*/
 
       ctx.restore();
       _.each(actors, function(actor) {

@@ -95,17 +95,19 @@ angular.module('Rectangular')
     }
 
     this.setFocus = function (_f, _inst) {
-      if (focusConstraint) {
-        if (_f.x < focusConstraint.x) _f.x = focusConstraint.x;
-        if (_f.x > focusConstraint.x + focusConstraint.width) _f.x = focusConstraint.x + focusConstraint.width;
-
-         if (_f.y < focusConstraint.y) _f.y = focusConstraint.y;
-         if (_f.y > focusConstraint.y + focusConstraint.height) _f.y = focusConstraint.y + focusConstraint.height;
-      }
       focusTo = {
         x: _f.x,
         y: _f.y
       };
+
+      if (focusConstraint) {
+        if (focusTo.x < focusConstraint.x) focusTo.x = focusConstraint.x;
+        if (focusTo.x > focusConstraint.x + focusConstraint.width) focusTo.x = focusConstraint.x + focusConstraint.width;
+
+         if (focusTo.y < focusConstraint.y) focusTo.y = focusConstraint.y;
+         if (focusTo.y > focusConstraint.y + focusConstraint.height) focusTo.y = focusConstraint.y + focusConstraint.height;
+      }
+      
       if (_inst) focus = {
         x: _f.x,
         y: _f.y
@@ -119,37 +121,12 @@ angular.module('Rectangular')
 
 
     this.getFocus = function () {
-     var focusReturn = {
+      var focusReturn = {
         x: focus.x,
         y: focus.y,
       };
-      /*
-      if (focusConstraint) {
-        if (focusReturn.x < focusConstraint.x) focusReturn.x = focusConstraint.x;
-        if (focusReturn.x > focusConstraint.x + focusConstraint.width) focusReturn.x = focusConstraint.x + focusConstraint.width;
-
-        if (focusReturn.y < focusConstraint.y) focusReturn.y = focusConstraint.y;
-        if (focusReturn.y > focusConstraint.y + focusConstraint.height) focusReturn.y = focusConstraint.y + focusConstraint.height;
-      }*/
-
-   /*   var scale = state.scale * state.zoom;
-
-      if (focusConstraint) {
-        var constraintXPixels = focusConstraint.x * scale;
-        var constraintYPixels = focusConstraint.y * scale;
-        var constraintWidthPixels = focusConstraint.width * scale;
-        var constraintHeightPixels = focusConstraint.height * scale;
-
-       
-        if (focusReturn.y > constraintYPixels) focusConstraint.y = constraintYPixels;
-        if (focusReturn.x < constraintXPixels) focusReturn.x = constraintXPixels;
-
-      }
-      console.log("Returning focus,",focusReturn);
-
-      focusReturn.x = focusReturn.x / scale;
-      focusReturn.y = focusReturn.y / scale;*/
-
+      
+     
       return focusReturn;
     }
 
