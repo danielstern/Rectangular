@@ -62,8 +62,8 @@ angular.module('Rectangular')
     }
 
     this.updateRoom = function (_room) {
-      if (_room.width) st.setRoomWidth(Number(_room.width));
-      if (_room.height) st.setRoomHeight(Number(_room.height));
+      if (_room.width) state.room.width = Number(_room.width);
+      if (_room.height) state.room.height = Number(_room.height);
 
       _.each(['floor', 'roof', 'leftWall', 'rightWall'], function (area) {
         if (_room[area] == true) state.room[area] = true;

@@ -1,5 +1,5 @@
 angular.module('shapemaker')
-  .service('shapecreatorDefaults', function (ngrState) {
+  .service('shapemakerDefaults', function (ngrState) {
     var Shape = function () {
       return {
         bg: 'tiled',
@@ -44,6 +44,17 @@ angular.module('shapemaker')
       }
 
     ]
+
+    this.shapeOptions = [{
+      name: 'Circle',
+      type: 'circle'
+    }, {
+      name: 'Rectangle',
+      type: 'box'
+    }, {
+      name: 'Triangle',
+      type: 'triangle'
+    }]
 
     this.presets = [{
       name: 'Wooden Box',

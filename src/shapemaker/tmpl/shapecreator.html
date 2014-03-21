@@ -4,11 +4,9 @@
 <select  ng-model="q.preset" id='preset' ng-options="preset.name for preset in presets">
 </select>
 </div>
-    <select  ng-model="q.shape" id='options'>
-    <option ng-click="q.shape == option.type"value='{{option.type}}' ng-repeat="option in options">
-        {{option.name}}
-    </option>
+<select  ng-model="q.shape" ng-options="shape.name for shape in options">
 </select>
+
 
 <select  ng-model="q.skin" id='skin' ng-options="skin.name for skin in skins">
     
@@ -25,5 +23,5 @@
         </td>
     </tr>
 </table>
-<button ng-click='newShape(shape)'>Create</button>
+<button ng-click='addShape(q)'>Create</button>
 </div>
