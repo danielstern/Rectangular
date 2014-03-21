@@ -17,6 +17,8 @@ angular.module('Rectangular')
       return s;
     }
 
+
+
     function NgShape(options) {
 
       if (options.isShape) {
@@ -32,6 +34,11 @@ angular.module('Rectangular')
 
         b.position.Set(Number(this.options.x || 0), Number(this.options.y || 0));
         b.angle = Number(this.options.angle || 0);
+
+        if (options.bullet) {
+          b.fixedRotation = true;
+          b.linearDamping = 10;
+        }
 
         switch (this.options.type) {
         case 'dynamic':
@@ -102,6 +109,10 @@ angular.module('Rectangular')
         f.density = Number(options.density || 0);
         f.friction = Number(options.friction || 0);
         f.restitution = Number(options.restitution || 0);
+
+        if (options.bullet) {
+          f.filter.groupIndex = -1;
+        }
 
         return f;
       }

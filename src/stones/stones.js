@@ -6,7 +6,7 @@ angular.module("Stones", ['Rectangular'])
       constrainFocusToRoom: false
     });
     ngrEnvironment.load(stonesLevels.getLevel(1));
-    ngrEnvironment.debug(false);
+    //ngrEnvironment.debug(true);
     ngrEnvironment.setZoom(0.2);
     ngrInterface.enableDrag();
     ngrInterface.setGrabOnly("doodad");
@@ -76,9 +76,9 @@ angular.module("Stones", ['Rectangular'])
               vect: vect
             }
 
-             console.log(momentumDiff.vect);
+             //console.log(momentumDiff.vect);
             if (momentumDiff.vect > 0.5) {
-              console.log("That's an impact!");
+              //console.log("That's an impact!");
               ngrWorld.explode(explosive);
               ngrLoop.removeHook(hook);
             }

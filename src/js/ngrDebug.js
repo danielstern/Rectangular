@@ -29,8 +29,8 @@ angular.module('Rectangular')
         p.append("<canvas id='debugCanvas'></canvas>");
         debugCanvas = $('#debugCanvas')[0];
         $(debugCanvas)
-          .attr('height', state.height)
-          .attr('width', state.width);
+          .attr('height', _canvas.height)
+          .attr('width', _canvas.width);
       }
 
       ctx = debugCanvas.getContext('2d');

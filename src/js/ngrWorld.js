@@ -33,6 +33,25 @@ angular.module('Rectangular')
     var posY = thing.GetPosition().y;
     w.removeElement(thing);
 
+    var numRays = 20;
+    for (i = 0; i < numRays; i++) {
+      var angle = (i / numRays) * 180 * Math.PI;
+      var rayDir = new b2Vec2(Math.sin(angle),Math.cos(angle));
+
+      //var bullet = ngrBox.shape();
+
+      var b = w.addElement({
+        shapeKind: 'circle',
+        radius: '0.05',
+        density: 60,
+        bullet: true,
+        src: 'img/box.png',
+      });
+
+      b.ApplyForce(rayDir,b.GetLocalCenter());
+
+    }
+
   }
 
   this.unfollow = function (followHook) {
