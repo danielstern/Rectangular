@@ -23,7 +23,7 @@ angular.module('Rectangular')
      }
 
      this.clearRoom = function () {
-      console.error("Clearing room...",roomBodies.leftWall);
+      //console.error("Clearing room...",roomBodies.leftWall);
 
        if (roomBodies.roof) w.removeElement(roomBodies.roof);
        if (roomBodies.leftWall) w.removeElement(roomBodies.leftWall);
