@@ -23,7 +23,6 @@ angular.module('Rectangular')
         return options;
       }
 
-     // options = _.clone(options);
       this.options = options;
       this.isShape = true;
 
@@ -76,15 +75,12 @@ angular.module('Rectangular')
           };
           var innerAngleRadians = -(options.innerAngle / 180) * Math.PI;
           var rightPoint = {
-            x: Math.sin(innerAngleRadians) * options.opposite,
-            y: -Math.cos(innerAngleRadians) * options.adjacent
+            x: Math.sin(innerAngleRadians) * options.adjacent,
+            y: -Math.cos(innerAngleRadians) * options.opposite
           }
 
-   //      console.log("inneranglerads?",innerAngleRadians);
-
-          var points = [corner,rightPoint,bottomPoint];
+          var points = [corner, rightPoint, bottomPoint];
           var pointVectors = [];
-          //options.points = points;
 
           for (var i = 0; i < points.length; i++) {
             var vec = new b2Vec2();

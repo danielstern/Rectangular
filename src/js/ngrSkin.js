@@ -6,8 +6,6 @@ angular.module('Rectangular')
     this.skin = function (body, options) {
       _body = body;
 
-    //  console.log("skinnign this body...", body)
-
       var scale = ngrState.getScale() * ngrState.getZoom();
 
       var f = body.GetFixtureList();
@@ -76,7 +74,7 @@ angular.module('Rectangular')
               scaleX = options.spriteWidth / img.width * 2;
 
             } else {
-              console.log("adding non titled circle",options);
+              console.log("adding non titled circle", options);
               scaleY = options.spriteHeight / img.height;
               scaleX = options.spriteWidth / img.width;
             }
@@ -84,16 +82,11 @@ angular.module('Rectangular')
             var regY = (img.height) / 2;
             var regX = (img.width) / 2;
 
-
-        //  imgData.width = options.spriteWidth / 5;
-      //    imgData.height = options.spriteHeight / 5;
-
             imgData.regX = regX;
             imgData.regY = regY;
-            console.log("scaling?",options.spriteWidth,img.width,options);
+            console.log("scaling?", options.spriteWidth, img.width, options);
             imgData.scaleX = options.spriteWidth / img.width * 2;
-            imgData.scaleY =  options.spriteHeight / img.height * 2;
-            //      imgData.snapToPixel = options.snapToPixel;
+            imgData.scaleY = options.spriteHeight / img.height * 2;
             imgData.mouseEnabled = options.mouseEnabled;
             _container.addChild(imgData)
 
@@ -177,8 +170,6 @@ angular.module('Rectangular')
       container.regX = -options.spriteWidth;
       container.regY = -options.spriteHeight;
 
-     
-
       var mask = new createjs.Shape();
       mask.graphics.beginFill("rgba(0, 0, 0, 0)")
       if (options.shapeKind == 'box') {
@@ -188,8 +179,6 @@ angular.module('Rectangular')
       } else if (options.shapeKind === 'triangle') {
 
         var center = options.center || _body.GetLocalCenter();
-        console.log("Drawing this triangle...",options, center);
-        //setTimeout(function(){console.log(_body.GetLocalCenter())},500);
         var innerAngleRads = Number(options.innerAngle) * Math.PI / 180;
 
         var points = options.points;
@@ -198,9 +187,7 @@ angular.module('Rectangular')
         var p3 = points[2];
         mask.graphics.f('#000').lineTo(p1.x * scale, p1.y * scale).lineTo(p2.x * scale, p2.y * scale).lineTo(p3.x * scale, p3.y * scale);
         mask.x = -center.x * scale;
-       mask.y = -center.y * scale;
-      // mask.x = -options.opposite / 3 * scale;
-      // mask.y = -options.adjacent / 3 * scale;
+        mask.y = -center.y * scale;
 
       }
 

@@ -126,14 +126,8 @@
      }
 
      $scope.freezeContextItem = function() {
-      var prev = {
-        x:$scope.contextBody.options.center.x,
-        y:$scope.contextBody.options.center.y
-      }
-       if ($scope.contextBody) $scope.contextBody.SetType(b2Body.b2_staticBody);
-       console.log("Setting local center...",prev);
-       $scope.contextBody.GetLocalCenter().Set(prev.x, prev.y);
-       hideContextMenu();
+      ngrWorld.freeze($scope.contextBody);
+      
      }
 
      $scope.editContext = function() {

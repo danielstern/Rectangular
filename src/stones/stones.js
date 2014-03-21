@@ -1,5 +1,5 @@
 angular.module("Stones", ['Rectangular'])
-  .controller("GameOfStones", function ($scope, ngrEnvironment, ngrLoop, ngrInterface, stonesLevels) {
+  .controller("GameOfStones", function ($scope, ngrEnvironment, ngrWorld, StonesModels, ngrLoop, ngrInterface, stonesLevels) {
     console.log("A Game of Stones");
     ngrEnvironment.init({
       canvas: $('canvas'),
@@ -41,7 +41,8 @@ angular.module("Stones", ['Rectangular'])
       })
 
       _.each(doodads, function (doodad) {
-        doodad.SetType(b2Body.b2_staticBody);
+        //doodad.SetType(b2Body.b2_staticBody);
+        ngrWorld.freeze(doodad);
       })
 
       prize.SetType(b2Body.b2_dynamicBody);
@@ -50,9 +51,7 @@ angular.module("Stones", ['Rectangular'])
 
       ngrLoop.addHook(function () {
         var pos = prize.GetPosition();
-        //console.log("Prize Y?",pos.y);
         if (pos.y - prizeStartingY > 5) {
-          // console.log("Prize destroyed!");
           $scope.endLevel(true);
         }
       })
@@ -75,89 +74,101 @@ angular.module("Stones", ['Rectangular'])
       var params;
       switch (type) {
       case "box":
-        params = {
-          shapeKind: 'box',
-          width: 2,
-          height: 2,
-          density: 0.5,
-          userData: {
-            doodad: "true"
-          },
-          friction: 0.2,
-          src: 'img/box.png',
-          x: 3,
-          y: 3
-        }
+        params = StonesModels.box;
         break;
       case "blue-box":
-        params = {
-          shapeKind: 'box',
-          width: 2,
-          height: 1,
-          density: 0.5,
-          restitution: 0.8,
-          userData: {
-            doodad: "true"
-          },
-          friction: 0.2,
-          src: 'img/box-blue.png',
-          x: 3,
-          y: 3
-        }
+        params = StonesModels.blueBox;
         break;
       case "green-box":
-        params = {
-          shapeKind: 'box',
-          width: 2,
-          height: 1,
-          density: 0.5,
-          restitution: 0.2,
-          friction: 0,
-          userData: {
-            doodad: "true"
-          },
-          friction: 0.2,
-          src: 'img/box-green.png',
-          x: 3,
-          y: 3
-        }
+        params = StonesModels.greenBox;
         break;
       case "girder":
-        params = {
-          shapeKind: 'box',
-          width: 5,
-          height: 0.75,
-          userData: {
-            doodad: "true"
-          },
-          density: 3,
-          friction: 0.2,
-          src: 'img/castleCenter.png',
-          x: 3,
-          y: 3
-        }
+        params = StonesModels.girder;
         break;
       case "wedge":
-        params = {
-          shapeKind: 'triangle',
-          innerAngle: 60,
-          opposite: 3,
-          userData: {
-            doodad: "true"
-          },
-          adjacent: 2.5,
-          bg: 'tiled',
-          src: 'img/snowCenter.png',
-          density: 3,
-          friction: 0.6,
-          src: 'img/castleCenter.png',
-          x: 3,
-          y: 3
-        }
+        params = StonesModels.wedge;
         break;
       }
 
       ngrEnvironment.add(null, params);
+    }
+
+  })
+  .service('StonesModels', function () {
+    this.box = {
+      shapeKind: 'box',
+      width: 2,
+      height: 2,
+      density: 0.5,
+      userData: {
+        doodad: "true"
+      },
+      friction: 0.2,
+      src: 'img/box.png',
+      x: 3,
+      y: 3
+    }
+
+    this.blueBox = {
+      shapeKind: 'box',
+      width: 2,
+      height: 1,
+      density: 0.5,
+      restitution: 0.8,
+      userData: {
+        doodad: "true"
+      },
+      friction: 0.2,
+      src: 'img/box-blue.png',
+      x: 3,
+      y: 3
+    }
+
+    this.greenBox = {
+      shapeKind: 'box',
+      width: 2,
+      height: 1,
+      density: 0.5,
+      restitution: 0.2,
+      friction: 0,
+      userData: {
+        doodad: "true"
+      },
+      friction: 0.2,
+      src: 'img/box-green.png',
+      x: 3,
+      y: 3
+    }
+
+    this.girder = {
+      shapeKind: 'box',
+      width: 5,
+      height: 0.75,
+      userData: {
+        doodad: "true"
+      },
+      density: 3,
+      friction: 0.2,
+      src: 'img/castleCenter.png',
+      x: 3,
+      y: 3
+    }
+
+    this.wedge = {
+      shapeKind: 'triangle',
+      innerAngle: 90,
+      opposite: 4,
+      userData: {
+        doodad: "true"
+      },
+      adjacent: 12,
+      bg: 'tiled',
+      src: 'img/snowCenter.png',
+      density: 3,
+      friction: 0.6,
+      src: 'img/castleCenter.png',
+      x: 3,
+      y: 3
     }
 
   })

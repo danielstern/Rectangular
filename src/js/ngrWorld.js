@@ -51,6 +51,16 @@ angular.module('Rectangular')
     });
   }
 
+  this.freeze = function (body) {
+    var prev = {
+      x: body.options.center.x,
+      y: body.options.center.y
+    }
+    if (body) body.SetType(b2Body.b2_staticBody);
+    body.GetLocalCenter().Set(prev.x, prev.y);
+    //hideContextMenu();
+  }
+
   function removeLostObjects() {
     _.each(bodies, function (body) {
 
@@ -61,7 +71,7 @@ angular.module('Rectangular')
   }
 
   this.getBodyByAttribute = function (key, val) {
-    return w.getBodiesByAttribute(key,val)[0];
+    return w.getBodiesByAttribute(key, val)[0];
   }
 
   this.getBodiesByAttribute = function (key, val) {
@@ -71,7 +81,7 @@ angular.module('Rectangular')
   }
 
   this.getBodyByUserData = function (key, val) {
-    return w.getBodiesByUserData(key,val)[0];
+    return w.getBodiesByUserData(key, val)[0];
   }
 
   this.getBodiesByUserData = function (key, val) {
@@ -85,7 +95,7 @@ angular.module('Rectangular')
 
     var def = ngrBox.shape(options);
     var id = options.id || guid();
-    
+
     var b = world.CreateBody(def.getBodyDef());
     var f = def.getFixtureDef()
     b.CreateFixture(f);
