@@ -1,5 +1,6 @@
 angular.module("Stones")
 .service('StonesModels', function () {
+  var m = this;
     this.box = {
       shapeKind: 'box',
       name: 'box',
@@ -11,27 +12,17 @@ angular.module("Stones")
       },
       friction: 0.2,
       src: 'img/box.png',
-      x: 3,
-      y: 3
     }
 
-    this.explodingBox = {
+    this.explodingBox = _.extend(_.clone(m.box),{
       name: 'explodingBox',
-      shapeKind: 'box',
-      width: 1,
-      height: 1,
-      density: 0.5,
-      restitution: 0.1,
       userData: {
         doodad: "true",
         explosive: true,
       },
       friction: 0.2,
       src: 'img/box-red.png',
-      x: 3,
-      y: 3
-
-    }
+    })
 
     this.blueBox = {
       shapeKind: 'box',
@@ -45,8 +36,6 @@ angular.module("Stones")
       },
       friction: 0.2,
       src: 'img/box-blue.png',
-      x: 3,
-      y: 3
     }
 
     this.greenBox = {
@@ -62,8 +51,6 @@ angular.module("Stones")
       },
       friction: 0.2,
       src: 'img/box-green.png',
-      x: 3,
-      y: 3
     }
 
     this.girder = {
@@ -77,8 +64,6 @@ angular.module("Stones")
       density: 3,
       friction: 0.2,
       src: 'img/castleCenter.png',
-      x: 3,
-      y: 3
     }
 
     this.wedge = {
@@ -95,8 +80,6 @@ angular.module("Stones")
       density: 3,
       friction: 0.6,
       src: 'img/castleCenter.png',
-      x: 3,
-      y: 3
     }
 
   })

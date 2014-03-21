@@ -1,7 +1,7 @@
 angular.module('Rectangular')
 /* Creates an instance of the world of the simulation, 
    and provides an interface for it. */
-.service("ngrWorld", function (ngrBox, ngrModels, ngrState, ngrStage, ngrLoop) {
+.service("ngrWorld", function (ngrBox, ngrModels, ngrState, ngrDefaults, ngrStage, ngrLoop) {
 
   var world,
     bodies = [],
@@ -28,47 +28,36 @@ angular.module('Rectangular')
   }
 
   this.explode = function (thing) {
- //   console.log("Exploding...",thing);
     var posX = thing.GetPosition().x;
     var posY = thing.GetPosition().y;
     var pos = thing.GetPosition();
     var force = thing.options.explosiveness || 1000000;
     w.removeElement(thing);
 
-    var numRays = 10;
+    var numRays = 50;
     ngrLoop.addHook(function(){
       if (numRays) {
+        var reps = 10;
+        while (reps) {
         var angle = (i / numRays) * Math.PI * 2;
         var rayDir = new b2Vec2(Math.sin(angle) * force,Math.cos(angle) * force);
 
-        var b = w.addElement({
-          shapeKind: 'circle',
-          radius: '0.03',
-          density: 60,
-          bullet: true,
-          src: 'img/box-red.png',
-          bg: 'tiled',
-          hidden: true,
-          restitution: 0.99,
-          friction: 0,
-          gravityScale: 0,
-          timedLife: true,
-          lifeTime: 50,
-          type: 'dynamic',
-        });
+        var b = w.addElement(ngrDefaults.bullet);
 
         b.SetPosition(pos);
 
         b.ApplyForce(rayDir,b.GetWorldCenter());
 
         numRays--;  
+        reps--;
       }
+    }
     })
 
   }
 
   this.unfollow = function (followHook) {
-  //  ngrLoop.removeHook(followHook);
+    ngrLoop.removeHook(followHook);
   }
 
   ngrLoop.addPermanentHook(function () {
@@ -80,7 +69,6 @@ angular.module('Rectangular')
   function expireObjects() {
     _.each(bodies,function(body){
       if (body.options.timedLife) {
-        //console.log("Expiring body",body.options);
         body.options.lifeTime--;
         if (!body.options.lifeTime) w.removeElement(body);
       }
@@ -143,7 +131,6 @@ angular.module('Rectangular')
   }
 
   this.getBodiesByUserData = function (key, val) {
-    //console.log("Bodies?", bodies);
     return _.filter(bodies, function (body) {
       if (body.GetUserData() && body.GetUserData()[key] == val) return true;
     })

@@ -1,5 +1,5 @@
  angular.module("shapemaker", ['ngAudio', 'Rectangular'])
-   .controller('myDemoCtrl', function($scope, $element,  ngrData, ngrDefaults, ngrLoop, ngrWorld, ngrInterface, ngrEnvironment, ngrState, ngAudio, $compile) {
+   .controller('myDemoCtrl', function ($scope, $element, ngrData, ngrDefaults, ngrLoop, ngrWorld, ngrInterface, ngrEnvironment, ngrState, ngAudio, $compile) {
 
      var contextMenu;
      var contextPin;
@@ -7,24 +7,21 @@
      $scope.editingContext = false;
      $scope.stats = {};
 
-
      ngrEnvironment.init($scope.context);
      ngrInterface.enableDrag();
 
-
-     ngrInterface.onmove(function(r) {
+     ngrInterface.onmove(function (r) {
        $scope.r = r;
        $scope.$apply();
      })
 
-     ngrInterface.ongrab(function(body) {
+     ngrInterface.ongrab(function (body) {
        $scope.contextBody = body;
        window.contextBody = body;
      })
 
-
      Mousetrap.bind({
-       'f': function() {
+       'f': function () {
          var cti = $scope.contextBody;
          if (!cti) return;
          if (cti.GetType() == 2) {
@@ -33,27 +30,25 @@
            $scope.unfreezeContextItem();
          }
        },
-       'p': function() {
+       'p': function () {
          $scope.pinContextItem();
        },
-       'u': function() {
+       'u': function () {
          $scope.unpinContextItem();
        },
-       'del': function() {
+       'del': function () {
          $scope.deleteContextItem();
        },
-       'g': function() {
+       'g': function () {
          $scope.followContextItem();
        }
      }, 'keydown');
-
-
 
      if (localStorage['savedWorlds']) {
        $scope.savedWorlds = JSON.parse(localStorage['savedWorlds']);
      };
 
-     $(document).bind("contextmenu", function(event) {
+     $(document).bind("contextmenu", function (event) {
        event.preventDefault();
        if (ngrInterface.getBodyAtMouse()) {
          if (contextMenu) $(contextMenu).hide();
@@ -73,7 +68,7 @@
 
          contextPin = ngrInterface.pinToMouse($scope.contextBody);
 
-         $(document).bind("mousedown", function(event) {
+         $(document).bind("mousedown", function (event) {
            if (event.target.tagName == "LI") return true;
            if (contextMenu) {
              hideContextMenu();
@@ -85,31 +80,28 @@
 
      $scope.world = ngrWorld;
 
-     $scope.newMaker = function() {
+     $scope.newMaker = function () {
        var el = angular.element("<shapemaker></shapemaker>");
        var cmpl = $compile(el);
        $element.find('makers').append(el);
        cmpl($scope);
      }
 
-     $scope.explodeContextItem = function() {
-      ngrWorld.explode($scope.contextBody);
+     $scope.explodeContextItem = function () {
+       ngrWorld.explode($scope.contextBody);
      }
 
-
-     $scope.clearAll = function() {
+     $scope.clearAll = function () {
        ngrEnvironment.clearAll();
        ngrEnvironment.createRoom();
      };
 
-
-     $('canvas')[0].addEventListener('dblclick', function() {
+     $('canvas')[0].addEventListener('dblclick', function () {
        ngrEnvironment.unfollow();
        ngrInterface.focusToMouse();
      });
 
      $('canvas')[0].addEventListener("mousewheel", MouseWheelHandler, false);
-
 
      function MouseWheelHandler(e) {
 
@@ -126,18 +118,17 @@
        $scope.$apply();
      }
 
-     $scope.deleteContextItem = function() {
+     $scope.deleteContextItem = function () {
        ngrEnvironment.remove($scope.contextBody);
        hideContextMenu();
      }
 
-     $scope.freezeContextItem = function() {
-      ngrWorld.freeze($scope.contextBody);
-      
+     $scope.freezeContextItem = function () {
+       ngrWorld.freeze($scope.contextBody);
+
      }
 
-     $scope.editContext = function() {
-       console.log("Ediing context...", $scope)
+     $scope.editContext = function () {
        $scope.editingContext = true;
        if ($scope.contextBody) {
          $scope.freezeContextItem();
@@ -145,19 +136,17 @@
        }
      }
 
-     $scope.stopEditContext = function() {
+     $scope.stopEditContext = function () {
        $scope.editingContext = false;
      }
 
+     $scope.unfreezeContextItem = function () {
 
+       $scope.contextBody.SetType(b2Body.b2_dynamicBody);
 
-     $scope.unfreezeContextItem = function() {
- 
-      $scope.contextBody.SetType(b2Body.b2_dynamicBody);
-       
      }
 
-     $scope.pinContextItem = function() {
+     $scope.pinContextItem = function () {
        var cti = $scope.contextBody;
        var pin = ngrEnvironment.pin(cti);
        cti.pins = cti.pins || [];
@@ -165,18 +154,17 @@
        hideContextMenu();
      }
 
-     $scope.unpinContextItem = function() {
+     $scope.unpinContextItem = function () {
        var cti = $scope.contextBody;
        var pins = cti.pins;
-       _.each(pins, function(pin) {
+       _.each(pins, function (pin) {
          ngrWorld.unpin(pin);
        })
 
        hideContextMenu();
      }
 
-     
-     $scope.save = function(name) {
+     $scope.save = function (name) {
        if (!name) name = epicId();
        var worldString = JSON.parse(ngrEnvironment.getJSON());
        worldString.name = name;
@@ -206,11 +194,11 @@
 
      }
 
-     $scope.deleteSavedWorld = function(_dWorld) {
+     $scope.deleteSavedWorld = function (_dWorld) {
 
        var savedWorlds = getSavedWorlds();
 
-       savedWorlds = _.filter(savedWorlds, function(world) {
+       savedWorlds = _.filter(savedWorlds, function (world) {
          if (world.name != _dWorld.name) return true;
        })
 
@@ -220,25 +208,23 @@
 
      }
 
-     $scope.load = function(_world) {
+     $scope.load = function (_world) {
        ngrEnvironment.clearAll();
        ngrEnvironment.load(_world);
        $scope.contextBody = undefined;
      }
 
-     $scope.exportSavedWorld = function(_world) {
+     $scope.exportSavedWorld = function (_world) {
        $scope.worldExport = ngrData.getJSON();
      }
 
-
-
      function hideContextMenu() {
        if (contextMenu) {
-         setTimeout(function() {
-           $(contextMenu).hide();
-           contextmenu = null;
-           ngrWorld.unpin(contextPin);
-         }, 10)
+
+         $(contextMenu).hide();
+         contextmenu = null;
+         ngrWorld.unpin(contextPin);
+
        }
      }
 

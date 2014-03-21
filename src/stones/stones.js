@@ -6,6 +6,7 @@ angular.module("Stones", ['Rectangular'])
       constrainFocusToRoom: false
     });
     ngrEnvironment.load(stonesLevels.getLevel(1));
+    
     ngrEnvironment.debug(true);
     ngrEnvironment.setZoom(0.2);
     ngrInterface.enableDrag();
