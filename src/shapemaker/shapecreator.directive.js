@@ -21,7 +21,9 @@ angular.module('shapemaker')
             var pre = $scope.q.preset;
             _.each(pre.presets, function (_pre, key) {
               $scope.q[key] = _pre;
-            })
+            });
+
+            $scope.q.userData = $scope.q.preset.userData || {};
             $scope.q.shape = _.find($scope.options,function(option){
               return (pre.shape == option.type);
             });

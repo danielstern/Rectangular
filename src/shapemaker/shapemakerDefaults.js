@@ -164,6 +164,12 @@ angular.module('shapemaker')
       skin: {
         src: 'img/box-red.png',
       },
+      userData: {
+        explosive: {
+          volatility: 1,
+          force: 10,
+        }
+      },      
       presets: {
         height: 0.5,
         width: 0.5,

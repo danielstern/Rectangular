@@ -1,5 +1,5 @@
  angular.module("shapemaker", ['ngAudio', 'Rectangular'])
-   .controller('myDemoCtrl', function($scope, $element, ngrDefaults, ngrLoop, ngrWorld, ngrInterface, ngrEnvironment, ngrState, ngAudio, $compile) {
+   .controller('myDemoCtrl', function($scope, $element,  ngrData, ngrDefaults, ngrLoop, ngrWorld, ngrInterface, ngrEnvironment, ngrState, ngAudio, $compile) {
 
      var contextMenu;
      var contextPin;
@@ -221,7 +221,7 @@
      }
 
      $scope.exportSavedWorld = function(_world) {
-       $scope.worldExport = JSON.stringify(_world);
+       $scope.worldExport = ngrData.getJSON();
      }
 
 

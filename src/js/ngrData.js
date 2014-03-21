@@ -14,7 +14,7 @@ angular.module('Rectangular')
     }
 	
 	this.export = function(json) {
-		console.log(JSON.stringify(json));
+		return (JSON.stringify(json));
 	}
 
     this.load = function(json) {
