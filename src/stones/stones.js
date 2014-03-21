@@ -45,12 +45,8 @@ angular.module("Stones", ['Rectangular'])
         ngrWorld.freeze(doodad);
       })
 
-      //console.log("Explosives?",explosives);
-
       _.each(explosives, function (explosive) {
-        console.log("Explosive?", explosive);
 
-        //window.explosive = explosive;
         var contact = explosive;
         ngrWorld.unfreeze(explosive);
         var hook = ngrLoop.addHook(function () {
@@ -77,11 +73,8 @@ angular.module("Stones", ['Rectangular'])
               vect: vect
             }
 
-             //console.log(vect);
             if (momentumDiff.vect > 5 && momentumDiff.vect < 1000) {
-              //console.log("That's an impact!");
               ngrWorld.explode(explosive);
-           //   ngrLoop.removeHook(hook);
             }
 
             edge = edge.next;
