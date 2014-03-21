@@ -40,7 +40,6 @@ angular.module('shapemaker')
         }
 
         $scope.$watch('q', function () {
-          console.log("Q changed...",$scope.q);
           if ($scope.defaults) $scope.properties = $scope.defaults[$scope.q.shape.type].params.split(' ');
         }, true)
 
@@ -51,7 +50,6 @@ angular.module('shapemaker')
 
         $scope.addShape = function (shape) {
           if (q.skin) q.src = q.skin.src;
-          console.log("adding shape...",shape,shapemakerDefaults.shape(q));
           ngrEnvironment.add(shape,shapemakerDefaults.shape(q));
         }
 
