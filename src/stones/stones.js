@@ -53,14 +53,14 @@ angular.module("Stones", ['Rectangular'])
         //window.explosive = explosive;
         var contact = explosive;
         ngrWorld.unfreeze(explosive);
-        while (contact) {
-
+        var hook = ngrLoop.addHook(function () {
           var edge = explosive.GetContactList();
-          var contact = edge.contact;
-          var points = contact.m_oldManifold.m_points;
-          var other = edge.other;
+          while (edge) {
 
-          ngrLoop.addHook(function () {
+            var contact = edge.contact;
+            var points = contact.m_oldManifold.m_points;
+            var other = edge.other;
+
             var explosiveMomentumX = explosive.GetLinearVelocity().x * explosive.GetInertia();
             var explosiveMomentumY = explosive.GetLinearVelocity().y * explosive.GetInertia();
             var otherMomentumX = other.GetLinearVelocity().x * other.GetInertia();
@@ -76,14 +76,16 @@ angular.module("Stones", ['Rectangular'])
               vect: vect
             }
 
-           // console.log(momentumDiff.vect);
-           if (momentumDiff.vect > 0.1) {
-            console.log("That's an impact!");
-           }
-          })
+             console.log(momentumDiff.vect);
+            if (momentumDiff.vect > 0.5) {
+              console.log("That's an impact!");
+              ngrWorld.explode(explosive);
+              ngrLoop.removeHook(hook);
+            }
 
-          contact = edge.next;
-        }
+            edge = edge.next;
+          }
+        })
 
       })
 

@@ -27,6 +27,14 @@ angular.module('Rectangular')
     });
   }
 
+  this.explode = function (thing) {
+    console.log("Exploding...",thing);
+    var posX = thing.GetPosition().x;
+    var posY = thing.GetPosition().y;
+    w.removeElement(thing);
+
+  }
+
   this.unfollow = function (followHook) {
     ngrLoop.removeHook(followHook);
   }
