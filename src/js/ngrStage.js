@@ -129,6 +129,7 @@ angular.module('Rectangular')
       var state = ngrState.getState();
       var focus = ngrState.getFocus();
       var scale = ngrState.getScale() * state.zoom;
+      var constraint = ngrState.getFocusConstraint();
 
       var newTranslation = {
         x: focus.x * scale - 0.5 * canvas.width,
@@ -143,6 +144,10 @@ angular.module('Rectangular')
         if (newTranslation.y > 0) newTranslation.y = 0;
         if (newTranslation.x < 0) newTranslation.x = 0;
 
+      }
+
+      if (constraint) {
+        console.log("Readjusting view again...");
       }
 
       c.x = -newTranslation.x;

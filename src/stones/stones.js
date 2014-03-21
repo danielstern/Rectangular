@@ -15,12 +15,12 @@ angular.module("Stones", ['Rectangular'])
       x: 40,
       y: 5,
       width: 50,
-      height: 25
+      height: 20
     })
 
     ngrEnvironment.constrainZoom({
       min: 0.25,
-      max: 1
+      max: 2
     })
 
     $scope.loadLevel = function (lvl) {
