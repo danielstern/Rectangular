@@ -83,11 +83,17 @@
        }
      });
 
+     $scope.world = ngrWorld;
+
      $scope.newMaker = function() {
        var el = angular.element("<shapemaker></shapemaker>");
        var cmpl = $compile(el);
        $element.find('makers').append(el);
        cmpl($scope);
+     }
+
+     $scope.explodeContextItem = function() {
+      ngrWorld.explode($scope.contextBody);
      }
 
 

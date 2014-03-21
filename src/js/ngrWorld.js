@@ -35,16 +35,14 @@ angular.module('Rectangular')
     var force = 20000;
     w.removeElement(thing);
 
-    var numRays = 20;
+    var numRays = 25;
     for (i = 0; i < numRays; i++) {
       var angle = (i / numRays) * Math.PI * 2;
       var rayDir = new b2Vec2(Math.sin(angle) * force,Math.cos(angle) * force);
 
-      //var bullet = ngrBox.shape();
-
       var b = w.addElement({
         shapeKind: 'circle',
-        radius: '0.2',
+        radius: '0.03',
         density: 60,
         bullet: true,
         src: 'img/box-red.png',
@@ -52,12 +50,12 @@ angular.module('Rectangular')
         restitution: 0.99,
         friction: 0,
         gravityScale: 0,
+        timedLife: true,
+        lifeTime: 50,
         type: 'dynamic',
       });
 
       b.SetPosition(pos);
-
-      console.log("Angle?",angle)
 
       b.ApplyForce(rayDir,b.GetWorldCenter());
 
@@ -72,7 +70,18 @@ angular.module('Rectangular')
   ngrLoop.addPermanentHook(function () {
     updateMemoryPairs();
     removeLostObjects();
+    expireObjects();
   });
+
+  function expireObjects() {
+    _.each(bodies,function(body){
+      if (body.options.timedLife) {
+        //console.log("Expiring body",body.options);
+        body.options.lifeTime--;
+        if (!body.options.lifeTime) w.removeElement(body);
+      }
+    })
+  }
 
   function updateMemoryPairs() {
     _.each(memoryPairs, function (pair) {

@@ -40,9 +40,9 @@ angular.module('Rectangular')
           b.linearDamping = 10;
         }
 
-        
-
         b.gravityScale = options.gravityScale;
+
+        
 
         switch (this.options.type) {
         case 'dynamic':

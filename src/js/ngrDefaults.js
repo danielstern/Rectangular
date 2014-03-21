@@ -63,8 +63,8 @@ angular.module('Rectangular')
     zoom: 1,
     floor: true,
     room: {
-      width: 90,
-      height: 40
+      width: 40,
+      height: 25
     }
   }
   

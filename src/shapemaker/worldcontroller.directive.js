@@ -10,9 +10,9 @@ angular.module('shapemaker')
         var oldRoom = {};
 
         $scope.context = {
-          scale: 30,
+          scale: 60,
           gravity: 60,
-          zoom: 0.2,
+          zoom: 0.5,
           speed: 60,
           drawDebug: true,
           drawSprites: true,
@@ -21,8 +21,8 @@ angular.module('shapemaker')
           selectedY: 0,
           selectedAngle: 0,
           room: {
-            height: 0,
-            width: 0,
+            height: 20,
+            width: 25,
             roof: false,
             floor: true,
             leftWall: true,

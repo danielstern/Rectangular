@@ -4,6 +4,7 @@
 		<li title='Ice to meet you.' ng-if="contextType == 2" ng-click="freezeContextItem()">Freeze</li>
 		<li ng-if="contextType == 0" ng-click="unfreezeContextItem()">Unfreeze</li>
 		<li ng-click="pinContextItem()">Pin Here</li>
+		<li ng-click="world.explode(contextBody)">Explode</li>
 		<li ng-if="contextBody.pins" ng-click="unpinContextItem()">Remove Pins</li>
 	</ul>
 </div>
