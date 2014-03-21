@@ -68,17 +68,11 @@
         <button ng-click='add("box")'>Box</button>
         <button ng-click='add("girder")'>Girder</button>
         <button ng-click='add("wedge")'>Wedge</button>
-        <button ng-click='add("blue-box")'>Blue Box</button>
-        <button ng-click='add("green-box")'>Green Box</button>
-        <button ng-click='add("exploding-box")'>Exloding Box</button>
-    <button ng-click='loadLevel(1)'>LVL 1</button>
-    <button ng-click='loadLevel(2)'>LVL 2</button>
-    <button ng-click='loadLevel(3)'>LVL 3</button>
-    <button ng-click='loadLevel(4)'>LVL 4</button>
-    <button ng-click='loadLevel(5)'>LVL 5</button>
-    <button ng-click='loadLevel(6)'>LVL 6</button>
-    <button ng-click='loadLevel(7)'>LVL 7</button>
-    <button ng-click='loadLevel(8)'>LVL 8</button>
+        <button ng-click='add("blueBox")'>Blue Box</button>
+        <button ng-click='add("greenBox")'>Green Box</button>
+        <button ng-click='add("explodingBox")'>Exloding Box</button>
+        <button ng-repeat="level in levels" ng-click="loadLevel($index + 1)">LVL {{$index + 1}}</button>
+        <button ng-repeat="model in models" ng-click="add(model.name)">{{model.name}}</button>
     </div>
 
     </body>
@@ -88,3 +82,4 @@
     <!-- ZOR -->
     <script src='stones/stones.js'></script>
     <script src='stones/stonesLevels.js'></script>
+    <script src='stones/stonesModels.js'></script>
