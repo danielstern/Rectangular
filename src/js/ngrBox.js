@@ -66,11 +66,11 @@ angular.module('Rectangular')
           break;
         case 'triangle':
 
-          var basePoint = {
+          var corner = {
             x: 0,
             y: 0
           }
-          var topPoint = {
+          var bottomPoint = {
             x: 0,
             y: Number(options.adjacent)
           };
@@ -80,18 +80,19 @@ angular.module('Rectangular')
             y: Math.cos(innerAngleRadians) * options.adjacent
           }
 
-          var points = [basePoint, rightPoint, topPoint];;
+          var points = [bottomPoint,corner,rightPoint];
+          var pointVectors = [];
           //options.points = points;
 
           for (var i = 0; i < points.length; i++) {
             var vec = new b2Vec2();
             vec.Set(points[i].x, points[i].y);
-            points[i] = vec;
+            pointVectors[i] = vec;
           }
 
           f.shape = new b2PolygonShape();
-          f.shape.SetAsArray(points, points.length);
-          f.points = points;
+          f.shape.SetAsArray(pointVectors, points.length);
+          f.points = pointVectors;
           break;
         default:
           throw new Error("You must defind a shapeKind in your options.");
