@@ -44,7 +44,6 @@ angular.module('shapemaker')
           if ($scope.q.preset) {
             var pre = $scope.q.preset;
             _.each(pre.presets, function (_pre, key) {
-              console.log("updating",_pre,key)
               $scope.q[key] = _pre;
             })
             $scope.q.shape = pre.shape;
@@ -57,7 +56,6 @@ angular.module('shapemaker')
         }
 
         $scope.$watch('q', function () {
-          //console.log("q changed...");
           if ($scope.defaults) $scope.properties = $scope.defaults[$scope.q.shape].params.split(' ');
         }, true)
 
@@ -76,161 +74,16 @@ angular.module('shapemaker')
 
         $scope.skins = shapecreatorDefaults.skins;
         $scope.presets = shapecreatorDefaults.presets;
+        $scope.q.preset = _.sample($scope.presets);
 
         $scope.addShape = function (shape) {
-
           if (q.skin) q.src = q.skin.src;
-
-          switch (q.shape) {
-          case 'box':
-            $scope.addBox();
-            break;
-          case 'circle':
-            $scope.addCircle();
-            break;
-          case 'triangle':
-            $scope.addTriangle();
-            break;
-          default:
-            console.error("Unavailable shape,", shape);
-            break;
-          }
-        }
-
-        $scope.addBox = function () {
-
-          ngrEnvironment.add('box', shapecreatorDefaults.shape(q));
-        }
-
-        $scope.addTriangle = function () {
-          ngrEnvironment.add('triangle', shapecreatorDefaults.shape(q));
+          ngrEnvironment.add(shape,shapecreatorDefaults.shape(q));
         }
 
         $scope.destroy = function () {
           $($element).hide();
         }
-
-        $scope.addCircle = function () {
-          ngrEnvironment.add('circle', shapecreatorDefaults.shape(q));
-
-        };
-
-        setTimeout(function () {
-
-          var dropdown = $element.find('select');
-          var ddl = dropdown[0];
-          var opts = ddl.options.length;
-          for (var i = 0; i < opts; i++) {
-            if (ddl.options[i].value == q.shape) {
-              ddl.selectedIndex = i;
-              break;
-            }
-          }
-        }, 1)
       }
     }
   })
-
-.service('shapecreatorDefaults', function (ngrState) {
-  var Shape = function () {
-    return {
-      bg: 'tiled',
-      type: 'dynamic',
-      src: 'img/stoneCenter.png',
-      x: Math.random() * ngrState.getState().worldWidth,
-    }
-  }
-
-  this.shape = function (options) {
-    return _.extend(_.clone(new Shape), _.clone(options));
-  }
-
-  this.skins = [{
-      name: 'Stone',
-      type: 'stone',
-      src: 'img/stoneCenter.png'
-    }, {
-      name: 'Boxy',
-      type: 'boxy',
-      src: 'img/box.png'
-    }, {
-      name: 'Dirt',
-      type: 'dirt',
-      src: 'img/grassCenter.png'
-    }, {
-      name: 'Castle',
-      type: 'castle',
-      src: 'img/castleCenter.png'
-    }, {
-      name: 'Snow',
-      type: 'snow',
-      src: 'img/snowCenter.png'
-    }, {
-      name: 'Green',
-      type: 'green',
-      src: 'img/box-green.png'
-    }, {
-      name: 'Blue',
-      type: 'blue',
-      src: 'img/box-blue.png'
-    }
-
-  ]
-
-  this.presets = [{
-    name: 'Wooden Box',
-    shape: 'box',
-    skin: {
-      src: 'img/box.png',
-    },
-    presets: {
-      height: 1,
-      width:1,
-      restitution: 0.2,
-      density: 0.2
-    }
-
-  }, {
-    name: 'Boulder',
-    shape: 'circle',
-    skin: {
-      src: 'img/stoneMid.png',
-    },
-    presets: {
-      radius: 2,
-      density: 0.9,
-      friction: 0.4,
-    }
-
-  },{
-    name: 'Rubber Ball',
-    shape: 'circle',
-    skin: {
-      name: 'Blue',
-      src: 'img/box-blue.png',
-    },
-    presets: {
-      radius: 0.3,
-      bg: 'tiled',
-      restitution: 0.9,
-    }
-
-  },{
-    name: 'Explosive Box',
-    shape: 'box',
-    skin: {
-      src: 'img/box-red.png',
-    },
-    presets: {
-      height: 0.5,
-      width:0.5,
-      restitution: 0.2,
-      density: 0.6,
-      userData: {
-        explosive: true
-      }
-    }
-
-  }]
-
-})

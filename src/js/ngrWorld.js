@@ -58,7 +58,6 @@ angular.module('Rectangular')
     }
     if (body) body.SetType(b2Body.b2_staticBody);
     body.GetLocalCenter().Set(prev.x, prev.y);
-    //hideContextMenu();
   }
 
   function removeLostObjects() {

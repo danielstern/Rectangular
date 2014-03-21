@@ -1,21 +1,20 @@
 angular.module('Rectangular')
   .service('ngrState', function (ngrLoop) {
 
-    var state;
-    var st = this;
-    var elements = [];
-    var pins = []
-    var focus = {
-      x: 0,
-      y: 0
-    };
-    var focusTo = {
-      x: 0,
-      y: 0
-    };
-    var zoomTo = 0.15;
-    var focusConstraint;
-    var zoomConstraint;
+    var state,
+      elements = [],
+      pins = [],
+      focus = {
+        x: 0,
+        y: 0
+      },
+      focusTo = {
+        x: 0,
+        y: 0
+      },
+      zoomTo = 0.15,
+      focusConstraint,
+      zoomConstraint;
 
     this.setFocusOffset = function (_off) {
       focusOffset = _off;
@@ -104,10 +103,10 @@ angular.module('Rectangular')
         if (focusTo.x < focusConstraint.x) focusTo.x = focusConstraint.x;
         if (focusTo.x > focusConstraint.x + focusConstraint.width) focusTo.x = focusConstraint.x + focusConstraint.width;
 
-         if (focusTo.y < focusConstraint.y) focusTo.y = focusConstraint.y;
-         if (focusTo.y > focusConstraint.y + focusConstraint.height) focusTo.y = focusConstraint.y + focusConstraint.height;
+        if (focusTo.y < focusConstraint.y) focusTo.y = focusConstraint.y;
+        if (focusTo.y > focusConstraint.y + focusConstraint.height) focusTo.y = focusConstraint.y + focusConstraint.height;
       }
-      
+
       if (_inst) focus = {
         x: _f.x,
         y: _f.y
@@ -118,15 +117,12 @@ angular.module('Rectangular')
       return focusConstraint;
     }
 
-
-
     this.getFocus = function () {
       var focusReturn = {
         x: focus.x,
         y: focus.y,
       };
-      
-     
+
       return focusReturn;
     }
 
@@ -171,14 +167,12 @@ angular.module('Rectangular')
         state.zoom -= incZ;
       }
 
-      
       if (zoomConstraint) {
         if (state.zoom < zoomConstraint.min) state.zoom = zoomConstraint.min;
         if (state.zoom > zoomConstraint.max) state.zoom = zoomConstraint.max;
       }
 
     });
-
 
     this.removePin = function (pinId) {
       pins = _.map(pins, function (_pin) {

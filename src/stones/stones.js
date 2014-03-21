@@ -41,7 +41,6 @@ angular.module("Stones", ['Rectangular'])
       })
 
       _.each(doodads, function (doodad) {
-        //doodad.SetType(b2Body.b2_staticBody);
         ngrWorld.freeze(doodad);
       })
 

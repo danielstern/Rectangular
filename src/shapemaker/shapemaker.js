@@ -146,12 +146,8 @@
 
 
      $scope.unfreezeContextItem = function() {
-      var prev = {
-        x:$scope.contextBody.GetLocalCenter().x,
-        y:$scope.contextBody.GetLocalCenter().y,
-      }
+ 
       $scope.contextBody.SetType(b2Body.b2_dynamicBody);
-     // $scope.contextBody.GetLocalCenter().Set(prev.x, prev.y);
        
      }
 
