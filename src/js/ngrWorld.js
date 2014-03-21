@@ -3,19 +3,16 @@ angular.module('Rectangular')
    and provides an interface for it. */
 .service("ngrWorld", function (ngrBox, ngrModels, ngrState, ngrStage, ngrLoop) {
 
-  var world;
-  var bodies = [];
-  var w = this;
-  var pins = [];
-  var followHook;
-
-  var hooks = [];
-  var memoryPairs = [];
+  var world,
+    bodies = [],
+    w = this,
+    pins = [],
+    followHook,
+    hooks = [],
+    memoryPairs = [];
 
   this.getBodyById = function (_id) {
-    return _.find(bodies, function (body) {
-      if (body.id == _id) return body;
-    })
+    return w.getBodiesByAttribute('id', _id)[0];
   }
 
   this.follow = function (body) {
@@ -35,6 +32,11 @@ angular.module('Rectangular')
   }
 
   ngrLoop.addPermanentHook(function () {
+    updateMemoryPairs();
+    removeLostObjects();
+  });
+
+  function updateMemoryPairs() {
     _.each(memoryPairs, function (pair) {
       var o = pair.element.options;
       var pos = pair.body.GetPosition();
@@ -47,34 +49,29 @@ angular.module('Rectangular')
       o.userData = pair.body.GetUserData();
 
     });
-  });
+  }
 
-  ngrLoop.addPermanentHook(function () {
+  function removeLostObjects() {
     _.each(bodies, function (body) {
 
       var pos = body.GetPosition();
       if (pos.y > 500) w.removeElement(body);
 
     });
-  });
+  }
 
   this.getBodyByAttribute = function (key, val) {
-    return _.find(bodies, function (body) {
-      if (body.options[key] == val) return true;
-    })
+    return w.getBodiesByAttribute(key,val)[0];
   }
 
   this.getBodiesByAttribute = function (key, val) {
     return _.filter(bodies, function (body) {
       if (body.options[key] == val) return true;
-    })
+    }) || [];
   }
 
   this.getBodyByUserData = function (key, val) {
-    //console.log("Bodies?", bodies);
-    return _.find(bodies, function (body) {
-      if (body.GetUserData() && body.GetUserData()[key] == val) return true;
-    })
+    return w.getBodiesByUserData(key,val)[0];
   }
 
   this.getBodiesByUserData = function (key, val) {
@@ -88,7 +85,7 @@ angular.module('Rectangular')
 
     var def = ngrBox.shape(options);
     var id = options.id || guid();
-
+    
     var b = world.CreateBody(def.getBodyDef());
     var f = def.getFixtureDef()
     b.CreateFixture(f);
@@ -96,24 +93,21 @@ angular.module('Rectangular')
     options.points = f.points;
     def.options.points = f.points;
 
-    console.log("Adding this element",options.center);
-    
     var type = b.GetType();
-    
+
+    /* bug fix for triangles */
     b.SetType(0);
     b.SetType(2);
     b.SetType(type);
-
     if (b.GetType() == '0' && options.center) b.GetLocalCenter().Set(options.center.x, options.center.y);
-
     options.center = b.GetLocalCenter();
     def.options.center = options.center;
-    
+    /* end bug fix */
+
     if (options.userData) b.SetUserData(options.userData);
 
     if (options.memo) {
       var prev = w.getBodyByAttribute('memo', options.memo);
-      //console.log("Option's previous...",options.memo, prev);
       if (prev) w.removeElement(prev);
       if (prev) ngrStage.removeChild(prev.container);
     }
@@ -124,8 +118,6 @@ angular.module('Rectangular')
     elementDef.options = def.options;
     elementDef.id = id;
     ngrState.addElement(elementDef);
-
-    //console.log("saving element defintion,",elementDef);
 
     memoryPairs.push({
       element: elementDef,

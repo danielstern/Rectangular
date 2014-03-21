@@ -12,6 +12,10 @@ angular.module('Rectangular')
       var str = JSON.stringify(r);
       return str;
     }
+	
+	this.export = function(json) {
+		console.log(JSON.stringify(json));
+	}
 
     this.load = function(json) {
 		
@@ -22,7 +26,6 @@ angular.module('Rectangular')
       ngrRoom.clearRoom();
       ngrRoom.createRoom();
 
-      console.log(JSON.stringify(json));
       ngrState.setProperties(json.properties);
 
       _.each(json.elements, function(element) {
