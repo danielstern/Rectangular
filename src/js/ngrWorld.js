@@ -31,24 +31,35 @@ angular.module('Rectangular')
     console.log("Exploding...",thing);
     var posX = thing.GetPosition().x;
     var posY = thing.GetPosition().y;
+    var pos = thing.GetPosition();
+    var force = 20000;
     w.removeElement(thing);
 
     var numRays = 20;
     for (i = 0; i < numRays; i++) {
-      var angle = (i / numRays) * 180 * Math.PI;
-      var rayDir = new b2Vec2(Math.sin(angle),Math.cos(angle));
+      var angle = (i / numRays) * Math.PI * 2;
+      var rayDir = new b2Vec2(Math.sin(angle) * force,Math.cos(angle) * force);
 
       //var bullet = ngrBox.shape();
 
       var b = w.addElement({
         shapeKind: 'circle',
-        radius: '0.05',
+        radius: '0.2',
         density: 60,
         bullet: true,
-        src: 'img/box.png',
+        src: 'img/box-red.png',
+        bg: 'tiled',
+        restitution: 0.99,
+        friction: 0,
+        gravityScale: 0,
+        type: 'dynamic',
       });
 
-      b.ApplyForce(rayDir,b.GetLocalCenter());
+      b.SetPosition(pos);
+
+      console.log("Angle?",angle)
+
+      b.ApplyForce(rayDir,b.GetWorldCenter());
 
     }
 
