@@ -36,7 +36,6 @@ angular.module('Rectangular')
     this.background = function(body, options) {
       console.log("Backgrounding...",body,options);
       var sprite = ngrSkin.background(body, options);
-      //s.addSprite(sprite);
       bgContainer.addChild(sprite.container);
     }
 
@@ -58,7 +57,6 @@ angular.module('Rectangular')
     }
 
     this.removeChild = function(container) {
-      //if (!container) throw new Error("can't remove nothing");
       if (container && container.parent) container.parent.removeChild(container);
     }
 
@@ -82,7 +80,6 @@ angular.module('Rectangular')
 
     this.init = function() {
 
-      //console.log("inited");
       s.clearAll();
 
       ngrDebug.debug(canvas);
@@ -103,7 +100,6 @@ angular.module('Rectangular')
 
 
     this.clearAll = function() {
-      //console.log("clearing stage");
       stage.removeAllChildren();
       stage.update();
       ctx.save();
@@ -139,28 +135,12 @@ angular.module('Rectangular')
         var roomHeightPixels = state.room.height * scale;
         var roomWidthPixels = state.room.width * scale;
 
-        //console.log("Constraining to room...");
-
         if (newTranslation.y - canvas.height < -roomHeightPixels) newTranslation.y = -roomHeightPixels + canvas.height;
         if (newTranslation.x + canvas.width > roomWidthPixels) newTranslation.x = roomWidthPixels - canvas.width;
         if (newTranslation.y > 0) newTranslation.y = 0;
         if (newTranslation.x < 0) newTranslation.x = 0;
 
       }
-
-      if (constraint) {
-        var constraintXPixels = constraint.x * scale;
-        var constraintYPixels = constraint.y * scale;
-        var constraintWidthPixels = constraint.width * scale;
-        var constraintHeightPixels = constraint.height * scale;
-
-        
-        //if (newTranslation.x + canvas.width > roomWidthPixels) newTranslation.x = roomWidthPixels - canvas.width;
-   //     if (newTranslation.y > constraintYPixels) newTranslation.y = constraintYPixels;
-  //   if (newTranslation.x < constraintXPixels) newTranslation.x = constraintXPixels;
-
-      }
-
 
       c.x = -newTranslation.x;
       c.y = newTranslation.y;
@@ -172,16 +152,6 @@ angular.module('Rectangular')
         x: -newTranslation.x,
         y: newTranslation.y
       }, scale, canvas);
-
-/*
-      setTimeout(function(){
-
-      ngrState.setFocus({
-        x: -newTranslation.x + 0.5 * canvas.width / scale ,
-        y: newTranslation.y + 0.5 * canvas.height / scale
-      }, false);
-
-      },5)*/
 
       ctx.restore();
       _.each(actors, function(actor) {
