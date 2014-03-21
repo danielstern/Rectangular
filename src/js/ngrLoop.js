@@ -22,11 +22,15 @@ angular.module('Rectangular')
 
   this.addHook = function(func) {
     hooks.push(func);
-    return hooks.length - 1;
+    return func;
+    //return hooks.length - 1;
   };
 
-  this.removeHook = function(_ind) {
-    hooks.splice(_ind,1);
+  this.removeHook = function(_func) {
+    var rHook = _.find(hooks,function(hook){
+      if (hook == _func) return true;
+    });
+    hooks.splice(hooks.indexOf(rHook),1);
   }
 
   this.addPermanentHook = function(func) {

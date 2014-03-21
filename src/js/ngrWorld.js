@@ -28,43 +28,47 @@ angular.module('Rectangular')
   }
 
   this.explode = function (thing) {
-    console.log("Exploding...",thing);
+ //   console.log("Exploding...",thing);
     var posX = thing.GetPosition().x;
     var posY = thing.GetPosition().y;
     var pos = thing.GetPosition();
-    var force = 20000;
+    var force = thing.options.explosiveness || 1000000;
     w.removeElement(thing);
 
-    var numRays = 25;
-    for (i = 0; i < numRays; i++) {
-      var angle = (i / numRays) * Math.PI * 2;
-      var rayDir = new b2Vec2(Math.sin(angle) * force,Math.cos(angle) * force);
+    var numRays = 10;
+    ngrLoop.addHook(function(){
+      if (numRays) {
+        var angle = (i / numRays) * Math.PI * 2;
+        var rayDir = new b2Vec2(Math.sin(angle) * force,Math.cos(angle) * force);
 
-      var b = w.addElement({
-        shapeKind: 'circle',
-        radius: '0.03',
-        density: 60,
-        bullet: true,
-        src: 'img/box-red.png',
-        bg: 'tiled',
-        restitution: 0.99,
-        friction: 0,
-        gravityScale: 0,
-        timedLife: true,
-        lifeTime: 50,
-        type: 'dynamic',
-      });
+        var b = w.addElement({
+          shapeKind: 'circle',
+          radius: '0.03',
+          density: 60,
+          bullet: true,
+          src: 'img/box-red.png',
+          bg: 'tiled',
+          hidden: true,
+          restitution: 0.99,
+          friction: 0,
+          gravityScale: 0,
+          timedLife: true,
+          lifeTime: 50,
+          type: 'dynamic',
+        });
 
-      b.SetPosition(pos);
+        b.SetPosition(pos);
 
-      b.ApplyForce(rayDir,b.GetWorldCenter());
+        b.ApplyForce(rayDir,b.GetWorldCenter());
 
-    }
+        numRays--;  
+      }
+    })
 
   }
 
   this.unfollow = function (followHook) {
-    ngrLoop.removeHook(followHook);
+  //  ngrLoop.removeHook(followHook);
   }
 
   ngrLoop.addPermanentHook(function () {
@@ -196,7 +200,7 @@ angular.module('Rectangular')
 
     bodies.push(b);
 
-    ngrStage.addSprite(b, options);
+    if (!options.hidden) ngrStage.addSprite(b, options);
 
     return b;
   };

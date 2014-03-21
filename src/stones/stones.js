@@ -6,7 +6,7 @@ angular.module("Stones", ['Rectangular'])
       constrainFocusToRoom: false
     });
     ngrEnvironment.load(stonesLevels.getLevel(1));
-    //ngrEnvironment.debug(true);
+    ngrEnvironment.debug(true);
     ngrEnvironment.setZoom(0.2);
     ngrInterface.enableDrag();
     ngrInterface.setGrabOnly("doodad");
@@ -58,6 +58,7 @@ angular.module("Stones", ['Rectangular'])
           while (edge) {
 
             var contact = edge.contact;
+            if (!contact.IsTouching()) break;
             var points = contact.m_oldManifold.m_points;
             var other = edge.other;
 
@@ -76,11 +77,11 @@ angular.module("Stones", ['Rectangular'])
               vect: vect
             }
 
-             //console.log(momentumDiff.vect);
-            if (momentumDiff.vect > 0.5) {
+             //console.log(vect);
+            if (momentumDiff.vect > 5 && momentumDiff.vect < 1000) {
               //console.log("That's an impact!");
               ngrWorld.explode(explosive);
-              ngrLoop.removeHook(hook);
+           //   ngrLoop.removeHook(hook);
             }
 
             edge = edge.next;
@@ -132,6 +133,9 @@ angular.module("Stones", ['Rectangular'])
       case "wedge":
         params = StonesModels.wedge;
         break;
+      case 'exploding-box':
+        params = StonesModels.explodingBox;
+        break;
       }
 
       ngrEnvironment.add(null, params);
@@ -151,6 +155,23 @@ angular.module("Stones", ['Rectangular'])
       src: 'img/box.png',
       x: 3,
       y: 3
+    }
+
+    this.explodingBox = {
+      shapeKind: 'box',
+      width: 1,
+      height: 1,
+      density: 0.5,
+      restitution: 0.1,
+      userData: {
+        doodad: "true",
+        explosive: true,
+      },
+      friction: 0.2,
+      src: 'img/box-red.png',
+      x: 3,
+      y: 3
+
     }
 
     this.blueBox = {
