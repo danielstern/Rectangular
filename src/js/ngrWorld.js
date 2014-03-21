@@ -64,9 +64,22 @@ angular.module('Rectangular')
     })
   }
 
+  this.getBodiesByAttribute = function (key, val) {
+    return _.filter(bodies, function (body) {
+      if (body.options[key] == val) return true;
+    })
+  }
+
   this.getBodyByUserData = function (key, val) {
-    console.log("Bodies?", bodies);
+    //console.log("Bodies?", bodies);
     return _.find(bodies, function (body) {
+      if (body.GetUserData() && body.GetUserData()[key] == val) return true;
+    })
+  }
+
+  this.getBodiesByUserData = function (key, val) {
+    //console.log("Bodies?", bodies);
+    return _.filter(bodies, function (body) {
       if (body.GetUserData() && body.GetUserData()[key] == val) return true;
     })
   }
@@ -81,6 +94,7 @@ angular.module('Rectangular')
     b.CreateFixture(f);
 
     options.points = f.points;
+    def.options.points = f.points;
     
     if (options.userData) b.SetUserData(options.userData);
 

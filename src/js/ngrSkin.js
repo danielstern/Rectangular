@@ -6,7 +6,7 @@ angular.module('Rectangular')
     this.skin = function (body, options) {
       _body = body;
 
-      console.log("skinnign this body...", body)
+    //  console.log("skinnign this body...", body)
 
       var scale = ngrState.getScale() * ngrState.getZoom();
 
@@ -187,9 +187,10 @@ angular.module('Rectangular')
         mask.graphics.drawCircle(0, 0, options.spriteHeight);
       } else if (options.shapeKind === 'triangle') {
 
-        console.log("Drawing this triangle...",options,_body.GetLocalCenter());
         var center = _body.GetLocalCenter();
-        var innerAngleRads = options.innerAngle * Math.PI / 180;
+        console.log("Drawing this triangle...",options, center);
+        //setTimeout(function(){console.log(_body.GetLocalCenter())},500);
+        var innerAngleRads = Number(options.innerAngle) * Math.PI / 180;
 
         var points = options.points;
         var p1 = points[0];

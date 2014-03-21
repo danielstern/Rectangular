@@ -13,6 +13,7 @@
      this.unfollow = ngrWorld.unfollow;
      this.setFocusOffset = ngrState.setFocusOffset;
      this.getBodyByUserData = ngrWorld.getBodyByUserData;
+     this.getBodiesByUserData = ngrWorld.getBodiesByUserData;
      this.setFocus = ngrState.setFocus;
      this.setZoom = ngrState.setZoom;
      this.updateRoom = ngrState.updateRoom;
@@ -24,6 +25,8 @@
      this.start = ngrLoop.start;
      this.createRoom = ngrRoom.createRoom;
      this.clearRoom = ngrRoom.clearRoom;
+     this.constrainFocus = ngrState.constrainFocus;
+     this.constrainZoom = ngrState.constrainZoom;
 
      var e = this;
      var _canvas;

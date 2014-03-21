@@ -9,6 +9,8 @@ angular.module('Rectangular')
     var focusTo = {x:0,y:0};
     var focusOffset = {x:0,y:0};
     var zoomTo = 0.15;
+    var focusConstraint;
+    var zoomConstraint;
 
     this.setFocusOffset = function(_off) {
       focusOffset = _off;
@@ -20,6 +22,17 @@ angular.module('Rectangular')
 
     this.getPins = function() {
       return pins;
+    }
+
+    this.constrainFocus = function(focusBox) {
+      console.log("Constraining focus");
+      focusConstraint = focusBox;
+
+    }
+
+    this.constrainZoom = function(zc) {
+      zoomConstraint = zc;
+
     }
 
 
@@ -67,6 +80,11 @@ angular.module('Rectangular')
     }
 
     this.setZoom = function(_z, instant) {
+        if (zoomConstraint) {
+       if (_z < zoomConstraint.min) _z = zoomConstraint.min;
+       if (_z > zoomConstraint.max) _z = zoomConstraint.max;
+        }
+
        if (_z) zoomTo = _z;
        
        if (_z && instant) state.zoom = _z;
@@ -84,10 +102,19 @@ angular.module('Rectangular')
     }
 
     this.getFocus = function() {
-      return {
+      var focusReturn = {
         x:focus.x + focusOffset.x,
         y:focus.y + focusOffset.y
       };
+
+      if (focusConstraint) {
+        if (focusReturn.x < focusConstraint.x) focusReturn.x = focusConstraint.x;
+        if (focusReturn.x > focusConstraint.x + focusConstraint.width) focusReturn.x = focusConstraint.x + focusConstraint.width;
+
+         if (focusReturn.y < focusConstraint.y) focusReturn.y = focusConstraint.y;
+         if (focusReturn.y > focusConstraint.y + focusConstraint.height) focusReturn.y = focusConstraint.y + focusConstraint.height;
+      }
+      return focusReturn;
     }
 
     this.setProperties = function(_properties) {

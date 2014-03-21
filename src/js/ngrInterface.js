@@ -104,18 +104,26 @@ angular.module('Rectangular')
 
     if (body) {
 
-      if (!grabOnly) {
+      var grab = true;
+      //console.log("grabbing body...",body,grabOnly);
+
+      if (grabOnly) {
+        if (body.GetUserData() && body.GetUserData()[grabOnly]) {
+          grab = true;
+        } else {
+          grab = false;
+        }
+      }
 
       if (grabJoint) ngrWorld.unpin(grabJoint);
-      grabJoint = ngrWorld.pin(body, r);
+      if (grab) grabJoint = ngrWorld.pin(body, r);
 
       _.each(ongrabListeners, function (_listener) {
         _listener(body);
       })
 
-      }
-
-    } else {
+    }
+      else {
       panStartPoint = _.clone(r);
       ngrWorld.unfollow();
 
