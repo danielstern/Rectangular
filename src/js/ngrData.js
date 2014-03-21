@@ -23,7 +23,7 @@ angular.module('Rectangular')
       ngrRoom.createRoom();
 
       console.log(JSON.stringify(json));
-   //   ngrState.setProperties(json.properties);
+      ngrState.setProperties(json.properties);
 
       _.each(json.elements, function(element) {
         element.options.id = element.id;

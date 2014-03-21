@@ -29,15 +29,28 @@ angular.module('shapemaker')
 
         $scope.defaults = {
           box: {
-            params: 'height width restitution density friction gravityScale linearDamping angle',
+            params: 'height width restitution density friction',
           },
           triangle: {
-            params: 'innerAngle adjacent opposite restitution density friction gravityScale linearDamping angle',
+            params: 'innerAngle adjacent opposite restitution density friction',
           },
           circle: {
-            params: 'radius restitution density friction gravityScale linearDamping angle'
+            params: 'radius restitution density friction'
           }
         }
+
+        $scope.$watchCollection('q.preset', function () {
+          console.log("PReset updated", $scope.q);
+          if ($scope.q.preset) {
+            var pre = $scope.q.preset;
+            _.each(pre.presets, function (_pre, key) {
+              console.log("updating",_pre,key)
+              $scope.q[key] = _pre;
+            })
+            $scope.q.shape = pre.shape;
+            if (pre.skin) q.src = pre.skin.src;
+          }
+        })
 
         $scope.newShape = function (input) {
           $scope.addShape($attrs.shape);
@@ -46,7 +59,6 @@ angular.module('shapemaker')
         $scope.$watch('q', function () {
           //console.log("q changed...");
           if ($scope.defaults) $scope.properties = $scope.defaults[$scope.q.shape].params.split(' ');
-
         }, true)
 
         $scope.options = [{
@@ -63,6 +75,7 @@ angular.module('shapemaker')
         ];
 
         $scope.skins = shapecreatorDefaults.skins;
+        $scope.presets = shapecreatorDefaults.presets;
 
         $scope.addShape = function (shape) {
 
@@ -152,8 +165,72 @@ angular.module('shapemaker')
       name: 'Snow',
       type: 'snow',
       src: 'img/snowCenter.png'
+    }, {
+      name: 'Green',
+      type: 'green',
+      src: 'img/box-green.png'
+    }, {
+      name: 'Blue',
+      type: 'blue',
+      src: 'img/box-blue.png'
     }
 
   ]
+
+  this.presets = [{
+    name: 'Wooden Box',
+    shape: 'box',
+    skin: {
+      src: 'img/box.png',
+    },
+    presets: {
+      height: 1,
+      width:1,
+      restitution: 0.2,
+      density: 0.2
+    }
+
+  }, {
+    name: 'Boulder',
+    shape: 'circle',
+    skin: {
+      src: 'img/stoneMid.png',
+    },
+    presets: {
+      radius: 2,
+      density: 0.9,
+      friction: 0.4,
+    }
+
+  },{
+    name: 'Rubber Ball',
+    shape: 'circle',
+    skin: {
+      name: 'Blue',
+      src: 'img/box-blue.png',
+    },
+    presets: {
+      radius: 0.3,
+      bg: 'tiled',
+      restitution: 0.9,
+    }
+
+  },{
+    name: 'Explosive Box',
+    shape: 'box',
+    skin: {
+      src: 'img/box-red.png',
+    },
+    presets: {
+      height: 0.5,
+      width:0.5,
+      restitution: 0.2,
+      density: 0.6,
+      userData: {
+        explosive: true
+      }
+    }
+
+  }]
 
 })

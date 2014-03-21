@@ -1,4 +1,9 @@
+
 <div>
+<div>
+<select  ng-model="q.preset" id='preset' ng-options="preset.name for preset in presets">
+</select>
+</div>
     <select  ng-model="q.shape" id='options'>
     <option ng-click="q.shape == option.type"value='{{option.type}}' ng-repeat="option in options">
         {{option.name}}

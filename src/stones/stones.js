@@ -19,7 +19,7 @@ angular.module("Stones", ['Rectangular'])
     })
 
     ngrEnvironment.constrainZoom({
-      min: 0.25,
+      min: 0.1,
       max: 2
     })
 
@@ -83,10 +83,43 @@ angular.module("Stones", ['Rectangular'])
           height: 2,
           density: 0.5,
           userData: {
-            doodad: true
+            doodad: "true"
           },
           friction: 0.2,
           src: 'img/box.png',
+          x: 3,
+          y: 3
+        }
+        break;
+      case "blue-box":
+        params = {
+          shapeKind: 'box',
+          width: 2,
+          height: 1,
+          density: 0.5,
+          restitution: 0.8,
+          userData: {
+            doodad: "true"
+          },
+          friction: 0.2,
+          src: 'img/box-blue.png',
+          x: 3,
+          y: 3
+        }
+        break;
+      case "green-box":
+        params = {
+          shapeKind: 'box',
+          width: 2,
+          height: 1,
+          density: 0.5,
+          restitution: 0.2,
+          friction: 0,
+          userData: {
+            doodad: "true"
+          },
+          friction: 0.2,
+          src: 'img/box-green.png',
           x: 3,
           y: 3
         }
@@ -97,7 +130,7 @@ angular.module("Stones", ['Rectangular'])
           width: 5,
           height: 0.75,
           userData: {
-            doodad: true
+            doodad: "true"
           },
           density: 3,
           friction: 0.2,
@@ -112,7 +145,7 @@ angular.module("Stones", ['Rectangular'])
           innerAngle: 60,
           opposite: 3,
           userData: {
-            doodad: true
+            doodad: "true"
           },
           adjacent: 2.5,
           bg: 'tiled',
