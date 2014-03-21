@@ -22,6 +22,13 @@ angular.module('shapemaker')
         type: 'boxy',
         src: 'img/box.png'
       }, {
+        name: 'Rock',
+        type: 'rock',
+        src: 'img/stoneMid.png'
+      }, {
+        name: 'Red Box',
+        src: 'img/box-red.png'
+      }, {
         name: 'Dirt',
         type: 'dirt',
         src: 'img/grassCenter.png'
@@ -68,6 +75,21 @@ angular.module('shapemaker')
       }
     }
 
+    this.creatorDefaults = {
+      height: 2,
+      width: 1,
+      radius: 2,
+      restitution: 0.3,
+      density: 0.5,
+      friction: 0.5,
+      linearDamping: 0.5,
+      gravityScale: 0.5,
+      angle: 0,
+      innerAngle: 90,
+      adjacent: 2,
+      opposite: 2,
+    }
+
     this.presets = [{
       name: 'Wooden Box',
       shape: 'box',
@@ -82,6 +104,35 @@ angular.module('shapemaker')
       }
 
     }, {
+      name: 'Wedge',
+      shape: 'triangle',
+      skin: {
+        src: 'img/box-green.png',
+      },
+      presets: {
+        innerAngle: 90,
+        adjacent: 6,
+        opposite: 2
+      }
+
+    }, {
+      name: 'Coin Box',
+      shape: 'box',
+      skin: {
+        src: 'img/boxCoin.png',
+      },
+      userData: {
+        treasure: "true",
+        points: 60
+      },
+      presets: {
+        density: 0.7,
+        restitution: 0.6,
+        height: 1,
+        width: 1,
+      }
+
+    }, {
       name: 'Boulder',
       shape: 'circle',
       skin: {
@@ -90,6 +141,7 @@ angular.module('shapemaker')
       presets: {
         radius: 2,
         density: 0.9,
+        restitution: 0.1,
         friction: 0.4,
       }
 
