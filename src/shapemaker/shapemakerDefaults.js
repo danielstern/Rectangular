@@ -56,6 +56,18 @@ angular.module('shapemaker')
       type: 'triangle'
     }]
 
+    this.shapeDefaultParams = {
+      box: {
+        params: 'height width restitution density friction',
+      },
+      triangle: {
+        params: 'innerAngle adjacent opposite restitution density friction',
+      },
+      circle: {
+        params: 'radius restitution density friction'
+      }
+    }
+
     this.presets = [{
       name: 'Wooden Box',
       shape: 'box',

@@ -27,17 +27,7 @@ angular.module('shapemaker')
         q.adjacent = 2;
         q.opposite = 2;
 
-        $scope.defaults = {
-          box: {
-            params: 'height width restitution density friction',
-          },
-          triangle: {
-            params: 'innerAngle adjacent opposite restitution density friction',
-          },
-          circle: {
-            params: 'radius restitution density friction'
-          }
-        }
+        $scope.defaults = shapemakerDefaults.shapeDefaultParams;
 
         $scope.$watchCollection('q.preset', function () {
           console.log("PReset updated", $scope.q.preset);
@@ -47,10 +37,16 @@ angular.module('shapemaker')
               $scope.q[key] = _pre;
             })
             $scope.q.shape = _.find($scope.options,function(option){
-              console.log("Finding shape...",option, pre);
+              //console.log("Finding shape...",option, pre);
               return (pre.shape == option.type);
             });
-         //   $scope.q.shape = {name:'circle'};
+
+            $scope.q.skin = _.find($scope.skins,function(_skin){
+              //console.log("Finding shape...",option, pre);
+              return (_skin.src === pre.skin.src);
+            });
+
+
             $scope.q.shapeKind = q.shape.type;
             if (pre.skin) q.src = pre.skin.src;
           }
