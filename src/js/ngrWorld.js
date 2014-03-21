@@ -35,23 +35,23 @@ angular.module('Rectangular')
     w.removeElement(thing);
 
     var numRays = 50;
-    ngrLoop.addHook(function(){
+    ngrLoop.addHook(function () {
       if (numRays) {
         var reps = 10;
         while (reps) {
-        var angle = (i / numRays) * Math.PI * 2;
-        var rayDir = new b2Vec2(Math.sin(angle) * force,Math.cos(angle) * force);
+          var angle = (i / numRays) * Math.PI * 2;
+          var rayDir = new b2Vec2(Math.sin(angle) * force, Math.cos(angle) * force);
 
-        var b = w.addElement(ngrDefaults.bullet);
+          var b = w.addElement(ngrDefaults.bullet);
 
-        b.SetPosition(pos);
+          b.SetPosition(pos);
 
-        b.ApplyForce(rayDir,b.GetWorldCenter());
+          b.ApplyForce(rayDir, b.GetWorldCenter());
 
-        numRays--;  
-        reps--;
+          numRays--;
+          reps--;
+        }
       }
-    }
     })
 
   }
@@ -67,7 +67,7 @@ angular.module('Rectangular')
   });
 
   function expireObjects() {
-    _.each(bodies,function(body){
+    _.each(bodies, function (body) {
       if (body.options.timedLife) {
         body.options.lifeTime--;
         if (!body.options.lifeTime) w.removeElement(body);
@@ -99,13 +99,11 @@ angular.module('Rectangular')
     body.GetLocalCenter().Set(prev.x, prev.y);
   }
 
-
   this.unfreeze = function (body) {
-    
-    if (body) body.SetType(b2Body.b2_dynamicBody);
-    
-  }
 
+    if (body) body.SetType(b2Body.b2_dynamicBody);
+
+  }
 
   function removeLostObjects() {
     _.each(bodies, function (body) {

@@ -128,17 +128,16 @@
 
      }
 
-     $scope.editContext = function () {
-       $scope.editingContext = true;
-       if ($scope.contextBody) {
-         $scope.freezeContextItem();
-         $scope.unpinContextItem();
-       }
+     
+
+     $scope.editContext = function() {
+      ngrLoop.stop();
      }
 
-     $scope.stopEditContext = function () {
-       $scope.editingContext = false;
+     $scope.stopEditContext = function() {
+      ngrLoop.start();
      }
+
 
      $scope.unfreezeContextItem = function () {
 
@@ -212,6 +211,7 @@
        ngrEnvironment.clearAll();
        ngrEnvironment.load(_world);
        $scope.contextBody = undefined;
+       $scope.context.room = _.clone(state.room);
      }
 
      $scope.exportSavedWorld = function (_world) {
