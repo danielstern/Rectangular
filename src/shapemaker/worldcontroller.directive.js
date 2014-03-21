@@ -31,7 +31,7 @@ angular.module('shapemaker')
         };
 
         ngrLoop.addPermanentHook(function () {
-          //console.log("Updating...");
+
           var contextBody = $scope.contextBody;
           var state = ngrState.getState();
 
@@ -44,12 +44,6 @@ angular.module('shapemaker')
             $scope.context.selectedAngle = bodyAngle / Math.PI * 180;
           }
 
-          //$scope.context.room = _.clone(state.room);
-
-//          $scope.stats.focus = ngrState.getFocus();
- //         $scope.stats.scale = ngrState.getScale();
-  //        $scope.context.zoom = ngrState.getZoom(true);
-
           $scope.state = ngrState.getState();
           $scope.$apply();
 
@@ -57,13 +51,11 @@ angular.module('shapemaker')
 
         $scope.$watch("context", function () {
 
-          console.log("Context's changed...")
-
           ngrEnvironment.updateRoom($scope.context.room)
 
           if ($scope.contextBody) {
-            $scope.contextBody.SetPosition(new b2Vec2(Number($scope.context.selectedX), Number($scope.context.selectedY)));
-            $scope.contextBody.SetAngle(Number($scope.context.selectedAngle * Math.PI / 180))
+            //            $scope.contextBody.SetPosition(new b2Vec2(Number($scope.context.selectedX), Number($scope.context.selectedY)));
+            //           $scope.contextBody.SetAngle(Number($scope.context.selectedAngle * Math.PI / 180));
           }
 
           ngrEnvironment.setGravity($scope.context.gravity);
