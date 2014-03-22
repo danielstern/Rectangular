@@ -262,10 +262,10 @@ angular.module('Rectangular')
     var posX = thing.GetPosition().x;
     var posY = thing.GetPosition().y;
     var pos = thing.GetPosition();
-    var force = thing.options.explosiveness || 100000000;
+    var force = thing.options.explosiveness || 10000000;
     thing.crumble();
 
-    var numRays = 10;
+    var numRays = 30;
     while (numRays) {
 
       var angle = (i / numRays) * Math.PI * 2;
