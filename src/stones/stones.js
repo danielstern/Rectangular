@@ -58,7 +58,7 @@ angular.module("Stones", ['Rectangular'])
           while (edge) {
 
             var contact = edge.contact;
-            if (!contact.IsTouching()) break;
+           // if (!contact.IsTouching()) break;
             var points = contact.m_oldManifold.m_points;
             var other = edge.other;
 
@@ -77,7 +77,7 @@ angular.module("Stones", ['Rectangular'])
               vect: vect
             }
 
-            if (momentumDiff.vect > 5 && momentumDiff.vect < 1000) {
+            if (momentumDiff.vect > 25 && momentumDiff.vect < 1000) {
               ngrWorld.explode(explosive);
             }
 
@@ -114,6 +114,7 @@ angular.module("Stones", ['Rectangular'])
 
     $scope.add = function (type) {
       var params = StonesModels[type];
+      params.x = 25;
       console.log("Adding",type,params);
       ngrEnvironment.add(null, params);
     }

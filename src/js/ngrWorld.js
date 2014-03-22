@@ -31,13 +31,13 @@ angular.module('Rectangular')
     var posX = thing.GetPosition().x;
     var posY = thing.GetPosition().y;
     var pos = thing.GetPosition();
-    var force = thing.options.explosiveness || 1000000;
+    var force = thing.options.explosiveness || 100000000;
     w.removeElement(thing);
 
-    var numRays = 50;
+    var numRays = 10;
     ngrLoop.addHook(function () {
       if (numRays) {
-        var reps = 10;
+        var reps = 2;
         while (reps) {
           var angle = (i / numRays) * Math.PI * 2;
           var rayDir = new b2Vec2(Math.sin(angle) * force, Math.cos(angle) * force);
