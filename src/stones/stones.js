@@ -52,7 +52,7 @@ angular.module("Stones", ['Rectangular'])
 
       _.each(explosives, function (explosive) {
 
-        console.log("Explosive?", explosive);
+      //  console.log("Explosive?", explosive);
 
         //ngrGame.turnToCannonball(explosive);
         explosive.onimpact(0,function(body,other){
@@ -108,7 +108,7 @@ angular.module("Stones", ['Rectangular'])
     $scope.add = function (type) {
       var params = StonesModels[type];
       params.x = 25;
-      console.log("Adding", type, params);
+      //console.log("Adding", type, params);
       ngrEnvironment.add(null, params);
     }
 

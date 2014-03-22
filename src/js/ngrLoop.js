@@ -34,10 +34,7 @@ angular.module('Rectangular')
   };
 
   this.removeHook = function(_hook) {
-    var rHook = _.find(hooks,function(hook){
-      if (hook == _hook) return true;
-    });
-    hooks.splice(hooks.indexOf(rHook),1);
+    hooks = _.without(hooks, _hook);
   }
 
   this.addPermanentHook = function(func) {
