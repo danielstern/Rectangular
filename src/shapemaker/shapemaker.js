@@ -59,10 +59,6 @@
        }
      }, 'keydown');
 
-     if (localStorage['savedWorlds']) {
-       $scope.savedWorlds = JSON.parse(localStorage['savedWorlds']);
-     };
-
      $(document).bind("contextmenu", function (event) {
        event.preventDefault();
        if (ngrInterface.getBodyAtMouse()) {
@@ -232,6 +228,14 @@
      $scope.exportSavedWorld = function (_world) {
        $scope.worldExport = ngrData.getJSON();
      }
+
+     if (localStorage['savedWorlds']) {
+       $scope.savedWorlds = JSON.parse(localStorage['savedWorlds']);
+       setTimeout(function(){
+         $scope.load($scope.savedWorlds[$scope.savedWorlds.length - 1]);
+       },1)
+     };
+
 
      function hideContextMenu() {
        if (contextMenu) {

@@ -40,7 +40,7 @@ angular.module('Rectangular')
         while (edge) {
 
           var contact = edge.contact;
-          if (!contact.IsTouching()) break;
+         // if (!contact.IsTouching()) break;
           var points = contact.m_oldManifold.m_points;
           var other = edge.other;
 
