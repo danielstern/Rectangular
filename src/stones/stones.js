@@ -42,7 +42,6 @@ angular.module("Stones", ['Rectangular'])
       var explosives = ngrEnvironment.getBodiesByUserData('explosive', true);
 
       _.each(base, function (comp) {
-        console.log("Unfreezing base..");
         comp.unfreeze();
       })
 
@@ -52,39 +51,7 @@ angular.module("Stones", ['Rectangular'])
 
       _.each(explosives, function (explosive) {
 
-        var contact = explosive;
-        explosive.unfreeze();
-        var hook = ngrLoop.addHook(function () {
-          var edge = explosive.GetContactList();
-          while (edge) {
-
-            var contact = edge.contact;
-           // if (!contact.IsTouching()) break;
-            var points = contact.m_oldManifold.m_points;
-            var other = edge.other;
-
-            var explosiveMomentumX = explosive.GetLinearVelocity().x * explosive.GetInertia();
-            var explosiveMomentumY = explosive.GetLinearVelocity().y * explosive.GetInertia();
-            var otherMomentumX = other.GetLinearVelocity().x * other.GetInertia();
-            var otherMomentumY = other.GetLinearVelocity().y * other.GetInertia();
-
-            var diffX = Math.abs(explosiveMomentumX - otherMomentumX);
-            var diffY = Math.abs(explosiveMomentumY - otherMomentumY);
-            var vect = Math.sqrt(diffX + diffY);
-
-            var momentumDiff = {
-              x: diffX,
-              y: diffY,
-              vect: vect
-            }
-
-            if (momentumDiff.vect > 25 && momentumDiff.vect < 1000) {
-              ngrWorld.explode(explosive);
-            }
-
-            edge = edge.next;
-          }
-        })
+        explosive.onimpact(5,ngrWorld.explode)
 
       })
 

@@ -278,10 +278,10 @@ angular.module('Rectangular')
 })
   .service("ngrBody", function (ngrLoop) {
 
-    this.Body = function (b2Body) {
-      var body = b2Body;
+    this.Body = function (_body) {
+      var body = _body;
       var crumbleListeners = [];
-      console.log("Creating body...", crumbleListeners);
+      var impactListeners = [];
 
       body.ngrBody = true;
       var bodyLoop = ngrLoop.addHook(function () {
@@ -313,10 +313,47 @@ angular.module('Rectangular')
           }
 
         }
+
+        var edge = body.GetContactList();
+        while (edge) {
+
+          var contact = edge.contact;
+         // if (!contact.IsTouching()) break;
+          var points = contact.m_oldManifold.m_points;
+          var other = edge.other;
+
+          var bodyMomentumX = body.GetLinearVelocity().x * body.GetInertia();
+          var bodyMomentumY = body.GetLinearVelocity().y * body.GetInertia();
+          var otherMomentumX = other.GetLinearVelocity().x * other.GetInertia();
+          var otherMomentumY = other.GetLinearVelocity().y * other.GetInertia();
+
+          var diffX = Math.abs(bodyMomentumX - otherMomentumX);
+          var diffY = Math.abs(bodyMomentumY - otherMomentumY);
+          var vect = Math.sqrt(diffX + diffY);
+
+          var momentumDiff = {
+            x: diffX,
+            y: diffY,
+            vect: vect
+          }
+
+          _.each(impactListeners,function(l){
+             if (l.force < vect && vect < 1000) l.func(body);
+          })
+
+          edge = edge.next;
+        }
       })
 
       body.oncrumble = function (func) {
         crumbleListeners.push(func);
+      }
+
+      body.onimpact = function (force, func) {
+        impactListeners.push({
+          force: force,
+          func: func
+        });
       }
 
       body.freeze = function () {
