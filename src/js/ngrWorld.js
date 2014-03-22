@@ -1,7 +1,7 @@
 angular.module('Rectangular')
 /* Creates an instance of the world of the simulation, 
    and provides an interface for it. */
-.service("ngrWorld", function (ngrBox, ngrModels, ngrState, ngrDefaults, ngrStage, ngrLoop) {
+.service("ngrWorld", function (ngrBox, ngrModels, ngrState, ngrDefaults, ngrBody, ngrStage, ngrLoop) {
 
   var world,
     bodies = [],
@@ -63,17 +63,8 @@ angular.module('Rectangular')
   ngrLoop.addPermanentHook(function () {
     updateMemoryPairs();
     removeLostObjects();
-    expireObjects();
+    // expireObjects();
   });
-
-  function expireObjects() {
-    _.each(bodies, function (body) {
-      if (body.options.timedLife) {
-        body.options.lifeTime--;
-        if (!body.options.lifeTime) w.removeElement(body);
-      }
-    })
-  }
 
   function updateMemoryPairs() {
     _.each(memoryPairs, function (pair) {
@@ -142,6 +133,13 @@ angular.module('Rectangular')
     var b = world.CreateBody(def.getBodyDef());
     var f = def.getFixtureDef()
     b.CreateFixture(f);
+
+    b = new ngrBody.Body(b);
+    console.log("B?", b);
+
+    b.oncrumble(function(body){
+      w.removeElement(body);
+    })
 
     options.points = f.points;
     def.options.points = f.points;
@@ -328,3 +326,33 @@ angular.module('Rectangular')
     return world;
   }
 })
+  .service("ngrBody", function (ngrLoop) {
+
+    this.Body = function (b2Body) {
+      var body = b2Body;
+      var crumbleListeners = [];
+
+      body.ngrBody = true;
+      ngrLoop.addHook(function () {
+
+        if (body.options.timedLife) {
+          body.options.lifeTime--;
+          if (!body.options.lifeTime) body.crumble();
+        }
+      })
+
+
+      body.oncrumble = function(func) {
+        crumbleListeners.push(func);
+      }
+
+      body.crumble = function () {
+        _.each(crumbleListeners, function (l) {
+          l(body);
+        })
+      }
+
+      return body;
+    }
+
+  })

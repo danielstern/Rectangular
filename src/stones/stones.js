@@ -91,9 +91,10 @@ angular.module("Stones", ['Rectangular'])
 
       var prizeStartingY = prize.GetPosition().y;
 
-      ngrLoop.addHook(function () {
+      var h = ngrLoop.addHook(function () {
         var pos = prize.GetPosition();
         if (pos.y - prizeStartingY > 5) {
+          ngrLoop.removeHook(h);
           $scope.endLevel(true);
         }
       })
