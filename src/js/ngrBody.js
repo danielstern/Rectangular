@@ -12,8 +12,10 @@ angular.module('Rectangular')
         var options = body.options;
 
         if (options.timedLife) {
+
+          console.log("this body has tiemd life...");
           options.lifeTime--;
-          if (!options.lifeTime) body.crumble();
+          if (options.lifeTime < 0) body.crumble();
         }
 
         if (options.movement) {
@@ -40,8 +42,6 @@ angular.module('Rectangular')
         while (edge) {
 
           var contact = edge.contact;
-         // if (!contact.IsTouching()) break;
-          var points = contact.m_oldManifold.m_points;
           var other = edge.other;
 
           var bodyMomentumX = body.GetLinearVelocity().x * body.GetInertia();
@@ -60,7 +60,7 @@ angular.module('Rectangular')
           }
 
           _.each(impactListeners,function(l){
-             if (l.force < vect && vect < 100000) l.func(body);
+             if (l.force < vect) l.func(body, other,vect);
           })
 
           edge = edge.next;

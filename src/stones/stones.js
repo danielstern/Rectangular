@@ -34,7 +34,7 @@ angular.module("Stones", ['Rectangular'])
 
     $scope.startLevel = function () {
       var starters = ngrEnvironment.getBodiesByUserData('worldStarter', true);
-     // ngrEnvironment.remove(starter);
+      // ngrEnvironment.remove(starter);
       ngrEnvironment.start();
       var base = ngrEnvironment.getBodiesByUserData('base', true);
       var prizes = ngrEnvironment.getBodiesByUserData('prize', true);
@@ -54,30 +54,35 @@ angular.module("Stones", ['Rectangular'])
 
         console.log("Explosive?", explosive);
 
-        ngrGame.turnToCannonball(explosive);
+        //ngrGame.turnToCannonball(explosive);
+        explosive.onimpact(0,function(body,other){
+          if (other.GetUserData().stone) {
+            ngrGame.explode(explosive);
+          }
+        })
 
       })
 
       _.each(destructibles, function (destructible) {
 
-        destructible.onimpact(destructible.GetUserData().health || 5, function(){
-          destructible.crumble();
-        });
-        //        ngrGame.turnToCannonball(explosive);
+        destructible.onimpact(0, function (body, other,force) {
 
+          if (other.options.bullet) {
+
+            body.crumble();
+          }
+        });
       })
 
       _.each(prizes, function (prize) {
-        
+
         prize.unfreeze();
-         var prizeStartingY = prize.GetPosition().y;
+        var prizeStartingY = prize.GetPosition().y;
       })
 
       _.each(starters, function (starter) {
         starter.crumble();
       })
-
-     
 
       var h = ngrLoop.addHook(function () {
         //var pos = prize.GetPosition();
@@ -86,7 +91,6 @@ angular.module("Stones", ['Rectangular'])
         //  $scope.endLevel(true);
         //}
       })
-
     }
 
     $scope.endLevel = function (success) {

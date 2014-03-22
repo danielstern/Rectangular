@@ -27,6 +27,7 @@ angular.module('Rectangular')
 
       this.options = options;
       this.isShape = true;
+    //  options.bullet = false;
 
       this.getBodyDef = function () {
 
@@ -36,7 +37,7 @@ angular.module('Rectangular')
         b.angle = Number(this.options.angle || 0);
 
         if (options.bullet) {
-          b.fixedRotation = true;
+       //   b.fixedRotation = true;
           b.linearDamping = 1;
         }
 

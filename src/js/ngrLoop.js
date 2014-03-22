@@ -11,7 +11,7 @@ angular.module('Rectangular')
   this.tick = function() {
 
     _.each(hooks, function(hook) {
-      hook();
+      hook.func();
     })
 
     _.each(permanentHooks, function(hook) {
@@ -21,13 +21,21 @@ angular.module('Rectangular')
   }
 
   this.addHook = function(func) {
-    hooks.push(func);
-    return func;
+    var id = guid();
+
+    var hook = {
+      func: func,
+      id: id
+    }
+
+    //func.id = id;
+    hooks.push(hook);
+    return hook;
   };
 
-  this.removeHook = function(_func) {
+  this.removeHook = function(_hook) {
     var rHook = _.find(hooks,function(hook){
-      if (hook == _func) return true;
+      if (hook == _hook) return true;
     });
     hooks.splice(hooks.indexOf(rHook),1);
   }

@@ -29,12 +29,15 @@ angular.module('Rectangular')
 
     this.bullet = {
       shapeKind: 'circle',
-      radius: '0.1',
-      density: 1200,
+      radius: 0.15,
+      density: 600,
       bullet: true,
       src: 'img/box-red.png',
       bg: 'tiled',
       hidden: false,
+      userData: {
+        igniter: true,
+      },
       restitution: 0.99,
       friction: 0,
       gravityScale: 0,
