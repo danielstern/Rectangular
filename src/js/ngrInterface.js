@@ -13,17 +13,21 @@ angular.module('Rectangular')
     ongrabListeners = [],
     grabOnly = false,
     panStartPoint = {},
-    panning = false;
+    panning = false,
+    grabbedBody = null;
 
-  $(document).mouseup(function (e) {
+  $(document).mouseup(ungrab)
+
+  $('canvas')[0].addEventListener("mousewheel", MouseWheelHandler, false);
+
+  function ungrab(e) {
     panning = false;
 
     if (grabJoint) ngrWorld.destroyJoint(grabJoint);
     grabJoint = null;
+    grabbedBody = null;
 
-  })
-
-  $('canvas')[0].addEventListener("mousewheel", MouseWheelHandler, false);
+  }
 
   function MouseWheelHandler(e) {
 
@@ -44,11 +48,11 @@ angular.module('Rectangular')
 
   }
 
-  this.scrollToZoom = function(enable) {
+  this.scrollToZoom = function (enable) {
     scrollZooming = enable;
   }
 
-  this.setGrabOnly = function(attr) {
+  this.setGrabOnly = function (attr) {
     grabOnly = attr;
   }
 
@@ -57,9 +61,9 @@ angular.module('Rectangular')
     targeter.onclick(function (r) {
       mouseX = r.worldPosX;
       mouseY = r.worldPosY;
-      
-        i.grab(r);
-      
+
+      i.grab(r);
+
     })
 
     targeter.onmove(function (r) {
@@ -115,6 +119,8 @@ angular.module('Rectangular')
         }
       }
 
+      grabbedBody = body;
+
       if (grabJoint) ngrWorld.unpin(grabJoint);
       if (grab) grabJoint = ngrWorld.pin(body, r);
 
@@ -122,8 +128,7 @@ angular.module('Rectangular')
         _listener(body);
       })
 
-    }
-      else {
+    } else {
       panStartPoint = _.clone(r);
       ngrWorld.unfollow();
 
