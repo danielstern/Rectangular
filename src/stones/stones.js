@@ -42,17 +42,18 @@ angular.module("Stones", ['Rectangular'])
       var explosives = ngrEnvironment.getBodiesByUserData('explosive', true);
 
       _.each(base, function (comp) {
-        comp.SetType(b2Body.b2_dynamicBody);
+        console.log("Unfreezing base..");
+        comp.unfreeze();
       })
 
       _.each(doodads, function (doodad) {
-        ngrWorld.freeze(doodad);
+        doodad.freeze();
       })
 
       _.each(explosives, function (explosive) {
 
         var contact = explosive;
-        ngrWorld.unfreeze(explosive);
+        explosive.unfreeze();
         var hook = ngrLoop.addHook(function () {
           var edge = explosive.GetContactList();
           while (edge) {
@@ -87,7 +88,7 @@ angular.module("Stones", ['Rectangular'])
 
       })
 
-      prize.SetType(b2Body.b2_dynamicBody);
+      prize.unfreeze();
 
       var prizeStartingY = prize.GetPosition().y;
 

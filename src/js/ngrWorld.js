@@ -30,7 +30,7 @@ angular.module('Rectangular')
   }
 
   this.explode = function (thing) {
-    console.log("Exploding",thing);
+    console.log("Exploding", thing);
     if (thing.crumbled) return;
     var posX = thing.GetPosition().x;
     var posY = thing.GetPosition().y;
@@ -78,21 +78,6 @@ angular.module('Rectangular')
       o.userData = pair.body.GetUserData();
 
     });
-  }
-
-  this.freeze = function (body) {
-    var prev = {
-      x: body.options.center.x,
-      y: body.options.center.y
-    }
-    if (body) body.SetType(b2Body.b2_staticBody);
-    body.GetLocalCenter().Set(prev.x, prev.y);
-  }
-
-  this.unfreeze = function (body) {
-
-    if (body) body.SetType(b2Body.b2_dynamicBody);
-
   }
 
   function removeLostObjects() {
@@ -251,7 +236,7 @@ angular.module('Rectangular')
 
   this.clearAll = function () {
     _.each(bodies, function (body) {
-      w.removeElement(body);
+      body.crumble();
     });
 
     _.each(pins, function (pin) {
@@ -296,7 +281,7 @@ angular.module('Rectangular')
     this.Body = function (b2Body) {
       var body = b2Body;
       var crumbleListeners = [];
-      console.log("Creating body...",crumbleListeners);
+      console.log("Creating body...", crumbleListeners);
 
       body.ngrBody = true;
       var bodyLoop = ngrLoop.addHook(function () {
@@ -304,7 +289,7 @@ angular.module('Rectangular')
         var options = body.options;
 
         if (options.timedLife) {
-        //  console.log("Objects timed life...",options.lifeTime);
+          //  console.log("Objects timed life...",options.lifeTime);
           options.lifeTime--;
           if (!options.lifeTime) body.crumble();
         }
@@ -334,8 +319,20 @@ angular.module('Rectangular')
         crumbleListeners.push(func);
       }
 
+      body.freeze = function () {
+        var prev = {
+          x: body.options.center.x,
+          y: body.options.center.y
+        }
+        if (body) body.SetType(0);
+        body.GetLocalCenter().Set(prev.x, prev.y);
+      }
+
+      body.unfreeze = function () {
+        body.SetType(2);
+      }
+
       body.crumble = function () {
-      //  console.log("crumbling body...");
         ngrLoop.removeHook(bodyLoop);
         body.crumbled = true;
         _.each(crumbleListeners, function (l) {
