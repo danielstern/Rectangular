@@ -52,7 +52,9 @@ angular.module("Stones", ['Rectangular'])
 
       _.each(explosives, function (explosive) {
 
-        explosive.onimpact(5,ngrGame.explode)
+        console.log("Explosive?",explosive);
+
+        ngrGame.turnToCannonball(explosive);
 
       })
 
