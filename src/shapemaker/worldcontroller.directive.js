@@ -5,30 +5,9 @@ angular.module('shapemaker')
       templateUrl: function (elem, atts) {
         return "shapemaker/tmpl/worldcontroller.html";
       },
-      controller: function ($scope, $attrs, $element, ngrEnvironment, ngrStage, ngrState, ngrLoop) {
+      controller: function ($scope, $attrs, shapemakerDefaults, $element, ngrEnvironment, ngrStage, ngrState, ngrLoop) {
 
-        var oldRoom = {};
-
-        $scope.context = {
-          scale: 60,
-          gravity: 60,
-          zoom: 0.5,
-          speed: 60,
-          drawDebug: true,
-          drawSprites: true,
-          selectedX: 0,
-          scale: 2,
-          selectedY: 0,
-          selectedAngle: 0,
-          room: {
-            height: 20,
-            width: 25,
-            roof: false,
-            floor: true,
-            leftWall: true,
-            rightWall: true
-          },
-        };
+        $scope.context = shapemakerDefaults.context;
 
         ngrLoop.addPermanentHook(function () {
 

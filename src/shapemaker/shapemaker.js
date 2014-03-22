@@ -1,5 +1,5 @@
  angular.module("shapemaker", ['ngAudio', 'Rectangular'])
-   .controller('myDemoCtrl', function ($scope, $element, ngrData, ngrDefaults, ngrLoop, ngrWorld, ngrInterface, ngrEnvironment, ngrState, ngAudio, $compile) {
+   .controller('myDemoCtrl', function ($scope, ngrGame, $element, ngrData, ngrDefaults, ngrLoop, ngrWorld, ngrInterface, ngrEnvironment, ngrState, ngAudio, $compile) {
 
      var contextMenu;
      var contextPin;
@@ -7,8 +7,16 @@
      $scope.editingContext = false;
      $scope.stats = {};
 
+     $scope.game = ngrGame;
+
      ngrEnvironment.init($scope.context);
      ngrInterface.enableDrag();
+
+
+     ngrEnvironment.constrainZoom({
+       min: 0.05,
+       max: 2,
+     })
 
      ngrInterface.onmove(function (r) {
        $scope.r = r;
@@ -32,6 +40,10 @@
        },
        'p': function () {
          $scope.pinContextItem();
+       },
+       'c': function () {
+        console.log("it's cannonball time");
+         ngrGame.turnToCannonball($scope.contextBody);
        },
        'u': function () {
          $scope.unpinContextItem();
@@ -91,7 +103,8 @@
      }
 
      $scope.explodeContextItem = function () {
-       ngrWorld.explode($scope.contextBody);
+      console.log("EXPLODING!");
+       ngrGame.explode($scope.contextBody);
      }
 
      $scope.clearAll = function () {

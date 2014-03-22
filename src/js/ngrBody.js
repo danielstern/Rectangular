@@ -40,7 +40,7 @@ angular.module('Rectangular')
         while (edge) {
 
           var contact = edge.contact;
-         // if (!contact.IsTouching()) break;
+          if (!contact.IsTouching()) break;
           var points = contact.m_oldManifold.m_points;
           var other = edge.other;
 
@@ -60,7 +60,7 @@ angular.module('Rectangular')
           }
 
           _.each(impactListeners,function(l){
-             if (l.force < vect && vect < 1000) l.func(body);
+             if (l.force < vect && vect < 100000) l.func(body);
           })
 
           edge = edge.next;

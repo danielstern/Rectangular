@@ -34,7 +34,7 @@ angular.module('Rectangular')
       bullet: true,
       src: 'img/box-red.png',
       bg: 'tiled',
-      hidden: true,
+      hidden: false,
       restitution: 0.99,
       friction: 0,
       gravityScale: 0,

@@ -13,6 +13,27 @@ angular.module('shapemaker')
       return _.extend(_.clone(new Shape), _.clone(options));
     }
 
+    this.context = {
+      scale: 60,
+      gravity: 60,
+      zoom: 0.5,
+      speed: 60,
+      drawDebug: false,
+      drawSprites: true,
+      selectedX: 0,
+      scale: 2,
+      selectedY: 0,
+      selectedAngle: 0,
+      room: {
+        height: 20,
+        width: 25,
+        roof: false,
+        floor: true,
+        leftWall: true,
+        rightWall: true
+      },
+    }
+
     this.skins = [{
         name: 'Stone',
         type: 'stone',
@@ -145,6 +166,19 @@ angular.module('shapemaker')
         friction: 0.4,
       }
 
+    },{
+      name: 'Cannon Ball',
+      shape: 'circle',
+      skin: {
+        src: 'img/snowCenter.png',
+      },
+      presets: {
+        radius: 1,
+        density: 0.9,
+        restitution: 0.1,
+        friction: 0.4,
+      }
+
     }, {
       name: 'Rubber Ball',
       shape: 'circle',
@@ -169,7 +203,7 @@ angular.module('shapemaker')
         volatility: 1,
         doodad: true,
         force: 1
-      },      
+      },
       presets: {
         height: 0.5,
         width: 0.5,
