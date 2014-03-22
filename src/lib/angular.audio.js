@@ -246,7 +246,7 @@ angular.module('ngAudio', [])
       try {
         this.sound.currentTime = 0;
       } catch (e) {
-        console.warn("Sound error");
+        console.warn("Sound error",e);
       }
     };
 

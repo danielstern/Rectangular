@@ -1,5 +1,5 @@
-angular.module("Stones", ['Rectangular'])
-  .controller("GameOfStones", function ($scope, ngrEnvironment, ngrWorld, ngrGame, StonesModels, ngrLoop, ngrInterface, stonesLevels) {
+angular.module("Stones", ['Rectangular', 'ngAudio'])
+  .controller("GameOfStones", function ($scope, ngrEnvironment, ngAudio, ngrWorld, ngrGame, StonesModels, ngrLoop, ngrInterface, stonesLevels) {
     console.log("A Game of Stones");
     ngrEnvironment.init({
       canvas: $('canvas'),
@@ -41,9 +41,23 @@ angular.module("Stones", ['Rectangular'])
       var doodads = ngrEnvironment.getBodiesByUserData('doodad', true);
       var destructibles = ngrEnvironment.getBodiesByUserData('destructible', true);
       var explosives = ngrEnvironment.getBodiesByUserData('explosive', true);
+      var stones = ngrEnvironment.getBodiesByUserData('stone', true);
 
       _.each(base, function (comp) {
         comp.unfreeze();
+        var canPlayAudio = false;
+        comp.onimpact(5, function (body, other, force) {
+
+          if (canPlayAudio) {
+            ngAudio.play('audio/explosion1.mp3');
+            canPlayAudio = false;
+          } else {
+            setTimeout(function () {
+              canPlayAudio = true
+            }, 500)
+          }
+
+        })
       })
 
       _.each(doodads, function (doodad) {
@@ -52,12 +66,22 @@ angular.module("Stones", ['Rectangular'])
 
       _.each(explosives, function (explosive) {
 
-      //  console.log("Explosive?", explosive);
-
-        //ngrGame.turnToCannonball(explosive);
-        explosive.onimpact(0,function(body,other){
+        explosive.onimpact(0, function (body, other) {
           if (other.GetUserData().stone) {
+
+            ngAudio.play('audio/explosion1.mp3');
+
             ngrGame.explode(explosive);
+          }
+        })
+
+      })
+
+      _.each(stones, function (stone) {
+
+        stone.onimpact(5, function (body, other, force) {
+          if (force < 10) {
+            //ngAudio.play('audio/rumble1.mp3');          
           }
         })
 
@@ -65,10 +89,11 @@ angular.module("Stones", ['Rectangular'])
 
       _.each(destructibles, function (destructible) {
 
-        destructible.onimpact(0, function (body, other,force) {
+        destructible.onimpact(0, function (body, other, force) {
 
           if (other.options.bullet) {
 
+            ngAudio.play('audio/explosion2.mp3');
             body.crumble();
           }
         });
