@@ -30,7 +30,7 @@ angular.module('Rectangular')
     this.bullet = {
       shapeKind: 'circle',
       radius: '0.1',
-      density: 600,
+      density: 1200,
       bullet: true,
       src: 'img/box-red.png',
       bg: 'tiled',

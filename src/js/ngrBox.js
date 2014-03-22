@@ -37,7 +37,7 @@ angular.module('Rectangular')
 
         if (options.bullet) {
           b.fixedRotation = true;
-          b.linearDamping = 10;
+          b.linearDamping = 1;
         }
 
         b.gravityScale = options.gravityScale;

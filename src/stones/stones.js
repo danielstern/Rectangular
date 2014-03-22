@@ -60,7 +60,7 @@ angular.module("Stones", ['Rectangular'])
 
       _.each(destructibles, function (destructible) {
 
-        destructible.onimpact(15, function(){
+        destructible.onimpact(destructible.GetUserData().health || 5, function(){
           destructible.crumble();
         });
         //        ngrGame.turnToCannonball(explosive);

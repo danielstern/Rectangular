@@ -262,7 +262,7 @@ angular.module('Rectangular')
     var posX = thing.GetPosition().x;
     var posY = thing.GetPosition().y;
     var pos = thing.GetPosition();
-    var force = thing.options.explosiveness || 150000;
+    var force = thing.options.explosiveness || 100000;
     thing.crumble();
 
     var numRays = 30;
