@@ -137,7 +137,7 @@ angular.module('Rectangular')
     b = new ngrBody.Body(b);
     console.log("B?", b);
 
-    b.oncrumble(function(body){
+    b.oncrumble(function (body) {
       w.removeElement(body);
     })
 
@@ -231,24 +231,6 @@ angular.module('Rectangular')
 
   this.cycleBody = function (b) {
 
-    var options = b.options;
-
-    options.cycle += Math.PI / 200 / options.movement.period || 1;
-    var phase = options.movement.phaseShift || 0;
-    var currentY = b.GetPosition().y;
-    var currentX = b.GetPosition().x;
-    var currentRotation = b.GetAngle();
-    if (options.movement.shiftX || options.movement.shiftY) {
-      var newY = currentY - (Math.sin(options.cycle + phase) / 50) * options.movement.shiftY;
-      var newX = currentX - (Math.sin(options.cycle + phase) / 50) * options.movement.shiftX;
-      b.SetPosition(new b2Vec2(newX, newY));
-    }
-
-    if (options.movement.rotation) {
-      var newRotation = (phase) + (options.cycle / 50) * options.movement.rotation || 1;
-      b.SetAngle(newRotation);
-    }
-
   }
 
   this.removeElement = function (body) {
@@ -307,14 +289,6 @@ angular.module('Rectangular')
       world.ClearForces();
       world.DrawDebugData();
 
-      _.each(bodies, function (body) {
-
-        if (body.options && body.options.movement) {
-
-          w.cycleBody(body);
-        }
-
-      })
     })
 
     ngrState.setWorld(world);
@@ -335,14 +309,38 @@ angular.module('Rectangular')
       body.ngrBody = true;
       ngrLoop.addHook(function () {
 
-        if (body.options.timedLife) {
-          body.options.lifeTime--;
-          if (!body.options.lifeTime) body.crumble();
+        var options = body.options;
+
+      //  console.log("Cycling?", body.options);
+     //   return;
+
+        if (options.timedLife) {
+          options.lifeTime--;
+          if (options.lifeTime) body.crumble();
+        }
+
+        if (options.movement) {
+
+          options.cycle += Math.PI / 200 / options.movement.period || 1;
+          var phase = options.movement.phaseShift || 0;
+          var currentY = body.GetPosition().y;
+          var currentX = body.GetPosition().x;
+          var currentRotation = body.GetAngle();
+          if (options.movement.shiftX || options.movement.shiftY) {
+            var newY = currentY - (Math.sin(options.cycle + phase) / 50) * options.movement.shiftY;
+            var newX = currentX - (Math.sin(options.cycle + phase) / 50) * options.movement.shiftX;
+            body.SetPosition(new b2Vec2(newX, newY));
+          }
+
+          if (options.movement.rotation) {
+            var newRotation = (phase) + (options.cycle / 50) * options.movement.rotation || 1;
+            body.SetAngle(newRotation);
+          }
+
         }
       })
 
-
-      body.oncrumble = function(func) {
+      body.oncrumble = function (func) {
         crumbleListeners.push(func);
       }
 
