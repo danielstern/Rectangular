@@ -29,7 +29,7 @@ angular.module('Rectangular')
 
     this.bullet = {
       shapeKind: 'circle',
-      radius: '0.3',
+      radius: '0.1',
       density: 600,
       bullet: true,
       src: 'img/box-red.png',
@@ -39,7 +39,7 @@ angular.module('Rectangular')
       friction: 0,
       gravityScale: 0,
       timedLife: true,
-      lifeTime: 50,
+      lifeTime: 20,
       type: 'dynamic',
     }
 
