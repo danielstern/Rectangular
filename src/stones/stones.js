@@ -6,7 +6,7 @@ angular.module("Stones", ['Rectangular'])
       constrainFocusToRoom: false
     });
     ngrEnvironment.load(stonesLevels.getLevel(1));
-    
+
     ngrEnvironment.debug(false);
     ngrEnvironment.setZoom(0.2);
     ngrInterface.enableDrag();
@@ -33,11 +33,11 @@ angular.module("Stones", ['Rectangular'])
     $scope.models = StonesModels;
 
     $scope.startLevel = function () {
-      var starter = ngrEnvironment.getBodyByUserData('worldStarter', true);
-      ngrEnvironment.remove(starter);
+      var starters = ngrEnvironment.getBodiesByUserData('worldStarter', true);
+     // ngrEnvironment.remove(starter);
       ngrEnvironment.start();
       var base = ngrEnvironment.getBodiesByUserData('base', true);
-      var prize = ngrEnvironment.getBodyByUserData('prize', true);
+      var prizes = ngrEnvironment.getBodiesByUserData('prize', true);
       var doodads = ngrEnvironment.getBodiesByUserData('doodad', true);
       var destructibles = ngrEnvironment.getBodiesByUserData('destructible', true);
       var explosives = ngrEnvironment.getBodiesByUserData('explosive', true);
@@ -52,22 +52,37 @@ angular.module("Stones", ['Rectangular'])
 
       _.each(explosives, function (explosive) {
 
-        console.log("Explosive?",explosive);
+        console.log("Explosive?", explosive);
 
         ngrGame.turnToCannonball(explosive);
 
       })
 
-      prize.unfreeze();
+      _.each(destructibles, function (destructible) {
 
-      var prizeStartingY = prize.GetPosition().y;
+        destructible.onimpact(15, ngrGame.explode);
+        //        ngrGame.turnToCannonball(explosive);
+
+      })
+
+      _.each(prizes, function (prize) {
+        
+        prize.unfreeze();
+         var prizeStartingY = prize.GetPosition().y;
+      })
+
+      _.each(starters, function (starter) {
+        starter.crumble();
+      })
+
+     
 
       var h = ngrLoop.addHook(function () {
-        var pos = prize.GetPosition();
-        if (pos.y - prizeStartingY > 5) {
-          ngrLoop.removeHook(h);
-          $scope.endLevel(true);
-        }
+        //var pos = prize.GetPosition();
+        //if (pos.y - prizeStartingY > 5) {
+        //  ngrLoop.removeHook(h);
+        //  $scope.endLevel(true);
+        //}
       })
 
     }
@@ -87,9 +102,8 @@ angular.module("Stones", ['Rectangular'])
     $scope.add = function (type) {
       var params = StonesModels[type];
       params.x = 25;
-      console.log("Adding",type,params);
+      console.log("Adding", type, params);
       ngrEnvironment.add(null, params);
     }
 
   })
-  

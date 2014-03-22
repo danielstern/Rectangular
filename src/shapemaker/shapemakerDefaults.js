@@ -194,7 +194,23 @@ angular.module('shapemaker')
           density: 0.2
         }
 
-      }, {
+      }, 
+      {
+             name: 'Stone Ramp Left M',
+             shape: 'triangle',
+             skin: {
+               src: 'img/castleCenter.png',
+             },
+             presets: {
+               innerAngle: 90,
+               opposite: 6,
+               adjacent: 2,
+               restitution: 0.2,
+               density: 0.2
+             }
+
+           },
+      {
         name: 'Prize',
         shape: 'circle',
         skin: {
@@ -375,7 +391,7 @@ angular.module('shapemaker')
         name: 'Destructible Box',
         shape: 'box',
         skin: {
-          src: 'img/box-yellow.png',
+          src: 'img/block-yellow.png',
         },
         userData: {
           destructible: true,

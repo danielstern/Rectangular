@@ -233,7 +233,7 @@
        $scope.savedWorlds = JSON.parse(localStorage['savedWorlds']);
        setTimeout(function(){
          $scope.load($scope.savedWorlds[$scope.savedWorlds.length - 1]);
-       },1)
+       },10)
      };
 
 
