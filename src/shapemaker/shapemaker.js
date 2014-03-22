@@ -36,6 +36,9 @@
        'u': function () {
          $scope.unpinContextItem();
        },
+       'x': function () {
+         $scope.explodeContextItem();
+       },
        'del': function () {
          $scope.deleteContextItem();
        },
@@ -119,12 +122,11 @@
      }
 
      $scope.deleteContextItem = function () {
-       ngrEnvironment.remove($scope.contextBody);
-       hideContextMenu();
+       $scope.contextBody.crumble();
      }
 
      $scope.freezeContextItem = function () {
-       ngrWorld.freeze($scope.contextBody);
+       $scope.contextBody.freeze();
 
      }
 
@@ -141,7 +143,7 @@
 
      $scope.unfreezeContextItem = function () {
 
-       $scope.contextBody.SetType(b2Body.b2_dynamicBody);
+       $scope.contextBody.unfreeze();
 
      }
 
