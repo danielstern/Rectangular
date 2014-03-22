@@ -128,6 +128,56 @@ angular.module('shapemaker')
         }
 
       }, {
+        name: 'Wooden Platform',
+        shape: 'box',
+        skin: {
+          src: 'img/box.png',
+        },
+        userData: {
+          doodad: true,
+        },
+        presets: {
+          height: 0.4,
+          width: 3,
+          restitution: 0.2,
+          density: 0.2
+        }
+
+      },
+      {
+             name: 'Bouncey Platform',
+             shape: 'box',
+             skin: {
+               src: 'img/box-blue.png',
+             },
+             userData: {
+               doodad: true,
+             },
+             presets: {
+               height: 0.4,
+               width: 2.5,
+               restitution: 0.9,
+               density: 0.2
+             }
+
+           }, {
+        name: 'Wooden Triangle',
+        shape: 'triangle',
+        skin: {
+          src: 'img/box.png',
+        },
+        userData: {
+          doodad: true,
+        },
+        presets: {
+          innerAngle: 60,
+          opposite: 1.25,
+          adjacent: 1.25,
+          restitution: 0.2,
+          density: 0.2
+        }
+
+      }, {
         name: 'Wooden Ramp R',
         shape: 'triangle',
         skin: {
@@ -144,7 +194,7 @@ angular.module('shapemaker')
           density: 0.2
         }
 
-      },{
+      }, {
         name: 'Prize',
         shape: 'circle',
         skin: {
@@ -192,6 +242,20 @@ angular.module('shapemaker')
           density: 0.2
         }
       },
+      {
+             name: 'Block S',
+             shape: 'box',
+             skin: {
+               src: 'img/castleCenter.png',
+             },
+
+             presets: {
+               height: 0.5,
+               width: 0.5,
+               restitution: 0.2,
+               density: 0.2
+             }
+           },
 
       {
         name: 'Concrete Platform M',
