@@ -84,7 +84,7 @@ angular.module('Rectangular')
 
             imgData.regX = regX;
             imgData.regY = regY;
-            console.log("scaling?", options.spriteWidth, img.width, options);
+            //console.log("scaling?", options.spriteWidth, img.width, options);
             imgData.scaleX = options.spriteWidth / img.width * 2;
             imgData.scaleY = options.spriteHeight / img.height * 2;
             imgData.mouseEnabled = options.mouseEnabled;

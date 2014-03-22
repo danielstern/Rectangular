@@ -11,6 +11,8 @@ angular.module('Rectangular')
     hooks = [],
     memoryPairs = [];
 
+  var worldLoop = undefined;
+
   this.getBodyById = function (_id) {
     return w.getBodiesByAttribute('id', _id)[0];
   }
@@ -28,31 +30,28 @@ angular.module('Rectangular')
   }
 
   this.explode = function (thing) {
+    console.log("Exploding",thing);
+    if (thing.crumbled) return;
     var posX = thing.GetPosition().x;
     var posY = thing.GetPosition().y;
     var pos = thing.GetPosition();
     var force = thing.options.explosiveness || 100000000;
-    w.removeElement(thing);
+    thing.crumble();
 
     var numRays = 10;
-    ngrLoop.addHook(function () {
-      if (numRays) {
-        var reps = 2;
-        while (reps) {
-          var angle = (i / numRays) * Math.PI * 2;
-          var rayDir = new b2Vec2(Math.sin(angle) * force, Math.cos(angle) * force);
+    while (numRays) {
 
-          var b = w.addElement(ngrDefaults.bullet);
+      var angle = (i / numRays) * Math.PI * 2;
+      var rayDir = new b2Vec2(Math.sin(angle) * force, Math.cos(angle) * force);
 
-          b.SetPosition(pos);
+      var b = w.addElement(ngrDefaults.bullet);
 
-          b.ApplyForce(rayDir, b.GetWorldCenter());
+      b.SetPosition(pos);
 
-          numRays--;
-          reps--;
-        }
-      }
-    })
+      b.ApplyForce(rayDir, b.GetWorldCenter());
+
+      numRays--;
+    }
 
   }
 
@@ -135,7 +134,7 @@ angular.module('Rectangular')
     b.CreateFixture(f);
 
     b = new ngrBody.Body(b);
-    console.log("B?", b);
+    //console.log("B?", b);
 
     b.oncrumble(function (body) {
       w.removeElement(body);
@@ -176,10 +175,8 @@ angular.module('Rectangular')
       id: id
     });
 
-    var privateOptions = _.clone(options);
-
-    privateOptions.cycle = 0;
-    b.options = privateOptions;
+    b.options = _.clone(options);
+    b.options.cycle = 0;
 
     bodies.push(b);
 
@@ -229,10 +226,6 @@ angular.module('Rectangular')
 
   this.unpin = this.destroyJoint;
 
-  this.cycleBody = function (b) {
-
-  }
-
   this.removeElement = function (body) {
 
     var elId = body.id;
@@ -274,8 +267,6 @@ angular.module('Rectangular')
     world.SetGravity(new b2Vec2(0, grav))
   }
 
-  var worldLoop = undefined;
-
   this.setWorld = function (gravityX, gravityY, sleep) {
 
     var gravity = new b2Vec2(gravityX, gravityY);
@@ -305,18 +296,17 @@ angular.module('Rectangular')
     this.Body = function (b2Body) {
       var body = b2Body;
       var crumbleListeners = [];
+      console.log("Creating body...",crumbleListeners);
 
       body.ngrBody = true;
-      ngrLoop.addHook(function () {
+      var bodyLoop = ngrLoop.addHook(function () {
 
         var options = body.options;
 
-      //  console.log("Cycling?", body.options);
-     //   return;
-
         if (options.timedLife) {
+        //  console.log("Objects timed life...",options.lifeTime);
           options.lifeTime--;
-          if (options.lifeTime) body.crumble();
+          if (!options.lifeTime) body.crumble();
         }
 
         if (options.movement) {
@@ -345,6 +335,9 @@ angular.module('Rectangular')
       }
 
       body.crumble = function () {
+      //  console.log("crumbling body...");
+        ngrLoop.removeHook(bodyLoop);
+        body.crumbled = true;
         _.each(crumbleListeners, function (l) {
           l(body);
         })
