@@ -1,4 +1,3 @@
-
 /**
  * Overwrites default Mousetrap.bind method to optionally accept
  * an object to bind multiple key events in a single call
@@ -15,12 +14,12 @@
  *
  */
 /* global Mousetrap:true */
-Mousetrap = (function(Mousetrap) {
+Mousetrap = (function (Mousetrap) {
   var self = Mousetrap,
     _oldBind = self.bind,
     args;
 
-  self.bind = function() {
+  self.bind = function () {
     args = arguments;
 
     // normal call
@@ -38,7 +37,6 @@ Mousetrap = (function(Mousetrap) {
 
   return self;
 })(Mousetrap);
-
 
 function s4() {
   return Math.floor((1 + Math.random()) * 0x10000)
@@ -70,7 +68,15 @@ if (Box2D) {
 }
 
 function epicId() {
-   var a = "infusive paleobotany telecourse lauenburg braird interwreathed humpless dogcatcher debutante perilaus excluded polyvoltine chemosmotic coadventuring ephah buncombe reconcentrate".split(" ");
-   var b = "brevetted jobyna ashkhabad trophozoite concentrate galopade mucking alcoholizing lud cystoid unreassuring monocarpous equestrienne shrimplike significative resystematizing freeing".split(" ");
-   return _.sample(a) + "-" + _.sample(b);
+  var a = "infusive paleobotany telecourse lauenburg braird interwreathed humpless dogcatcher debutante perilaus excluded polyvoltine chemosmotic coadventuring ephah buncombe reconcentrate".split(" ");
+  var b = "brevetted jobyna ashkhabad trophozoite concentrate galopade mucking alcoholizing lud cystoid unreassuring monocarpous equestrienne shrimplike significative resystematizing freeing".split(" ");
+  return _.sample(a) + "-" + _.sample(b);
 }
+
+_.mixin({
+  call: function (arrayOfFunctions, arg) {
+    _.each(arrayOfFunctions, function (func) {
+      func(arg);
+    })
+  }
+})

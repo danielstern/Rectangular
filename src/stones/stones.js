@@ -7,7 +7,7 @@ angular.module("Stones", ['Rectangular', 'ngAudio'])
     $scope.levels = stonesLevels.getLevels();
     $scope.models = StonesModels;
   })
-  .service("GameOfStones", function (ngrEnvironment, ngAudio, ngrWorld, ngrGame, StonesModels, ngrLoop, ngrInterface, stonesLevels) {
+  .service("GameOfStones", function (ngrEnvironment, ngrWorld, ngrGame, StonesModels, ngrLoop, ngrInterface, stonesLevels) {
     console.log("A Game of Stones");
 
     var StartLevelListeners = [];
@@ -40,10 +40,9 @@ angular.module("Stones", ['Rectangular', 'ngAudio'])
       ngrEnvironment.load(stonesLevels.getLevel(lvl));
     }
 
-    this.onstartlevel = function(func) {
+    this.onstartlevel = function (func) {
       StartLevelListeners.push(func);
     }
-
 
     this.startLevel = function () {
       var level = {};
@@ -59,7 +58,7 @@ angular.module("Stones", ['Rectangular', 'ngAudio'])
 
       _.each(level.base, function (comp) {
         comp.unfreeze();
-        
+
         comp.onimpact(5, function (body, other, force) {
 
         })
@@ -73,8 +72,6 @@ angular.module("Stones", ['Rectangular', 'ngAudio'])
 
         explosive.onimpact(0, function (body, other) {
           if (other.GetUserData().stone) {
-
-            ngAudio.play('audio/explosion1.mp3');
 
             ngrGame.explode(explosive);
           }
@@ -98,7 +95,7 @@ angular.module("Stones", ['Rectangular', 'ngAudio'])
 
           if (other.options.bullet) {
 
-            ngAudio.play('audio/explosion2.mp3');
+            // ngAudio.play('audio/explosion2.mp3');
             body.crumble();
           }
         });
@@ -122,15 +119,6 @@ angular.module("Stones", ['Rectangular', 'ngAudio'])
         //}
       })
 
-      _.mixin({
-        call:function(arrayOfFunctions, arg){
-          _.each(arrayOfFunctions,function(func){
-            func(arg);
-          })
-        }
-      })
-
-      console.log("Calling",StartLevelListeners);
       _.call(StartLevelListeners, level)
     }
 
@@ -155,10 +143,16 @@ angular.module("Stones", ['Rectangular', 'ngAudio'])
 
   })
 
-.service('stonesAudio', function (GameOfStones) {
+.service('stonesAudio', function (GameOfStones, ngAudio) {
 
-  GameOfStones.onstartlevel(function(level){
-    console.log("new level...",level);
+  GameOfStones.onstartlevel(function (level) {
+    _.invoke(level.destructibles, 'oncrumble', function () {
+      ngAudio.play('audio/explosion2.mp3');
+    })
+
+    _.invoke(level.explosives, 'oncrumble', function () {
+      ngAudio.play('audio/explosion1.mp3');
+    })
 
   })
 
