@@ -1,5 +1,13 @@
 angular.module("Stones", ['Rectangular', 'ngAudio'])
-  .controller("GameOfStones", function ($scope, ngrEnvironment, ngAudio, ngrWorld, ngrGame, StonesModels, ngrLoop, ngrInterface, stonesLevels) {
+  .controller("GameOfStones", function (GameOfStones, $scope, stonesLevels, StonesModels, ngrEnvironment) {
+    $scope.loadLevel = GameOfStones.loadLevel;
+    $scope.startLevel = GameOfStones.startLevel;
+    $scope.add = GameOfStones.add;
+    $scope.endLevel = GameOfStones.endLevel;
+    $scope.levels = stonesLevels.getLevels();
+    $scope.models = StonesModels;
+  })
+  .service("GameOfStones", function (ngrEnvironment, ngAudio, ngrWorld, ngrGame, StonesModels, ngrLoop, ngrInterface, stonesLevels) {
     console.log("A Game of Stones");
     ngrEnvironment.init({
       canvas: $('canvas'),
@@ -24,15 +32,14 @@ angular.module("Stones", ['Rectangular', 'ngAudio'])
       max: 2
     })
 
-    $scope.loadLevel = function (lvl) {
+    this.loadLevel = function (lvl) {
       ngrEnvironment.clearAll();
       ngrEnvironment.load(stonesLevels.getLevel(lvl));
     }
 
-    $scope.levels = stonesLevels.getLevels();
-    $scope.models = StonesModels;
+  
 
-    $scope.startLevel = function () {
+    this.startLevel = function () {
       var starters = ngrEnvironment.getBodiesByUserData('worldStarter', true);
       // ngrEnvironment.remove(starter);
       ngrEnvironment.start();
@@ -49,7 +56,7 @@ angular.module("Stones", ['Rectangular', 'ngAudio'])
         comp.onimpact(5, function (body, other, force) {
 
           if (canPlayAudio) {
-            ngAudio.play('audio/explosion1.mp3');
+            //   ngAudio.play('audio/explosion1.mp3');
             canPlayAudio = false;
           } else {
             setTimeout(function () {
@@ -118,7 +125,7 @@ angular.module("Stones", ['Rectangular', 'ngAudio'])
       })
     }
 
-    $scope.endLevel = function (success) {
+    this.endLevel = function (success) {
       if (success) {
         console.log("huzzah!");
         setTimeout(function () {
@@ -130,7 +137,7 @@ angular.module("Stones", ['Rectangular', 'ngAudio'])
       };
     }
 
-    $scope.add = function (type) {
+    this.add = function (type) {
       var params = StonesModels[type];
       params.x = 25;
       //console.log("Adding", type, params);
@@ -138,3 +145,7 @@ angular.module("Stones", ['Rectangular', 'ngAudio'])
     }
 
   })
+
+.service('stonesAudio', function () {
+
+})
