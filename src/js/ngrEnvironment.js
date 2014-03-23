@@ -50,13 +50,15 @@
 
        options.speed = options.fps;
 
+
        console.log("initing...", options);
 
        ngrState.setProperties(options);
        ngrLoop.initWorld(options.fps);
        ngrWorld.setWorld(0, options.gravity, true);
-       ngrStage.init(_canvas);
 
+       ngrStage.init(_canvas);
+       ngrStage.debug(options.debug);
        if (options.room) {
          ngrState.setRoom(options.room);
        //  e.createRoom();
@@ -70,7 +72,7 @@
          if (!options.zoom) {
            var zoomReq = r.height / (_canvas.height / 4);
            ngrState.setZoom(zoomReq);
-         }
+         };
        }
 
        e.start();

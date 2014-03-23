@@ -14,6 +14,8 @@ angular.module("Stones", ['Rectangular', 'ngAudio'])
 
     ngrEnvironment.init({
       canvas: $('canvas'),
+      debug: false,
+      zoom: 0.2,
     });
 
     this.loadLevel = function (lvl) {
@@ -27,7 +29,6 @@ angular.module("Stones", ['Rectangular', 'ngAudio'])
       ngrInterface.scrollToZoom(true);
       ngrEnvironment.constrainFocus(StonesModels.focus);
       ngrEnvironment.constrainZoom(StonesModels.zoom);
-      ngrEnvironment.debug(false);
       ngrEnvironment.setZoom(0.2);
       ngrInterface.enableDrag();
     }

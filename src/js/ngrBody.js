@@ -13,7 +13,6 @@ angular.module('Rectangular')
 
         if (options.timedLife) {
 
-          console.log("this body has tiemd life...");
           options.lifeTime--;
           if (options.lifeTime < 0) body.crumble();
         }

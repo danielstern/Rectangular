@@ -1,82 +1,79 @@
 angular.module('Rectangular')
-.service('ngrLoop', function($q) {
-  var l = this;
-  var speed = 60;
-  var loop;
-  var world;
-  var hooks = [];
-  var permanentHooks = [];
-  window.loop = this;
+  .service('ngrLoop', function ($q) {
+    var l = this;
+    var speed = 60;
+    var loop;
+    var world;
+    var hooks = [];
+    var permanentHooks = [];
+    window.loop = this;
 
-  this.tick = function() {
+    this.tick = function () {
 
-    _.each(hooks, function(hook) {
-      hook.func();
-    })
+      _.each(hooks, function (hook) {
+        hook.func();
+      })
 
-    _.each(permanentHooks, function(hook) {
-      hook();
-    })
+      _.each(permanentHooks, function (hook) {
+        hook();
+      })
 
-  }
-
-  this.addHook = function(func) {
-    var id = guid();
-
-    var hook = {
-      func: func,
-      id: id
     }
 
-    //func.id = id;
-    hooks.push(hook);
-    return hook;
-  };
+    this.addHook = function (func) {
+      var id = guid();
 
-  this.wait = function(duration) {
-    var r = $q.defer();
-
-    var h = ngrLoop.addHook(function(){
-      duration--;
-      if (duration < 1) {
-        ngrLoop.removeHook(h);
-        r.resolve();
+      var hook = {
+        func: func,
+        id: id
       }
-    })
 
+      hooks.push(hook);
+      return hook;
+    };
 
-    return r;
-  }
+    this.wait = function (duration) {
+      var r = $q.defer();
 
-  this.removeHook = function(_hook) {
-    hooks = _.without(hooks, _hook);
-  }
+      var h = ngrLoop.addHook(function () {
+        duration--;
+        if (duration < 1) {
+          ngrLoop.removeHook(h);
+          r.resolve();
+        }
+      })
 
-  this.addPermanentHook = function(func) {
-    permanentHooks.push(func);
-  };
+      return r;
+    }
 
-  this.clearHooks = function() {
-    hooks = [];
-  }
+    this.removeHook = function (_hook) {
+      hooks = _.without(hooks, _hook);
+    }
 
-  this.stop = function() {
-    console.log("Clearing interval", loop);
-    clearInterval(loop);
-  }
+    this.addPermanentHook = function (func) {
+      permanentHooks.push(func);
+    };
 
-  this.setSpeed = function(_speed) {
+    this.clearHooks = function () {
+      hooks = [];
+    }
+
+    this.stop = function () {
+      console.log("Clearing interval", loop);
+      clearInterval(loop);
+    }
+
+    this.setSpeed = function (_speed) {
       speed = _speed;
       if (loop) l.initWorld();
-  }
+    }
 
+    this.initWorld = function (_speed) {
 
-  this.initWorld = function(_speed) {
+      speed = _speed || speed;
+      clearInterval(loop);
+      loop = setInterval(l.tick, 1000 / speed);
+    };
 
-    speed = _speed || speed;
-    clearInterval(loop);
-    loop = setInterval(l.tick, 1000 / speed);
-  };
-
-  this.start = this.initWorld;
-})
+    this.start = this.initWorld;
+  })
