@@ -1,5 +1,5 @@
 angular.module("Stones", ['Rectangular', 'ngAudio'])
-  .controller("GameOfStones", function (GameOfStones, $scope, stonesLevels, StonesModels, ngrEnvironment) {
+  .controller("GameOfStones", function (GameOfStones, $scope, stonesAudio, stonesLevels, StonesModels, ngrEnvironment) {
     $scope.loadLevel = GameOfStones.loadLevel;
     $scope.startLevel = GameOfStones.startLevel;
     $scope.add = GameOfStones.add;
@@ -9,6 +9,9 @@ angular.module("Stones", ['Rectangular', 'ngAudio'])
   })
   .service("GameOfStones", function (ngrEnvironment, ngAudio, ngrWorld, ngrGame, StonesModels, ngrLoop, ngrInterface, stonesLevels) {
     console.log("A Game of Stones");
+
+    var StartLevelListeners = [];
+
     ngrEnvironment.init({
       canvas: $('canvas'),
       constrainFocusToRoom: false
@@ -37,41 +40,36 @@ angular.module("Stones", ['Rectangular', 'ngAudio'])
       ngrEnvironment.load(stonesLevels.getLevel(lvl));
     }
 
-  
+    this.onstartlevel = function(func) {
+      StartLevelListeners.push(func);
+    }
+
 
     this.startLevel = function () {
-      var starters = ngrEnvironment.getBodiesByUserData('worldStarter', true);
+      var level = {};
+      level.starters = ngrEnvironment.getBodiesByUserData('worldStarter', true);
       // ngrEnvironment.remove(starter);
       ngrEnvironment.start();
-      var base = ngrEnvironment.getBodiesByUserData('base', true);
-      var prizes = ngrEnvironment.getBodiesByUserData('prize', true);
-      var doodads = ngrEnvironment.getBodiesByUserData('doodad', true);
-      var destructibles = ngrEnvironment.getBodiesByUserData('destructible', true);
-      var explosives = ngrEnvironment.getBodiesByUserData('explosive', true);
-      var stones = ngrEnvironment.getBodiesByUserData('stone', true);
+      level.base = ngrEnvironment.getBodiesByUserData('base', true);
+      level.prizes = ngrEnvironment.getBodiesByUserData('prize', true);
+      level.doodads = ngrEnvironment.getBodiesByUserData('doodad', true);
+      level.destructibles = ngrEnvironment.getBodiesByUserData('destructible', true);
+      level.explosives = ngrEnvironment.getBodiesByUserData('explosive', true);
+      level.stones = ngrEnvironment.getBodiesByUserData('stone', true);
 
-      _.each(base, function (comp) {
+      _.each(level.base, function (comp) {
         comp.unfreeze();
-        var canPlayAudio = false;
+        
         comp.onimpact(5, function (body, other, force) {
-
-          if (canPlayAudio) {
-            //   ngAudio.play('audio/explosion1.mp3');
-            canPlayAudio = false;
-          } else {
-            setTimeout(function () {
-              canPlayAudio = true
-            }, 500)
-          }
 
         })
       })
 
-      _.each(doodads, function (doodad) {
+      _.each(level.doodads, function (doodad) {
         doodad.freeze();
       })
 
-      _.each(explosives, function (explosive) {
+      _.each(level.explosives, function (explosive) {
 
         explosive.onimpact(0, function (body, other) {
           if (other.GetUserData().stone) {
@@ -84,7 +82,7 @@ angular.module("Stones", ['Rectangular', 'ngAudio'])
 
       })
 
-      _.each(stones, function (stone) {
+      _.each(level.stones, function (stone) {
 
         stone.onimpact(5, function (body, other, force) {
           if (force < 10) {
@@ -94,7 +92,7 @@ angular.module("Stones", ['Rectangular', 'ngAudio'])
 
       })
 
-      _.each(destructibles, function (destructible) {
+      _.each(level.destructibles, function (destructible) {
 
         destructible.onimpact(0, function (body, other, force) {
 
@@ -106,13 +104,13 @@ angular.module("Stones", ['Rectangular', 'ngAudio'])
         });
       })
 
-      _.each(prizes, function (prize) {
+      _.each(level.prizes, function (prize) {
 
         prize.unfreeze();
         var prizeStartingY = prize.GetPosition().y;
       })
 
-      _.each(starters, function (starter) {
+      _.each(level.starters, function (starter) {
         starter.crumble();
       })
 
@@ -123,6 +121,17 @@ angular.module("Stones", ['Rectangular', 'ngAudio'])
         //  $scope.endLevel(true);
         //}
       })
+
+      _.mixin({
+        call:function(arrayOfFunctions, arg){
+          _.each(arrayOfFunctions,function(func){
+            func(arg);
+          })
+        }
+      })
+
+      console.log("Calling",StartLevelListeners);
+      _.call(StartLevelListeners, level)
     }
 
     this.endLevel = function (success) {
@@ -146,6 +155,11 @@ angular.module("Stones", ['Rectangular', 'ngAudio'])
 
   })
 
-.service('stonesAudio', function () {
+.service('stonesAudio', function (GameOfStones) {
+
+  GameOfStones.onstartlevel(function(level){
+    console.log("new level...",level);
+
+  })
 
 })
