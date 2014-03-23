@@ -1,5 +1,5 @@
 angular.module('Rectangular')
-.service("ngrBody", function (ngrLoop) {
+  .service("ngrBody", function (ngrLoop) {
 
     this.Body = function (_body) {
       var body = _body;
@@ -59,9 +59,7 @@ angular.module('Rectangular')
             vect: vect
           }
 
-          _.each(impactListeners,function(l){
-             if (l.force < vect) l.func(body, other,vect);
-          })
+          if (vect > 0.0001) _.invoke(impactListeners, 'func', body, other, vect);
 
           edge = edge.next;
         }
@@ -71,9 +69,8 @@ angular.module('Rectangular')
         crumbleListeners.push(func);
       }
 
-      body.onimpact = function (force, func) {
+      body.onimpact = function (func) {
         impactListeners.push({
-          force: force,
           func: func
         });
       }

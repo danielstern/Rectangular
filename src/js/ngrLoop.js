@@ -1,5 +1,5 @@
 angular.module('Rectangular')
-.service('ngrLoop', function() {
+.service('ngrLoop', function($q) {
   var l = this;
   var speed = 60;
   var loop;
@@ -32,6 +32,21 @@ angular.module('Rectangular')
     hooks.push(hook);
     return hook;
   };
+
+  this.wait = function(duration) {
+    var r = $q.defer();
+
+    var h = ngrLoop.addHook(function(){
+      duration--;
+      if (duration < 1) {
+        ngrLoop.removeHook(h);
+        r.resolve();
+      }
+    })
+
+
+    return r;
+  }
 
   this.removeHook = function(_hook) {
     hooks = _.without(hooks, _hook);
