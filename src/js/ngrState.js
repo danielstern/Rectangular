@@ -61,7 +61,11 @@ angular.module('Rectangular')
 
 
     this.setProperties = function (_properties) {
-      state = _properties;
+      state = state || {};
+      _.each(_properties,function(prop,key){
+        if (prop !== null) state[key] = prop;
+      })
+      //state = _properties;
     }
 
     this.update = function(key,value) {

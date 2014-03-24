@@ -1,5 +1,5 @@
 angular.module("Rectangular")
-.service('ngrCamera',function(ngrLoop){
+.service('ngrCamera',function(ngrLoop, ngrState){
   var zoom = 1,
   focus = {
     x: 0,
@@ -106,6 +106,9 @@ angular.module("Rectangular")
 
 
   ngrLoop.addPermanentHook(function updateFocus() {
+    var state = ngrState.getState();
+    var canvas = state.canvas;
+    var scale = ngrState.getScale() * zoom;
     var incX = Math.abs(focusTo.x - focus.x) * 0.05;
     if (Math.abs(focusTo.x - focus.x) < incX * 2) {
       focus.x = focusTo.x;
@@ -140,10 +143,14 @@ angular.module("Rectangular")
 
 
     if (focusConstraint) {
-      //console.log("Constrained",focus,focusConstraint)
+      //console.log("Constrained",focus,focusConstraint);
+      //console.log("Focus constrain check",state)
+
+      var focusContraintPixelsX = focusConstraint.x * scale;
+      var focusConstraintWidthPixels = focusConstraint.width * scale;
       
-      if (focus.x < focusConstraint.x) focus.x = focusConstraint.x;
-      if (focus.y < focusConstraint.y) focus.y = focusConstraint.y;
+      if (focus.x * scale - canvas.width < focusContraintPixelsX) focus.x = focusConstraintPixelsX;
+      //if (focus.y - canvas.height < -roomHeightPixels) focus.y = focusConstraint.y;
 
     }
 
