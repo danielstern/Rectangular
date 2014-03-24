@@ -11,6 +11,8 @@ angular.module("Rectangular")
   },
   zoomTo = 0.15,
   focusConstraint,
+  followHook = undefined,
+  c = this,
   zoomConstraint;
 
   this.getZoom = function() {
@@ -19,6 +21,24 @@ angular.module("Rectangular")
 
   this.getFocus = function() {
     return focus;
+  }
+
+
+  this.follow = function (body) {
+    c.setFocus(body.GetWorldCenter(), true)
+
+    followHook = ngrLoop.addHook(function () {
+      var pos = body.GetWorldCenter();
+      c.setFocus({
+        x: pos.x,
+        y: pos.y
+      });
+    });
+  }
+
+
+  this.unfollow = function (followHook) {
+    ngrLoop.removeHook(followHook);
   }
 
 

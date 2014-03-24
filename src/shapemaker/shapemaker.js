@@ -222,7 +222,7 @@
        ngrEnvironment.clearAll();
        ngrEnvironment.load(_world);
        $scope.contextBody = undefined;
-       $scope.context.room = _.clone(state.room);
+       $scope.context.room = _.clone(ngrState.getRoom());
      }
 
      $scope.exportSavedWorld = function (_world) {
@@ -231,9 +231,6 @@
 
      if (localStorage['savedWorlds']) {
        $scope.savedWorlds = JSON.parse(localStorage['savedWorlds']);
-       setTimeout(function(){
-         $scope.load($scope.savedWorlds[$scope.savedWorlds.length - 1]);
-       },10)
      };
 
 

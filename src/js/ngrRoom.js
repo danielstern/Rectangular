@@ -6,7 +6,7 @@ angular.module('Rectangular')
      var w = ngrWorld;;
 
      this.floor = function (options) {
-       if (roomBodies.floor) w.removeElement(roomBodies.floor);
+       if (roomBodies.floor) roomBodies.floor.crumble();
        var floor = ngrModels.floor(options);
        roomBodies.floor = w.addElement(floor.options);
      }
@@ -24,30 +24,32 @@ angular.module('Rectangular')
 
      this.clearRoom = function () {
 
-       if (roomBodies.roof) w.removeElement(roomBodies.roof);
-       if (roomBodies.leftWall) w.removeElement(roomBodies.leftWall);
-       if (roomBodies.rightWall) w.removeElement(roomBodies.rightWall);
-       if (roomBodies.floor) w.removeElement(roomBodies.floor);
+      _.invoke(roomBodies, "crumble");
+/*
+       if (roomBodies.roof) roomBodies.roof.crumble();
+       if (roomBodies.leftWall) (roomBodies.leftWall).crumble();
+       if (roomBodies.rightWall) (roomBodies.rightWall).crumble();
+       if (roomBodies.floor) (roomBodies.floor).crumble();*/
        roomBodies = {};
      }
 
      this.roof = function (options) {
 
-       if (roomBodies.roof) w.removeElement(roomBodies.roof);
+       if (roomBodies.roof) roomBodies.roof.crumble();
        var roof = ngrModels.roof(options);
        roomBodies.roof = w.addElement(roof.options);
      }
 
      this.leftWall = function (options) {
 
-       if (roomBodies.leftWall) w.removeElement(roomBodies.leftWall);
+       if (roomBodies.leftWall) roomBodies.leftWall.crumble();
        var leftWall = ngrModels.leftWall(options);
        roomBodies.leftWall = w.addElement(leftWall.options);
      }
 
      this.rightWall = function (options) {
 
-       if (roomBodies.rightWall) w.removeElement(roomBodies.rightWall);
+       if (roomBodies.rightWall) roomBodies.rightWall.crumble();
        var rightWall = ngrModels.rightWall(options);
        roomBodies.rightWall = w.addElement(rightWall.options);
      }

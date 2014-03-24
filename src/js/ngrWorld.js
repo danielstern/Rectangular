@@ -17,22 +17,6 @@ angular.module('Rectangular')
     return w.getBodiesByAttribute('id', _id)[0];
   }
 
-  this.follow = function (body) {
-    ngrState.setFocus(body.GetWorldCenter(), true)
-
-    followHook = ngrLoop.addHook(function () {
-      var pos = body.GetWorldCenter();
-      ngrState.setFocus({
-        x: pos.x,
-        y: pos.y
-      });
-    });
-  }
-
-
-  this.unfollow = function (followHook) {
-    ngrLoop.removeHook(followHook);
-  }
 
   ngrLoop.addPermanentHook(function () {
     updateMemoryPairs();

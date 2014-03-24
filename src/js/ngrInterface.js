@@ -1,6 +1,6 @@
 angular.module('Rectangular')
 
-.service('ngrInterface', function (ngrWorld, ngrState, ngrLoop) {
+.service('ngrInterface', function (ngrWorld, ngrState, ngrLoop, ngrCamera) {
 
   var grabJoint,
     targeter,
@@ -130,7 +130,7 @@ angular.module('Rectangular')
 
     } else {
       panStartPoint = _.clone(r);
-      ngrWorld.unfollow();
+      ngrCamera.unfollow();
 
       panning = true;
 
