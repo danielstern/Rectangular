@@ -5,7 +5,7 @@ angular.module('shapemaker')
       templateUrl: function (elem, atts) {
         return "shapemaker/tmpl/worldcontroller.html";
       },
-      controller: function ($scope, $attrs, shapemakerDefaults, $element, ngrEnvironment, ngrStage, ngrState, ngrLoop) {
+      controller: function ($scope, ngrCamera, $attrs, shapemakerDefaults, $element, ngrEnvironment, ngrStage, ngrState, ngrLoop) {
 
         $scope.context = shapemakerDefaults.context;
 
@@ -28,9 +28,14 @@ angular.module('shapemaker')
 
         })
 
+        $scope.$watchCollection("context.room",function(){
+
+            ngrEnvironment.updateRoom($scope.context.room)
+           ngrEnvironment.createRoom();
+        })
+
         $scope.$watch("context", function () {
 
-          ngrEnvironment.updateRoom($scope.context.room)
 
           if ($scope.contextBody) {
             //            $scope.contextBody.SetPosition(new b2Vec2(Number($scope.context.selectedX), Number($scope.context.selectedY)));
@@ -39,14 +44,16 @@ angular.module('shapemaker')
 
           ngrEnvironment.setGravity($scope.context.gravity);
           ngrEnvironment.setWorldSpeed($scope.context.speed);
-          ngrEnvironment.setZoom($scope.context.zoom);
+          ngrCamera.setZoom($scope.context.zoom);
 
-          ngrEnvironment.createRoom();
+         // ngrEnvironment.createRoom();
 
           ngrStage.debug($scope.context.drawDebug);
           ngrStage.toggleStage($scope.context.drawSprites);
 
         }, true);
+
+
 
         $scope.followContextItem = function () {
           ngrEnvironment.follow($scope.contextBody);

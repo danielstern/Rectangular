@@ -6,6 +6,7 @@ shapemaker div {
 
 
 html * {
+    font-size: 12px;
 
 }
 
@@ -29,7 +30,7 @@ shapemaker div {
 	opacity: 1;
 	border: 1px solid #323;
 	padding: 1em;
-	font-size: 11px;
+	font-size: 8px;
 	border-radius: 0.3em;
 	background-color: #fffeff;
 	font-family: Arial;
