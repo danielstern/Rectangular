@@ -124,7 +124,7 @@ angular.module('Rectangular')
 
       var state = ngrState.getState();
       var focus = ngrState.getFocus();
-      var scale = ngrState.getScale() * state.zoom;
+      var scale = ngrState.getScale() * ngrState.getZoom();
       var constraint = ngrState.getFocusConstraint();
 
       var newTranslation = {
