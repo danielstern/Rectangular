@@ -243,10 +243,10 @@ angular.module("BallAgent", ['Rectangular', 'ngAudio', 'BallAgentHero', 'BallAge
           exit = m.createExit(l.exit);
           bindControls();
 
-          ngrEnvironment.setFocusOffset({
+          /*ngrEnvironment.setFocusOffset({
             x: 0,
             y: 0
-          })
+          })*/
 
           ngrEnvironment.follow(hero.body);
 
