@@ -1,5 +1,5 @@
 angular.module('Rectangular')
-  .service('ngrState', function (ngrLoop, ngrCamera) {
+  .service('ngrState', function (ngrLoop) {
 
     var state,
       elements = [],
@@ -15,14 +15,7 @@ angular.module('Rectangular')
       return pins;
     }
 
-    this.getZoom = ngrCamera.getZoom;
-    this.setZoom = ngrCamera.setZoom;
-    this.getFocus = ngrCamera.getFocus;
-    this.setFocus = ngrCamera.setFocus;
-    this.constrainFocus = ngrCamera.constrainFocus;
-    this.constrainZoom = ngrCamera.constrainZoom;
-    this.getFocusConstraint = ngrCamera.getFocusConstraint;
-
+  
 
     this.getRoom = function () {
       return state.room;

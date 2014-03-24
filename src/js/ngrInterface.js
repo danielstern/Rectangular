@@ -42,8 +42,8 @@ angular.module('Rectangular')
     }
 
     if (scrollZooming) {
-      var currentZoom = ngrState.getZoom();
-      ngrState.setZoom(currentZoom + zoomChange);
+      var currentZoom = ngrCamera.getZoom();
+      ngrCamera.setZoom(currentZoom + zoomChange);
     }
 
   }
@@ -86,20 +86,19 @@ angular.module('Rectangular')
 
   this.grab = function (r) {
     body = i.getBodyAtMouse(r);
-    var state = ngrState.getState();
     ngrCamera.unfollow();
 
     targeter.onmove(function (r) {
       if (grabJoint) {
         grabJoint.SetTarget(new b2Vec2(r.worldPosX, r.worldPosY))
       } else if (panning) {
-        var focus = ngrState.getFocus();
+        var focus = ngrCamera.getFocus();
         var dif = {
           x: panStartPoint.worldPosX - r.worldPosX,
           y: panStartPoint.worldPosY - r.worldPosY,
         }
 
-        ngrState.setFocus({
+        ngrCamera.setFocus({
           x: focus.x + dif.x,
           y: focus.y + dif.y,
         }, false)
@@ -222,8 +221,8 @@ angular.module('Rectangular')
 
     function getInfo(evt) {
       var r = {}
-      var zoom = ngrState.getZoom();
-      var focus = ngrState.getFocus();
+      var zoom = ngrCamera.getZoom();
+      var focus = ngrCamera.getFocus();
       var mousePos = getMousePos(canvas, evt);
       r.worldPosX = focus.x + (mousePos.x - 0.5 * canvas.width) / SCALE / zoom;
       r.worldPosY = focus.y + (mousePos.y - 0.5 * canvas.height) / SCALE / zoom;

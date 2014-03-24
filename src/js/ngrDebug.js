@@ -1,5 +1,5 @@
 angular.module('Rectangular')
-  .service('ngrDebug', function(ngrState) {
+  .service('ngrDebug', function(ngrState, ngrCamera) {
     var d = this;
     var debugCanvas;
     var _canvas;
@@ -41,7 +41,7 @@ angular.module('Rectangular')
       var world = ngrState.getWorld();
       debugDraw = new b2DebugDraw();
       var debugContainer = new createjs.Container();
-      var scale = ngrState.getScale() * ngrState.getZoom();
+      var scale = ngrState.getScale() * ngrCamera.getZoom();
       debugDraw.SetSprite(ctx);
       debugDraw.SetDrawScale(scale);
       debugDraw.SetFillAlpha(0.5);
@@ -53,8 +53,6 @@ angular.module('Rectangular')
 
     this.update = function(translation, scale) {
       
-      var state = ngrState.getState();
-
       debugDraw.SetDrawScale(scale);
 
       ctx.translate(-ctxCurrentTranslation.x, -ctxCurrentTranslation.y);

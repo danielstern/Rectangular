@@ -1,12 +1,12 @@
 angular.module('Rectangular')
-  .service('ngrSkin', function (ngrState, ngrDefaults, $q, ngrActor) {
+  .service('ngrSkin', function (ngrState, ngrCamera, ngrDefaults, $q, ngrActor) {
 
     var nd = this;
     var _body;
     this.skin = function (body, options) {
       _body = body;
 
-      var scale = ngrState.getScale() * ngrState.getZoom();
+      var scale = ngrState.getScale() * ngrCamera.getZoom();
 
       var f = body.GetFixtureList();
       var s = f.GetShape();
@@ -108,7 +108,7 @@ angular.module('Rectangular')
     this.tile = function (img, options) {
 
       var container = new createjs.Container();
-      var scale = ngrState.getScale() * ngrState.getZoom();
+      var scale = ngrState.getScale() * ngrCamera.getZoom();
 
       var regX = 0;
       var regY = 0;

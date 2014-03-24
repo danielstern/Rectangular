@@ -1,5 +1,5 @@
 angular.module('Rectangular')
-.service('ngrActor', function(ngrState) {
+.service('ngrActor', function(ngrState, ngrCamera) {
 
   this.newActor = function(body, skin) {
     return new actorObject(body, skin);
@@ -8,25 +8,20 @@ angular.module('Rectangular')
   var actorObject = function(body, skin) {
     this.body = body;
     this.skin = skin;
-    var originalZoom = ngrState.getZoom();
+    var originalZoom = ngrCamera.getZoom();
     var originalObjectScale = this.skin.scaleX;
-    var originalScale = ngrState.getScale() * ngrState.getZoom();
-/*
-    console.log("Actor Report:")
-    console.log("Original Zoom:", originalZoom);
-    console.log("Original Object Scale:", originalObjectScale);
-    console.log("Original Scale:", originalScale);
-*/
+    var originalScale = ngrState.getScale() * ngrCamera.getZoom();
+
     this.GetPosition = function() {
       return body.GetPosition();
     }
     this.update = function() { // translate box2d positions to pixels
       this.skin.rotation = this.body.GetAngle() * (180 / Math.PI);
-      var scale = ngrState.getScale() * ngrState.getZoom();
+      var scale = ngrState.getScale() * ngrCamera.getZoom();
       this.skin.x = this.body.GetWorldCenter().x * scale;
       this.skin.y = this.body.GetWorldCenter().y * scale;
-      this.skin.scaleX =  (ngrState.getZoom() / originalZoom) * originalObjectScale;
-      this.skin.scaleY =  (ngrState.getZoom() / originalZoom) * originalObjectScale;
+      this.skin.scaleX =  (ngrCamera.getZoom() / originalZoom) * originalObjectScale;
+      this.skin.scaleY =  (ngrCamera.getZoom() / originalZoom) * originalObjectScale;
     }
   }
 

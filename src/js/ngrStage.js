@@ -1,5 +1,5 @@
 angular.module('Rectangular')
-  .service('ngrStage', function(ngrLoop, ngrState, ngrSkin, $q, ngrDebug) {
+  .service('ngrStage', function(ngrLoop, ngrState, ngrSkin, $q, ngrDebug, ngrCamera) {
 
     var canvas = $('canvas')[0];
     var parallaxCenter;
@@ -116,8 +116,8 @@ angular.module('Rectangular')
     function tick() {
 
       var state = ngrState.getState();
-      var focus = ngrState.getFocus();
-      var scale = ngrState.getScale() * ngrState.getZoom();
+      var focus = ngrCamera.getFocus();
+      var scale = ngrState.getScale() * ngrCamera.getZoom();
 
       var newTranslation = {
         x: focus.x * scale - 0.5 * canvas.width,
@@ -134,7 +134,7 @@ angular.module('Rectangular')
         child.x = c.x / child.parallax;
         child.y = c.y / child.parallax;
 
-        child.scaleX = child.scaleY = 1 + ngrState.getZoom() / 3;
+        child.scaleX = child.scaleY = 1 + ngrCamera.getZoom() / 3;
 
       
       }

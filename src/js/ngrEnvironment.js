@@ -64,7 +64,7 @@
        //  e.createRoom();
 
          var r = options.room;
-         ngrState.setFocus({
+         ngrCamera.setFocus({
            x: r.width / 2,
            y: r.height / 2
          });
