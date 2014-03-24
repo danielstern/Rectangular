@@ -51,7 +51,7 @@ angular.module("Stones", ['Rectangular', 'ngAudio'])
 
     //  ngrState.update("constrainFocusToRoom",true);
       ngrCamera.constrainFocus({
-        x:-15,
+        x:0,
         y:0,
         width:90,
         height:25

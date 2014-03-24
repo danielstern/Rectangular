@@ -72,23 +72,29 @@ angular.module("Rectangular")
 
 
   this.setFocus = function (_f, _inst) {
+    //if (focusConstraint) return;
+
+    //console.log("Setting focus", _f, _inst);
+
     focusTo = {
       x: _f.x,
       y: _f.y
     };
-
+/*
     if (focusConstraint) {
       if (focusTo.x < focusConstraint.x) focusTo.x = focusConstraint.x;
       if (focusTo.x > focusConstraint.x + focusConstraint.width) focusTo.x = focusConstraint.x + focusConstraint.width;
 
       if (focusTo.y < focusConstraint.y) focusTo.y = focusConstraint.y;
       if (focusTo.y > focusConstraint.y + focusConstraint.height) focusTo.y = focusConstraint.y + focusConstraint.height;
-    }
+    }*/
 
     if (_inst) focus = {
       x: _f.x,
       y: _f.y
     };
+
+  //  updateFocus();
   };
 
   this.getFocusConstraint = function () {
@@ -105,7 +111,9 @@ angular.module("Rectangular")
   }
 
 
-  ngrLoop.addPermanentHook(function updateFocus() {
+  ngrLoop.addPermanentHook(updateFocus);
+
+  function updateFocus() {
     var state = ngrState.getState();
     var canvas = state.canvas;
     var scale = ngrState.getScale() * zoom;
@@ -143,13 +151,37 @@ angular.module("Rectangular")
 
 
     if (focusConstraint) {
-      //console.log("Constrained",focus,focusConstraint);
       //console.log("Focus constrain check",state)
+      //console.log("Constrained",canvas.height, canvas.width);
 
-      var focusContraintPixelsX = focusConstraint.x * scale;
+
+      var focusConstraintPixelsX = focusConstraint.x * scale;
       var focusConstraintWidthPixels = focusConstraint.width * scale;
+
+      var focusConstraintPixelsY = focusConstraint.y * scale;
+      var focusConstraintHeightPixels = focusConstraint.height * scale;
+
+      var canvasHeight = canvas.height();
+      var canvasWidth = canvas.width();
+
+      var focusYPixels = focus.y * scale;
+      var focusXPixels = focus.x * scale;
+
+
+  //    console.log("FocusY?",focusTo.y, focusConstraintPixelsY);
+
+      if (focusXPixels  < focusConstraintPixelsX + canvasWidth/2) {
+        focus.x = (focusConstraintPixelsX + canvasWidth/2) / scale;
+      }
       
-      if (focus.x * scale - canvas.width < focusContraintPixelsX) focus.x = focusConstraintPixelsX;
+      
+
+
+//      console.log("And now...",focus.y);
+
+   //   if (focus.x * scale + canvas.width < -focusContraintPixelsX) focus.x = focusConstraintPixelsX / scale;
+     // if (focus.x * scale + canvas.width > focusContraintPixelsX + focusConstraintWidthPixels) focus.x = focusConstraintPixelsX + focusConstraintWidthPixels/ scale;
+      
       //if (focus.y - canvas.height < -roomHeightPixels) focus.y = focusConstraint.y;
 
     }
@@ -167,6 +199,6 @@ angular.module("Rectangular")
       if (zoom > zoomConstraint.max) zoom = zoomConstraint.max;
     }
 
-  });
+  }
 
 })

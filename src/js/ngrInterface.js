@@ -149,7 +149,7 @@ angular.module('Rectangular')
       x: r.worldPosX,
       y: r.worldPosY
     };
-    ngrState.setFocus(focus);
+    ngrCamera.setFocus(focus);
   }
 
   this.getBodyAtMouse = function (r) {

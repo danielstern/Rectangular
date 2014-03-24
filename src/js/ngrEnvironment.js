@@ -25,8 +25,6 @@
      this.start = ngrLoop.start;
      this.createRoom = ngrRoom.createRoom;
      this.clearRoom = ngrRoom.clearRoom;
-     this.constrainFocus = ngrState.constrainFocus;
-     this.constrainZoom = ngrState.constrainZoom;
 
      var e = this;
      var _canvas;
@@ -37,6 +35,7 @@
        var options = _.extend(defaults, worldInitObject);
 
        _canvas = options.canvas || $('canvas')[0];
+       if (_.isArray(_canvas)) _canvas = _canvas[0];
        options.canvas = _canvas;
        options.height = _canvas.height;
        options.width = _canvas.width;
