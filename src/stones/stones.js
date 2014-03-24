@@ -7,7 +7,7 @@ angular.module("Stones", ['Rectangular', 'ngAudio'])
     $scope.levels = stonesLevels.getLevels();
     $scope.models = StonesModels;
   })
-  .service("GameOfStones", function (ngrEnvironment, ngrCamera, ngrState, ngrWorld, ngrStage, ngrGame, StonesModels, ngrLoop, ngrInterface, stonesLevels) {
+  .service("GameOfStones", function (ngrEnvironment, ngrCamera, ngrState, ngrWorld, ngrLoop, ngrStage, ngrGame, StonesModels, ngrLoop, ngrInterface, stonesLevels) {
 
     var StartLevelListeners = [];
     var gos = this;
@@ -30,17 +30,19 @@ angular.module("Stones", ['Rectangular', 'ngAudio'])
     });
 
     this.loadLevel = function (lvl) {
-      ngrEnvironment.clearAll();
-      ngrEnvironment.load(stonesLevels.getLevel(lvl));
-      gos.startFormation();
+      ngrGame.blocker()
+      .then(function(){
+        ngrEnvironment.clearAll();
+        ngrEnvironment.load(stonesLevels.getLevel(lvl))
+      })
+      .then(function(){ return  ngrLoop.wait(10)})
+      .then(gos.startFormation);
     }
 
     this.startFormation = function () {
       ngrInterface.setGrabOnly("doodad");
       ngrInterface.scrollToZoom(true);
-   //   ngrEnvironment.constrainFocus(StonesModels.focus);
-    //  ngrEnvironment.constrainZoom(StonesModels.zoom);
-      ngrEnvironment.setZoom(0.2);
+      ngrCamera.setZoom(0.2, true);
       ngrInterface.enableDrag();
 
       _.invoke(ngrEnvironment.getBodiesByUserData('prize', true),"freeze");

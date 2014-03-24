@@ -6,7 +6,6 @@ angular.module('Rectangular')
     var world;
     var hooks = [];
     var permanentHooks = [];
-    window.loop = this;
 
     this.tick = function () {
 
@@ -35,15 +34,17 @@ angular.module('Rectangular')
     this.wait = function (duration) {
       var r = $q.defer();
 
-      var h = ngrLoop.addHook(function () {
+      duration = duration || 1;
+
+      var h = l.addHook(function () {
         duration--;
         if (duration < 1) {
-          ngrLoop.removeHook(h);
+          l.removeHook(h);
           r.resolve();
         }
       })
 
-      return r;
+      return r.promise;
     }
 
     this.removeHook = function (_hook) {

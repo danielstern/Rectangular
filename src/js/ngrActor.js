@@ -8,10 +8,15 @@ angular.module('Rectangular')
   var actorObject = function(body, skin) {
     this.body = body;
     this.skin = skin;
-    var originalZoom = ngrState.getZoom()
+    var originalZoom = ngrState.getZoom();
     var originalObjectScale = this.skin.scaleX;
     var originalScale = ngrState.getScale() * ngrState.getZoom();
-
+/*
+    console.log("Actor Report:")
+    console.log("Original Zoom:", originalZoom);
+    console.log("Original Object Scale:", originalObjectScale);
+    console.log("Original Scale:", originalScale);
+*/
     this.GetPosition = function() {
       return body.GetPosition();
     }

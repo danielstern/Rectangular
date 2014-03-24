@@ -28,11 +28,6 @@ angular.module('Rectangular')
 
 
 
-    if (!$('.blocker')[0]) {
-      p.append('<div class="blocker"></div>');
-      $('.blocker').append('<div class="blocker-inner"></div>');
-    }
-
     this.background = function(body, options) {
       var sprite = ngrSkin.background(body, options);
       bgContainer.addChild(sprite.container);
@@ -159,29 +154,6 @@ angular.module('Rectangular')
 
     }
 
-    var blockerRunning = false;
-    var r;
-
-    this.blocker = function() {
-
-      if (blockerRunning) return r.promise;
-
-      r = $q.defer();
-      $('.blocker-inner').addClass('slide');
-      blockerRunning = true;
-
-      setTimeout(function() {
-        r.resolve();
-        blockerRunning = false;
-      }, 500);
-
-      setTimeout(function() {
-        $('.blocker-inner').removeClass('slide');
-      }, 1000);
-
-      return r.promise;
-
-    }
-
+    
     ngrLoop.addPermanentHook(tick);
   })

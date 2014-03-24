@@ -177,9 +177,13 @@ angular.module('Rectangular')
       } else if (options.shapeKind == 'circle') {
         mask.graphics.drawCircle(0, 0, options.spriteHeight);
       } else if (options.shapeKind === 'triangle') {
-
         var center = options.center || _body.GetLocalCenter();
         var innerAngleRads = Number(options.innerAngle) * Math.PI / 180;
+
+        /*console.warn("Triangle Report:");
+        console.log("Total Scale?",scale);
+        console.log("Zoom",ngrState.getZoom());;
+        console.log("Scale",ngrState.getScale());;*/
 
         var points = options.points;
         var p1 = points[0];
@@ -188,7 +192,6 @@ angular.module('Rectangular')
         mask.graphics.f('#000').lineTo(p1.x * scale, p1.y * scale).lineTo(p2.x * scale, p2.y * scale).lineTo(p3.x * scale, p3.y * scale);
         mask.x = -center.x * scale;
         mask.y = -center.y * scale;
-
       }
 
       var stroke = new createjs.Shape();
