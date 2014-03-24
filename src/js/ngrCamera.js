@@ -10,7 +10,7 @@ angular.module("Rectangular")
     y: 0
   },
   zoomTo = 0.15,
-  focusConstraint,
+  focusConstraint = undefined,
   followHook = undefined,
   c = this,
   zoomConstraint;
@@ -25,7 +25,9 @@ angular.module("Rectangular")
 
 
   this.follow = function (body) {
-    c.setFocus(body.GetWorldCenter(), true)
+    c.setFocus(body.GetWorldCenter(), true);
+
+    if (followHook) ngrLoop.removeHook(followHook);
 
     followHook = ngrLoop.addHook(function () {
       var pos = body.GetWorldCenter();
@@ -37,7 +39,8 @@ angular.module("Rectangular")
   }
 
 
-  this.unfollow = function (followHook) {
+  this.unfollow = function () {
+    console.log("unfollowing...")
     ngrLoop.removeHook(followHook);
   }
 
@@ -49,6 +52,7 @@ angular.module("Rectangular")
 
   this.constrainFocus = function (focusBox) {
 
+    //console.log("Constraining...",focusBox,focusConstraint);
     focusConstraint = focusBox;
 
   }
@@ -100,6 +104,7 @@ angular.module("Rectangular")
     return focusReturn;
   }
 
+
   ngrLoop.addPermanentHook(function updateFocus() {
     var incX = Math.abs(focusTo.x - focus.x) * 0.05;
     if (Math.abs(focusTo.x - focus.x) < incX * 2) {
@@ -109,7 +114,18 @@ angular.module("Rectangular")
     } else {
       focus.x -= incX;
     }
+/*
+    if (state.constrainFocusToRoom) {
+      var roomHeightPixels = state.room.height * scale;
+      var roomWidthPixels = state.room.width * scale;
+      console.log("Constrained...",state.room);
 
+      if (newTranslation.y - canvas.height < -roomHeightPixels) newTranslation.y = -roomHeightPixels + canvas.height;
+      if (newTranslation.x + canvas.width > roomWidthPixels) newTranslation.x = roomWidthPixels - canvas.width;
+      if (newTranslation.y > 0) newTranslation.y = 0;
+      if (newTranslation.x < 0) newTranslation.x = 0;
+
+    }*/
     var incY = Math.abs(focusTo.y - focus.y) * 0.05;
 
     if (Math.abs(focusTo.y - focus.y) < incY * 2) {
@@ -120,6 +136,15 @@ angular.module("Rectangular")
       focus.y += incY;
     } else {
       focus.y -= incY;
+    }
+
+
+    if (focusConstraint) {
+      //console.log("Constrained",focus,focusConstraint)
+      
+      if (focus.x < focusConstraint.x) focus.x = focusConstraint.x;
+      if (focus.y < focusConstraint.y) focus.y = focusConstraint.y;
+
     }
 
 

@@ -87,6 +87,7 @@ angular.module('Rectangular')
   this.grab = function (r) {
     body = i.getBodyAtMouse(r);
     var state = ngrState.getState();
+    ngrCamera.unfollow();
 
     targeter.onmove(function (r) {
       if (grabJoint) {

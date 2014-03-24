@@ -123,22 +123,13 @@ angular.module('Rectangular')
       var state = ngrState.getState();
       var focus = ngrState.getFocus();
       var scale = ngrState.getScale() * ngrState.getZoom();
-      var constraint = ngrState.getFocusConstraint();
 
       var newTranslation = {
         x: focus.x * scale - 0.5 * canvas.width,
         y: -focus.y * scale + 0.5 * canvas.height
       }
-      if (state.constrainFocusToRoom) {
-        var roomHeightPixels = state.room.height * scale;
-        var roomWidthPixels = state.room.width * scale;
 
-        if (newTranslation.y - canvas.height < -roomHeightPixels) newTranslation.y = -roomHeightPixels + canvas.height;
-        if (newTranslation.x + canvas.width > roomWidthPixels) newTranslation.x = roomWidthPixels - canvas.width;
-        if (newTranslation.y > 0) newTranslation.y = 0;
-        if (newTranslation.x < 0) newTranslation.x = 0;
-
-      }
+  
 
       c.x = -newTranslation.x;
       c.y = newTranslation.y;
