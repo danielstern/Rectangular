@@ -51,10 +51,10 @@ angular.module("Stones", ['Rectangular', 'ngAudio'])
 
     //  ngrState.update("constrainFocusToRoom",true);
       ngrCamera.constrainFocus({
-        x:0,
-        y:0,
-        width:90,
-        height:25
+        x:-5,
+        y:-5,
+        width:99,
+        height:30
       });
       
       ngrCamera.setFocus({
@@ -63,7 +63,7 @@ angular.module("Stones", ['Rectangular', 'ngAudio'])
       })
 
       ngrCamera.constrainZoom({
-        min: 0.5,
+        min: 0.6,
         max: 1.10
       })
 
@@ -103,11 +103,6 @@ angular.module("Stones", ['Rectangular', 'ngAudio'])
       });
 
       ngrCamera.follow(level.stones[0]);
-      
-      ngrCamera.constrainZoom({
-        min: 0.3,
-        max: 0.5
-      })
 
 
       _.each(level.destructibles, function (destructible) {
