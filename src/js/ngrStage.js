@@ -148,6 +148,8 @@ angular.module('Rectangular')
         child.x = c.x / child.parallax;
         child.y = c.y / child.parallax;
 
+        child.scaleX = child.scaleY = 1 + ngrState.getZoom() / 3;
+
       
       }
      
