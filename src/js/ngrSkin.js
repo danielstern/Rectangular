@@ -191,9 +191,40 @@ angular.module('Rectangular')
 
       }
 
+      var stroke = new createjs.Shape();
+      var strokeWidth = 2;
+      stroke.graphics.beginFill("rgba(0,0,0,0.8)");
+      if (options.shapeKind == 'box') {
+        stroke.graphics.drawRect(
+          -options.spriteWidth - strokeWidth / 2, 
+          -options.spriteHeight - strokeWidth / 2, 
+          options.spriteWidth * 2 + strokeWidth, 
+          options.spriteHeight * 2 + strokeWidth);
+      } else if (options.shapeKind == 'circle') {
+        stroke.graphics.drawCircle(0, 0, options.spriteHeight + strokeWidth / 2);
+      } else if (options.shapeKind === 'triangle') {
+
+        var center = options.center || _body.GetLocalCenter();
+        var innerAngleRads = Number(options.innerAngle) * Math.PI / 180;
+
+        var points = options.points;
+        var p1 = points[0];
+        var p2 = points[1];
+        var p3 = points[2];
+        stroke.graphics.f('#000').lineTo(p1.x * scale, p1.y * scale).lineTo(p2.x * scale, p2.y * scale).lineTo(p3.x * scale, p3.y * scale);
+        stroke.x = -center.x * scale;
+        stroke.y = -center.y * scale;
+        stroke.scaleX = stroke.scaleY = 1.1;
+        stroke.x += strokeWidth/4;
+        stroke.y += strokeWidth/4;
+
+
+      }
+
       container.mask = mask;
 
       var wrapper = new createjs.Container();
+      wrapper.addChild(stroke);
       wrapper.addChild(mask);
       wrapper.addChild(container);
 
@@ -205,7 +236,7 @@ angular.module('Rectangular')
 
       var sprite = {
         container: new createjs.Container(),
-        parallax:parallax
+        parallax: parallax
       };
       loadBitmap(src)
         .then(initImg);
@@ -220,8 +251,8 @@ angular.module('Rectangular')
         bgData.scaleY = scaleX;
 
         sprite.container.parallax = parallax;
-      //  bgData.closeness = closeness || 0;
-       bgData.x = -bgData.image.width / 4;
+        //  bgData.closeness = closeness || 0;
+        bgData.x = -bgData.image.width / 4;
         bgData.y = -bgData.image.height / 4;
 
         sprite.container.addChild(bgData);
