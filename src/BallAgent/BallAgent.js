@@ -1,5 +1,5 @@
 angular.module("BallAgent", ['Rectangular', 'ngAudio', 'BallAgentHero', 'BallAgentModels'])
-  .service('BallAgent', function (BallAgentLevels, BallAgentHero, ngrStage, BallAgentModels, ngAudio, ngrEnvironment, ngrBox, ngrWorld) {
+  .service('BallAgent', function (BallAgentLevels, BallAgentHero, ngrCamera, ngrGame, ngrCamera, ngrStage, BallAgentModels, ngAudio, ngrEnvironment, ngrBox, ngrWorld) {
 
     this.state = {};
     var state = this.state;
@@ -171,8 +171,8 @@ angular.module("BallAgent", ['Rectangular', 'ngAudio', 'BallAgentHero', 'BallAge
     ngrEnvironment.init({
       scale: 30,
       floor: true,
-      constrainFocusToRoom: true,
-      zoom: 1,
+      constrainFocusToRoom: false,
+      zoom: 0.5,
       room: {
         width: 30,
         height: 20,
@@ -183,14 +183,14 @@ angular.module("BallAgent", ['Rectangular', 'ngAudio', 'BallAgentHero', 'BallAge
       }
     });
 
-    ngrEnvironment.setZoom(0.5);
+    ngrCamera.setZoom(0.5);
 
     function nextLevel() {
       if (goingToNextLevel) return;
       goingToNextLevel = true;
 
       ngrEnvironment.stop();
-      ngrEnvironment.blocker()
+      ngrGame.blocker()
         .then(function () {
           state.currentLevel++;
           var l = BallAgentLevels.levels[state.currentLevel - 1];
@@ -200,7 +200,14 @@ angular.module("BallAgent", ['Rectangular', 'ngAudio', 'BallAgentHero', 'BallAge
             return;
           }
 
-          ngrEnvironment.setZoom(0.5);
+        //  ngrCamera.setZoom(0.5);
+
+        ngrCamera.constrainFocus({
+          x:-15,
+          y:-10.5,
+          width: 60,
+          height: 42
+        })
 
           ngrEnvironment.clearAll();
           if (c) clearTimeout(c);
@@ -248,7 +255,7 @@ angular.module("BallAgent", ['Rectangular', 'ngAudio', 'BallAgentHero', 'BallAge
             y: 0
           })*/
 
-          ngrEnvironment.follow(hero.body);
+          ngrCamera.follow(hero.body);
 
           goingToNextLevel = false;
 

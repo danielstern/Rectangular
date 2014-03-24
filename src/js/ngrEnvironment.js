@@ -34,7 +34,7 @@
        var defaults = _.clone(ngrDefaults.initialize);
        var options = _.extend(defaults, worldInitObject);
 
-       _canvas = options.canvas || $('canvas')[0];
+       _canvas = options.canvas || $('canvas');
        if (_.isArray(_canvas)) _canvas = _canvas[0];
        options.canvas = _canvas;
        options.height = _canvas.height;
@@ -43,6 +43,12 @@
        if (options.room) {
          options.worldHeight = options.room.height;
          options.worldWidth = options.room.width;
+       }
+
+       console.log("Optionsroom?",options.room);
+
+       if (options.constrainFocusToRoom) {
+       
        }
 
        options.SCALE = options.scale || 30;

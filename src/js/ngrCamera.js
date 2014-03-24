@@ -73,6 +73,8 @@ angular.module("Rectangular")
 
   this.setFocus = function (_f, _inst) {
 
+    //console.error("setting focus")
+
     focusTo = {
       x: _f.x,
       y: _f.y
@@ -141,6 +143,8 @@ angular.module("Rectangular")
 
       var focusYPixels = focus.y * scale;
       var focusXPixels = focus.x * scale;
+
+      //console.log("Canvas?",canvasHeight,canvasWidth,focusConstraintPixelsX,focusConstraintWidthPixels);
 
 
       // we're not allowed to see anything left of the constraint box

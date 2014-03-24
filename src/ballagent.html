@@ -181,7 +181,7 @@
     <script>
     angular.module("BallAgentApp", ['BallAgent', 'ngAudio'])
 
-    .controller('myDemoCtrl', function($scope, $element, ngrEnvironment, ngAudio, BallAgent) {
+    .controller('myDemoCtrl', function($scope, $element, ngrGame, ngrEnvironment, ngAudio, BallAgent) {
 
 
         setTimeout(function(){
@@ -304,7 +304,7 @@
             $('.splash-screen').children().removeClass('animated');
 
             BallAgent.newGame();
-            ngrEnvironment.blocker();
+            ngrGame.blocker();
             ngAudio.stop('menu');
             ngAudio.play('start');
             ngAudio.play('stage1');
