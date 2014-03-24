@@ -214,10 +214,12 @@ angular.module('Rectangular')
       function initImg(bgData) {
 
         var env = ngrState.getState();
-        var scaleX = env.width / bgData.image.width * 2.4 // ngrState.getScale();
+        var scaleX = env.width / bgData.image.width * 1 // ngrState.getScale();
         bgData.scaleX = scaleX;
         bgData.scaleY = scaleX;
         bgData.closeness = closeness || 0;
+        bgData.x = -bgData.image.width / 2;
+        bgData.y = -bgData.image.height / 2;
 
         sprite.container.addChild(bgData);
 

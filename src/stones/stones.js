@@ -7,7 +7,7 @@ angular.module("Stones", ['Rectangular', 'ngAudio'])
     $scope.levels = stonesLevels.getLevels();
     $scope.models = StonesModels;
   })
-  .service("GameOfStones", function (ngrEnvironment, ngrWorld, ngrGame, StonesModels, ngrLoop, ngrInterface, stonesLevels) {
+  .service("GameOfStones", function (ngrEnvironment, ngrWorld, ngrStage, ngrGame, StonesModels, ngrLoop, ngrInterface, stonesLevels) {
 
     var StartLevelListeners = [];
     var gos = this;
@@ -27,10 +27,12 @@ angular.module("Stones", ['Rectangular', 'ngAudio'])
     this.startFormation = function () {
       ngrInterface.setGrabOnly("doodad");
       ngrInterface.scrollToZoom(true);
-      ngrEnvironment.constrainFocus(StonesModels.focus);
+   //   ngrEnvironment.constrainFocus(StonesModels.focus);
       ngrEnvironment.constrainZoom(StonesModels.zoom);
       ngrEnvironment.setZoom(0.2);
       ngrInterface.enableDrag();
+
+      ngrStage.background('img/ams1.png')
     }
 
     this.onstartlevel = function (func) {
@@ -83,6 +85,8 @@ angular.module("Stones", ['Rectangular', 'ngAudio'])
           }
         })
       })
+
+
 
       _.call(StartLevelListeners, level)
     }

@@ -34,7 +34,6 @@ angular.module('Rectangular')
     }
 
     this.background = function(body, options) {
-      console.log("Backgrounding...",body,options);
       var sprite = ngrSkin.background(body, options);
       bgContainer.addChild(sprite.container);
     }
@@ -83,7 +82,6 @@ angular.module('Rectangular')
       s.clearAll();
 
       ngrDebug.debug(canvas);
-
 
       parallaxCenter = ngrState.getRoomCenter();
 
