@@ -180,11 +180,6 @@ angular.module('Rectangular')
         var center = options.center || _body.GetLocalCenter();
         var innerAngleRads = Number(options.innerAngle) * Math.PI / 180;
 
-        /*console.warn("Triangle Report:");
-        console.log("Total Scale?",scale);
-        console.log("Zoom",ngrState.getZoom());;
-        console.log("Scale",ngrState.getScale());;*/
-
         var points = options.points;
         var p1 = points[0];
         var p2 = points[1];

@@ -40,7 +40,7 @@ angular.module("Rectangular")
 
 
   this.unfollow = function () {
-    console.log("unfollowing...")
+    
     ngrLoop.removeHook(followHook);
   }
 
@@ -72,29 +72,17 @@ angular.module("Rectangular")
 
 
   this.setFocus = function (_f, _inst) {
-    //if (focusConstraint) return;
-
-    //console.log("Setting focus", _f, _inst);
 
     focusTo = {
       x: _f.x,
       y: _f.y
     };
-/*
-    if (focusConstraint) {
-      if (focusTo.x < focusConstraint.x) focusTo.x = focusConstraint.x;
-      if (focusTo.x > focusConstraint.x + focusConstraint.width) focusTo.x = focusConstraint.x + focusConstraint.width;
-
-      if (focusTo.y < focusConstraint.y) focusTo.y = focusConstraint.y;
-      if (focusTo.y > focusConstraint.y + focusConstraint.height) focusTo.y = focusConstraint.y + focusConstraint.height;
-    }*/
 
     if (_inst) focus = {
       x: _f.x,
       y: _f.y
     };
 
-  //  updateFocus();
   };
 
   this.getFocusConstraint = function () {
@@ -125,18 +113,7 @@ angular.module("Rectangular")
     } else {
       focus.x -= incX;
     }
-/*
-    if (state.constrainFocusToRoom) {
-      var roomHeightPixels = state.room.height * scale;
-      var roomWidthPixels = state.room.width * scale;
-      console.log("Constrained...",state.room);
 
-      if (newTranslation.y - canvas.height < -roomHeightPixels) newTranslation.y = -roomHeightPixels + canvas.height;
-      if (newTranslation.x + canvas.width > roomWidthPixels) newTranslation.x = roomWidthPixels - canvas.width;
-      if (newTranslation.y > 0) newTranslation.y = 0;
-      if (newTranslation.x < 0) newTranslation.x = 0;
-
-    }*/
     var incY = Math.abs(focusTo.y - focus.y) * 0.05;
 
     if (Math.abs(focusTo.y - focus.y) < incY * 2) {
@@ -166,7 +143,6 @@ angular.module("Rectangular")
       var focusXPixels = focus.x * scale;
 
 
-
       // we're not allowed to see anything left of the constraint box
       if (focusXPixels  < focusConstraintPixelsX + canvasWidth/2) {
         focus.x = (focusConstraintPixelsX + canvasWidth/2) / scale;
@@ -181,16 +157,11 @@ angular.module("Rectangular")
       if (focusYPixels  < focusConstraintPixelsY + canvasHeight/2) {
         focus.y = (focusConstraintPixelsY + canvasHeight/2) / scale;
       }
-      
-      
 
-
-//      console.log("And now...",focus.y);
-
-   //   if (focus.x * scale + canvas.width < -focusContraintPixelsX) focus.x = focusConstraintPixelsX / scale;
-     // if (focus.x * scale + canvas.width > focusContraintPixelsX + focusConstraintWidthPixels) focus.x = focusConstraintPixelsX + focusConstraintWidthPixels/ scale;
-      
-      //if (focus.y - canvas.height < -roomHeightPixels) focus.y = focusConstraint.y;
+      // we're not allowed to see anything below the constraint box
+      if (focusYPixels  > focusConstraintPixelsY + focusConstraintHeightPixels - canvasHeight/2) {
+        focus.y = (focusConstraintPixelsY + focusConstraintHeightPixels - canvasHeight/2) / scale;
+      }
 
     }
 
