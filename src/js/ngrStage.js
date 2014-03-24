@@ -142,8 +142,15 @@ angular.module('Rectangular')
 
       c.x = -newTranslation.x;
       c.y = newTranslation.y;
-      bgContainer.x = c.x / 2;
-      bgContainer.y = c.y / 2;
+      for (var i = 0; i < bgContainer.getNumChildren(); i++) {
+        
+        var child = bgContainer.getChildAt(i);
+        child.x = c.x / child.parallax;
+        child.y = c.y / child.parallax;
+
+      
+      }
+     
       ctxCurrentTranslation = newTranslation;
 
       ngrDebug.update({

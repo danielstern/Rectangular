@@ -32,7 +32,11 @@ angular.module("Stones", ['Rectangular', 'ngAudio'])
       ngrEnvironment.setZoom(0.2);
       ngrInterface.enableDrag();
 
-      ngrStage.background('img/ams1.png')
+      ngrStage.background('img/ams1.png',10)
+      ngrStage.background('img/ams2.png',9)
+      ngrStage.background('img/ams3.png',8)
+      ngrStage.background('img/ams4.png',8)
+      
     }
 
     this.onstartlevel = function (func) {

@@ -201,10 +201,11 @@ angular.module('Rectangular')
 
     }
 
-    this.background = function (src, closeness) {
+    this.background = function (src, parallax) {
 
       var sprite = {
         container: new createjs.Container(),
+        parallax:parallax
       };
       loadBitmap(src)
         .then(initImg);
@@ -217,7 +218,9 @@ angular.module('Rectangular')
         var scaleX = env.width / bgData.image.width * 1 // ngrState.getScale();
         bgData.scaleX = scaleX;
         bgData.scaleY = scaleX;
-        bgData.closeness = closeness || 0;
+
+        sprite.container.parallax = parallax;
+      //  bgData.closeness = closeness || 0;
         bgData.x = -bgData.image.width / 2;
         bgData.y = -bgData.image.height / 2;
 
