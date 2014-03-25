@@ -80,8 +80,10 @@ angular.module('Rectangular')
           tagOptions.bg = 'static';
           var c = s.addSprite(body,tagOptions);
           c.actor.noRotate();
+          c.actor.noScale();
           c.container.regY = 60;
-          c.container.regX = body.options.spriteWidth;
+          c.container.regX = body.options.spriteWidth - 5;
+      //    c.container.scaleX =c.container.scaleY = 2
         // console.log("Cont?",c);
          //ngrLoop.addHook(function(){
          // c.container.rotatation = body.GetAngle() * 180;
