@@ -42,7 +42,7 @@ angular.module('Rectangular')
       friction: 0,
       gravityScale: 0,
       timedLife: true,
-      lifeTime: 20,
+      lifeTime: 15,
       type: 'dynamic',
     }
 
