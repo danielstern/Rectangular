@@ -17,6 +17,8 @@ angular.module('Rectangular')
         hook();
       })
 
+      //console.log("Tick");
+
     }
 
     this.addHook = function (func) {
@@ -34,6 +36,8 @@ angular.module('Rectangular')
     this.wait = function (duration) {
       var r = $q.defer();
 
+//      console.log("Waiting",duration);
+
       duration = duration || 1;
 
       var h = l.addHook(function () {
@@ -41,6 +45,7 @@ angular.module('Rectangular')
         if (duration < 1) {
           l.removeHook(h);
           r.resolve();
+  //        console.log("Wait over",duration);
         }
       })
 

@@ -11,6 +11,9 @@ angular.module("Stones", ['Rectangular', 'ngAudio'])
 
     var StartLevelListeners = [];
     var gos = this;
+    var level = {};
+
+    var intro = true;
 
     ngrEnvironment.init({
       canvas: $('canvas'),
@@ -39,7 +42,7 @@ angular.module("Stones", ['Rectangular', 'ngAudio'])
         currentLevel = true;
       })
       .then(function(){ return  ngrLoop.wait(10)})
-      .then(gos.startFormation);
+      .then(function(){gos.startFormation()});
     }
 
     this.startFormation = function () {
@@ -48,16 +51,25 @@ angular.module("Stones", ['Rectangular', 'ngAudio'])
       ngrCamera.setZoom(0.2, true);
       ngrInterface.enableDrag();
 
+      ngrEnvironment.start();
+
+      level.prizes = ngrEnvironment.getBodiesByUserData('prize', true);
+      level.doodads = ngrEnvironment.getBodiesByUserData('doodad', true);
+      level.destructibles = ngrEnvironment.getBodiesByUserData('destructible', true);
+      level.explosives = ngrEnvironment.getBodiesByUserData('explosive', true);
+      level.stones = ngrEnvironment.getBodiesByUserData('stone', true);
+
+
       _.invoke(ngrEnvironment.getBodiesByUserData('prize', true),"freeze");
 
 
 
     //  ngrState.update("constrainFocusToRoom",true);
       ngrCamera.constrainFocus({
-        x:-5,
+        x:0,
         y:-5,
-        width:99,
-        height:30
+        width:32,
+        height:25
       });
       
       ngrCamera.setFocus({
@@ -76,6 +88,21 @@ angular.module("Stones", ['Rectangular', 'ngAudio'])
       ngrStage.background('img/ams2.png',9)
       ngrStage.background('img/ams3.png',8)
       ngrStage.background('img/ams4.png',8)
+
+      if (intro) {
+         ngrCamera.follow(level.prizes[0]);
+         ngrLoop.wait(300)
+         .then(function(){
+          console.log("following boulder",level.stones[0])
+            ngrCamera.follow(level.stones[0]);
+         })
+         .then(function(){return ngrLoop.wait(300)})
+         .then(function(){
+          console.log("following doodad")
+            ngrCamera.follow(level.doodads[0]);
+         })
+
+      }
       
     }
 
@@ -83,9 +110,10 @@ angular.module("Stones", ['Rectangular', 'ngAudio'])
       StartLevelListeners.push(func);
     }
 
+
     this.startLevel = function () {
       if (!currentLevel) return;
-      var level = {};
+     
       ngrInterface.setGrabOnly("nothing");
       level.starters = ngrEnvironment.getBodiesByUserData('worldStarter', true);
       level.base = ngrEnvironment.getBodiesByUserData('base', true);
@@ -98,6 +126,8 @@ angular.module("Stones", ['Rectangular', 'ngAudio'])
       _.invoke(level.base, "unfreeze");
       _.invoke(level.doodads, "freeze");
       _.invoke(level.starters, "crumble");
+      
+     
 
       _.each(level.explosives, function (explosive) {
 

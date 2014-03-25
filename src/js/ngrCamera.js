@@ -25,7 +25,7 @@ angular.module("Rectangular")
 
 
   this.follow = function (body) {
-    c.setFocus(body.GetWorldCenter(), true);
+    c.setFocus(body.GetWorldCenter(), false);
 
     if (followHook) ngrLoop.removeHook(followHook);
 
