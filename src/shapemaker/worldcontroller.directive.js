@@ -18,6 +18,7 @@ angular.module('shapemaker')
             var bodyPos = contextBody.GetPosition();
             var bodyAngle = contextBody.GetAngle();
 
+            $scope.context.userData = body.GetUserData();
             $scope.context.selectedY = bodyPos.y;
             $scope.context.selectedX = bodyPos.x;
             $scope.context.selectedAngle = bodyAngle / Math.PI * 180;

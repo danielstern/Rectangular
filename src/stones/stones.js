@@ -50,11 +50,27 @@ angular.module("Stones", ['Rectangular', 'ngAudio'])
       });
     }
 
+    this.mainMenu = function () {
+
+      ngrEnvironment.load(stonesLevels.mainMenu);
+      ngrCamera.setZoom(2.3);
+      ngrCamera.constrainFocus({
+        x:0,
+        y:0,
+        width: 15,
+        height: 8
+      })
+      ngrInterface.enableDrag();
+      ngrInterface.setGrabOnly();
+      
+    }
+
+    gos.mainMenu();
+
     this.startFormation = function () {
       ngrInterface.setGrabOnly("doodad");
       ngrInterface.scrollToZoom(true);
       ngrCamera.setZoom(0.2, true);
-      ngrInterface.enableDrag();
 
       level.starters = ngrEnvironment.getBodiesByUserData('worldStarter', true);
       level.base = ngrEnvironment.getBodiesByUserData('base', true);
@@ -66,10 +82,10 @@ angular.module("Stones", ['Rectangular', 'ngAudio'])
 
       _.each(level.doodads, function (doodad) {
         var h = ngrLoop.addHook(function () {
-         if (doodad.GetPosition().y > 150) {
+          if (doodad.GetPosition().y > 150) {
 
-            doodad.SetPosition(new b2Vec2(10,8));
-            doodad.SetLinearVelocity(new b2Vec2(0,0));
+            doodad.SetPosition(new b2Vec2(10, 8));
+            doodad.SetLinearVelocity(new b2Vec2(0, 0));
           }
         })
       });
