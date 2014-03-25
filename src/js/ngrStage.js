@@ -74,15 +74,18 @@ angular.module('Rectangular')
           //body.crumble();
    //       c.container.y = -100;
    //    body.container.parent.removeChild(body.container);
-          var tagOptions = {};
+          var tagOptions = _.clone(body.options);
+          console.log("Tagoptions?",tagOptions);
   
           tagOptions.src = img;
           tagOptions.bg = 'static';
+          tagOptions.noScale = true;
+          tagOptions.shapeKind = 'box';
           var c = s.addSprite(body,tagOptions);
           c.actor.noRotate();
           c.actor.noScale();
-          c.container.regY = 60;
-          c.container.regX = body.options.spriteWidth - 5;
+          c.container.regY = 2 * ngrCamera.getZoom() * ngrState.getScale();
+       //   c.container.regX = body.options.width;
       //    c.container.scaleX =c.container.scaleY = 2
         // console.log("Cont?",c);
          //ngrLoop.addHook(function(){

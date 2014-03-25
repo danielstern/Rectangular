@@ -73,11 +73,13 @@ angular.module('Rectangular')
               scaleY = options.spriteHeight / img.height * 2;
               scaleX = options.spriteWidth / img.width * 2;
 
-            } else {
+            } else if (options.shapeKind === 'circle') {
               console.log("adding non titled circle", options);
               scaleY = options.spriteHeight / img.height;
               scaleX = options.spriteWidth / img.width;
             }
+
+            if (options.noScale) scaleX = scaleY = 1;
 
             var regY = (img.height) / 2;
             var regX = (img.width) / 2;
@@ -85,8 +87,8 @@ angular.module('Rectangular')
             imgData.regX = regX;
             imgData.regY = regY;
             //console.log("scaling?", options.spriteWidth, img.width, options);
-            imgData.scaleX = options.spriteWidth / img.width * 2;
-            imgData.scaleY = options.spriteHeight / img.height * 2;
+            imgData.scaleX = scaleX;
+            imgData.scaleY = scaleY;
             imgData.mouseEnabled = options.mouseEnabled;
             _container.addChild(imgData)
 
@@ -247,7 +249,7 @@ angular.module('Rectangular')
 
         var env = ngrState.getState();
         var scaleX = env.canvas.width() / bgData.image.width  // ngrState.getScale();
-        console.log("ScaleX?",scaleX);
+        //console.log("ScaleX?",scaleX);
         bgData.scaleX = scaleX;
         bgData.scaleY = scaleX;
 

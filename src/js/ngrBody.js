@@ -5,8 +5,10 @@ angular.module('Rectangular')
       var body = _body;
       var crumbleListeners = [];
       var impactListeners = [];
+      var fallListeners = [];
 
       body.ngrBody = true;
+      var bodyOriginalY = body.GetPosition().y;
       var bodyLoop = ngrLoop.addHook(function () {
 
         var options = body.options;
@@ -62,6 +64,13 @@ angular.module('Rectangular')
 
           edge = edge.next;
         }
+
+     //   console.log(body.GetPosition().y,bodyOriginalY);
+
+        if (body.GetPosition().y - bodyOriginalY > 2) {
+        //  console.log("calling listeners...");
+          _.call(fallListeners);
+        }
       })
 
       body.oncrumble = function (func) {
@@ -72,6 +81,10 @@ angular.module('Rectangular')
         impactListeners.push({
           func: func
         });
+      }
+
+      body.onfall = function (func) {
+        fallListeners.push(func);
       }
 
       body.freeze = function () {

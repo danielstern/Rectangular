@@ -16,7 +16,13 @@ angular.module("Stones", ['Rectangular', 'ngAudio'])
     var gos = this;
     var level = {};
 
-    var intro = false;
+    var intro = {
+      box:false,
+      prize:false,
+      bouncy:false,
+      explosive: false,
+      destructible: false
+    };
 
     ngrEnvironment.init({
       canvas: $('canvas'),
@@ -53,30 +59,37 @@ angular.module("Stones", ['Rectangular', 'ngAudio'])
     this.mainMenu = function () {
 
       ngrEnvironment.load(stonesLevels.mainMenu);
-      ngrCamera.setZoom(2);
+      ngrCamera.setZoom(2.3);
       ngrCamera.constrainFocus({
-        x:0,
-        y:0,
-        width: 15,
+        x: 1,
+        y: 0,
+        width: 13,
         height: 9
       })
       ngrInterface.enableDrag();
       ngrInterface.setGrabOnly();
-
 
       ngrStage.background('img/ams1.png', 10);
       ngrStage.background('img/ams2.png', 9);
       ngrStage.background('img/ams3.png', 8);
       ngrStage.background('img/ams4.png', 8);
 
-      var newGame = ngrWorld.getBodyByUserData("newGame","true");
-      var tutorial = ngrWorld.getBodyByUserData("tutorial","true");
+      var newGame = ngrWorld.getBodyByUserData("newGame", "true");
+      var tutorial = ngrWorld.getBodyByUserData("tutorial", "true");
       //console.log("newgame?",newGame);
-    //  newGame.crumble();
-      ngrStage.tag(newGame,"img/newgame-tag.png");
-      ngrStage.tag(tutorial,"img/tutorial-tag.png");
+      //  newGame.crumble();
+      ngrStage.tag(newGame, "img/newgame-tag.png");
+//      ngrStage.tag(tutorial, "img/tutorial-tag.png");
 
-      
+      newGame.onfall(function () {
+        newGame.crumble();
+        currentLevel = 1;
+        ngrGame.blocker()
+          .then(function () {
+            gos.loadLevel(currentLevel);
+          })
+      })
+
     }
 
     gos.mainMenu();
@@ -129,6 +142,12 @@ angular.module("Stones", ['Rectangular', 'ngAudio'])
       })
 
       ngrCamera.setZoom(1);
+
+      if (!intro.prize) {
+        console.log("skinning prize");
+        ngrStage.tag(level.prizes[0], 'img/prize.png');
+      //  intro.prize = true;
+      }
 
       if (intro) {
 

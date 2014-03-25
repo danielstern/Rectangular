@@ -45,7 +45,7 @@
          options.worldWidth = options.room.width;
        }
 
-       console.log("Optionsroom?",options.room);
+       //console.log("Optionsroom?",options.room);
 
        if (options.constrainFocusToRoom) {
        
