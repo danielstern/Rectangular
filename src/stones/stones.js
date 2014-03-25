@@ -62,6 +62,13 @@ angular.module("Stones", ['Rectangular', 'ngAudio'])
       })
       ngrInterface.enableDrag();
       ngrInterface.setGrabOnly();
+
+      
+      ngrStage.background('img/ams1.png', 10)
+      ngrStage.background('img/ams2.png', 9)
+      ngrStage.background('img/ams3.png', 8)
+      ngrStage.background('img/ams4.png', 8)
+
       
     }
 
@@ -115,11 +122,6 @@ angular.module("Stones", ['Rectangular', 'ngAudio'])
       })
 
       ngrCamera.setZoom(1);
-
-      ngrStage.background('img/ams1.png', 10)
-      ngrStage.background('img/ams2.png', 9)
-      ngrStage.background('img/ams3.png', 8)
-      ngrStage.background('img/ams4.png', 8)
 
       if (intro) {
 
