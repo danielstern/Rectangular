@@ -189,9 +189,11 @@ angular.module('Rectangular')
         mask.y = -center.y * scale;
       }
 
+      var strokeColor = options.strokeColor || "#000"
+
       var stroke = new createjs.Shape();
       var strokeWidth = 2;
-      stroke.graphics.beginFill("rgba(0,0,0,0.8)");
+      stroke.graphics.beginFill(strokeColor);
       if (options.shapeKind == 'box') {
         stroke.graphics.drawRect(
           -options.spriteWidth - strokeWidth / 2, 
@@ -209,7 +211,7 @@ angular.module('Rectangular')
         var p1 = points[0];
         var p2 = points[1];
         var p3 = points[2];
-        stroke.graphics.f('#000').lineTo(p1.x * scale, p1.y * scale).lineTo(p2.x * scale, p2.y * scale).lineTo(p3.x * scale, p3.y * scale);
+        stroke.graphics.f('strokeColor').lineTo(p1.x * scale, p1.y * scale).lineTo(p2.x * scale, p2.y * scale).lineTo(p3.x * scale, p3.y * scale);
         stroke.x = -center.x * scale;
         stroke.y = -center.y * scale;
         stroke.scaleX = stroke.scaleY = 1.1;

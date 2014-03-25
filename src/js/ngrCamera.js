@@ -41,6 +41,8 @@ angular.module("Rectangular")
    
       var i = 0;
 
+      var r = $q.defer();
+
       ngrLoop.wait(directions.prologue || 1)
       .then(next);
 
@@ -51,7 +53,11 @@ angular.module("Rectangular")
           focusToBody(directions.shots[i].target, directions.shots[i].duration)
           .then(function(){
             i++;
-            if (i < directions.shots.length) next();
+            if (i < directions.shots.length) {
+              next();
+            } else {
+              r.resolve();
+            }
           })
 
         }
@@ -73,6 +79,8 @@ angular.module("Rectangular")
 
         return r.promise;
       }
+
+      return r.promise;
     }
 
     this.unfollow = function () {

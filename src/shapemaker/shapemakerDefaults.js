@@ -187,8 +187,8 @@ angular.module('shapemaker')
         },
         presets: {
           innerAngle: 90,
-          opposite: 6,
-          adjacent: 2,
+          opposite: 3,
+          adjacent: 1,
           restitution: 0.2,
           density: 0.2
         }
@@ -319,6 +319,23 @@ angular.module('shapemaker')
         }
 
       }, {
+        name: 'Dirt Boulder S',
+        shape: 'circle',
+        skin: {
+          src: 'img/grassCenter.png',
+        },
+        userData: {
+          stone: true
+        },
+        presets: {
+          radius: 0.75,
+          restitution: 0.2,
+          density: 1,
+          friction: 0.2,
+
+        }
+
+      }, {
         name: 'Base Girder L',
         shape: 'box',
         skin: {
@@ -384,7 +401,7 @@ angular.module('shapemaker')
         }
 
       }, {
-        name: 'Destructible Box',
+        name: 'Destructible Block S',
         shape: 'box',
         skin: {
           src: 'img/block-yellow.png',
@@ -394,13 +411,45 @@ angular.module('shapemaker')
         },
         presets: {
 
-          height: 1,
-          width: 1,
+          height: 0.5,
+          width: 0.5,
           restitution: 0.2,
           density: 0.2
         }
 
       }, {
+        name: 'Explosive Block S',
+        shape: 'box',
+        skin: {
+          src: 'img/block-red.png',
+        },
+        userData: {
+          explosive: true,
+        },
+        presets: {
+
+          height: 0.5,
+          width: 0.50,
+          restitution: 0.2,
+          density: 0.2
+        }
+
+      }, {
+        name: 'Bouncey Block S',
+        shape: 'box',
+        skin: {
+          src: 'img/block-blue.png',
+        },
+        
+        presets: {
+
+          height: 0.5,
+          width: 0.50,
+          restitution: 0.85,
+          density: 0.2
+        }
+
+      },{
         name: 'Coin Box',
         shape: 'box',
         skin: {

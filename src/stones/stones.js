@@ -12,8 +12,9 @@ angular.module("Stones", ['Rectangular', 'ngAudio'])
     var StartLevelListeners = [];
     var gos = this;
     var level = {};
+    
 
-    var intro = true;
+    var intro = false;
 
     ngrEnvironment.init({
       canvas: $('canvas'),
@@ -39,7 +40,7 @@ angular.module("Stones", ['Rectangular', 'ngAudio'])
         .then(function () {
           ngrEnvironment.clearAll();
           ngrEnvironment.load(stonesLevels.getLevel(lvl))
-          currentLevel = true;
+          currentLevel = lvl;
         })
         .then(function () {
           return ngrLoop.wait(10)
@@ -79,7 +80,7 @@ angular.module("Stones", ['Rectangular', 'ngAudio'])
       })
 
       ngrCamera.constrainZoom({
-        min: 0.6,
+        min: 0.9,
         max: 1.10
       })
 
@@ -106,6 +107,8 @@ angular.module("Stones", ['Rectangular', 'ngAudio'])
           zoomAll: 1.5,
           prologue: 300
         });
+
+        intro = false;
 
       }
 
@@ -159,8 +162,8 @@ angular.module("Stones", ['Rectangular', 'ngAudio'])
           var pos = prize.GetPosition();
           if (pos.y - prizeStartingY > 5) {
             ngrLoop.removeHook(h);
-            //  $scope.endLevel(true);
-            //}
+              gos.endLevel(true);
+            
           }
         })
       })
@@ -172,11 +175,19 @@ angular.module("Stones", ['Rectangular', 'ngAudio'])
 
     this.endLevel = function (success) {
       if (success) {
-        ngrLoop.wait(3000)
+        ngrCamera.closeUp({
+          shots:[{
+            target: level.prizes[0],
+            zoom: 0.6,
+            duration: 150
+          }
+          ]
+        })
           .then(function () {
-            ngrEnvironment.blocker()
+            ngrGame.blocker()
               .then(function () {
                 ngrEnvironment.stop();
+                gos.nextLevel();
               })
           });
       };
@@ -186,6 +197,12 @@ angular.module("Stones", ['Rectangular', 'ngAudio'])
       var params = StonesModels[type];
       params.x = 25;
       ngrEnvironment.add(null, params);
+    }
+
+    this.nextLevel = function() {
+      currentLevel++;
+      ngrEnvironment.start();
+      gos.loadLevel(currentLevel);
     }
 
   })
