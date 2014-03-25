@@ -244,7 +244,8 @@ angular.module('Rectangular')
       function initImg(bgData) {
 
         var env = ngrState.getState();
-        var scaleX = env.width / bgData.image.width * 1.4 // ngrState.getScale();
+        var scaleX = env.canvas.width() / bgData.image.width  // ngrState.getScale();
+        console.log("ScaleX?",scaleX);
         bgData.scaleX = scaleX;
         bgData.scaleY = scaleX;
 

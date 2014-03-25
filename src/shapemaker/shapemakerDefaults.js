@@ -143,24 +143,23 @@ angular.module('shapemaker')
           density: 0.2
         }
 
-      },
-      {
-             name: 'Bouncey Platform',
-             shape: 'box',
-             skin: {
-               src: 'img/box-blue.png',
-             },
-             userData: {
-               doodad: true,
-             },
-             presets: {
-               height: 0.4,
-               width: 2.5,
-               restitution: 0.9,
-               density: 0.2
-             }
+      }, {
+        name: 'Bouncey Platform',
+        shape: 'box',
+        skin: {
+          src: 'img/box-blue.png',
+        },
+        userData: {
+          doodad: true,
+        },
+        presets: {
+          height: 0.4,
+          width: 2.5,
+          restitution: 0.9,
+          density: 0.2
+        }
 
-           }, {
+      }, {
         name: 'Wooden Triangle',
         shape: 'triangle',
         skin: {
@@ -194,23 +193,21 @@ angular.module('shapemaker')
           density: 0.2
         }
 
-      }, 
-      {
-             name: 'Stone Ramp Left M',
-             shape: 'triangle',
-             skin: {
-               src: 'img/castleCenter.png',
-             },
-             presets: {
-               innerAngle: 90,
-               opposite: 6,
-               adjacent: 2,
-               restitution: 0.2,
-               density: 0.2
-             }
+      }, {
+        name: 'Stone Ramp Left M',
+        shape: 'triangle',
+        skin: {
+          src: 'img/castleCenter.png',
+        },
+        presets: {
+          innerAngle: 90,
+          opposite: 6,
+          adjacent: 2,
+          restitution: 0.2,
+          density: 0.2
+        }
 
-           },
-      {
+      }, {
         name: 'Prize',
         shape: 'circle',
         skin: {
@@ -257,21 +254,20 @@ angular.module('shapemaker')
           restitution: 0.2,
           density: 0.2
         }
-      },
-      {
-             name: 'Block S',
-             shape: 'box',
-             skin: {
-               src: 'img/castleCenter.png',
-             },
+      }, {
+        name: 'Block S',
+        shape: 'box',
+        skin: {
+          src: 'img/castleCenter.png',
+        },
 
-             presets: {
-               height: 0.5,
-               width: 0.5,
-               restitution: 0.2,
-               density: 0.2
-             }
-           },
+        presets: {
+          height: 0.5,
+          width: 0.5,
+          restitution: 0.2,
+          density: 0.2
+        }
+      },
 
       {
         name: 'Concrete Platform M',
@@ -369,8 +365,8 @@ angular.module('shapemaker')
         },
         presets: {
           innerAngle: 60,
-          opposite: 0.5,
-          adjacent: 0.5,
+          opposite: 1,
+          adjacent: 1,
           restitution: 0.1,
           friction: 0.6,
         }

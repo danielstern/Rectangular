@@ -15,10 +15,10 @@ angular.module("Stones", ['Rectangular', 'ngAudio'])
     ngrEnvironment.init({
       canvas: $('canvas'),
       debug: false,
-      constrainFocusToRoom: true,
+      constrainFocusToRoom: false,
       scale: 30,
       floor: true,
-      zoom: 1,
+      zoom: 0.5,
       room: {
         width: 30,
         height: 20,
@@ -29,11 +29,14 @@ angular.module("Stones", ['Rectangular', 'ngAudio'])
       }
     });
 
+    var currentLevel;
+
     this.loadLevel = function (lvl) {
       ngrGame.blocker()
       .then(function(){
         ngrEnvironment.clearAll();
         ngrEnvironment.load(stonesLevels.getLevel(lvl))
+        currentLevel = true;
       })
       .then(function(){ return  ngrLoop.wait(10)})
       .then(gos.startFormation);
@@ -67,6 +70,8 @@ angular.module("Stones", ['Rectangular', 'ngAudio'])
         max: 1.10
       })
 
+      ngrCamera.setZoom(1);
+
       ngrStage.background('img/ams1.png',10)
       ngrStage.background('img/ams2.png',9)
       ngrStage.background('img/ams3.png',8)
@@ -79,6 +84,7 @@ angular.module("Stones", ['Rectangular', 'ngAudio'])
     }
 
     this.startLevel = function () {
+      if (!currentLevel) return;
       var level = {};
       ngrInterface.setGrabOnly("nothing");
       level.starters = ngrEnvironment.getBodiesByUserData('worldStarter', true);

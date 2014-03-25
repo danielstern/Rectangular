@@ -3,7 +3,7 @@ angular.module('Rectangular')
 
     this.getJSON = function() {
       var r = {};
-      r.properties = _.clone(state);
+      r.properties = _.clone(ngrState.getState());
       r.properties.canvas = null;
       r.properties.world = null;
       r.elements = ngrState.getElements();
