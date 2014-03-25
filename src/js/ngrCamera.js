@@ -41,7 +41,8 @@ angular.module("Rectangular")
    
       var i = 0;
 
-      next();
+      ngrLoop.wait(directions.prologue || 1)
+      .then(next);
 
       function next() {
         if (i <= directions.shots.length) {

@@ -104,6 +104,7 @@ angular.module("Stones", ['Rectangular', 'ngAudio'])
             duration: 300
           }, ],
           zoomAll: 1.5,
+          prologue: 300
         });
 
       }
