@@ -1,187 +1,212 @@
 angular.module("Rectangular")
-.service('ngrCamera',function(ngrLoop, ngrState){
-  var zoom = 1,
-  focus = {
-    x: 0,
-    y: 0
-  },
-  focusTo = {
-    x: 0,
-    y: 0
-  },
-  zoomTo = 0.15,
-  focusConstraint = undefined,
-  followHook = undefined,
-  c = this,
-  zoomConstraint;
+  .service('ngrCamera', function (ngrLoop, ngrState, $q) {
+    var zoom = 1,
+      focus = {
+        x: 0,
+        y: 0
+      },
+      focusTo = {
+        x: 0,
+        y: 0
+      },
+      zoomTo = 0.15,
+      focusConstraint = undefined,
+      followHook = undefined,
+      c = this,
+      zoomConstraint;
 
-  this.getZoom = function() {
-    return zoom;
-  }
+    this.getZoom = function () {
+      return zoom;
+    }
 
-  this.getFocus = function() {
-    return focus;
-  }
+    this.getFocus = function () {
+      return focus;
+    }
 
+    this.follow = function (body) {
+      c.setFocus(body.GetWorldCenter(), false);
 
-  this.follow = function (body) {
-    c.setFocus(body.GetWorldCenter(), false);
+      if (followHook) ngrLoop.removeHook(followHook);
 
-    if (followHook) ngrLoop.removeHook(followHook);
-
-    followHook = ngrLoop.addHook(function () {
-      var pos = body.GetWorldCenter();
-      c.setFocus({
-        x: pos.x,
-        y: pos.y
+      followHook = ngrLoop.addHook(function () {
+        var pos = body.GetWorldCenter();
+        c.setFocus({
+          x: pos.x,
+          y: pos.y
+        });
       });
-    });
-  }
+    }
 
+    this.closeUp = function (directions) {
+   
+      var i = 0;
 
-  this.unfollow = function () {
-    
-    ngrLoop.removeHook(followHook);
-  }
+      next();
 
+      function next() {
+        if (i <= directions.shots.length) {
+          console.log("Closeup on...",i);
+          c.setZoom(directions.shots[i].zoom || directions.zoomAll || 1);
+          focusToBody(directions.shots[i].target, directions.shots[i].duration)
+          .then(function(){
+            i++;
+            if (i < directions.shots.length) next();
+          })
 
-  this.setFocusOffset = function (_off) {
-    focusOffset = _off;
-  }
+        }
+      }
 
+      function focusToBody(body, timeout) {
 
-  this.constrainFocus = function (focusBox) {
+        var r = $q.defer();
+        var pos = body.GetWorldCenter();
+        c.setFocus({
+          x: pos.x,
+          y: pos.y
+        });
 
-    //console.log("Constraining...",focusBox,focusConstraint);
-    focusConstraint = focusBox;
+        ngrLoop.wait(timeout)
+          .then(function () {
+            r.resolve();
+          })
 
-  }
+        return r.promise;
+      }
+    }
 
-  this.constrainZoom = function (zc) {
-    zoomConstraint = zc;
-  }
+    this.unfollow = function () {
 
+      ngrLoop.removeHook(followHook);
+    }
 
-  this.setZoom = function (_z, instant) {
+    this.setFocusOffset = function (_off) {
+      focusOffset = _off;
+    }
 
-    if (_z) zoomTo = _z;
+    this.constrainFocus = function (focusBox) {
 
-    if (_z && instant) zoom = _z;
-  }
+      //console.log("Constraining...",focusBox,focusConstraint);
+      focusConstraint = focusBox;
 
+    }
 
+    this.constrainZoom = function (zc) {
+      zoomConstraint = zc;
+    }
 
-  this.setFocus = function (_f, _inst) {
+    this.setZoom = function (_z, instant) {
 
-    //console.error("setting focus")
+      if (_z) zoomTo = _z;
 
-    focusTo = {
-      x: _f.x,
-      y: _f.y
+      if (_z && instant) zoom = _z;
+    }
+
+    this.setFocus = function (_f, _inst) {
+
+      //console.error("setting focus")
+
+      focusTo = {
+        x: _f.x,
+        y: _f.y
+      };
+
+      if (_inst) focus = {
+        x: _f.x,
+        y: _f.y
+      };
+
     };
 
-    if (_inst) focus = {
-      x: _f.x,
-      y: _f.y
-    };
-
-  };
-
-  this.getFocusConstraint = function () {
-    return focusConstraint;
-  }
-
-  this.getFocus = function () {
-    var focusReturn = {
-      x: focus.x,
-      y: focus.y,
-    };
-
-    return focusReturn;
-  }
-
-
-  ngrLoop.addPermanentHook(updateFocus);
-
-  function updateFocus() {
-    var state = ngrState.getState();
-    var canvas = state.canvas;
-    var scale = ngrState.getScale() * zoom;
-    var incX = Math.abs(focusTo.x - focus.x) * 0.05;
-    if (Math.abs(focusTo.x - focus.x) < incX * 2) {
-      focus.x = focusTo.x;
-    } else if (focusTo.x > focus.x) {
-      focus.x += incX;
-    } else {
-      focus.x -= incX;
+    this.getFocusConstraint = function () {
+      return focusConstraint;
     }
 
-    var incY = Math.abs(focusTo.y - focus.y) * 0.05;
+    this.getFocus = function () {
+      var focusReturn = {
+        x: focus.x,
+        y: focus.y,
+      };
 
-    if (Math.abs(focusTo.y - focus.y) < incY * 2) {
-
-      focus.y = focusTo.y;
-
-    } else if (focusTo.y > focus.y) {
-      focus.y += incY;
-    } else {
-      focus.y -= incY;
+      return focusReturn;
     }
 
+    ngrLoop.addPermanentHook(updateFocus);
 
-    if (focusConstraint) {
-
-
-      var focusConstraintPixelsX = focusConstraint.x * scale;
-      var focusConstraintWidthPixels = focusConstraint.width * scale;
-
-      var focusConstraintPixelsY = focusConstraint.y * scale;
-      var focusConstraintHeightPixels = focusConstraint.height * scale;
-
-      var canvasHeight = canvas.height();
-      var canvasWidth = canvas.width();
-
-      var focusYPixels = focus.y * scale;
-      var focusXPixels = focus.x * scale;
-
-      //console.log("Canvas?",canvasHeight,canvasWidth,focusConstraintPixelsX,focusConstraintWidthPixels);
-
-
-      // we're not allowed to see anything left of the constraint box
-      if (focusXPixels  < focusConstraintPixelsX + canvasWidth/2) {
-        focus.x = (focusConstraintPixelsX + canvasWidth/2) / scale;
+    function updateFocus() {
+      var state = ngrState.getState();
+      var canvas = state.canvas;
+      var scale = ngrState.getScale() * zoom;
+      var incX = Math.abs(focusTo.x - focus.x) * 0.05;
+      if (Math.abs(focusTo.x - focus.x) < incX * 2) {
+        focus.x = focusTo.x;
+      } else if (focusTo.x > focus.x) {
+        focus.x += incX;
+      } else {
+        focus.x -= incX;
       }
 
-      // we're not allowed to see anything right of the constraint box
-      if (focusXPixels  > focusConstraintPixelsX + focusConstraintWidthPixels - canvasWidth/2) {
-        focus.x = (focusConstraintPixelsX + focusConstraintWidthPixels - canvasWidth/2) / scale;
+      var incY = Math.abs(focusTo.y - focus.y) * 0.05;
+
+      if (Math.abs(focusTo.y - focus.y) < incY * 2) {
+
+        focus.y = focusTo.y;
+
+      } else if (focusTo.y > focus.y) {
+        focus.y += incY;
+      } else {
+        focus.y -= incY;
       }
 
-      // we're not allowed to see anything above of the constraint box
-      if (focusYPixels  < focusConstraintPixelsY + canvasHeight/2) {
-        focus.y = (focusConstraintPixelsY + canvasHeight/2) / scale;
+      if (focusConstraint) {
+
+        var focusConstraintPixelsX = focusConstraint.x * scale;
+        var focusConstraintWidthPixels = focusConstraint.width * scale;
+
+        var focusConstraintPixelsY = focusConstraint.y * scale;
+        var focusConstraintHeightPixels = focusConstraint.height * scale;
+
+        var canvasHeight = canvas.height();
+        var canvasWidth = canvas.width();
+
+        var focusYPixels = focus.y * scale;
+        var focusXPixels = focus.x * scale;
+
+        //console.log("Canvas?",canvasHeight,canvasWidth,focusConstraintPixelsX,focusConstraintWidthPixels);
+
+        // we're not allowed to see anything left of the constraint box
+        if (focusXPixels < focusConstraintPixelsX + canvasWidth / 2) {
+          focus.x = (focusConstraintPixelsX + canvasWidth / 2) / scale;
+        }
+
+        // we're not allowed to see anything right of the constraint box
+        if (focusXPixels > focusConstraintPixelsX + focusConstraintWidthPixels - canvasWidth / 2) {
+          focus.x = (focusConstraintPixelsX + focusConstraintWidthPixels - canvasWidth / 2) / scale;
+        }
+
+        // we're not allowed to see anything above of the constraint box
+        if (focusYPixels < focusConstraintPixelsY + canvasHeight / 2) {
+          focus.y = (focusConstraintPixelsY + canvasHeight / 2) / scale;
+        }
+
+        // we're not allowed to see anything below the constraint box
+        if (focusYPixels > focusConstraintPixelsY + focusConstraintHeightPixels - canvasHeight / 2) {
+          focus.y = (focusConstraintPixelsY + focusConstraintHeightPixels - canvasHeight / 2) / scale;
+        }
+
       }
 
-      // we're not allowed to see anything below the constraint box
-      if (focusYPixels  > focusConstraintPixelsY + focusConstraintHeightPixels - canvasHeight/2) {
-        focus.y = (focusConstraintPixelsY + focusConstraintHeightPixels - canvasHeight/2) / scale;
+      var incZ = Math.abs(zoomTo - zoom) * 0.05;
+      if (zoomTo > zoom) {
+        zoom += incZ;
+      } else {
+        zoom -= incZ;
+      }
+
+      if (zoomConstraint) {
+        if (zoom < zoomConstraint.min) zoom = zoomConstraint.min;
+        if (zoom > zoomConstraint.max) zoom = zoomConstraint.max;
       }
 
     }
 
-
-    var incZ = Math.abs(zoomTo - zoom) * 0.05;
-    if (zoomTo > zoom) {
-      zoom += incZ;
-    } else {
-      zoom -= incZ;
-    }
-
-    if (zoomConstraint) {
-      if (zoom < zoomConstraint.min) zoom = zoomConstraint.min;
-      if (zoom > zoomConstraint.max) zoom = zoomConstraint.max;
-    }
-
-  }
-
-})
+  })
