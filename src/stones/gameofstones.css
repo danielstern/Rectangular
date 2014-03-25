@@ -8,6 +8,6 @@ html {
 }
 
 canvas {
-	border: 3px solid #000;
+	outline: 3px solid #000;
 	cursor: pointer;
 }

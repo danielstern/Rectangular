@@ -34,7 +34,7 @@ clickput input {
 
 .blocker {
 	width: 750px;
-	height: 500px;
+	height: 500;
 	background-color: transparent;
 	overflow:hidden;
 	position: absolute;
@@ -44,6 +44,20 @@ clickput input {
 	z-index: 2;
 }
 
+.blocker-inner.block {
+
+	margin-left: -300px;
+	transition: all 0.5s;
+	
+}
+
+.blocker-inner.slide-out {
+
+	margin-left: 1250px;
+	transition: all 0.5s;
+	
+}
+
 .main {
 	position: relative;
 	margin: 20px;
@@ -51,18 +65,13 @@ clickput input {
 
 .blocker-inner {
 	width: 1250px;
-	height: 500px;
+	height: 600px;
 	margin-left: -1250px;
 	background: linear-gradient(to right, rgba(0,0,0,0) 0%,rgba(0,0,0,0.8) 15%,rgba(0,0,0,1) 19%,rgba(0,0,0,1) 20%,rgba(0,0,0,1) 50%,rgba(0,0,0,1) 80%,rgba(0,0,0,1) 81%,rgba(0,0,0,0.8) 85%,rgba(0,0,0,0) 100%); /* W3C */
 	transition: all 0s;
 }
 
-.blocker-inner.slide {
 
-	margin-left: 1250px;
-	transition: all 2s;
-	
-}
 
 .invisible {
 	display: none !important;

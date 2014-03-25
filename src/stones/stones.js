@@ -12,7 +12,6 @@ angular.module("Stones", ['Rectangular', 'ngAudio'])
     var StartLevelListeners = [];
     var gos = this;
     var level = {};
-    
 
     var intro = false;
 
@@ -36,18 +35,16 @@ angular.module("Stones", ['Rectangular', 'ngAudio'])
     var currentLevel;
 
     this.loadLevel = function (lvl) {
-      ngrGame.blocker()
-        .then(function () {
-          ngrEnvironment.clearAll();
-          ngrEnvironment.load(stonesLevels.getLevel(lvl))
-          currentLevel = lvl;
-        })
-        .then(function () {
-          return ngrLoop.wait(10)
-        })
-        .then(function () {
-          gos.startFormation()
-        });
+
+      ngrEnvironment.clearAll();
+      ngrEnvironment.load(stonesLevels.getLevel(lvl))
+      currentLevel = lvl;
+
+      ngrLoop.wait(10)
+
+      .then(function () {
+        gos.startFormation()
+      });
     }
 
     this.startFormation = function () {
@@ -162,8 +159,8 @@ angular.module("Stones", ['Rectangular', 'ngAudio'])
           var pos = prize.GetPosition();
           if (pos.y - prizeStartingY > 5) {
             ngrLoop.removeHook(h);
-              gos.endLevel(true);
-            
+            gos.endLevel(true);
+
           }
         })
       })
@@ -176,12 +173,11 @@ angular.module("Stones", ['Rectangular', 'ngAudio'])
     this.endLevel = function (success) {
       if (success) {
         ngrCamera.closeUp({
-          shots:[{
+          shots: [{
             target: level.prizes[0],
             zoom: 0.6,
             duration: 150
-          }
-          ]
+          }]
         })
           .then(function () {
             ngrGame.blocker()
@@ -199,7 +195,7 @@ angular.module("Stones", ['Rectangular', 'ngAudio'])
       ngrEnvironment.add(null, params);
     }
 
-    this.nextLevel = function() {
+    this.nextLevel = function () {
       currentLevel++;
       ngrEnvironment.start();
       gos.loadLevel(currentLevel);

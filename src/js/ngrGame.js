@@ -1,73 +1,77 @@
 angular.module("Rectangular")
-.service('ngrGame',function(ngrWorld,ngrLoop,ngrDefaults, $q){
+  .service('ngrGame', function (ngrWorld, ngrLoop, ngrDefaults, $q) {
 
-  var w = ngrWorld;
-  var g = this;
-  var canvas = $('canvas')[0];
-  var p = $(canvas).parent();
+    var w = ngrWorld;
+    var g = this;
+    var canvas = $('canvas')[0];
+    var p = $(canvas).parent();
 
+    this.explode = function (thing) {
 
-  this.explode = function (thing) {
-    
-    if (thing.crumbled) return;
-    var posX = thing.GetPosition().x;
-    var posY = thing.GetPosition().y;
-    var pos = thing.GetPosition();
-    var force = thing.options.explosiveness || 100000;
-    thing.crumble();
+      if (thing.crumbled) return;
+      var posX = thing.GetPosition().x;
+      var posY = thing.GetPosition().y;
+      var pos = thing.GetPosition();
+      var force = thing.options.explosiveness || 100000;
+      thing.crumble();
 
+      var numRays = 30;
+      while (numRays) {
 
+        var angle = (i / numRays) * Math.PI * 2;
+        var rayDir = new b2Vec2(Math.sin(angle) * force, Math.cos(angle) * force);
 
+        var b = w.addElement(ngrDefaults.bullet);
 
-    var numRays = 30;
-    while (numRays) {
+        b.SetPosition(pos);
 
-      var angle = (i / numRays) * Math.PI * 2;
-      var rayDir = new b2Vec2(Math.sin(angle) * force, Math.cos(angle) * force);
+        b.ApplyForce(rayDir, b.GetWorldCenter());
 
-      var b = w.addElement(ngrDefaults.bullet);
+        numRays--;
+      }
 
-      b.SetPosition(pos);
-
-      b.ApplyForce(rayDir, b.GetWorldCenter());
-
-      numRays--;
     }
 
-  }
+    if (!$('.blocker')[0]) {
+      p.append('<div class="blocker"></div>');
+      $('.blocker').append('<div class="blocker-inner"></div>');
+    }
 
+    var blockerRunning = false;
+    var r;
 
-  if (!$('.blocker')[0]) {
-    p.append('<div class="blocker"></div>');
-    $('.blocker').append('<div class="blocker-inner"></div>');
-  }
+    this.blocker = function () {
 
-  var blockerRunning = false;
-  var r;
+      if (blockerRunning) return r.promise;
 
-  this.blocker = function() {
+      $('.blocker-inner').removeClass('block slide-out');
 
-    if (blockerRunning) return r.promise;
+      r = $q.defer();
+      $('.blocker-inner').addClass('block');
+      blockerRunning = true;
 
-    r = $q.defer();
-    $('.blocker-inner').addClass('slide');
-    blockerRunning = true;
+      setTimeout(function () {
+        r.resolve();
 
-    setTimeout(function() {
-      r.resolve();
-      blockerRunning = false;
-    }, 500);
+        blockerRunning = false;
+        setTimeout(function () {
+          $('.blocker-inner').addClass('slide-out');
+         
+          setTimeout(function () {
+            $('.blocker-inner').removeClass('slide-out');
+            $('.blocker-inner').removeClass('block');
+          }, 250);
 
-    setTimeout(function() {
-      $('.blocker-inner').removeClass('slide');
-    }, 1000);
+        }, 1000)
 
-    return r.promise;
+      }, 500);
 
-  }
+      return r.promise;
 
-  this.turnToCannonball = function(thing, volatility) {
-    thing.onimpact(volatility || 1, g.explode);
-  }
+    }
 
-})
+    this.turnToCannonball = function (thing, volatility) {
+      thing.onimpact(volatility || 1, g.explode);
+    }
+
+  })
