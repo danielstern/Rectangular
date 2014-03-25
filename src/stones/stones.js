@@ -10,6 +10,9 @@ angular.module("Stones", ['Rectangular', 'ngAudio'])
   .service("GameOfStones", function (ngrEnvironment, ngrCamera, ngrState, ngrWorld, ngrLoop, ngrStage, ngrGame, StonesModels, ngrLoop, ngrInterface, stonesLevels) {
 
     var StartLevelListeners = [];
+    var StartFormationListeners = [];
+    var initGameListeners = [];
+    var prizeFallListeners = [];
     var gos = this;
     var level = {};
 
@@ -32,7 +35,7 @@ angular.module("Stones", ['Rectangular', 'ngAudio'])
       }
     });
 
-    var currentLevel;
+    var currentLevelNumber;
 
     this.loadLevel = function (lvl) {
 
@@ -53,13 +56,27 @@ angular.module("Stones", ['Rectangular', 'ngAudio'])
       ngrCamera.setZoom(0.2, true);
       ngrInterface.enableDrag();
 
-      ngrEnvironment.start();
-
+      level.starters = ngrEnvironment.getBodiesByUserData('worldStarter', true);
+      level.base = ngrEnvironment.getBodiesByUserData('base', true);
       level.prizes = ngrEnvironment.getBodiesByUserData('prize', true);
       level.doodads = ngrEnvironment.getBodiesByUserData('doodad', true);
       level.destructibles = ngrEnvironment.getBodiesByUserData('destructible', true);
       level.explosives = ngrEnvironment.getBodiesByUserData('explosive', true);
       level.stones = ngrEnvironment.getBodiesByUserData('stone', true);
+
+      _.each(level.doodads, function (doodad) {
+        var h = ngrLoop.addHook(function () {
+         if (doodad.GetPosition().y > 150) {
+
+            doodad.SetPosition(new b2Vec2(10,8));
+            doodad.SetLinearVelocity(new b2Vec2(0,0));
+          }
+        })
+      });
+
+      _.call(StartFormationListeners, level)
+
+      ngrEnvironment.start();
 
       _.invoke(ngrEnvironment.getBodiesByUserData('prize', true), "freeze");
 
@@ -115,17 +132,22 @@ angular.module("Stones", ['Rectangular', 'ngAudio'])
       StartLevelListeners.push(func);
     }
 
+    this.onstartformation = function (func) {
+      StartFormationListeners.push(func);
+    }
+
+    this.oninitgame = function (func) {
+      initGameListeners.push(func);
+    }
+
+    this.onprizefall = function (func) {
+      prizeFallListeners.push(func);
+    }
+
     this.startLevel = function () {
       if (!currentLevel) return;
 
       ngrInterface.setGrabOnly("nothing");
-      level.starters = ngrEnvironment.getBodiesByUserData('worldStarter', true);
-      level.base = ngrEnvironment.getBodiesByUserData('base', true);
-      level.prizes = ngrEnvironment.getBodiesByUserData('prize', true);
-      level.doodads = ngrEnvironment.getBodiesByUserData('doodad', true);
-      level.destructibles = ngrEnvironment.getBodiesByUserData('destructible', true);
-      level.explosives = ngrEnvironment.getBodiesByUserData('explosive', true);
-      level.stones = ngrEnvironment.getBodiesByUserData('stone', true);
 
       _.invoke(level.base, "unfreeze");
       _.invoke(level.doodads, "freeze");
@@ -161,6 +183,8 @@ angular.module("Stones", ['Rectangular', 'ngAudio'])
             ngrLoop.removeHook(h);
             gos.endLevel(true);
 
+            _.call(prizeFallListeners);
+
           }
         })
       })
@@ -186,7 +210,12 @@ angular.module("Stones", ['Rectangular', 'ngAudio'])
                 gos.nextLevel();
               })
           });
-      };
+      } else {
+        ngrGame.blocker()
+          .then(function () {
+            gos.loadLevel(currentLevel);
+          })
+      }
     }
 
     this.add = function (type) {
@@ -201,26 +230,37 @@ angular.module("Stones", ['Rectangular', 'ngAudio'])
       gos.loadLevel(currentLevel);
     }
 
+    ngrLoop.wait(1)
+      .then(function () {
+        _.call(initGameListeners, level)
+
+      })
+
   })
 
 .service('stonesAudio', function (GameOfStones, ngAudio) {
 
-  GameOfStones.onstartlevel(function (level) {
+  GameOfStones.oninitgame(function () {
+    //ngAudio.play('audio/b5.mp3');
+  })
+
+  GameOfStones.onprizefall(function () {
+    ngAudio.play('audio/comical-sounds-crash-with-brass-fall-01.mp3');
+  })
+
+  GameOfStones.onstartlevel(function () {
+    ngAudio.play('audio/gun-gunshot-01.mp3');
+  })
+  GameOfStones.onstartformation(function (level) {
+
+    ngAudio.play('audio/page-flip-11.mp3');
+
     _.invoke(level.destructibles, 'oncrumble', function () {
       ngAudio.play('audio/explosion1.mp3');
     })
 
     _.invoke(level.explosives, 'oncrumble', function () {
       ngAudio.play('audio/explosion1.mp3');
-    })
-
-    _.each(level.stones, function (stone) {
-
-      stone.onimpact(function (body, other, force) {
-        if (force < 10) {
-
-        }
-      })
     })
 
     _.each(level.base, function (comp) {
