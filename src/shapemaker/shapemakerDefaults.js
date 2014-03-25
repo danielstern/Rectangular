@@ -268,6 +268,20 @@ angular.module('shapemaker')
           density: 0.2
         }
       },
+      {
+        name: 'Concrete Platform S',
+        shape: 'box',
+        skin: {
+          src: 'img/castleCenter.png',
+        },
+
+        presets: {
+          height: 4,
+          width: 0.25,
+          restitution: 0.2,
+          density: 0.2
+        }
+      },
 
       {
         name: 'Concrete Platform M',
