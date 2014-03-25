@@ -74,11 +74,14 @@ angular.module('Rectangular')
           //body.crumble();
    //       c.container.y = -100;
    //    body.container.parent.removeChild(body.container);
-          var tagOptions = _.clone(body.options);
+          var tagOptions = {};
+  
           tagOptions.src = img;
+          tagOptions.bg = 'static';
           var c = s.addSprite(body,tagOptions);
           c.actor.noRotate();
-          c.container.regY = 50;
+          c.container.regY = 60;
+          c.container.regX = body.options.spriteWidth;
         // console.log("Cont?",c);
          //ngrLoop.addHook(function(){
          // c.container.rotatation = body.GetAngle() * 180;

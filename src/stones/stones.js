@@ -72,7 +72,7 @@ angular.module("Stones", ['Rectangular', 'ngAudio'])
       var newGame = ngrWorld.getBodyByUserData("newGame","true");
       console.log("newgame?",newGame);
     //  newGame.crumble();
-      ngrStage.tag(newGame,"img/box.png");
+      ngrStage.tag(newGame,"img/newgame-tag.png");
 
       
     }
