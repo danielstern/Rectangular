@@ -53,21 +53,26 @@ angular.module("Stones", ['Rectangular', 'ngAudio'])
     this.mainMenu = function () {
 
       ngrEnvironment.load(stonesLevels.mainMenu);
-      ngrCamera.setZoom(2.3);
-      ngrCamera.constrainFocus({
+      ngrCamera.setZoom(0.6);
+    /*  ngrCamera.constrainFocus({
         x:0,
         y:0,
         width: 15,
         height: 8
-      })
+      })*/
       ngrInterface.enableDrag();
       ngrInterface.setGrabOnly();
 
-      
-      ngrStage.background('img/ams1.png', 10)
-      ngrStage.background('img/ams2.png', 9)
-      ngrStage.background('img/ams3.png', 8)
-      ngrStage.background('img/ams4.png', 8)
+
+      ngrStage.background('img/ams1.png', 10);
+      ngrStage.background('img/ams2.png', 9);
+      ngrStage.background('img/ams3.png', 8);
+      ngrStage.background('img/ams4.png', 8);
+
+      var newGame = ngrWorld.getBodyByUserData("newGame","true");
+      console.log("newgame?",newGame);
+    //  newGame.crumble();
+      ngrStage.tag(newGame,"img/box.png");
 
       
     }

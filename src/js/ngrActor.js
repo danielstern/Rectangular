@@ -11,12 +11,17 @@ angular.module('Rectangular')
     var originalZoom = ngrCamera.getZoom();
     var originalObjectScale = this.skin.scaleX;
     var originalScale = ngrState.getScale() * ngrCamera.getZoom();
+    var rotate = true;
 
     this.GetPosition = function() {
       return body.GetPosition();
     }
+
+    this.noRotate = function() {
+      rotate = false;
+    }
     this.update = function() { // translate box2d positions to pixels
-      this.skin.rotation = this.body.GetAngle() * (180 / Math.PI);
+      if (rotate) this.skin.rotation = this.body.GetAngle() * (180 / Math.PI);
       var scale = ngrState.getScale() * ngrCamera.getZoom();
       this.skin.x = this.body.GetWorldCenter().x * scale;
       this.skin.y = this.body.GetWorldCenter().y * scale;

@@ -60,12 +60,34 @@ angular.module('Rectangular')
       s.addChild(sprite.container);
       actors.push(sprite.actor);
 
+      return sprite;
+
     }
 
     this.setFocusPoint = function(vec) {
       focusPoint = vec;
 
     };
+
+    this.tag = function(body,img) {
+      setTimeout(function(){
+          //body.crumble();
+   //       c.container.y = -100;
+   //    body.container.parent.removeChild(body.container);
+          var tagOptions = _.clone(body.options);
+          tagOptions.src = img;
+          var c = s.addSprite(body,tagOptions);
+          c.actor.noRotate();
+          c.container.regY = 50;
+        // console.log("Cont?",c);
+         //ngrLoop.addHook(function(){
+         // c.container.rotatation = body.GetAngle() * 180;
+        // })
+
+      },5)
+      
+
+    }
 
     this.follow = function(_target) {
       target = _target;
