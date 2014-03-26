@@ -93,7 +93,7 @@ angular.module("Stones", ['Rectangular', 'ngAudio'])
     }
 
     gos.mainMenu();
-   // ngrStage.overlay('img/intro.png');
+    ngrGame.screen('img/intro.png');
 
     this.startFormation = function () {
       ngrInterface.setGrabOnly("doodad");

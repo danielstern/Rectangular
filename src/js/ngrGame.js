@@ -1,5 +1,5 @@
 angular.module("Rectangular")
-  .service('ngrGame', function (ngrWorld, ngrLoop, ngrDefaults, $q) {
+  .service('ngrGame', function (ngrWorld, ngrStage, ngrInterface, ngrLoop, ngrDefaults, $q) {
 
     var w = ngrWorld;
     var g = this;
@@ -39,6 +39,13 @@ angular.module("Rectangular")
 
     var blockerRunning = false;
     var r;
+
+    this.screen = function(src) {
+      var c = ngrStage.overlay(src);
+      ngrInterface.onescape(function(){
+        ngrStage.removeChild(c);
+      })
+    }
 
     this.blocker = function () {
 

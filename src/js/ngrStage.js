@@ -1,5 +1,5 @@
 angular.module('Rectangular')
-  .service('ngrStage', function(ngrLoop, ngrInterface, ngrWorld,ngrState, ngrSkin, $q, ngrDebug, ngrCamera) {
+  .service('ngrStage', function(ngrLoop, ngrWorld,ngrState, ngrSkin, $q, ngrDebug, ngrCamera) {
 
     var canvas = $('canvas')[0];
     var parallaxCenter;
@@ -57,6 +57,7 @@ angular.module('Rectangular')
     this.overlay = function(src) {
       var sprite = ngrSkin.coverCanvas(src);
       coverContainer.addChild(sprite.container);
+      return sprite.container;
     }
 
     this.addChild = function(container) {

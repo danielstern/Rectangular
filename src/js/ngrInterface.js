@@ -11,12 +11,34 @@ angular.module('Rectangular')
     scrollZooming = false,
     onmoveListeners = [],
     ongrabListeners = [],
+    onEscapeListeners = [],
     grabOnly = false,
     panStartPoint = {},
     panning = false,
     grabbedBody = null;
 
-  $(document).mouseup(ungrab)
+  $(document).mouseup(ungrab);
+
+  setTimeout(function(){
+    targeter = new MouseTargeter($('canvas')[0], ngrState.getScale());
+
+    targeter.onclick(function(){
+      _.call(onEscapeListeners);
+    })
+  },10)
+
+  this.onescape = function (l) {
+    onEscapeListeners.push(l);
+
+
+    
+  }
+
+  Mousetrap.bind(['space', 'enter', 'escape'], function () {
+    console.log("escaping");
+    _.call(onEscapeListeners);
+  })
+ // var targeter = new MouseTargeter($('canvas')[0], ngrState.getScale());
 
   $('canvas')[0].addEventListener("mousewheel", MouseWheelHandler, false);
 
