@@ -1,11 +1,12 @@
 angular.module('Rectangular')
-  .service('ngrStage', function(ngrLoop, ngrState, ngrSkin, $q, ngrDebug, ngrCamera) {
+  .service('ngrStage', function(ngrLoop, ngrInterface, ngrWorld,ngrState, ngrSkin, $q, ngrDebug, ngrCamera) {
 
     var canvas = $('canvas')[0];
     var parallaxCenter;
     var stage = new Stage(canvas);
     var c = new createjs.Container();
     var bgContainer = new createjs.Container();
+    var coverContainer = new createjs.Container();
     var ctx = $(canvas).get(0).getContext('2d');
     var ctxCurrentTranslation = {
       x: 0,
@@ -26,6 +27,13 @@ angular.module('Rectangular')
 
     this.debug = ngrDebug.toggleDebug;
 
+    ngrWorld.oncreatebody(function(body){
+      if (!body.options.hidden) s.addSprite(body,body.options);
+      body.oncrumble(function(){
+        s.removeChild(body.container);
+      })
+    })
+
 
 
     this.background = function(body, options) {
@@ -44,6 +52,11 @@ angular.module('Rectangular')
       } else {
         c.alpha = 0;
       }
+    }
+
+    this.overlay = function(src) {
+      var sprite = ngrSkin.coverCanvas(src);
+      coverContainer.addChild(sprite.container);
     }
 
     this.addChild = function(container) {
@@ -131,6 +144,7 @@ angular.module('Rectangular')
       c.removeAllChildren();
       stage.addChild(bgContainer);
       stage.addChild(c);
+      stage.addChild(coverContainer);
 
       ctx.translate(-ctxCurrentTranslation.x, -ctxCurrentTranslation.y);
       ctxCurrentTranslation = {

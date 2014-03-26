@@ -1,7 +1,7 @@
 angular.module('Rectangular')
 /* Creates an instance of the world of the simulation, 
    and provides an interface for it. */
-.service("ngrWorld", function (ngrBox, ngrModels, ngrState, ngrDefaults, ngrBody, ngrStage, ngrLoop) {
+.service("ngrWorld", function (ngrBox, ngrModels, ngrState, ngrDefaults, ngrBody, ngrLoop) {
 
   var world,
     bodies = [],
@@ -9,6 +9,7 @@ angular.module('Rectangular')
     pins = [],
     followHook,
     hooks = [],
+    onCreateBodyListeners = [],
     memoryPairs = [];
 
   var worldLoop = undefined;
@@ -46,6 +47,10 @@ angular.module('Rectangular')
       if (pos.y > 500) w.removeElement(body);
 
     });
+  }
+
+  this.oncreatebody = function(l) {
+    onCreateBodyListeners.push(l);
   }
 
   this.getBodyByAttribute = function (key, val) {
@@ -103,7 +108,7 @@ angular.module('Rectangular')
     if (options.memo) {
       var prev = w.getBodyByAttribute('memo', options.memo);
       if (prev) w.removeElement(prev);
-      if (prev) ngrStage.removeChild(prev.container);
+ //     if (prev) ngrStage.removeChild(prev.container);
     }
 
     b.id = id;
@@ -124,7 +129,8 @@ angular.module('Rectangular')
 
     bodies.push(b);
 
-    if (!options.hidden) ngrStage.addSprite(b, options);
+   // if (!options.hidden) ngrStage.addSprite(b, options);
+    _.call(onCreateBodyListeners,b);
 
     return b;
   };
@@ -190,7 +196,7 @@ angular.module('Rectangular')
 
     memoryPairs = _.compact(memoryPairs);
 
-    ngrStage.removeChild(body.container);
+//    ngrStage.removeChild(body.container);
   }
 
   this.clearAll = function () {

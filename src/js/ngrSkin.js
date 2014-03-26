@@ -263,6 +263,32 @@ angular.module('Rectangular')
       }
     }
 
+    this.coverCanvas = function (src, parallax) {
+
+      var sprite = {
+        container: new createjs.Container(),
+        parallax: parallax
+      };
+      loadBitmap(src)
+        .then(initImg);
+
+      return sprite;
+
+      function initImg(bgData) {
+
+        var env = ngrState.getState();
+        var scaleX = env.canvas.width() / bgData.image.width  // ngrState.getScale();
+        //console.log("ScaleX?",scaleX);
+        bgData.scaleX = scaleX;
+        bgData.scaleY = scaleX;
+
+
+        sprite.container.addChild(bgData);
+
+      }
+    }
+
+
     function loadBitmap(src) {
       var r = $q.defer();
       var imgData = new createjs.Bitmap(src);

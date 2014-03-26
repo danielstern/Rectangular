@@ -93,6 +93,7 @@ angular.module("Stones", ['Rectangular', 'ngAudio'])
     }
 
     gos.mainMenu();
+   // ngrStage.overlay('img/intro.png');
 
     this.startFormation = function () {
       ngrInterface.setGrabOnly("doodad");
@@ -145,10 +146,10 @@ angular.module("Stones", ['Rectangular', 'ngAudio'])
 
       if (!intro.prize) {
         console.log("skinning prize");
-        ngrStage.tag(level.prizes[0], 'img/prize.png');
+     //   ngrStage.tag(level.prizes[0], 'img/prize.png');
       //  intro.prize = true;
       }
-
+/*
       if (intro) {
 
         ngrCamera.closeUp({
@@ -170,8 +171,8 @@ angular.module("Stones", ['Rectangular', 'ngAudio'])
 
       }
 
+*/
     }
-
     this.onstartlevel = function (func) {
       StartLevelListeners.push(func);
     }
