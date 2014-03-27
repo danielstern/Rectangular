@@ -65,8 +65,13 @@
             <canvas ng-stage id='gameCanvas' width='750' height='500'></canvas>
         </div>
 
+        <div class='gameControls'>
+            <button ng-hide="gameState.levelRunning" ng-click='startLevel()'>LET 'ER ROLL</button>
+            <button ng-hide="!gameState.levelRunning" ng-click='restartLevel()'>RESTART</button>
+         <span> {{gameState.currentLevel}} <span>
+        </div>
+
         <div class='debug'>
-            <button ng-click='startLevel()'>START</button>
             <button ng-repeat="level in levels" ng-click="loadLevel($index + 1)">LVL {{$index + 1}}</button>
             <button ng-repeat="model in models" ng-click="add(model.name)">{{model.name}}</button>
         </div>

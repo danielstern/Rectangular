@@ -60,7 +60,7 @@ clickput input {
 
 .main {
 	position: relative;
-	margin: 20px;
+	/* margin: 20px; */
 }
 
 .blocker-inner {

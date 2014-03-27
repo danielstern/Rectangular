@@ -6,6 +6,12 @@ angular.module("Stones", ['Rectangular', 'ngAudio'])
     $scope.endLevel = GameOfStones.endLevel;
     $scope.levels = stonesLevels.getLevels();
     $scope.models = StonesModels;
+    $scope.gameState = GameOfStones.gameState;
+    $scope.restartLevel = GameOfStones.restartLevel;
+
+    $scope.$watchCollection(GameOfStones.gameState,function(){
+      console.log("State changed..");
+    })
   })
   .service("GameOfStones", function (ngrEnvironment, ngrCamera, ngrState, ngrWorld, ngrLoop, ngrStage, ngrGame, StonesModels, ngrLoop, ngrInterface, stonesLevels) {
 
@@ -14,6 +20,7 @@ angular.module("Stones", ['Rectangular', 'ngAudio'])
     var initGameListeners = [];
     var prizeFallListeners = [];
     var gos = this;
+    this.gameState = {};
     var level = {};
 
     var intro = {
@@ -41,13 +48,16 @@ angular.module("Stones", ['Rectangular', 'ngAudio'])
       }
     });
 
-    var currentLevelNumber;
+    var currentLevel;
+
+   // var currentLevelNumber;
 
     this.loadLevel = function (lvl) {
 
       ngrEnvironment.clearAll();
       ngrEnvironment.load(stonesLevels.getLevel(lvl))
       currentLevel = lvl;
+     this.gameState.currentLevel = currentLevel;
 
       ngrLoop.wait(10)
 
@@ -55,6 +65,8 @@ angular.module("Stones", ['Rectangular', 'ngAudio'])
         gos.startFormation()
       });
     }
+
+    $('.gameControls').hide();
 
     this.mainMenu = function () {
 
@@ -65,6 +77,11 @@ angular.module("Stones", ['Rectangular', 'ngAudio'])
         y: 0,
         width: 13,
         height: 9
+      })
+
+      ngrCamera.setFocus({
+        x:0,
+        y:0
       })
       ngrInterface.enableDrag();
       ngrInterface.setGrabOnly();
@@ -95,7 +112,19 @@ angular.module("Stones", ['Rectangular', 'ngAudio'])
     gos.mainMenu();
     ngrGame.screen('img/intro.png');
 
+    this.win = function(){
+      ngrGame.screen('img/win.png');
+      currentLevel = 0;
+      this.nextLevel();
+    }
+
+    this.restartLevel = function() {
+      this.endLevel(false);
+    }
+
     this.startFormation = function () {
+      $('.gameControls').show();
+      gos.gameState.levelRunning = false;
       ngrInterface.setGrabOnly("doodad");
       ngrInterface.scrollToZoom(true);
       ngrCamera.setZoom(0.2, true);
@@ -192,6 +221,8 @@ angular.module("Stones", ['Rectangular', 'ngAudio'])
     this.startLevel = function () {
       if (!currentLevel) return;
 
+      gos.gameState.levelRunning = true;
+
       ngrInterface.setGrabOnly("nothing");
 
       _.invoke(level.base, "unfreeze");
@@ -271,8 +302,13 @@ angular.module("Stones", ['Rectangular', 'ngAudio'])
 
     this.nextLevel = function () {
       currentLevel++;
+//      gameState.currentLevel = currentLevel;
       ngrEnvironment.start();
-      gos.loadLevel(currentLevel);
+      if (!stonesLevels.getLevel(currentLevel)) {
+        this.win();
+      } else {
+        gos.loadLevel(currentLevel);
+      }
     }
 
     ngrLoop.wait(1)
@@ -286,7 +322,7 @@ angular.module("Stones", ['Rectangular', 'ngAudio'])
 .service('stonesAudio', function (GameOfStones, ngAudio) {
 
   GameOfStones.oninitgame(function () {
-    //ngAudio.play('audio/b5.mp3');
+    ngAudio.play('audio/b5.mp3');
   })
 
   GameOfStones.onprizefall(function () {
