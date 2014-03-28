@@ -1,72 +1,35 @@
 <doctype HTML>
 
-<html ng-app='demoApp' ng-controller='myDemoCtrl'>
-<head>
-    <title>Racing Car in Box2d</title>
-     
-    <script src="lib/angular.js"></script>
-    <script src="lib/jquery.js"></script>
-    <script src="lib/underscore.js"></script>
-    <script src="lib/Box2dWeb-2.1.a.3.js"></script>
-    <script src="js/Rectangular.js"></script>
-    <script src="js/ngrModel.js"></script>
-    <script src="js/ngrStage.js"></script>
-    <script src="js/ngrWorld.js"></script>
-    <script src="js/ngrDebug.js"></script>
-    
-    <script type="text/javascript" src="lib/easel.js"></script>
-    <script type="text/javascript" src="lib/create.js"></script>
+    <html ng-app='demoApp' ng-controller='myDemoCtrl'>
 
-    <script>
+    <head>
+        <title>Rectangular JS 0.2</title>
 
-    </script>
+        <script src="lib/angular.js"></script>
+        <script src="lib/jquery.js"></script>
+        <script src="lib/underscore.js"></script>
+        <script src="lib/Box2dWeb-2.1.a.3.js"></script>
+        <script src="js/Rectangular.js"></script>
+        <script src="js/ngrModel.js"></script>
+        <script src="js/ngrStage.js"></script>
+        <script src="js/ngrWorld.js"></script>
+        <script src="js/ngrDebug.js"></script>
 
-</head>
-<body >
- 
-<h2>RectAngular.js</h2>
+        <script type="text/javascript" src="lib/easel.js"></script>
+        <script type="text/javascript" src="lib/create.js"></script>
 
+        <script>
+        </script>
 
-<div class='main' >
- <h1> Rectangular.js </h1>
- <p> Angular.js + Box2D </p>
- <a href='ballagent.html'>DEMO 1 - BALL AGENT</a>
- <a href='shapemaker.html'>DEMO 2 - SHAPEMAKER</a>
- <a href='the-man-who.html'>DEMO 3 - THE MAN WHO DIDN'T GIVE A @$#*</a>
- <a href='a-game-of-stones.html'>DEMO 4 - A GAME OF STONES</a>
-</body>
- 
-</html>
+    </head>
+
+    <body>
+
+        <h2>RectAngular.js</h2>
 
 
-<!-- ZOR -->
-<script>
-angular.module("demoApp",['Rectangular'])
+        <div class='main'>
+            <a href='shapemaker.html'>DEMO 1 - SHAPEMAKER</a>
+    </body>
 
-.controller('myDemoCtrl',function($scope,$element, ngrEnvironment, $compile){
-
-    ngrEnvironment.init($('canvas')[0]);
-    ngrEnvironment.room({floor:true});
-    ngrEnvironment.debug($('#debugCanvas')[0])
-    
-
-    //ngrLoop.initWorld(ctx,world, 60);
-
-    $scope.createBox = function(){
-       var box = angular.element(document.createElement('ng-box'));
-       var el = $compile( box )( $scope );
-       angular.element(document.body).append(box);
-    }
-
-    $scope.createCircle = function(){
-        
-        var circle = angular.element(document.createElement('ng-circle'));
-        var el = $compile( circle )( $scope );
-        angular.element(document.body).append(circle);
-    }  
-
-});
-
-
-
-</script>
+    </html>
