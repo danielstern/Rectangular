@@ -1,5 +1,5 @@
  angular.module("shapemaker", ['ngAudio', 'Rectangular'])
-   .controller('myDemoCtrl', function ($scope, ngrGame, $element, ngrCamera, ngrData, ngrDefaults, ngrLoop, ngrWorld, ngrInterface, ngrEnvironment, ngrState, ngAudio, $compile) {
+   .controller('myDemoCtrl', function ($scope, ngrGame, $element, ngrData, ngrRoom, ngrCamera, ngrData, ngrDefaults, ngrLoop, ngrWorld, ngrInterface, ngrEnvironment, ngrState, ngAudio, $compile) {
 
      var contextMenu;
      var contextPin;
@@ -220,8 +220,12 @@
 
      $scope.load = function (_world) {
        ngrEnvironment.clearAll();
-       ngrEnvironment.load(_world);
+       ngrData.load(_world);
        $scope.contextBody = undefined;
+
+       ngrRoom.clearRoom();
+       ngrRoom.createRoom();
+
        $scope.context.room = _.clone(ngrState.getRoom());
      }
 

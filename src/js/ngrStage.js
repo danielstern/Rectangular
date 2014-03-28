@@ -117,9 +117,6 @@ angular.module('Rectangular')
         x: 0,
         y: 0
       }
-
-      window.container = c;
-
     }
 
 
@@ -161,7 +158,6 @@ angular.module('Rectangular')
       stage.update();
 
     }
-
     
     ngrLoop.addPermanentHook(tick);
   })
