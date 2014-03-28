@@ -17,6 +17,13 @@ angular.module('Rectangular')
         y: 0
       }
     }
+    
+    var world;
+    
+    this.setWorld = function(_world) {
+      world = _world;
+    }
+    
     this.debug = function(canvas) {
 
       var p = $(canvas).parent();
@@ -38,7 +45,7 @@ angular.module('Rectangular')
         x: 0,
         y: 0
       }
-      var world = ngrState.getWorld();
+
       debugDraw = new b2DebugDraw();
       var debugContainer = new createjs.Container();
       var scale = ngrState.getScale() * ngrCamera.getZoom();

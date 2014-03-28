@@ -18,7 +18,7 @@ angular.module('shapemaker')
       gravity: 60,
       zoom: 0.4,
       speed: 60,
-      drawDebug: false,
+      drawDebug: true,
       drawSprites: true,
       selectedX: 0,
       scale: 2,

@@ -13,7 +13,7 @@ angular.module('Rectangular')
 
      this.createRoom = function (options) {
        this.clearRoom();
-       var r = ngrState.getRoom();
+       var r = ngrState.getState().room;
 
        if (r.floor) e.floor(options);
        if (r.leftWall) e.leftWall(options);

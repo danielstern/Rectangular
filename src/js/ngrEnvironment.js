@@ -1,5 +1,5 @@
  angular.module('Rectangular')
-   .service('ngrEnvironment', function (ngrWorld, ngrCamera, ngrInterface, ngrRoom, ngrStage, ngrModels, ngrDefaults, $q, ngrState, ngrLoop, ngrData) {
+   .service('ngrEnvironment', function (ngrWorld, ngrCamera, ngrInterface, ngrRoom, ngrStage, ngrDebug, ngrModels, ngrDefaults, $q, ngrState, ngrLoop, ngrData) {
 
      this.addHook = ngrLoop.addHook;
      this.clearHooks = ngrLoop.clearHooks;
@@ -46,10 +46,13 @@
 
        ngrState.setState(options);
        ngrLoop.initWorld(options.fps);
-       ngrWorld.setWorld(0, options.gravity, true);
+       var _world = ngrWorld.setWorld(0, options.gravity, true);
 
+       ngrDebug.setWorld(_world);
        ngrStage.init(options.canvas);
+
        ngrStage.debug(options.debug);
+       
        if (options.room) {
          ngrState.updateState('room',options.room);
          var r = options.room;
@@ -61,6 +64,7 @@
        }
 
        e.start();
+
 
        ngrWorld.oncreatebody(function(body){
         if (!body.options.hidden) ngrStage.addSprite(body,body.options);

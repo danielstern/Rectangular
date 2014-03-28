@@ -14,13 +14,6 @@ angular.module('Rectangular')
     }
 
 
-    this.setWorld = function (_world) {
-      state.world = _world;
-    }
-
-    this.getWorld = function () {
-      return state.world;
-    }
 
     this.getRoomCenter = function () {
       return {
@@ -58,7 +51,7 @@ angular.module('Rectangular')
     
 
     this.getScale = function () {
-      return state.SCALE;
+      return state.scale;
     }
 
 

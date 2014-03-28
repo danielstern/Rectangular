@@ -110,7 +110,7 @@ angular.module('Rectangular')
       .compact()
       .value();
 
-    ngrState.removeElement(body);
+    ngrState.setElements(bodies);
 
     memoryPairs = _.map(memoryPairs, function (_pair) {
       if (_pair.id != elId) return _pair;
@@ -153,8 +153,6 @@ angular.module('Rectangular')
       world.DrawDebugData();
 
     })
-
-    ngrState.setWorld(world);
 
     return world;
   }
