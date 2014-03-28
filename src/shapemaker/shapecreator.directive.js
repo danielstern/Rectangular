@@ -8,7 +8,7 @@ angular.module('shapemaker')
       scope: {
 
       },
-      controller: function ($scope, $attrs, $element, ngrEnvironment, ngrState, shapemakerDefaults) {
+      controller: function ($scope, $attrs, $element, ngrEnvironment, ngrWorld, ngrState, shapemakerDefaults) {
 
         $scope.q = _.clone(shapemakerDefaults.creatorDefaults);
         var q = $scope.q;
@@ -52,7 +52,7 @@ angular.module('shapemaker')
 
         $scope.addShape = function (shape) {
           if (q.skin) q.src = q.skin.src;
-          ngrEnvironment.add(shape,shapemakerDefaults.shape(q));
+          ngrWorld.addElement(shapemakerDefaults.shape(q));
         }
 
         $scope.destroy = function () {

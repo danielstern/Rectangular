@@ -31,6 +31,7 @@ angular.module('Rectangular')
         if (_room[area] === false) state.room[area] = false;
       })
 
+      _.call(stateChangeListeners, state);
     }
 
     this.setState = function (_properties) {
@@ -38,15 +39,20 @@ angular.module('Rectangular')
       _.each(_properties,function(prop,key){
         if (prop !== null) state[key] = prop;
       })
+
+      _.call(stateChangeListeners, state);
     }
 
     this.updateState = function(key,value) {
       if (key) state[key] = value;
-    }
 
+      _.call(stateChangeListeners, state);
+    }
 
     this.setElements = function(_elms) {
       elements = _elms;
+
+      _.call(stateChangeListeners, state);
     }
     
 

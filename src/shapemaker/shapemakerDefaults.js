@@ -50,18 +50,6 @@ angular.module('shapemaker')
         name: 'Red Box',
         src: 'img/box-red.png'
       }, {
-        name: 'Dirt',
-        type: 'dirt',
-        src: 'img/grassCenter.png'
-      }, {
-        name: 'Castle',
-        type: 'castle',
-        src: 'img/castleCenter.png'
-      }, {
-        name: 'Snow',
-        type: 'snow',
-        src: 'img/snowCenter.png'
-      }, {
         name: 'Green',
         type: 'green',
         src: 'img/box-green.png'
@@ -79,17 +67,11 @@ angular.module('shapemaker')
     }, {
       name: 'Rectangle',
       type: 'box'
-    }, {
-      name: 'Triangle',
-      type: 'triangle'
-    }]
+    }, ]
 
     this.shapeDefaultParams = {
       box: {
         params: 'height width restitution density friction',
-      },
-      triangle: {
-        params: 'innerAngle adjacent opposite restitution density friction',
       },
       circle: {
         params: 'radius restitution density friction'
@@ -112,410 +94,54 @@ angular.module('shapemaker')
     }
 
     this.presets = [{
-        name: 'Wooden Box',
-        shape: 'box',
-        skin: {
-          src: 'img/box.png',
-        },
-        userData: {
-          doodad: true,
-        },
-        presets: {
-          height: 1,
-          width: 1,
-          restitution: 0.2,
-          density: 0.2
-        }
-
-      }, {
-        name: 'Wooden Platform',
-        shape: 'box',
-        skin: {
-          src: 'img/box.png',
-        },
-        userData: {
-          doodad: true,
-        },
-        presets: {
-          height: 0.4,
-          width: 3,
-          restitution: 0.2,
-          density: 0.2
-        }
-
-      }, {
-        name: 'Bouncey Platform',
-        shape: 'box',
-        skin: {
-          src: 'img/box-blue.png',
-        },
-        userData: {
-          doodad: true,
-        },
-        presets: {
-          height: 0.4,
-          width: 2.5,
-          restitution: 0.9,
-          density: 0.2
-        }
-
-      }, {
-        name: 'Wooden Triangle',
-        shape: 'triangle',
-        skin: {
-          src: 'img/box.png',
-        },
-        userData: {
-          doodad: true,
-        },
-        presets: {
-          innerAngle: 60,
-          opposite: 1.25,
-          adjacent: 1.25,
-          restitution: 0.2,
-          density: 0.2
-        }
-
-      }, {
-        name: 'Wooden Ramp R',
-        shape: 'triangle',
-        skin: {
-          src: 'img/box.png',
-        },
-        userData: {
-          doodad: true,
-        },
-        presets: {
-          innerAngle: 90,
-          opposite: 3,
-          adjacent: 1,
-          restitution: 0.2,
-          density: 0.2
-        }
-
-      }, {
-        name: 'Stone Ramp Left M',
-        shape: 'triangle',
-        skin: {
-          src: 'img/castleCenter.png',
-        },
-        presets: {
-          innerAngle: 90,
-          opposite: 6,
-          adjacent: 2,
-          restitution: 0.2,
-          density: 0.2
-        }
-
-      }, {
-        name: 'Prize',
-        shape: 'circle',
-        skin: {
-          src: 'img/box-purple.png',
-        },
-        userData: {
-          prize: true,
-        },
-        presets: {
-          radius: 1.5,
-          restitution: 0.2,
-          density: 0.2,
-          bg: 'tiled',
-
-        }
-
-      }, {
-        name: 'LevelStarter',
-        shape: 'circle',
-        skin: {
-          src: 'img/box-blue.png',
-        },
-        userData: {
-          levelStarter: true,
-          worldStarter: true,
-        },
-        presets: {
-          radius: 0.5,
-          restitution: 0.2,
-          density: 0.2,
-
-        }
-
-      }, {
-        name: 'Block M',
-        shape: 'box',
-        skin: {
-          src: 'img/castleCenter.png',
-        },
-
-        presets: {
-          height: 1,
-          width: 1,
-          restitution: 0.2,
-          density: 0.2
-        }
-      }, {
-        name: 'Block S',
-        shape: 'box',
-        skin: {
-          src: 'img/castleCenter.png',
-        },
-
-        presets: {
-          height: 0.5,
-          width: 0.5,
-          restitution: 0.2,
-          density: 0.2
-        }
+      name: 'Wooden Box',
+      shape: 'box',
+      skin: {
+        src: 'img/box.png',
       },
-      {
-        name: 'Concrete Platform S',
-        shape: 'box',
-        skin: {
-          src: 'img/castleCenter.png',
-        },
-
-        presets: {
-          height: 4,
-          width: 0.25,
-          restitution: 0.2,
-          density: 0.2
-        }
+      userData: {
+        doodad: true,
       },
+      presets: {
+        height: 1,
+        width: 1,
+        restitution: 0.2,
+        density: 0.2
+      }
 
-      {
-        name: 'Concrete Platform M',
-        shape: 'box',
-        skin: {
-          src: 'img/castleCenter.png',
-        },
-
-        presets: {
-          height: 8,
-          width: 0.5,
-          restitution: 0.2,
-          density: 0.2
-        }
+    }, {
+      name: 'Bouncey Platform',
+      shape: 'box',
+      skin: {
+        src: 'img/box-blue.png',
       },
+      userData: {
+        doodad: true,
+      },
+      presets: {
+        height: 0.4,
+        width: 2.5,
+        restitution: 0.9,
+        density: 0.2
+      }
 
-      {
-        name: 'Boulder M',
-        shape: 'circle',
-        skin: {
-          src: 'img/stoneMid.png',
-        },
-        userData: {
-          stone: true
-        },
-        presets: {
-          radius: 1.25,
-          restitution: 0.2,
-          density: 6,
-          friction: 0.2,
-
-        }
-
-      }, {
-        name: 'Boulder S',
-        shape: 'circle',
-        skin: {
-          src: 'img/stoneMid.png',
-        },
-        userData: {
-          stone: true
-        },
-        presets: {
-          radius: 0.75,
-          restitution: 0.2,
-          density: 6,
-          friction: 0.2,
-
-        }
-
-      }, {
-        name: 'Dirt Boulder S',
-        shape: 'circle',
-        skin: {
-          src: 'img/grassCenter.png',
-        },
-        userData: {
-          stone: true
-        },
-        presets: {
-          radius: 0.75,
-          restitution: 0.2,
-          density: 1,
-          friction: 0.2,
-
-        }
-
-      }, {
-        name: 'Base Girder L',
-        shape: 'box',
-        skin: {
-          src: 'img/box-green.png',
-        },
-        userData: {
-          base: true,
-        },
-        presets: {
-          height: 4,
-          width: 1,
-          density: 0.5,
-          restitution: 0.1,
-          friction: 0.6,
-
-        }
-
-      }, {
-        name: 'Base Girder M',
-        shape: 'box',
-        skin: {
-          src: 'img/box-green.png',
-        },
-        userData: {
-          base: true,
-        },
-        presets: {
-          height: 3,
-          width: 0.75,
-          density: 0.5,
-          restitution: 0.1,
-          friction: 0.6,
-
-        }
-
-      }, {
-        name: 'Base Decorative Cone S',
-        shape: 'triangle',
-        skin: {
-          src: 'img/box-green.png',
-        },
-        userData: {
-          base: true,
-        },
-        presets: {
-          innerAngle: 60,
-          opposite: 1,
-          adjacent: 1,
-          restitution: 0.1,
-          friction: 0.6,
-        }
-
-      }, {
-        name: 'Wedge',
-        shape: 'triangle',
-        skin: {
-          src: 'img/box-green.png',
-        },
-        presets: {
-          innerAngle: 90,
-          adjacent: 6,
-          opposite: 2
-        }
-
-      }, {
-        name: 'Destructible Block S',
-        shape: 'box',
-        skin: {
-          src: 'img/block-yellow.png',
-        },
-        userData: {
-          destructible: true,
-        },
-        presets: {
-
-          height: 0.5,
-          width: 0.5,
-          restitution: 0.2,
-          density: 0.2
-        }
-
-      }, {
-        name: 'Explosive Block S',
-        shape: 'box',
-        skin: {
-          src: 'img/block-red.png',
-        },
-        userData: {
-          explosive: true,
-        },
-        presets: {
-
-          height: 0.5,
-          width: 0.50,
-          restitution: 0.2,
-          density: 0.2
-        }
-
-      }, {
-        name: 'Bouncey Block S',
-        shape: 'box',
-        skin: {
-          src: 'img/block-blue.png',
-        },
-        
-        presets: {
-
-          height: 0.5,
-          width: 0.50,
-          restitution: 0.85,
-          density: 0.2
-        }
-
-      },{
-        name: 'Coin Box',
-        shape: 'box',
-        skin: {
-          src: 'img/boxCoin.png',
-        },
-        userData: {
-          treasure: "true",
-          points: 60
-        },
-        presets: {
-          density: 0.7,
-          restitution: 0.6,
-          height: 1,
-          width: 1,
-        }
-
-      }, {
-        name: 'Rubber Ball',
-        shape: 'circle',
-        skin: {
-          name: 'Blue',
-          src: 'img/box-blue.png',
-        },
-        presets: {
-          radius: 0.3,
-          bg: 'tiled',
-          restitution: 0.9,
-        }
-
-      }, {
-        name: 'Explosive Box',
-        shape: 'box',
-        skin: {
-          src: 'img/box-red.png',
-        },
-        userData: {
-          explosive: true,
-          volatility: 1,
-          doodad: true,
-          force: 1
-        },
-        presets: {
-          height: 0.5,
-          width: 0.5,
-          restitution: 0.2,
-          density: 0.6,
-          userData: {
-            explosive: true
-          }
-        }
+    }, {
+      name: 'Circle',
+      shape: 'circle',
+      skin: {
+        src: 'img/box-purple.png',
+      },
+      userData: {
+        prize: true,
+      },
+      presets: {
+        radius: 1.5,
+        restitution: 0.2,
+        density: 0.2,
+        bg: 'tiled',
 
       }
-    ]
+
+    }]
 
   })

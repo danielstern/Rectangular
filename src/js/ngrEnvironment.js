@@ -1,31 +1,6 @@
  angular.module('Rectangular')
    .service('ngrEnvironment', function (ngrWorld, ngrCamera, ngrInterface, ngrRoom, ngrStage, ngrDebug, ngrModels, ngrDefaults, $q, ngrState, ngrLoop, ngrData) {
 
-     this.addHook = ngrLoop.addHook;
-     this.clearHooks = ngrLoop.clearHooks;
-     this.setGravity = ngrWorld.setGravity;
-     this.setWorldHeight = ngrState.setWorldHeight;
-     this.blocker = ngrStage.blocker;
-     this.pin = ngrInterface.pinToMouse;
-     this.getJSON = ngrData.getJSON;
-     this.load = ngrData.load;
-     this.follow = ngrCamera.follow;
-     this.unfollow = ngrCamera.unfollow;
-     this.setFocusOffset = ngrState.setFocusOffset;
-     this.getBodyByUserData = ngrWorld.getBodyByUserData;
-     this.getBodiesByUserData = ngrWorld.getBodiesByUserData;
-     this.setFocus = ngrState.setFocus;
-     this.setZoom = ngrState.setZoom;
-     this.updateRoom = ngrState.updateRoom;
-     this.remove = ngrWorld.removeElement;
-     this.toggleDebug = ngrStage.toggleDebug;
-     this.debug = ngrStage.debug;
-     this.setWorldSpeed = ngrLoop.setSpeed;
-     this.stop = ngrLoop.stop;
-     this.start = ngrLoop.start;
-     this.createRoom = ngrRoom.createRoom;
-     this.clearRoom = ngrRoom.clearRoom;
-
      var e = this;
 
      this.init = function (worldInitObject) {
@@ -52,7 +27,7 @@
        ngrStage.init(options.canvas);
 
        ngrStage.debug(options.debug);
-       
+
        if (options.room) {
          ngrState.updateState('room',options.room);
          var r = options.room;
@@ -63,7 +38,7 @@
          });
        }
 
-       e.start();
+       ngrLoop.start();
 
 
        ngrWorld.oncreatebody(function(body){
@@ -77,14 +52,6 @@
 
      }
 
-     this.add = function (type, options) {
-       if (!options) throw new Error("You can't add a shape without options.");
-       options.shapeKind = options.shapeKind || type;
-
-       var b = ngrWorld.addElement(options);
-
-       return b;
-     }
 
      this.clearAll = function () {
        ngrWorld.clearAll();
