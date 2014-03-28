@@ -82,6 +82,15 @@
 
        e.start();
 
+       ngrWorld.oncreatebody(function(body){
+        if (!body.options.hidden) ngrStage.addSprite(body,body.options);
+
+        body.oncrumble(function(){
+          ngrStage.removeChild(body.container);
+        })
+
+       })
+
      }
 
      this.add = function (type, options) {

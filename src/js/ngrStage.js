@@ -1,5 +1,5 @@
 angular.module('Rectangular')
-  .service('ngrStage', function(ngrLoop, ngrWorld,ngrState, ngrSkin, $q, ngrDebug, ngrCamera) {
+  .service('ngrStage', function(ngrLoop, ngrState, ngrSkin, $q, ngrDebug, ngrCamera) {
 
     var canvas = $('canvas')[0];
     var parallaxCenter;
@@ -26,13 +26,6 @@ angular.module('Rectangular')
     var p = $(canvas).parent();
 
     this.debug = ngrDebug.toggleDebug;
-
-    ngrWorld.oncreatebody(function(body){
-      if (!body.options.hidden) s.addSprite(body,body.options);
-      body.oncrumble(function(){
-        s.removeChild(body.container);
-      })
-    })
 
 
 
