@@ -30,7 +30,7 @@ angular.module('Rectangular')
 
       options = _.extend(defaults, options);
 
-      var env = ngrState.getProperties();
+      var env = ngrState.getState();
 
       var imgData;
 

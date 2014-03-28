@@ -27,57 +27,37 @@
      this.clearRoom = ngrRoom.clearRoom;
 
      var e = this;
-     var _canvas;
 
      this.init = function (worldInitObject) {
 
        var defaults = _.clone(ngrDefaults.initialize);
        var options = _.extend(defaults, worldInitObject);
 
-       _canvas = options.canvas || $('canvas');
-       if (_.isArray(_canvas)) _canvas = _canvas[0];
-       options.canvas = _canvas;
-       options.height = _canvas.height;
-       options.width = _canvas.width;
+       options.canvas || $('canvas');
 
        if (options.room) {
          options.worldHeight = options.room.height;
          options.worldWidth = options.room.width;
        }
 
-       //console.log("Optionsroom?",options.room);
-
-       if (options.constrainFocusToRoom) {
        
-       }
+       options.scale = options.scale || 30;
+       options.speed = options.fps || 60;
 
-       options.SCALE = options.scale || 30;
-
-       options.speed = options.fps;
-
-
-       console.log("initing...", options);
-
-       ngrState.setProperties(options);
+       ngrState.setState(options);
        ngrLoop.initWorld(options.fps);
        ngrWorld.setWorld(0, options.gravity, true);
 
-       ngrStage.init(_canvas);
+       ngrStage.init(options.canvas);
        ngrStage.debug(options.debug);
        if (options.room) {
-         ngrState.setRoom(options.room);
-       //  e.createRoom();
-
+         ngrState.updateState('room',options.room);
          var r = options.room;
+         
          ngrCamera.setFocus({
            x: r.width / 2,
            y: r.height / 2
          });
-
-         if (!options.zoom) {
-           var zoomReq = r.height / (_canvas.height / 4);
-           ngrState.setZoom(zoomReq);
-         };
        }
 
        e.start();

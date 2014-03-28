@@ -32,6 +32,21 @@ angular.module("Rectangular")
 
     }
 
+    this.tag = function (body, img) {
+
+      var tagOptions = _.clone(body.options);
+
+      tagOptions.src = img;
+      tagOptions.bg = 'static';
+      tagOptions.noScale = true;
+      tagOptions.shapeKind = 'box';
+      var c = ngrStage.addSprite(body, tagOptions);
+      c.actor.noRotate();
+      c.actor.noScale();
+      c.container.regY = 2 * ngrCamera.getZoom() * ngrState.getScale();
+
+    }
+
     if (!$('.blocker')[0]) {
       p.append('<div class="blocker"></div>');
       $('.blocker').append('<div class="blocker-inner"></div>');
@@ -40,9 +55,9 @@ angular.module("Rectangular")
     var blockerRunning = false;
     var r;
 
-    this.screen = function(src) {
+    this.screen = function (src) {
       var c = ngrStage.overlay(src);
-      ngrInterface.onescape(function(){
+      ngrInterface.onescape(function () {
         ngrStage.removeChild(c);
       })
     }
@@ -63,7 +78,7 @@ angular.module("Rectangular")
         blockerRunning = false;
         setTimeout(function () {
           $('.blocker-inner').addClass('slide-out');
-         
+
           setTimeout(function () {
             $('.blocker-inner').removeClass('slide-out');
             $('.blocker-inner').removeClass('block');

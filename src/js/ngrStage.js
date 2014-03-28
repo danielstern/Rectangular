@@ -11,7 +11,7 @@ angular.module('Rectangular')
     var ctxCurrentTranslation = {
       x: 0,
       y: 0
-    }
+    };
     var actors = [];
     this.actors = actors;
     this.stage = stage;
@@ -76,34 +76,6 @@ angular.module('Rectangular')
 
     };
 
-    this.tag = function(body,img) {
-      setTimeout(function(){
-          //body.crumble();
-   //       c.container.y = -100;
-   //    body.container.parent.removeChild(body.container);
-          var tagOptions = _.clone(body.options);
-          console.log("Tagoptions?",tagOptions);
-  
-          tagOptions.src = img;
-          tagOptions.bg = 'static';
-          tagOptions.noScale = true;
-          tagOptions.shapeKind = 'box';
-          var c = s.addSprite(body,tagOptions);
-          c.actor.noRotate();
-          c.actor.noScale();
-          c.container.regY = 2 * ngrCamera.getZoom() * ngrState.getScale();
-       //   c.container.regX = body.options.width;
-      //    c.container.scaleX =c.container.scaleY = 2
-        // console.log("Cont?",c);
-         //ngrLoop.addHook(function(){
-         // c.container.rotatation = body.GetAngle() * 180;
-        // })
-
-      },5)
-      
-
-    }
-
     this.follow = function(_target) {
       target = _target;
 
@@ -161,8 +133,6 @@ angular.module('Rectangular')
         x: focus.x * scale - 0.5 * canvas.width,
         y: -focus.y * scale + 0.5 * canvas.height
       }
-
-  
 
       c.x = -newTranslation.x;
       c.y = newTranslation.y;

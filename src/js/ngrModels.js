@@ -6,7 +6,7 @@ angular.module('Rectangular')
 
     this.leftWall = function(options)
     {
-      env = ngrState.getProperties();
+      env = ngrState.getState();
 
       var defaults = _.clone(ngrDefaults.wall);
       options = _.extend(defaults, options);
@@ -26,7 +26,7 @@ angular.module('Rectangular')
     this.rightWall = function(options)
     {
 
-      env = ngrState.getProperties();
+      env = ngrState.getState();
 
       var defaults = _.clone(ngrDefaults.wall);
       options = _.extend(defaults, options);
@@ -46,7 +46,7 @@ angular.module('Rectangular')
     this.floor = function(options)
     {
 
-      env = ngrState.getProperties();
+      env = ngrState.getState();
 
       var defaults = _.clone(ngrDefaults.floor);
       options = _.extend(defaults, options);
@@ -67,7 +67,7 @@ angular.module('Rectangular')
     this.roof = function(options)
     {
 
-      env = ngrState.getProperties();
+      env = ngrState.getState();
 
       var defaults = _.clone(ngrDefaults.floor);
       options = _.extend(defaults, options);

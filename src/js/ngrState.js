@@ -3,23 +3,16 @@ angular.module('Rectangular')
 
     var state,
       elements = [],
-      pins = [];
-      
-
+      stateChangeListeners = [];    
 
     this.getElements = function () {
       return elements;
     }
 
-    this.getPins = function () {
-      return pins;
+    this.onstatechange = function(l){
+      stateChangeListeners.push(l);
     }
 
-  
-
-    this.getRoom = function () {
-      return state.room;
-    }
 
     this.setWorld = function (_world) {
       state.world = _world;
@@ -27,10 +20,6 @@ angular.module('Rectangular')
 
     this.getWorld = function () {
       return state.world;
-    }
-
-    this.setRoom = function (_room) {
-      state.room = _room;
     }
 
     this.getRoomCenter = function () {
@@ -51,75 +40,30 @@ angular.module('Rectangular')
 
     }
 
-    this.setRoomHeight = function (_h) {
-      state.room.height = Number(_h);
-    }
-
-    this.setRoomWidth = function (_w) {
-      state.room.width = Number(_w);
-    }
-
-
-    this.setProperties = function (_properties) {
+    this.setState = function (_properties) {
       state = state || {};
       _.each(_properties,function(prop,key){
         if (prop !== null) state[key] = prop;
       })
-      //state = _properties;
     }
 
-    this.update = function(key,value) {
+    this.updateState = function(key,value) {
       if (key) state[key] = value;
     }
 
-    this.addPin = function (pinDef) {
-      pins.push(pinDef);
+
+    this.setElements = function(_elms) {
+      elements = _elms;
     }
-
-  
-
-    this.removePin = function (pinId) {
-      pins = _.map(pins, function (_pin) {
-        if (_pin.pinId != pinId) return _pin;
-      })
-      pins = _.compact(pins);
-    }
-
-    this.addElement = function (elementDef) {
-      elements.push(elementDef)
-    }
-
-    this.clearElements = function () {
-      elements = [];
-      pins = [];
-    }
-
-    this.removeElement = function (body) {
-
-      var elId = body.id;
-
-      elements = _.map(elements, function (_el) {
-        if (_el.id != elId) return _el;
-      });
-
-      elements = _.compact(elements);
-    }
+    
 
     this.getScale = function () {
       return state.SCALE;
     }
 
-    this.setScale = function (scale) {
-      state.SCALE = scale;
-      return state;
-    }
 
-    this.getProperties = function () {
-      if (!state) {
-        throw new Error("Attempting to access undefined properties.")
-      }
-      return state;
+    this.getState = function () {
+      return _.clone(state);
     };
 
-    this.getState = this.getProperties;
   })

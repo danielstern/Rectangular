@@ -20,25 +20,9 @@ angular.module('Rectangular')
 
 
   ngrLoop.addPermanentHook(function () {
-    updateMemoryPairs();
     removeLostObjects();
-    // expireObjects();
   });
 
-  function updateMemoryPairs() {
-    _.each(memoryPairs, function (pair) {
-      var o = pair.element.options;
-      var pos = pair.body.GetPosition();
-      var angle = pair.body.GetAngle();
-      var type = pair.body.GetType();
-      o.x = pos.x;
-      o.y = pos.y;
-      o.angle = angle;
-      o.type = type;
-      o.userData = pair.body.GetUserData();
-
-    });
-  }
 
   function removeLostObjects() {
     _.each(bodies, function (body) {
@@ -83,43 +67,22 @@ angular.module('Rectangular')
     b.CreateFixture(f);
 
     b = new ngrBody.Body(b);
-    //console.log("B?", b);
-
+    
     b.oncrumble(function (body) {
       w.removeElement(body);
     })
-
-    options.points = f.points;
-    def.options.points = f.points;
-
-    var type = b.GetType();
-
-    /* bug fix for triangles */
-    b.SetType(0);
-    b.SetType(2);
-    b.SetType(type);
-    if (b.GetType() == '0' && options.center) b.GetLocalCenter().Set(options.center.x, options.center.y);
-    options.center = b.GetLocalCenter();
-    def.options.center = options.center;
-    /* end bug fix */
 
     if (options.userData) b.SetUserData(options.userData);
 
     if (options.memo) {
       var prev = w.getBodyByAttribute('memo', options.memo);
       if (prev) w.removeElement(prev);
- //     if (prev) ngrStage.removeChild(prev.container);
     }
 
     b.id = id;
-
-    var elementDef = {};
-    elementDef.options = def.options;
-    elementDef.id = id;
-    ngrState.addElement(elementDef);
+    b.defintion = def;
 
     memoryPairs.push({
-      element: elementDef,
       body: b,
       id: id
     });
@@ -129,52 +92,11 @@ angular.module('Rectangular')
 
     bodies.push(b);
 
-   // if (!options.hidden) ngrStage.addSprite(b, options);
     _.call(onCreateBodyListeners,b);
 
     return b;
   };
 
-  this.pin = function (body, target) {
-
-    if (!body) throw new Error("Can't pin nothing.");
-    body.pins = body.pins || [];
-    var m_world = world;
-    var r = target;
-    var mouse_joint = new b2MouseJointDef();
-    mouse_joint.maxForce = 10000;
-
-    var pinMemo = {};
-    pinMemo.pinId = guid();
-    pinMemo.target = target;
-    pinMemo.bodyId = body.id;
-
-    mouse_joint.pinId = pinMemo.pinId;
-
-    ngrState.addPin(pinMemo);
-
-    mouse_joint.bodyA = w.getWorld().GetGroundBody();
-    mouse_joint.bodyB = body;
-    mouse_joint.target.Set(r.worldPosX, r.worldPosY);
-    mouse_joint.collideConnected = true;
-
-    mouse_joint.maxForce = Number(body.mass) * 300;
-    mouseJointBody = m_world.CreateJoint(mouse_joint);
-    mouseJointBody.pinId = pinMemo.pinId;
-
-    body.pins.push(mouseJointBody);
-    pins.push(mouseJointBody);
-    return mouseJointBody;
-  }
-
-  this.destroyJoint = function (joint) {
-    ngrState.removePin(joint.pinId);
-
-    if (joint) world.DestroyJoint(joint);
-
-  }
-
-  this.unpin = this.destroyJoint;
 
   this.removeElement = function (body) {
 
