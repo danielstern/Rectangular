@@ -65,10 +65,8 @@ angular.module('Rectangular')
           edge = edge.next;
         }
 
-     //   console.log(body.GetPosition().y,bodyOriginalY);
 
         if (body.GetPosition().y - bodyOriginalY > 2) {
-        //  console.log("calling listeners...");
           _.call(fallListeners);
         }
       })

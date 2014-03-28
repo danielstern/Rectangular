@@ -69,37 +69,6 @@ angular.module('Rectangular')
           f.shape = new b2CircleShape();
           f.shape.SetRadius(Number(options.radius));
           break;
-        case 'triangle':
-
-          var corner = {
-            x: 0,
-            y: 0
-          }
-          var bottomPoint = {
-            x: 0,
-            y: -Number(options.opposite)
-          };
-          var innerAngleRadians = -(options.innerAngle / 180) * Math.PI;
-          var rightPoint = {
-            x: Math.sin(innerAngleRadians) * options.adjacent,
-            y: -Math.cos(innerAngleRadians) * options.opposite
-          }
-
-          var points = [corner, rightPoint, bottomPoint];
-          var pointVectors = [];
-
-          for (var i = 0; i < points.length; i++) {
-            var vec = new b2Vec2();
-            vec.Set(points[i].x, points[i].y);
-            pointVectors[i] = vec;
-          }
-
-          options.density = 1;
-
-          f.shape = new b2PolygonShape();
-          f.shape.SetAsArray(pointVectors, points.length);
-          f.points = pointVectors;
-          break;
         default:
           throw new Error("You must defind a shapeKind in your options.");
           break;

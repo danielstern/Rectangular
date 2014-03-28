@@ -44,11 +44,6 @@ angular.module('Rectangular')
         options.spriteWidth = options.width * scale;
         options.spriteHeight = options.height * scale;
 
-      } else if (options.shapeKind === "triangle") {
-
-        options.spriteWidth = options.adjacent * scale;
-        options.spriteHeight = options.opposite * scale;
-
       }
 
       body.options = _.extend(body.options, options)
@@ -74,7 +69,6 @@ angular.module('Rectangular')
               scaleX = options.spriteWidth / img.width * 2;
 
             } else if (options.shapeKind === 'circle') {
-              console.log("adding non titled circle", options);
               scaleY = options.spriteHeight / img.height;
               scaleX = options.spriteWidth / img.width;
             }
@@ -86,14 +80,12 @@ angular.module('Rectangular')
 
             imgData.regX = regX;
             imgData.regY = regY;
-            //console.log("scaling?", options.spriteWidth, img.width, options);
             imgData.scaleX = scaleX;
             imgData.scaleY = scaleY;
             imgData.mouseEnabled = options.mouseEnabled;
             _container.addChild(imgData)
 
           } else {
-
             _container.addChild(nd.tile(img, options));
 
           }
@@ -178,18 +170,7 @@ angular.module('Rectangular')
         mask.graphics.drawRect(-options.spriteWidth, -options.spriteHeight, options.spriteWidth * 2, options.spriteHeight * 2);
       } else if (options.shapeKind == 'circle') {
         mask.graphics.drawCircle(0, 0, options.spriteHeight);
-      } else if (options.shapeKind === 'triangle') {
-        var center = options.center || _body.GetLocalCenter();
-        var innerAngleRads = Number(options.innerAngle) * Math.PI / 180;
-
-        var points = options.points;
-        var p1 = points[0];
-        var p2 = points[1];
-        var p3 = points[2];
-        mask.graphics.f('#000').lineTo(p1.x * scale, p1.y * scale).lineTo(p2.x * scale, p2.y * scale).lineTo(p3.x * scale, p3.y * scale);
-        mask.x = -center.x * scale;
-        mask.y = -center.y * scale;
-      }
+      } 
 
       var strokeColor = options.strokeColor || "#000"
 
@@ -204,25 +185,8 @@ angular.module('Rectangular')
           options.spriteHeight * 2 + strokeWidth);
       } else if (options.shapeKind == 'circle') {
         stroke.graphics.drawCircle(0, 0, options.spriteHeight + strokeWidth / 2);
-      } else if (options.shapeKind === 'triangle') {
-
-        var center = options.center || _body.GetLocalCenter();
-        var innerAngleRads = Number(options.innerAngle) * Math.PI / 180;
-
-        var points = options.points;
-        var p1 = points[0];
-        var p2 = points[1];
-        var p3 = points[2];
-        stroke.graphics.f('strokeColor').lineTo(p1.x * scale, p1.y * scale).lineTo(p2.x * scale, p2.y * scale).lineTo(p3.x * scale, p3.y * scale);
-        stroke.x = -center.x * scale;
-        stroke.y = -center.y * scale;
-        stroke.scaleX = stroke.scaleY = 1.1;
-        stroke.x += strokeWidth/4;
-        stroke.y += strokeWidth/4;
-
-
       }
-
+      
       container.mask = mask;
 
       var wrapper = new createjs.Container();
