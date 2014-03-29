@@ -6,9 +6,14 @@ angular.module('Rectangular')
       r.properties = _.clone(ngrState.getState());
       r.properties.canvas = null;
       r.properties.world = null;
-      //r.elements = ngrState.getElements();
       r.elements = _.map(ngrState.getElements(),function(el){
-        return el.definition;
+        console.log("Elements to save?",el);
+        var def = el.definition;
+        var pos = el.GetPosition();
+        def.x = pos.x;
+        def.y = pos.y;
+
+        return def;
       })
 
       console.log("World?",r);
