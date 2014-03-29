@@ -69,6 +69,9 @@ angular.module('Rectangular')
           f.shape = new b2CircleShape();
           f.shape.SetRadius(Number(options.radius));
           break;
+        case 'triangle':
+          console.warn("Triangles are not supported.");
+          break;
         default:
           throw new Error("You must defind a shapeKind in your options.");
           break;

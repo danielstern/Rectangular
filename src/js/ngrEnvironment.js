@@ -42,9 +42,11 @@
 
        ngrWorld.oncreatebody(function(body){
         if (!body.options.hidden) ngrStage.addSprite(body,body.options);
+        ngrState.setElements(ngrWorld.getElements());
 
         body.oncrumble(function(){
           ngrStage.removeChild(body.container);
+          ngrState.setElements(ngrWorld.getElements());
         })
 
        })

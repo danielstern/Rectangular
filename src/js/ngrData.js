@@ -6,7 +6,12 @@ angular.module('Rectangular')
       r.properties = _.clone(ngrState.getState());
       r.properties.canvas = null;
       r.properties.world = null;
-      r.elements = ngrState.getElements();
+      //r.elements = ngrState.getElements();
+      r.elements = _.map(ngrState.getElements(),function(el){
+        return el.definition;
+      })
+
+      console.log("World?",r);
       var str = JSON.stringify(r);
       return str;
     }
@@ -21,10 +26,8 @@ angular.module('Rectangular')
 
     	var w = ngrWorld;
 
-      ngrRoom.clearRoom();
-      ngrRoom.createRoom();
 
-      ngrState.setProperties(json.properties);
+      ngrState.setState(json.properties);
 
       _.each(json.elements, function(element) {
         element.options.id = element.id;

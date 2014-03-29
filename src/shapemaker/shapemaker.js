@@ -226,7 +226,7 @@
        ngrRoom.clearRoom();
        ngrRoom.createRoom();
 
-       $scope.context.room = _.clone(ngrState.getRoom());
+       $scope.context.room = _.clone(ngrState.getState().room);
      }
 
      $scope.exportSavedWorld = function (_world) {

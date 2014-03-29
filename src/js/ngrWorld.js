@@ -79,7 +79,7 @@ angular.module('Rectangular')
     }
 
     b.id = id;
-    b.defintion = def;
+    b.definition = def;
 
 
     b.options = _.clone(options);
@@ -91,6 +91,10 @@ angular.module('Rectangular')
 
     return b;
   };
+
+  this.getElements = function() {
+    return bodies;
+  }
 
 
   this.removeElement = function (body) {
@@ -119,7 +123,7 @@ angular.module('Rectangular')
     });
 
     bodies = [];
-    ngrState.clearElements();
+    ngrState.setElements([]);
   }
 
   this.setGravity = function (grav) {
