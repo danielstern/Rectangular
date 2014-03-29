@@ -9,8 +9,7 @@ angular.module('Rectangular')
     pins = [],
     followHook,
     hooks = [],
-    onCreateBodyListeners = [],
-    memoryPairs = [];
+    onCreateBodyListeners = [];
 
   var worldLoop = undefined;
 
@@ -82,10 +81,6 @@ angular.module('Rectangular')
     b.id = id;
     b.defintion = def;
 
-    memoryPairs.push({
-      body: b,
-      id: id
-    });
 
     b.options = _.clone(options);
     b.options.cycle = 0;
@@ -112,13 +107,6 @@ angular.module('Rectangular')
 
     ngrState.setElements(bodies);
 
-    memoryPairs = _.map(memoryPairs, function (_pair) {
-      if (_pair.id != elId) return _pair;
-    })
-
-    memoryPairs = _.compact(memoryPairs);
-
-//    ngrStage.removeChild(body.container);
   }
 
   this.clearAll = function () {
@@ -131,7 +119,6 @@ angular.module('Rectangular')
     });
 
     bodies = [];
-    pins = []
     ngrState.clearElements();
   }
 

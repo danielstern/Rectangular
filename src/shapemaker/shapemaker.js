@@ -176,7 +176,7 @@
 
      $scope.save = function (name) {
        if (!name) name = epicId();
-       var worldString = JSON.parse(ngrEnvironment.getJSON());
+       var worldString = JSON.parse(ngrData.getJSON());
        worldString.name = name;
        var savedWorlds = getSavedWorlds();
 
