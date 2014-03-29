@@ -1,5 +1,5 @@
  angular.module('Rectangular')
-   .service('ngrEnvironment', function (ngrWorld, ngrCamera, ngrInterface, ngrRoom, ngrStage, ngrDebug, ngrModels, ngrDefaults, $q, ngrState, ngrLoop, ngrData) {
+   .service('ngrEnvironment', function (ngrWorld, ngrCamera, ngrStage, ngrDebug, ngrDefaults, $q, ngrState, ngrLoop) {
 
      var e = this;
 

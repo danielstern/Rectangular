@@ -37,17 +37,9 @@ angular.module('shapemaker')
 
         $scope.$watch("context", function () {
 
-
-          if ($scope.contextBody) {
-            //            $scope.contextBody.SetPosition(new b2Vec2(Number($scope.context.selectedX), Number($scope.context.selectedY)));
-            //           $scope.contextBody.SetAngle(Number($scope.context.selectedAngle * Math.PI / 180));
-          }
-
           ngrState.updateState("gravity", $scope.context.gravity);
           ngrState.updateState("gravity", $scope.context.speed);
           ngrCamera.setZoom($scope.context.zoom);
-
-         // ngrEnvironment.createRoom();
 
           ngrStage.debug($scope.context.drawDebug);
           ngrStage.toggleStage($scope.context.drawSprites);

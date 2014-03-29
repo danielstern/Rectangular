@@ -1,6 +1,6 @@
 angular.module('Rectangular')
 
-.service('ngrInterface', function (ngrWorld, ngrState, ngrLoop, ngrCamera) {
+.service('ngrInterface', function (ngrWorld, ngrState, ngrCamera) {
 
   var grabJoint,
     targeter,

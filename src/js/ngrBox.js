@@ -1,5 +1,5 @@
 angular.module('Rectangular')
-  .service("ngrBox", function (ngrState, ngrDefaults) {
+  .service("ngrBox", function (ngrDefaults) {
 
     this.shape = function (options) {
 

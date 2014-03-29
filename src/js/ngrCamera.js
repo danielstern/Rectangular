@@ -38,27 +38,27 @@ angular.module("Rectangular")
     }
 
     this.closeUp = function (directions) {
-   
+
       var i = 0;
 
       var r = $q.defer();
 
       ngrLoop.wait(directions.prologue || 1)
-      .then(next);
+        .then(next);
 
       function next() {
         if (i <= directions.shots.length) {
-          console.log("Closeup on...",i);
+          console.log("Closeup on...", i);
           c.setZoom(directions.shots[i].zoom || directions.zoomAll || 1);
           focusToBody(directions.shots[i].target, directions.shots[i].duration)
-          .then(function(){
-            i++;
-            if (i < directions.shots.length) {
-              next();
-            } else {
-              r.resolve();
-            }
-          })
+            .then(function () {
+              i++;
+              if (i < directions.shots.length) {
+                next();
+              } else {
+                r.resolve();
+              }
+            })
 
         }
       }
