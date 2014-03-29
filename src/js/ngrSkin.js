@@ -6,10 +6,8 @@ angular.module('Rectangular')
     this.skin = function (body, options) {
       _body = body;
 
-      var scale = ngrState.getScale() * ngrCamera.getZoom();
+      var scale = ngrState.getScale();
 
-      var f = body.GetFixtureList();
-      var s = f.GetShape();
       var actor = undefined;
 
       console.log("Skinning...",body,options);
@@ -104,7 +102,7 @@ angular.module('Rectangular')
     this.tile = function (img, options) {
 
       var container = new createjs.Container();
-      var scale = ngrState.getScale() * ngrCamera.getZoom();
+      var scale = ngrState.getScale();
 
       var regX = 0;
       var regY = 0;

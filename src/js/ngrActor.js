@@ -30,8 +30,8 @@ angular.module('Rectangular')
       var scale = ngrState.getScale() * ngrCamera.getZoom();
       this.skin.x = this.body.GetWorldCenter().x * scale;
       this.skin.y = this.body.GetWorldCenter().y * scale;
-      if (scale) this.skin.scaleX =  (ngrCamera.getZoom() / originalZoom) * originalObjectScale;
-      if (scale) this.skin.scaleY =  (ngrCamera.getZoom() / originalZoom) * originalObjectScale;
+      if (scale) this.skin.scaleX =  ngrCamera.getZoom() * originalObjectScale;
+      if (scale) this.skin.scaleY =  ngrCamera.getZoom() * originalObjectScale;
     }
   }
 
