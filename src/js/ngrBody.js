@@ -69,6 +69,8 @@ angular.module('Rectangular')
         if (body.GetPosition().y - bodyOriginalY > 2) {
           _.call(fallListeners);
         }
+
+        if (body.GetPosition().y > 500) body.crumble();
       })
 
       body.oncrumble = function (func) {

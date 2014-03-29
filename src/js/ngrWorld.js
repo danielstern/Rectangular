@@ -1,7 +1,7 @@
 angular.module('Rectangular')
 /* Creates an instance of the world of the simulation, 
    and provides an interface for it. */
-.service("ngrWorld", function (ngrBox, ngrModels, ngrState, ngrDefaults, ngrBody, ngrLoop) {
+.service("ngrWorld", function (ngrBox, ngrBody) {
 
   var world,
     bodies = [],
@@ -15,19 +15,6 @@ angular.module('Rectangular')
   }
 
 
-  ngrLoop.addPermanentHook(function () {
-    removeLostObjects();
-  });
-
-
-  function removeLostObjects() {
-    _.each(bodies, function (body) {
-
-      var pos = body.GetPosition();
-      if (pos.y > 500) w.removeElement(body);
-
-    });
-  }
 
   this.oncreatebody = function(l) {
     onCreateBodyListeners.push(l);
@@ -108,7 +95,7 @@ angular.module('Rectangular')
       .compact()
       .value();
 
-    ngrState.setElements(bodies);
+    
 
   }
 
@@ -122,11 +109,18 @@ angular.module('Rectangular')
     });
 
     bodies = [];
-    ngrState.setElements([]);
   }
 
   this.setGravity = function (grav) {
     world.SetGravity(new b2Vec2(0, grav))
+  };
+
+  this.tick = function() {
+
+    world.Step(1 / 60, 10, 10)
+    world.ClearForces();
+    world.DrawDebugData();
+
   }
 
   this.setWorld = function (gravityX, gravityY, sleep) {
@@ -135,14 +129,6 @@ angular.module('Rectangular')
     var doSleep = sleep;
 
     world = world || new b2World(gravity, false);
-
-    worldLoop = ngrLoop.addPermanentHook(function () {
-
-      world.Step(1 / 60, 10, 10)
-      world.ClearForces();
-      world.DrawDebugData();
-
-    })
 
     return world;
   }

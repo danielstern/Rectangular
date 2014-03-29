@@ -40,6 +40,10 @@
 
        ngrLoop.start();
 
+       ngrLoop.addPermanentHook(function(){
+          ngrWorld.tick();
+       })
+
        ngrWorld.oncreatebody(function(body){
         if (!body.options.hidden) ngrStage.addSprite(body,body.options);
         ngrState.setElements(ngrWorld.getElements());
@@ -57,6 +61,7 @@
        ngrWorld.clearAll();
        ngrStage.clearAll();
        ngrLoop.clearHooks();
+       ngrState.setElements([]);
      }
 
    })
