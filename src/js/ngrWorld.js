@@ -6,9 +6,6 @@ angular.module('Rectangular')
   var world,
     bodies = [],
     w = this,
-    pins = [],
-    followHook,
-    hooks = [],
     onCreateBodyListeners = [];
 
   var worldLoop = undefined;

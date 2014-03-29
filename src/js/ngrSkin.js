@@ -3,7 +3,7 @@ angular.module('Rectangular')
 
     var nd = this;
     var _body;
-    
+
     this.skin = function (body, options) {
       _body = body;
 
@@ -15,7 +15,6 @@ angular.module('Rectangular')
 
 
       console.log("Skinning...", body, options);
-
 
       options = _.extend(defaults, options);
 

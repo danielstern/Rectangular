@@ -1,5 +1,5 @@
 angular.module('Rectangular')
-  .service('ngrState', function (ngrLoop) {
+  .service('ngrState', function () {
 
     var state,
       elements = [],

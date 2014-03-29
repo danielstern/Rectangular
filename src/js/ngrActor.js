@@ -25,6 +25,7 @@ angular.module('Rectangular')
     this.noScale = function() {
       scale = false;
     }
+    
     this.update = function() { // translate box2d positions to pixels
       if (rotate) this.skin.rotation = this.body.GetAngle() * (180 / Math.PI);
       var scale = ngrState.getScale() * ngrCamera.getZoom();
