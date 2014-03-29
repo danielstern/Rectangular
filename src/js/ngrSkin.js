@@ -3,44 +3,27 @@ angular.module('Rectangular')
 
     var nd = this;
     var _body;
+    
     this.skin = function (body, options) {
       _body = body;
 
       var scale = ngrState.getScale();
-
-      var actor = undefined;
-
-      console.log("Skinning...",body,options);
-
+      var _container = new createjs.Container();
       var defaults = _.clone(ngrDefaults.skin);
+      var actor = undefined;
+      var imgData;
 
-      /*if (s.constructor === b2CircleShape) {
 
-        defaults.radius = s.GetRadius();
+      console.log("Skinning...", body, options);
 
-      } else {
-
-        var v = s.GetVertices();
-        var height = v[2].y - v[0].y;
-        var width = v[1].x - v[0].x;
-
-        defaults.height = height;
-        defaults.width = width;
-      }*/
 
       options = _.extend(defaults, options);
 
-      
-
-      var imgData;
 
       if (options.shapeKind === 'circle') {
-
         options.spriteWidth = options.radius * scale;
         options.spriteHeight = options.radius * scale;
-
       } else if (options.shapeKind === "box") {
-
         options.spriteWidth = options.width * scale;
         options.spriteHeight = options.height * scale;
 
@@ -48,7 +31,6 @@ angular.module('Rectangular')
 
       body.options = _.extend(body.options, options)
 
-      var _container = new createjs.Container();
 
       _body.container = _container;
 
@@ -170,23 +152,21 @@ angular.module('Rectangular')
         mask.graphics.drawRect(-options.spriteWidth, -options.spriteHeight, options.spriteWidth * 2, options.spriteHeight * 2);
       } else if (options.shapeKind == 'circle') {
         mask.graphics.drawCircle(0, 0, options.spriteHeight);
-      } 
+      }
 
       var strokeColor = options.strokeColor || "#000"
 
       var stroke = new createjs.Shape();
-      var strokeWidth = 2;
+      var strokeWidth = options.strokeWidth || 5;
       stroke.graphics.beginFill(strokeColor);
       if (options.shapeKind == 'box') {
-        stroke.graphics.drawRect(
-          -options.spriteWidth - strokeWidth / 2, 
-          -options.spriteHeight - strokeWidth / 2, 
-          options.spriteWidth * 2 + strokeWidth, 
+        stroke.graphics.drawRect(-options.spriteWidth - strokeWidth / 2, -options.spriteHeight - strokeWidth / 2,
+          options.spriteWidth * 2 + strokeWidth,
           options.spriteHeight * 2 + strokeWidth);
       } else if (options.shapeKind == 'circle') {
         stroke.graphics.drawCircle(0, 0, options.spriteHeight + strokeWidth / 2);
       }
-      
+
       container.mask = mask;
 
       var wrapper = new createjs.Container();
@@ -212,13 +192,11 @@ angular.module('Rectangular')
       function initImg(bgData) {
 
         var env = ngrState.getState();
-        var scaleX = env.canvas.width() / bgData.image.width  // ngrState.getScale();
-        //console.log("ScaleX?",scaleX);
+        var scaleX = env.canvas.width() / bgData.image.width;
         bgData.scaleX = scaleX;
         bgData.scaleY = scaleX;
 
         sprite.container.parallax = parallax;
-        //  bgData.closeness = closeness || 0;
         bgData.x = -bgData.image.width / 4;
         bgData.y = -bgData.image.height / 4;
 
@@ -241,17 +219,14 @@ angular.module('Rectangular')
       function initImg(bgData) {
 
         var env = ngrState.getState();
-        var scaleX = env.canvas.width() / bgData.image.width  // ngrState.getScale();
-        //console.log("ScaleX?",scaleX);
+        var scaleX = env.canvas.width() / bgData.image.width;
         bgData.scaleX = scaleX;
         bgData.scaleY = scaleX;
-
 
         sprite.container.addChild(bgData);
 
       }
     }
-
 
     function loadBitmap(src) {
       var r = $q.defer();
