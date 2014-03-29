@@ -10,11 +10,13 @@ angular.module('Rectangular')
 
       var f = body.GetFixtureList();
       var s = f.GetShape();
-      var actor = {};
+      var actor = undefined;
+
+      console.log("Skinning...",body,options);
 
       var defaults = _.clone(ngrDefaults.skin);
 
-      if (s.constructor === b2CircleShape) {
+      /*if (s.constructor === b2CircleShape) {
 
         defaults.radius = s.GetRadius();
 
@@ -26,11 +28,11 @@ angular.module('Rectangular')
 
         defaults.height = height;
         defaults.width = width;
-      }
+      }*/
 
       options = _.extend(defaults, options);
 
-      var env = ngrState.getState();
+      
 
       var imgData;
 
