@@ -42,7 +42,7 @@ angular.module('Rectangular')
 
     //  i.grab(r);
       r.body = i.getBodyAtMouse(r);
-      
+
       _.call(onclickListeners, r);
     })
 
@@ -61,14 +61,6 @@ angular.module('Rectangular')
     });
 
   }
-
-  /*setTimeout(function(){
-    targeter = new MouseTargeter($('canvas')[0], ngrState.getScale());
-
-    targeter.onclick(function(){
-      _.call(onEscapeListeners);
-    })
-  },10)*/
 
   this.onescape = function (l) {
     onEscapeListeners.push(l);
@@ -141,19 +133,7 @@ angular.module('Rectangular')
     targeter.onmove(function (r) {
       if (grabJoint) {
         grabJoint.SetTarget(new b2Vec2(r.worldPosX, r.worldPosY))
-      } else if (panning) {
-        var focus = ngrCamera.getFocus();
-        var dif = {
-          x: panStartPoint.worldPosX - r.worldPosX,
-          y: panStartPoint.worldPosY - r.worldPosY,
-        }
-
-        ngrCamera.setFocus({
-          x: focus.x + dif.x,
-          y: focus.y + dif.y,
-        }, false)
-
-      }
+      } 
     })
 
     if (body) {

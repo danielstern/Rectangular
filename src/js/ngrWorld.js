@@ -14,6 +14,29 @@ angular.module('Rectangular')
     return w.getBodiesByAttribute('id', _id)[0];
   }
 
+  this.addMouseJoint = function (body, target) {
+
+    if (!body) throw new Error("Can't pin nothing.");
+    body.pins = body.pins || [];;
+    var r = target;
+    var mouse_joint = new b2MouseJointDef();
+    
+    mouse_joint.bodyA = w.getWorld().GetGroundBody();
+    mouse_joint.bodyB = body;
+    mouse_joint.target.Set(r.worldPosX, r.worldPosY);
+    mouse_joint.collideConnected = true;
+
+    mouse_joint.maxForce = Number(body.mass) * 300;
+    mouseJointBody = world.CreateJoint(mouse_joint);
+
+    return mouseJointBody;
+  }
+
+  this.destroyJoint = function (joint) {
+     world.DestroyJoint(joint);
+  }
+
+
 
 
   this.oncreatebody = function(l) {

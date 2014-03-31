@@ -6,11 +6,10 @@ angular.module("Rectangular")
     var canvas = $('canvas')[0];
     var p = $(canvas).parent();
     var panning = false;
+    var dragging = false;
 
     this.dragToPan = function(enable) {
-      console.log("setting drag to pan", enable);
       ngrInterface.onclick(function(r){
-        console.log("Got click event.",r);
         panning = r.body == undefined;
         panStartPoint = _.clone(r);
         ngrCamera.unfollow();
@@ -33,6 +32,28 @@ angular.module("Rectangular")
             y: focus.y + dif.y,
           }, false)
         }
+      })
+    }
+
+    // Lift and throw boxes like the puny pawns they are!
+    this.godMode = function(enable) {
+      var cursorJoint = undefined;
+
+      console.log("Godmode enabled.")
+      ngrInterface.onclick(function(r){
+        if (r.body) {
+        cursorJoint = ngrWorld.addMouseJoint(r.body, r);
+      }
+      })
+
+      ngrInterface.onmouseup(function(r){
+        if (cursorJoint) cursorJoint = ngrWorld.destroyJoint(cursorJoint);
+      })
+
+      ngrInterface.onmove(function(r){
+        if (cursorJoint) cursorJoint.SetTarget(new b2Vec2(r.worldPosX, r.worldPosY))
+
+      
       })
     }
 

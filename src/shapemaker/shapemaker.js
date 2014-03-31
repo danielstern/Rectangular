@@ -124,6 +124,7 @@
      })
 
      ngrGame.dragToPan(true);
+     ngrGame.godMode(true);
 
    /*  $('canvas')[0].addEventListener("mousewheel", MouseWheelHandler, false);
 
