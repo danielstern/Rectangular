@@ -20,10 +20,6 @@ angular.module('Rectangular')
     panning = false,
     grabbedBody = null;
 
-  $(document).mouseup(function(){
-    ungrab();
-    _.call(mouseupListeners);
-  });
 
   this.init = function() {
     targeter = new MouseTargeter($('canvas')[0], ngrState.getScale());
@@ -45,6 +41,8 @@ angular.module('Rectangular')
       mouseY = r.worldPosY;
 
     //  i.grab(r);
+      r.body = i.getBodyAtMouse(r);
+      
       _.call(onclickListeners, r);
     })
 
@@ -56,6 +54,11 @@ angular.module('Rectangular')
         _listener(r);
       })
     })
+
+    $(document).mouseup(function(){
+      //ungrab();
+      _.call(mouseupListeners);
+    });
 
   }
 
@@ -133,7 +136,7 @@ angular.module('Rectangular')
 
   this.grab = function (r) {
     body = i.getBodyAtMouse(r);
-    ngrCamera.unfollow();
+    
 
     targeter.onmove(function (r) {
       if (grabJoint) {

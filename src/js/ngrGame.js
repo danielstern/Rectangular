@@ -1,10 +1,40 @@
 angular.module("Rectangular")
-  .service('ngrGame', function (ngrWorld, ngrStage, ngrInterface, ngrLoop, ngrDefaults, $q) {
+  .service('ngrGame', function (ngrWorld, ngrStage, ngrInterface, ngrCamera, ngrLoop, ngrDefaults, $q) {
 
     var w = ngrWorld;
     var g = this;
     var canvas = $('canvas')[0];
     var p = $(canvas).parent();
+    var panning = false;
+
+    this.dragToPan = function(enable) {
+      console.log("setting drag to pan", enable);
+      ngrInterface.onclick(function(r){
+        console.log("Got click event.",r);
+        panning = r.body == undefined;
+        panStartPoint = _.clone(r);
+        ngrCamera.unfollow();
+      })
+
+      ngrInterface.onmouseup(function(r){
+        panning = false;
+      })
+
+      ngrInterface.onmove(function(r){
+        if (panning) {
+          var focus = ngrCamera.getFocus();
+          var dif = {
+            x: panStartPoint.worldPosX - r.worldPosX,
+            y: panStartPoint.worldPosY - r.worldPosY,
+          }
+
+          ngrCamera.setFocus({
+            x: focus.x + dif.x,
+            y: focus.y + dif.y,
+          }, false)
+        }
+      })
+    }
 
     this.explode = function (thing) {
 

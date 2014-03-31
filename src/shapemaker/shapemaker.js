@@ -109,8 +109,8 @@
      };
 
      $('canvas')[0].addEventListener('dblclick', function () {
-       ngrEnvironment.unfollow();
-       ngrInterface.focusToMouse();
+       ngrCamera.unfollow();
+     //  ngrInterface.focusToMouse();
      });
 
      ngrInterface.onwheel(function(delta){
@@ -122,6 +122,8 @@
 
       if ($scope.context.zoom < 0.05) $scope.zoom = 0.05;
      })
+
+     ngrGame.dragToPan(true);
 
    /*  $('canvas')[0].addEventListener("mousewheel", MouseWheelHandler, false);
 
