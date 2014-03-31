@@ -30,6 +30,10 @@ angular.module('Rectangular')
     }) || [];
   }
 
+  this.createMouseJoint = function (body) {
+    
+  }
+
   this.getBodyByUserData = function (key, val) {
     return w.getBodiesByUserData(key, val)[0];
   }

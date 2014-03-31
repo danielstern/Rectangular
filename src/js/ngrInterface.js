@@ -11,6 +11,7 @@ angular.module('Rectangular')
     scrollZooming = false,
     onmoveListeners = [],
     ongrabListeners = [],
+    onwheelListeners = [],
     onEscapeListeners = [],
     grabOnly = false,
     panStartPoint = {},
@@ -29,16 +30,16 @@ angular.module('Rectangular')
 
   this.onescape = function (l) {
     onEscapeListeners.push(l);
+  }
 
-
-    
+  this.onwheel = function (l) {
+    onzoomListeners.push(l);
   }
 
   Mousetrap.bind(['space', 'enter', 'escape'], function () {
-    console.log("escaping");
     _.call(onEscapeListeners);
   })
- // var targeter = new MouseTargeter($('canvas')[0], ngrState.getScale());
+
 
   $('canvas')[0].addEventListener("mousewheel", MouseWheelHandler, false);
 
@@ -53,8 +54,10 @@ angular.module('Rectangular')
 
   function MouseWheelHandler(e) {
 
-    e.preventDefault();
+    e.preventDefault
 
+    _.call(onwheelListeners, e.wheelDelta);
+    /*
     var zoomChange;
 
     if (e.wheelDelta < 0) {
@@ -67,6 +70,7 @@ angular.module('Rectangular')
       var currentZoom = ngrCamera.getZoom();
       ngrCamera.setZoom(currentZoom + zoomChange);
     }
+    */
 
   }
 
@@ -129,10 +133,7 @@ angular.module('Rectangular')
     })
 
     if (body) {
-
       var grab = true;
-      //console.log("grabbing body...",body,grabOnly);
-
       if (grabOnly) {
         if (body.GetUserData() && body.GetUserData()[grabOnly]) {
           grab = true;
@@ -145,14 +146,12 @@ angular.module('Rectangular')
 
       _.each(ongrabListeners, function (_listener) {
         _listener(body);
-      })
+      });
 
     } else {
       panStartPoint = _.clone(r);
       ngrCamera.unfollow();
-
       panning = true;
-
     }
   }
 
