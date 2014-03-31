@@ -104,10 +104,6 @@ angular.module('Rectangular')
       body.crumble();
     });
 
-    _.each(pins, function (pin) {
-      w.destroyJoint(pin);
-    });
-
     bodies = [];
   }
 

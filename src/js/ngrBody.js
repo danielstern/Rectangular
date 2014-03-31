@@ -88,12 +88,9 @@ angular.module('Rectangular')
       }
 
       body.freeze = function () {
-        var prev = {
-          x: body.options.center.x,
-          y: body.options.center.y
-        }
+
         if (body) body.SetType(0);
-        body.GetLocalCenter().Set(prev.x, prev.y);
+
       }
 
       body.unfreeze = function () {
