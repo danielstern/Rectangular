@@ -10,7 +10,7 @@
      $scope.game = ngrGame;
 
      ngrEnvironment.init($scope.context);
-     ngrInterface.enableDrag();
+     ngrInterface.init();
 
 
      ngrCamera.constrainZoom({
@@ -113,7 +113,17 @@
        ngrInterface.focusToMouse();
      });
 
-     $('canvas')[0].addEventListener("mousewheel", MouseWheelHandler, false);
+     ngrInterface.onwheel(function(delta){
+      if (delta < 0) {
+        $scope.context.zoom -= 0.05;
+      } else {
+        $scope.context.zoom += 0.05;
+      }
+
+      if ($scope.context.zoom < 0.05) $scope.zoom = 0.05;
+     })
+
+   /*  $('canvas')[0].addEventListener("mousewheel", MouseWheelHandler, false);
 
      function MouseWheelHandler(e) {
 
@@ -128,7 +138,7 @@
        if ($scope.context.zoom < 0.05) $scope.zoom = 0.05;
 
        $scope.$apply();
-     }
+     }*/
 
      $scope.deleteContextItem = function () {
        $scope.contextBody.crumble();

@@ -13,35 +13,75 @@ angular.module('Rectangular')
     ongrabListeners = [],
     onwheelListeners = [],
     onEscapeListeners = [],
+    onclickListeners = [];
+    mouseupListeners = [];
     grabOnly = false,
     panStartPoint = {},
     panning = false,
     grabbedBody = null;
 
-  $(document).mouseup(ungrab);
+  $(document).mouseup(function(){
+    ungrab();
+    _.call(mouseupListeners);
+  });
 
-  setTimeout(function(){
+  this.init = function() {
     targeter = new MouseTargeter($('canvas')[0], ngrState.getScale());
 
     targeter.onclick(function(){
       _.call(onEscapeListeners);
     })
-  },10)
+
+
+    Mousetrap.bind(['space', 'enter', 'escape'], function () {
+      _.call(onEscapeListeners);
+    })
+
+
+    $('canvas')[0].addEventListener("mousewheel", MouseWheelHandler, false);
+
+    targeter.onclick(function (r) {
+      mouseX = r.worldPosX;
+      mouseY = r.worldPosY;
+
+    //  i.grab(r);
+      _.call(onclickListeners, r);
+    })
+
+    targeter.onmove(function (r) {
+      last = r;
+      mouseX = r.worldPosX;
+      mouseY = r.worldPosY;
+      _.each(onmoveListeners, function (_listener) {
+        _listener(r);
+      })
+    })
+
+  }
+
+  /*setTimeout(function(){
+    targeter = new MouseTargeter($('canvas')[0], ngrState.getScale());
+
+    targeter.onclick(function(){
+      _.call(onEscapeListeners);
+    })
+  },10)*/
 
   this.onescape = function (l) {
     onEscapeListeners.push(l);
   }
 
-  this.onwheel = function (l) {
-    onzoomListeners.push(l);
+  this.onclick = function (l) {
+    onclickListeners.push(l);
   }
 
-  Mousetrap.bind(['space', 'enter', 'escape'], function () {
-    _.call(onEscapeListeners);
-  })
+  this.onmouseup = function (l) {
+    mouseupListeners.push(l);
+  }
 
-
-  $('canvas')[0].addEventListener("mousewheel", MouseWheelHandler, false);
+  this.onwheel = function (l) {
+    onwheelListeners.push(l);
+  }
 
   function ungrab(e) {
     panning = false;
@@ -82,25 +122,6 @@ angular.module('Rectangular')
     grabOnly = attr;
   }
 
-  this.enableDrag = function () {
-    targeter = new MouseTargeter($('canvas')[0], ngrState.getScale());
-    targeter.onclick(function (r) {
-      mouseX = r.worldPosX;
-      mouseY = r.worldPosY;
-
-      i.grab(r);
-
-    })
-
-    targeter.onmove(function (r) {
-      last = r;
-      mouseX = r.worldPosX;
-      mouseY = r.worldPosY;
-      _.each(onmoveListeners, function (_listener) {
-        _listener(r);
-      })
-    })
-  }
 
   this.onmove = function (listener) {
     onmoveListeners.push(listener);
