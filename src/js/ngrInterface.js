@@ -10,7 +10,6 @@ angular.module('Rectangular')
     last,
     scrollZooming = false,
     onmoveListeners = [],
-    ongrabListeners = [],
     onwheelListeners = [],
     onEscapeListeners = [],
     onclickListeners = [];
@@ -122,9 +121,6 @@ angular.module('Rectangular')
     onmoveListeners.push(listener);
   }
 
-  this.ongrab = function (listener) {
-    ongrabListeners.push(listener);
-  }
 
   this.grab = function (r) {
     body = i.getBodyAtMouse(r);

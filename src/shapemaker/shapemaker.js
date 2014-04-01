@@ -23,9 +23,9 @@
        $scope.$apply();
      })
 
-     ngrInterface.ongrab(function (body) {
-       $scope.contextBody = body;
-       window.contextBody = body;
+     ngrInterface.onclick(function (r) {
+       $scope.contextBody = r.body;
+       
      })
 
      Mousetrap.bind({
