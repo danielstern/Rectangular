@@ -39,7 +39,6 @@ angular.module("Rectangular")
     this.godMode = function(enable) {
       var cursorJoint = undefined;
 
-      console.log("Godmode enabled.")
       ngrInterface.onclick(function(r){
         if (r.body) {
         cursorJoint = ngrWorld.addMouseJoint(r.body, r);

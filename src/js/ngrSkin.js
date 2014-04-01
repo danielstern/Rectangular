@@ -13,9 +13,6 @@ angular.module('Rectangular')
       var actor = undefined;
       var imgData;
 
-
-      console.log("Skinning...", body, options);
-
       options = _.extend(defaults, options);
 
 

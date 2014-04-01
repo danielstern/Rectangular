@@ -48,6 +48,9 @@
        'u': function () {
          $scope.unpinContextItem();
        },
+       'd': function () {
+         $scope.toggleDebug();
+       },
        'x': function () {
          $scope.explodeContextItem();
        },
@@ -90,6 +93,10 @@
      });
 
      $scope.world = ngrWorld;
+
+     $scope.toggleDebug = function() {
+      $scope.context.drawDebug = !$scope.context.drawDebug;
+     }
 
      $scope.newMaker = function () {
        var el = angular.element("<shapemaker></shapemaker>");

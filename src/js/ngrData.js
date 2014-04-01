@@ -7,13 +7,13 @@ angular.module('Rectangular')
       r.properties.canvas = null;
       r.properties.world = null;
       r.elements = _.map(ngrState.getElements(),function(el){
-        console.log("Elements to save?",el);
+        
         var def = _.clone(el.definition);
         var pos = el.GetPosition();
         def.options.type = el.GetType();
         def.options.x = pos.x;
         def.options.y = pos.y;
-        console.log("Saving element",def);
+        
 
         return def;
       })

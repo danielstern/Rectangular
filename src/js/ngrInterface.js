@@ -91,20 +91,6 @@ angular.module('Rectangular')
     e.preventDefault();
 
     _.call(onwheelListeners, e.wheelDelta);
-    /*
-    var zoomChange;
-
-    if (e.wheelDelta < 0) {
-      zoomChange = -0.10;
-    } else {
-      zoomChange = 0.10;
-    }
-
-    if (scrollZooming) {
-      var currentZoom = ngrCamera.getZoom();
-      ngrCamera.setZoom(currentZoom + zoomChange);
-    }
-    */
 
   }
 
