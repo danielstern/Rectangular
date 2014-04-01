@@ -88,7 +88,7 @@ angular.module('Rectangular')
 
   function MouseWheelHandler(e) {
 
-    e.preventDefault
+    e.preventDefault();
 
     _.call(onwheelListeners, e.wheelDelta);
     /*

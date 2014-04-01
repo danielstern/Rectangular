@@ -110,6 +110,24 @@ angular.module('shapemaker')
       }
 
     }, {
+      name: 'Density-Less Platform',
+      shape: 'box',
+      skin: {
+        src: 'img/box.png',
+      },
+      userData: {
+        doodad: true,
+      },
+      presets: {
+        height: 0.5,
+        width: 5,
+        restitution: 0.1,
+        density: 0,
+        friction: 0.2,
+        gravityScale: 0
+      }
+
+    },{
       name: 'Bouncey Platform',
       shape: 'box',
       skin: {
