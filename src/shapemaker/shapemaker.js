@@ -1,5 +1,5 @@
  angular.module("shapemaker", ['ngAudio', 'Rectangular'])
-   .controller('myDemoCtrl', function ($scope, ngrGame, $element, ngrData, ngrRoom, ngrCamera, ngrData, ngrDefaults, ngrLoop, ngrWorld, ngrInterface, ngrEnvironment, ngrState, ngAudio, $compile) {
+   .controller('myDemoCtrl', function ($scope, ngrGame, $element, questHero, ngrStage, ngrData, ngrRoom, ngrCamera, ngrData, ngrDefaults, ngrLoop, ngrWorld, ngrInterface, ngrEnvironment, ngrState, ngAudio, $compile) {
 
      var contextMenu;
      var contextPin;
@@ -12,6 +12,7 @@
      ngrEnvironment.init($scope.context);
      ngrInterface.init();
 
+     ngrStage.background('img/bg1.png', 0);
 
      ngrCamera.constrainZoom({
        min: 0.05,
@@ -25,7 +26,7 @@
 
      ngrInterface.onclick(function (r) {
        $scope.contextBody = r.body;
-       
+
      })
 
      Mousetrap.bind({
@@ -42,13 +43,16 @@
          $scope.pinContextItem();
        },
        'c': function () {
-        console.log("it's cannonball time");
+         console.log("it's cannonball time");
          ngrGame.turnToCannonball($scope.contextBody);
        },
        'u': function () {
          $scope.unpinContextItem();
        },
-       'c':function() {
+       'n': function () {
+         $scope.constrainFocus();
+       },
+       'c': function () {
          $scope.controlContextBody();
        },
        'd': function () {
@@ -97,8 +101,8 @@
 
      $scope.world = ngrWorld;
 
-     $scope.toggleDebug = function() {
-      $scope.context.drawDebug = !$scope.context.drawDebug;
+     $scope.toggleDebug = function () {
+       $scope.context.drawDebug = !$scope.context.drawDebug;
      }
 
      $scope.newMaker = function () {
@@ -109,13 +113,22 @@
      }
 
      $scope.explodeContextItem = function () {
-      //console.log("EXPLODING!");
+       //console.log("EXPLODING!");
        ngrGame.explode($scope.contextBody);
      }
 
-     $scope.controlContextBody = function() {
-      console.log("Controlling body");
-      ngrGame.control($scope.contextBody);
+     $scope.controlContextBody = function () {
+       if ($scope.contextBody) ngrGame.control($scope.contextBody, "questHero");
+     }
+
+     $scope.constrainFocus = function () {
+       console.log("constrainin", $scope.context.room);
+       ngrCamera.constrainFocus({
+         x: 0,
+         y: 0,
+         width: $scope.context.room.width,
+         height: $scope.context.room.height
+       });
      }
 
      $scope.clearAll = function () {
@@ -125,23 +138,23 @@
 
      $('canvas')[0].addEventListener('dblclick', function () {
        ngrCamera.unfollow();
-     //  ngrInterface.focusToMouse();
+       //  ngrInterface.focusToMouse();
      });
 
-     ngrInterface.onwheel(function(delta){
-      if (delta < 0) {
-        $scope.context.zoom -= 0.05;
-      } else {
-        $scope.context.zoom += 0.05;
-      }
+     ngrInterface.onwheel(function (delta) {
+       if (delta < 0) {
+         $scope.context.zoom -= 0.05;
+       } else {
+         $scope.context.zoom += 0.05;
+       }
 
-      if ($scope.context.zoom < 0.05) $scope.zoom = 0.05;
+       if ($scope.context.zoom < 0.05) $scope.zoom = 0.05;
      })
 
      ngrGame.dragToPan(true);
      ngrGame.godMode(true);
 
-   /*  $('canvas')[0].addEventListener("mousewheel", MouseWheelHandler, false);
+     /*  $('canvas')[0].addEventListener("mousewheel", MouseWheelHandler, false);
 
      function MouseWheelHandler(e) {
 
@@ -167,16 +180,13 @@
 
      }
 
-     
-
-     $scope.editContext = function() {
-      ngrLoop.stop();
+     $scope.editContext = function () {
+       ngrLoop.stop();
      }
 
-     $scope.stopEditContext = function() {
-      ngrLoop.start();
+     $scope.stopEditContext = function () {
+       ngrLoop.start();
      }
-
 
      $scope.unfreezeContextItem = function () {
 
@@ -264,7 +274,6 @@
      if (localStorage['savedWorlds']) {
        $scope.savedWorlds = JSON.parse(localStorage['savedWorlds']);
      };
-
 
      function hideContextMenu() {
        if (contextMenu) {

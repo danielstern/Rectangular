@@ -136,6 +136,8 @@ angular.module("Rectangular")
         y: focus.y,
       };
 
+    //  console.log("Returning focus...");
+
       return focusReturn;
     }
 
@@ -143,8 +145,9 @@ angular.module("Rectangular")
 
     function updateFocus() {
       var state = ngrState.getState();
-      var canvas = state.canvas;
+      var canvas = $('canvas');
       var scale = ngrState.getScale() * zoom;
+      console.log("Scale?",scale);
       var incX = Math.abs(focusTo.x - focus.x) * 0.05;
       if (Math.abs(focusTo.x - focus.x) < incX * 2) {
         focus.x = focusTo.x;
@@ -166,7 +169,9 @@ angular.module("Rectangular")
         focus.y -= incY;
       }
 
-      if (focusConstraint) {
+      console.log("focusConstraint?",focusConstraint)
+
+      if (focusConstraint !== undefined) {
 
         var focusConstraintPixelsX = focusConstraint.x * scale;
         var focusConstraintWidthPixels = focusConstraint.width * scale;
@@ -180,7 +185,7 @@ angular.module("Rectangular")
         var focusYPixels = focus.y * scale;
         var focusXPixels = focus.x * scale;
 
-        //console.log("Canvas?",canvasHeight,canvasWidth,focusConstraintPixelsX,focusConstraintWidthPixels);
+        console.log("Canvas?",canvasHeight,canvasWidth,focusConstraintPixelsX,focusConstraintWidthPixels);
 
         // we're not allowed to see anything left of the constraint box
         if (focusXPixels < focusConstraintPixelsX + canvasWidth / 2) {

@@ -1,5 +1,5 @@
 angular.module("Rectangular")
-  .service('ngrGame', function (ngrWorld, ngrStage, ngrInterface, heroGenerator, ngrCamera, ngrLoop, ngrDefaults, $q) {
+  .service('ngrGame', function (ngrWorld, ngrStage, ngrInterface, ngrCamera, ngrLoop, ngrDefaults, $q) {
 
     var w = ngrWorld;
     var g = this;
@@ -145,7 +145,7 @@ angular.module("Rectangular")
 
       console.log("Controlling body...",body);
 
-      var hero = new heroGenerator.getHero(body);
+      var hero = new heroDefintions[hero](body);
       var state = hero.getState();
       ngrLoop.addHook(hero.tick);
 
@@ -186,13 +186,19 @@ angular.module("Rectangular")
       }
     }
 
+    var heroDefintions = {};
+    this.addHeroDefinition = function(name,def) {
+      heroDefintions[name] = def;
+    }
+
     this.turnToCannonball = function (thing, volatility) {
       thing.onimpact(g.explode);
     }
 
   })
 
-.service('heroGenerator', function (ngrLoop) {
+.service('questHero', function (ngrGame) {
+
   function Hero(body,options) {
     var h = this;
     h.height = 1.2;
@@ -339,8 +345,6 @@ angular.module("Rectangular")
     }
   }
 
-  this.getHero = function (body) {
-    
-    return new Hero(body);
-  }
+  ngrGame.addHeroDefinition('questHero', Hero);
+
 })

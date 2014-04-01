@@ -208,13 +208,12 @@ angular.module('Rectangular')
       function initImg(bgData) {
 
         var env = ngrState.getState();
+        env.canvas = $('canvas');
         var scaleX = env.canvas.width() / bgData.image.width;
         bgData.scaleX = scaleX;
         bgData.scaleY = scaleX;
 
         sprite.container.parallax = parallax;
-        bgData.x = -bgData.image.width / 4;
-        bgData.y = -bgData.image.height / 4;
 
         sprite.container.addChild(bgData);
 

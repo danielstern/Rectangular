@@ -29,8 +29,8 @@ angular.module('Rectangular')
 
 
 
-    this.background = function(body, options) {
-      var sprite = ngrSkin.background(body, options);
+    this.background = function(src, parallax) {
+      var sprite = ngrSkin.background(src, parallax);
       bgContainer.addChild(sprite.container);
     }
 
