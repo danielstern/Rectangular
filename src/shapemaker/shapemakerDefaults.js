@@ -127,27 +127,39 @@ angular.module('shapemaker')
         gravityScale: 0
       }
 
-    },{
+    }, {
       name: 'Dude',
       shape: 'box',
       skin: {
         src: 'img/sprites/p1/p1_spritesheet.png',
-        bg: 'spritesheet'
+        bg: 'spritesheet',
+        frames: {
+          width: 73,
+          height: 100,
+          regX: 36.5,
+          regY: 50
+        },
+        animations: {
+          run: {
+            frames: [1, 2, 3, 4, 5, 6],
+            speed: 0.4
+          },
+        }
       },
       controls: 'platform-hero',
       userData: {
         doodad: true,
       },
       presets: {
-        height: 1,
-        width: 0.5,
+        height: 2.3,
+        width: 1.24,
         restitution: 0.1,
         density: 0,
         friction: 0.2,
         gravityScale: 0
       }
 
-    },{
+    }, {
       name: 'Bouncey Platform',
       shape: 'box',
       skin: {
@@ -168,6 +180,7 @@ angular.module('shapemaker')
       shape: 'circle',
       skin: {
         src: 'img/box-purple.png',
+        bg: 'tiled'
       },
       userData: {
         prize: true,

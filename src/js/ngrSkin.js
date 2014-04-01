@@ -44,14 +44,19 @@ angular.module('Rectangular')
             _container.addChild(nd.tile(img, options));
 
           } else if (options.bg =='spritesheet') {
-            console.log("Loading spritesheet");
+            console.log("Loading spritesheet",options,imgData);
             var data = {
                 images: [options.src],
-                frames: {width:73, height:96},
-                animations: {run:[0,4], jump:[5,8,"run"]}
+                frames: options.frames,
+                animations: options.animations
             };
             var spriteSheet = new createjs.SpriteSheet(data);
             var animation = new createjs.Sprite(spriteSheet, "run");
+
+            var animScale =  options.spriteHeight / options.frames.height * 2;
+            console.log("animScale?",animScale,options.height, options.frames.height);
+
+            animation.scaleX = animation.scaleY = animScale;
 
             _container.addChild(animation);
 
@@ -71,11 +76,11 @@ angular.module('Rectangular')
 
             if (options.noScale) scaleX = scaleY = 1;
 
-            var regY = (img.height) / 2;
-            var regX = (img.width) / 2;
+           // var regY = (img.height) / 2;
+           // var regX = (img.width) / 2;
 
-            imgData.regX = regX;
-            imgData.regY = regY;
+            //imgData.regX = regX;
+           // imgData.regY = regY;
             imgData.scaleX = scaleX;
             imgData.scaleY = scaleY;
             imgData.mouseEnabled = options.mouseEnabled;
