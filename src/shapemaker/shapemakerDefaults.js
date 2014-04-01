@@ -98,6 +98,7 @@ angular.module('shapemaker')
       shape: 'box',
       skin: {
         src: 'img/box.png',
+        bg: 'tiled'
       },
       userData: {
         doodad: true,

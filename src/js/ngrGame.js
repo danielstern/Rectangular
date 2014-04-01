@@ -229,7 +229,7 @@ angular.module("Rectangular")
       lateralSpeedJumping: 45,
       jumpCooldown: 25,
       jumpForce: 1500,
-      doubleJumpForce: 400,
+      doubleJumpForce: 0,
       airborneGrace: 20,
       groundSmashPower: 3000,
       dashInputTimeout: 5,

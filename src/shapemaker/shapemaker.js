@@ -122,12 +122,12 @@
      }
 
      $scope.constrainFocus = function () {
-       console.log("constrainin", $scope.context.room);
+      var room = $scope.context.room;
        ngrCamera.constrainFocus({
          x: 0,
          y: 0,
-         width: $scope.context.room.width,
-         height: $scope.context.room.height
+         width: room.width,
+         height: room.height
        });
      }
 
