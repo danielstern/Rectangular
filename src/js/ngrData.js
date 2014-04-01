@@ -33,7 +33,6 @@ angular.module('Rectangular')
 
     	var w = ngrWorld;
 
-
       ngrState.setState(json.properties);
 
       _.each(json.elements, function(element) {

@@ -196,7 +196,7 @@
 
      $scope.save = function (name) {
        if (!name) name = epicId();
-       var worldString = JSON.parse(ngrData.getJSON());
+       var worldString = JSON.parse(ngrData.getJSON(ngrWorld.getWorld()));
        worldString.name = name;
        var savedWorlds = getSavedWorlds();
 
@@ -238,9 +238,9 @@
 
      }
 
-     $scope.load = function (_world) {
+     $scope.load = function (_data) {
        ngrEnvironment.clearAll();
-       ngrData.load(_world);
+       ngrData.load(_data, ngrWorld.getWorld());
        $scope.contextBody = undefined;
 
        ngrRoom.clearRoom();

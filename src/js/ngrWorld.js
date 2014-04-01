@@ -69,8 +69,6 @@ angular.module('Rectangular')
 
   this.addElement = function (options) {
 
-    console.log("Adding element",options);
-
     var def = ngrBox.shape(options);
     var id = options.id || guid();
 
