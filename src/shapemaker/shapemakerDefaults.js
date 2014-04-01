@@ -135,14 +135,14 @@ angular.module('shapemaker')
         bg: 'spritesheet',
         frames: {
           width: 73,
-          height: 100,
+          height: 97,
           regX: 36.5,
           regY: 50
         },
         animations: {
           run: {
-            frames: [1, 2, 3, 4, 5, 6],
-            speed: 0.4
+            frames: [6, 7, 8, 7 ],
+            speed: 0.2
           },
         }
       },
@@ -154,9 +154,9 @@ angular.module('shapemaker')
         height: 2.3,
         width: 1.24,
         restitution: 0.1,
-        density: 0,
+        density: 0.2,
         friction: 0.2,
-        gravityScale: 0
+        gravityScale: 0.4
       }
 
     }, {
