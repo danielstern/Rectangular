@@ -53,6 +53,8 @@ angular.module('Rectangular')
             var spriteSheet = new createjs.SpriteSheet(data);
             var animation = new createjs.Sprite(spriteSheet, "run");
 
+            _container.addChild(animation);
+
           } else {
 
             var scaleX;
