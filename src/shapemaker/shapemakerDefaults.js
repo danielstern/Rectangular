@@ -98,7 +98,7 @@ angular.module('shapemaker')
       shape: 'box',
       skin: {
         src: 'img/box.png',
-        bg: 'tiled'
+        bg: 'sprite'
       },
       userData: {
         doodad: true,
@@ -143,8 +143,12 @@ angular.module('shapemaker')
         animations: {
           run: {
             frames: [6, 7, 8, 7 ],
+            next: 'stand',
             speed: 0.2
           },
+          stand: {
+            frames: [9]
+          }
         }
       },
       controls: 'platform-hero',
@@ -155,7 +159,7 @@ angular.module('shapemaker')
         height: 2.3,
         width: 1.24,
         restitution: 0.1,
-        density: 0.2,
+        density: 0.07,
         friction: 0.2,
         gravityScale: 0.4
       }

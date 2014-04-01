@@ -12,6 +12,7 @@ angular.module('Rectangular')
       var defaults = _.clone(ngrDefaults.skin);
       var actor = undefined;
       var imgData;
+      var animation = {};
 
       options = _.extend(defaults, options);
 
@@ -51,7 +52,7 @@ angular.module('Rectangular')
                 animations: options.animations
             };
             var spriteSheet = new createjs.SpriteSheet(data);
-            var animation = new createjs.Sprite(spriteSheet, "run");
+            animation = new createjs.Sprite(spriteSheet, "stand");
 
             var animScale =  options.spriteHeight / options.frames.height * 2;
             console.log("animScale?",animScale,options.height, options.frames.height);
@@ -76,11 +77,11 @@ angular.module('Rectangular')
 
             if (options.noScale) scaleX = scaleY = 1;
 
-           // var regY = (img.height) / 2;
-           // var regX = (img.width) / 2;
+            var regY = (img.height) / 2;
+            var regX = (img.width) / 2;
 
-            //imgData.regX = regX;
-           // imgData.regY = regY;
+            imgData.regX = regX;
+            imgData.regY = regY;
             imgData.scaleX = scaleX;
             imgData.scaleY = scaleY;
             imgData.mouseEnabled = options.mouseEnabled;
@@ -92,7 +93,8 @@ angular.module('Rectangular')
 
       return {
         actor: actor,
-        container: _container
+        container: _container,
+        sprite: animation
       }
 
     };

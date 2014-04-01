@@ -147,7 +147,7 @@ angular.module("Rectangular")
       var state = ngrState.getState();
       var canvas = $('canvas');
       var scale = ngrState.getScale() * zoom;
-      console.log("Scale?",scale);
+    //  console.log("Scale?",scale);
       var incX = Math.abs(focusTo.x - focus.x) * 0.05;
       if (Math.abs(focusTo.x - focus.x) < incX * 2) {
         focus.x = focusTo.x;
@@ -169,7 +169,7 @@ angular.module("Rectangular")
         focus.y -= incY;
       }
 
-      console.log("focusConstraint?",focusConstraint)
+      //console.log("focusConstraint?",focusConstraint)
 
       if (focusConstraint !== undefined) {
 

@@ -67,6 +67,8 @@ angular.module('Rectangular')
       s.addChild(sprite.container);
       actors.push(sprite.actor);
 
+      console.log("Got sprite...",sprite);
+
       return sprite;
 
     }
