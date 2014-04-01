@@ -48,6 +48,9 @@
        'u': function () {
          $scope.unpinContextItem();
        },
+       'c':function() {
+         $scope.controlContextBody();
+       },
        'd': function () {
          $scope.toggleDebug();
        },
@@ -106,8 +109,13 @@
      }
 
      $scope.explodeContextItem = function () {
-      console.log("EXPLODING!");
+      //console.log("EXPLODING!");
        ngrGame.explode($scope.contextBody);
+     }
+
+     $scope.controlContextBody = function() {
+      console.log("Controlling body");
+      ngrGame.control($scope.contextBody);
      }
 
      $scope.clearAll = function () {
