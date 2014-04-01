@@ -128,6 +128,26 @@ angular.module('shapemaker')
       }
 
     },{
+      name: 'Dude',
+      shape: 'box',
+      skin: {
+        src: 'img/sprites/p1/p1_spritesheet.png',
+        bg: 'spritesheet'
+      },
+      controls: 'platform-hero',
+      userData: {
+        doodad: true,
+      },
+      presets: {
+        height: 1,
+        width: 0.5,
+        restitution: 0.1,
+        density: 0,
+        friction: 0.2,
+        gravityScale: 0
+      }
+
+    },{
       name: 'Bouncey Platform',
       shape: 'box',
       skin: {
