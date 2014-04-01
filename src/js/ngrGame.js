@@ -143,7 +143,7 @@ angular.module("Rectangular")
     }
 
     this.turnToCannonball = function (thing, volatility) {
-      thing.onimpact(volatility || 1, g.explode);
+      thing.onimpact(g.explode);
     }
 
   })
