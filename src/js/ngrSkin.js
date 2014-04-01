@@ -47,7 +47,7 @@ angular.module('Rectangular')
             console.log("Loading spritesheet");
             var data = {
                 images: [options.src],
-                frames: {width:50, height:50},
+                frames: {width:73, height:96},
                 animations: {run:[0,4], jump:[5,8,"run"]}
             };
             var spriteSheet = new createjs.SpriteSheet(data);
