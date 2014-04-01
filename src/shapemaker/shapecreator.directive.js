@@ -38,7 +38,7 @@ angular.module('shapemaker')
         })
 
         $scope.newShape = function (input) {
-          $scope.addShape($attrs.shape);
+          $scope.addShape();
         }
 
         $scope.$watch('q', function () {
@@ -51,7 +51,10 @@ angular.module('shapemaker')
         $scope.q.preset = _.sample($scope.presets);
 
         $scope.addShape = function (shape) {
-          if (q.skin) q.src = q.skin.src;
+
+          if (q.preset.skin) q.src = q.preset.skin.src;
+          if (q.preset.skin) q.bg = q.preset.skin.bg;
+          console.log("adding shape,",shape,q.preset);
           ngrWorld.addElement(shapemakerDefaults.shape(q));
         }
 

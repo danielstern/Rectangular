@@ -37,7 +37,23 @@ angular.module('Rectangular')
 
           var img = imgData.image;
 
-          if (options.bg != 'tiled') {
+          console.log("skinning",options);
+
+          if (options.bg == 'tiled') {
+
+            _container.addChild(nd.tile(img, options));
+
+          } else if (options.bg =='spritesheet') {
+            console.log("Loading spritesheet");
+            var data = {
+                images: [options.src],
+                frames: {width:50, height:50},
+                animations: {run:[0,4], jump:[5,8,"run"]}
+            };
+            var spriteSheet = new createjs.SpriteSheet(data);
+            var animation = new createjs.Sprite(spriteSheet, "run");
+
+          } else {
 
             var scaleX;
             var scaleY;
@@ -62,9 +78,6 @@ angular.module('Rectangular')
             imgData.scaleY = scaleY;
             imgData.mouseEnabled = options.mouseEnabled;
             _container.addChild(imgData)
-
-          } else {
-            _container.addChild(nd.tile(img, options));
 
           }
 
