@@ -141,6 +141,8 @@ angular.module('shapemaker')
           regY: 50,
           count: 16
         },*/
+        frameWidth: 73,
+        frameHeight: 97,
         frames: [
            [365, 98, 69, 71],
            [0, 196, 66, 92],

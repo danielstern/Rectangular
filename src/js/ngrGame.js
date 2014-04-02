@@ -278,7 +278,8 @@ angular.module("Rectangular")
       }
 
       if (state.goingRight) {
-        //console.log("Sprite?",body.sprite);
+        console.log("Sprite?",body.sprite, anim);
+        //console.log("Anim scale?",anim.scaleX);
         if (anim.paused) anim.gotoAndPlay("run");
         anim.scaleX = Math.abs(anim.scaleX);
       }
