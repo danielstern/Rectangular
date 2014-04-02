@@ -12,10 +12,11 @@ angular.module('Rectangular')
       var defaults = _.clone(ngrDefaults.skin);
       var actor = undefined;
       var imgData;
-      var animation = {};
+      var r = {};
+      
+      console.log("Skin?",body);
 
       options = _.extend(defaults, options);
-
 
       if (options.shapeKind === 'circle') {
         options.spriteWidth = options.radius * scale;
@@ -28,7 +29,6 @@ angular.module('Rectangular')
 
       body.options = _.extend(body.options, options)
 
-
       _body.container = _container;
 
       actor = ngrActor.newActor(body, _container);
@@ -38,28 +38,28 @@ angular.module('Rectangular')
 
           var img = imgData.image;
 
-          console.log("skinning",options);
+          
 
           if (options.bg == 'tiled') {
 
             _container.addChild(nd.tile(img, options));
 
-          } else if (options.bg =='spritesheet') {
-            console.log("Loading spritesheet",options,imgData);
+          } else if (options.bg == 'spritesheet') {
+            
             var data = {
-                images: [options.src],
-                frames: options.frames,
-                animations: options.animations
+              images: [options.src],
+              frames: options.frames,
+              animations: options.animations
             };
             var spriteSheet = new createjs.SpriteSheet(data);
-            animation = new createjs.Sprite(spriteSheet, "stand");
+            r.animation = new createjs.Sprite(spriteSheet, "stand");
 
-            var animScale =  options.spriteHeight / options.frames.height * 2;
-            console.log("animScale?",animScale,options.height, options.frames.height);
+            var animScale = options.spriteHeight / options.frames.height * 2;
+            console.log("animScale?", animScale, options.height, options.frames.height);
 
-            animation.scaleX = animation.scaleY = animScale;
+            r.animation.scaleX = r.animation.scaleY = animScale;
 
-            _container.addChild(animation);
+            _container.addChild(r.animation);
 
           } else {
 
@@ -91,11 +91,10 @@ angular.module('Rectangular')
 
         })
 
-      return {
-        actor: actor,
-        container: _container,
-        sprite: animation
-      }
+      r.actor = actor;
+      r.container = _container;
+
+      return r;
 
     };
 

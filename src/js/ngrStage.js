@@ -69,6 +69,8 @@ angular.module('Rectangular')
 
       console.log("Got sprite...",sprite);
 
+      b.sprite = sprite;
+
       return sprite;
 
     }

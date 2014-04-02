@@ -141,13 +141,16 @@ angular.module("Rectangular")
 
     };
 
+    var controlLoop;
+
     this.control = function (body, hero, map) {
 
       console.log("Controlling body...",body);
 
       var hero = new heroDefintions[hero](body);
       var state = hero.getState();
-      ngrLoop.addHook(hero.tick);
+      if (controlLoop) ngrLoop.removeHook(controlLoop);
+      controlLoop = ngrLoop.addHook(hero.tick);
 
       bindControls();
 
@@ -261,6 +264,8 @@ angular.module("Rectangular")
       var currentSpeed = heroBody.GetLinearVelocity().x;
       var speedingL = currentSpeed < -stats.maxSpeed;
       var speedingR = currentSpeed > stats.maxSpeed;
+      var anim = body.sprite.animation;
+        window.sprite = anim;
       // console.log("Current speed?",currentSpeed);
 
       var contacts = h.body.GetContactList();
@@ -270,6 +275,17 @@ angular.module("Rectangular")
         state.usedGroundSmash = false;
       } else {
         if (!state.airborneGraceTime) state.airborne = true;
+      }
+
+      if (state.goingRight) {
+        //console.log("Sprite?",body.sprite);
+        if (anim.paused) anim.gotoAndPlay("run");
+        anim.scaleX = Math.abs(anim.scaleX);
+      }
+
+      if (state.goingLeft) {
+        if (anim.paused) anim.gotoAndPlay("run");
+        anim.scaleX = -Math.abs(anim.scaleX);
       }
 
       if (state.goingLeft && !speedingL) {
