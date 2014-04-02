@@ -134,20 +134,45 @@ angular.module('shapemaker')
       skin: {
         src: 'img/sprites/p1/p1_spritesheet.png',
         bg: 'spritesheet',
-        frames: {
+        /*frames: {
           width: 73,
           height: 97,
           regX: 36.5,
-          regY: 50
-        },
+          regY: 50,
+          count: 16
+        },*/
+        frames: [
+           [365, 98, 69, 71],
+           [0, 196, 66, 92],
+           [438, 0, 69, 92],
+           [438, 93, 67, 94],
+           [67, 196, 66, 92],
+           [0, 0, 72, 97],
+           [73, 0, 72, 97],
+           [146, 0, 72, 97],
+           [0, 98, 72, 97],
+           [73, 98, 72, 97],
+           [146, 98, 72, 97],
+           [219, 0, 72, 97],
+           [292, 0, 72, 97],
+           [219, 98, 72, 97],
+           [365, 0, 72, 97],
+           [292, 98, 72, 97],
+        ],
         animations: {
           run: {
-            frames: [6, 7, 8, 7 ],
+            frames: [5, 6, 7, 8,9,10],
             next: 'stand',
             speed: 0.2
           },
           stand: {
-            frames: [9]
+            frames: [5]
+          },
+          jump: {
+            frames: [14],
+            next: "stand",
+            speed: 0.03
+
           }
         }
       },

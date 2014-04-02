@@ -288,6 +288,11 @@ angular.module("Rectangular")
         anim.scaleX = -Math.abs(anim.scaleX);
       }
 
+      if (state.isJumping) {
+        anim.gotoAndPlay("jump");
+        
+      }
+
       if (state.goingLeft && !speedingL) {
         var s = stats;
         var heroBody = h.body;
