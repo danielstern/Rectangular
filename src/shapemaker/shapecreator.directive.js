@@ -55,7 +55,8 @@ angular.module('shapemaker')
           if (q.preset.skin) _.extend(q,q.preset.skin);
           if (q.customSrc) {
             q.src = $scope.q.customSrc;
-          }
+          };
+          q.profile = q.preset.profile;
           console.log("adding shape,",shape,q.preset);
           ngrWorld.addElement(shapemakerDefaults.shape(q));
         }

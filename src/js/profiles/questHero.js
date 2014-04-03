@@ -1,5 +1,5 @@
 angular.module('Rectangular')
-.service('questHero', function (ngrGame) {
+.service('questHero', function (ngrGame, confCoin) {
 
   function Hero(body, options) {
     var h = this;
@@ -9,6 +9,10 @@ angular.module('Rectangular')
     h.type = 'dynamic';
     h.friction = 0.1;
     h.density = 0.2;
+
+    body.SetUserData({
+      isHero: true
+    })
 
     var state = {
       goingLeft: false,
@@ -140,8 +144,7 @@ angular.module('Rectangular')
 
         if (!state.jumpWait) {
 
-          console.log("Jumping")
-          state.jumpWait = stats.jumpCooldown;
+                    state.jumpWait = stats.jumpCooldown;
           var force = state.airborne ? s.doubleJumpForce : s.jumpForce;
           heroBody.ApplyForce(new b2Vec2(0, -force), heroBody.GetWorldCenter());
 
@@ -167,6 +170,20 @@ angular.module('Rectangular')
     }
   }
 
-  ngrGame.addHeroDefinition('questHero', Hero);
+  ngrGame.addProfile('questHero', Hero);
+
+})
+.service('confCoin', function (ngrGame) {
+  var Coin = function(body) {
+    body.onimpact(function(body,other){
+      
+      if (other.GetUserData() && other.GetUserData().isHero) {
+        body.crumble();
+        ngrGame.score(10);
+      }
+    })
+  }
+
+  ngrGame.addProfile('confCoin', Coin);
 
 })

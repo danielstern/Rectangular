@@ -7,6 +7,24 @@ angular.module("Rectangular")
     var p = $(canvas).parent();
     var panning = false;
     var dragging = false;
+    var profiles = [];
+
+    ngrWorld.oncreatebody(function(body){
+      
+      if (body.options.profile) {
+      
+        var profile = profiles[body.options.profile];
+        if (!profile) {
+            console.error("No profile available,",body.options.profile)
+            return;
+        };
+        profile(body);
+      }
+    })
+
+    this.score = function(points) {
+      console.log("You scored " + points + " points dog");
+    }
 
     this.dragToPan = function (enable) {
       ngrInterface.onclick(function (r) {
@@ -147,7 +165,7 @@ angular.module("Rectangular")
 
       console.log("Controlling body...", body);
 
-      var hero = new heroDefintions[hero](body);
+      var hero = new profiles[hero](body);
       var state = hero.getState();
       if (controlLoop) ngrLoop.removeHook(controlLoop);
       controlLoop = ngrLoop.addHook(hero.tick);
@@ -189,10 +207,10 @@ angular.module("Rectangular")
       }
     }
 
-    var heroDefintions = {};
-    this.addHeroDefinition = function (name, def) {
-      heroDefintions[name] = def;
+    this.addProfile = function(name,def) {
+      profiles[name] = def;
     }
+
 
     this.turnToCannonball = function (thing, volatility) {
       thing.onimpact(g.explode);

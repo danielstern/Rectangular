@@ -14,7 +14,6 @@ angular.module('Rectangular')
       var imgData;
       var r = {};
       
-      console.log("Skin?",body);
 
       options = _.extend(defaults, options);
 
@@ -55,8 +54,7 @@ angular.module('Rectangular')
             r.animation = new createjs.Sprite(spriteSheet, "stand");
 
             var animScale = options.spriteHeight / options.frameHeight * 2;
-            console.log("animScale?", animScale, options.height, options.frameHeight);
-
+            
             r.animation.scaleX = r.animation.scaleY = animScale;
 
             _container.addChild(r.animation);
