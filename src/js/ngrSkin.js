@@ -174,7 +174,7 @@ angular.module('Rectangular')
       var strokeColor = options.strokeColor || "#000"
 
       var stroke = new createjs.Shape();
-      var strokeWidth = options.strokeWidth || 5;
+      var strokeWidth = options.strokeWidth || 1;
       stroke.graphics.beginFill(strokeColor);
       if (options.shapeKind == 'box') {
         stroke.graphics.drawRect(-options.spriteWidth - strokeWidth / 2, -options.spriteHeight - strokeWidth / 2,
