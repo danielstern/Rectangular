@@ -1,4 +1,4 @@
- angular.module("shapemaker", ['ngAudio', 'Rectangular'])
+ angular.module("shapemaker", ['ngAudio', 'Rectangular','ConfusionQuest'])
    .controller('myDemoCtrl', function ($scope, ngrGame, $element, ngrStage, ngrData, ngrRoom, ngrCamera, ngrData, ngrDefaults, ngrLoop, ngrWorld, ngrInterface, ngrEnvironment, ngrState, ngAudio, $compile) {
 
      var contextMenu;

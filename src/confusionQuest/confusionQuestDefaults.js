@@ -1,6 +1,6 @@
 angular.module("ConfusionQuest",[])
 .service("ConfusionQuestDefaults",function(){
-	{
+	var defaults = [{
 	      name: 'Wooden Box',
 	      shape: 'box',
 	      skin: {
@@ -160,5 +160,5 @@ angular.module("ConfusionQuest",[])
 
 	      }
 
-	    }
+	    }]
 })

@@ -1,1 +1,1 @@
-angular.module("ConfusionQuest",[]);
+angular.module("ConfusionQuest",[])

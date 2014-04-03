@@ -1,5 +1,5 @@
 angular.module('ConfusionQuest')
-.service('questHero', function (ngrGame, confCoin) {
+.service('questHero', function (ngrGame) {
 
   function Hero(body, options) {
     var h = this;

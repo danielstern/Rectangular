@@ -13,6 +13,10 @@ angular.module('shapemaker')
       return _.extend(_.clone(new Shape), _.clone(options));
     }
 
+    this.addDefaults = function(_presets) {
+      presets = concat(presets, _presets);
+    }
+
     this.context = {
       scale: 60,
       gravity: 60,
