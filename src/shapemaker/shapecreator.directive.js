@@ -54,7 +54,6 @@ angular.module('shapemaker')
 
           if (q.preset.skin) _.extend(q,q.preset.skin);
           if (q.customSrc) {
-            console.log("Cusotm src...");
             q.src = $scope.q.customSrc;
           }
           console.log("adding shape,",shape,q.preset);
