@@ -133,7 +133,6 @@
 
      $scope.clearAll = function () {
        ngrEnvironment.clearAll();
-       ngrEnvironment.createRoom();
      };
 
      $('canvas')[0].addEventListener('dblclick', function () {
