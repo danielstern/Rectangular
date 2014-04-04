@@ -8,7 +8,12 @@ angular.module('ConfusionQuest', [])
   ngrGame.oncreateentity(function(entity){
   	console.log("CQ got Created entity...",entity);
   	if (entity.type == "questHero") {
-  		ngrGame.control(entity)
+  		ngrGame.control(entity,{
+  			'a':'goingLeft',
+  			'd':'goingRight',
+  			'w':'isJumping',
+  			's':'isCrouching',
+  		})
   	}
   })
 

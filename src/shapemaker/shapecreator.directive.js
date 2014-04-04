@@ -59,7 +59,7 @@ angular.module('shapemaker')
             $scope.params.src = $scope.$scope.params.customSrc;
           };
           $scope.params.profile = preset.profile;
-          console.log("adding shape,", shape, preset);
+          
           ngrWorld.addElement(shapemakerDefaults.shape($scope.params));
         }
 

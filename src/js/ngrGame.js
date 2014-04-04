@@ -70,44 +70,17 @@ angular.module("Rectangular")
       if (controlLoop) ngrLoop.removeHook(controlLoop);
       controlLoop = ngrLoop.addHook(hero.tick);
 
-      bindControls();
-
-      function bindControls() {
-
-        Mousetrap.bind({
-          'd': function () {
-            state.goingRight = true;
-          },
-          'a': function () {
-            state.goingLeft = true;
-          },
-          'w': function () {
-            state.isJumping = true;
-          },
-          's': function () {
-            state.isCrouching = true;
-          },
+      _.each(map,function(value,key){
+        Mousetrap.bind(key, function(){
+          state[value] = true;
         }, 'keydown');
 
-        Mousetrap.bind({
-          'd': function () {
-            state.goingRight = false;
-          },
-          'a': function () {
-            state.goingLeft = false;
-          },
-          'w': function () {
-            state.isJumping = false;
-          },
-          's': function () {
-            state.isCrouching = false;
-          },
+        Mousetrap.bind(key, function(){
+          state[value] = false;
         }, 'keyup');
-
-      }
+      })
     };
 
-    // Lift and throw boxes like the puny pawns they are!
     this.godMode = function (enable) {
       var cursorJoint = undefined;
 
@@ -168,14 +141,6 @@ angular.module("Rectangular")
 
     }
 
-    if (!$('.blocker')[0]) {
-      p.append('<div class="blocker"></div>');
-      $('.blocker').append('<div class="blocker-inner"></div>');
-    }
-
-    var blockerRunning = false;
-    var r;
-
     this.screen = function (src) {
       var c = ngrStage.overlay(src);
       ngrInterface.onescape(function () {
@@ -183,39 +148,8 @@ angular.module("Rectangular")
       })
     }
 
-    this.blocker = function () {
-
-      if (blockerRunning) return r.promise;
-
-      $('.blocker-inner').removeClass('block slide-out');
-
-      r = $q.defer();
-      $('.blocker-inner').addClass('block');
-      blockerRunning = true;
-
-      setTimeout(function () {
-        r.resolve();
-
-        blockerRunning = false;
-        setTimeout(function () {
-          $('.blocker-inner').addClass('slide-out');
-
-          setTimeout(function () {
-            $('.blocker-inner').removeClass('slide-out');
-            $('.blocker-inner').removeClass('block');
-          }, 250);
-
-        }, 1000)
-
-      }, 500);
-
-      return r.promise;
-
-    };
 
     var controlLoop;
-
-    //this.control = undefined;
 
     this.addProfile = function(name,def) {
       profiles[name] = def;
