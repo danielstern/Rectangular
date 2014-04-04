@@ -11,7 +11,6 @@ angular.module('shapemaker')
       controller: function ($scope, $attrs, $element, ngrEnvironment, ngrWorld, ngrState, shapemakerDefaults) {
 
         $scope.defaults = shapemakerDefaults.shapeDefaultParams;
-
         $scope.shapes = shapemakerDefaults.shapeOptions;
         $scope.skins = shapemakerDefaults.skins;
         $scope.presets = shapemakerDefaults.presets;
@@ -21,7 +20,7 @@ angular.module('shapemaker')
         $scope.$watchCollection('preset', function () {
           var pre = $scope.preset;
           if (!pre.shape) return;
-          console.log("Preset?", pre);
+
           _.each(pre.presets, function (_pre, key) {
             $scope.params[key] = _pre;
           });
@@ -46,7 +45,6 @@ angular.module('shapemaker')
         }
 
         $scope.$watch('params', function (x) {
-          console.log("Params watch",x);
           if (!$scope.params.shape) return;
           $scope.properties = $scope.defaults[$scope.params.shape.type].params.split(' ');
         }, true)
