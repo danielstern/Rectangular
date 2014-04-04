@@ -32,7 +32,7 @@ angular.module("Rectangular")
     })
 
     this.score = function(points) {
-      console.log("You scored " + points + " points dog");
+      //console.log("You scored " + points + " points dog");
     }
 
     this.powerup = undefined;

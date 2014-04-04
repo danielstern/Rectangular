@@ -83,6 +83,12 @@ angular.module('Rectangular')
         });
       }
 
+      body.setSensor = function(bool) {
+        var f = body.GetFixtureList();
+        f.SetSensor(bool);
+        window.f = f;
+      }
+
       body.onfall = function (func) {
         fallListeners.push(func);
       }
