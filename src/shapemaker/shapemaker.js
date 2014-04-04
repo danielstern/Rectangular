@@ -1,5 +1,5 @@
  angular.module("shapemaker", ['ngAudio', 'Rectangular','ConfusionQuest'])
-   .controller('myDemoCtrl', function ($scope, ngrGame, ConfusionQuest, $element, ngrStage, ngrData, ngrRoom, ngrCamera, ngrData, ngrDefaults, ngrLoop, ngrWorld, ngrInterface, ngrEnvironment, ngrState, ngAudio, $compile) {
+   .controller('myDemoCtrl', function ($scope, ngrGame, ConfusionQuestDefaults, shapemakerDefaults, $element, ngrStage, ngrData, ngrRoom, ngrCamera, ngrData, ngrDefaults, ngrLoop, ngrWorld, ngrInterface, ngrEnvironment, ngrState, ngAudio, $compile) {
 
      var contextMenu;
      var contextPin;
@@ -8,6 +8,8 @@
      $scope.stats = {};
 
      $scope.game = ngrGame;
+
+     shapemakerDefaults.addDefaults(ConfusionQuestDefaults.defaults);
 
      ngrEnvironment.init($scope.context);
      ngrInterface.init();
@@ -152,23 +154,6 @@
 
      ngrGame.dragToPan(true);
      ngrGame.godMode(true);
-
-     /*  $('canvas')[0].addEventListener("mousewheel", MouseWheelHandler, false);
-
-     function MouseWheelHandler(e) {
-
-       e.preventDefault();
-
-       if (e.wheelDelta < 0) {
-         $scope.context.zoom -= 0.05;
-       } else {
-         $scope.context.zoom += 0.05;
-       }
-
-       if ($scope.context.zoom < 0.05) $scope.zoom = 0.05;
-
-       $scope.$apply();
-     }*/
 
      $scope.deleteContextItem = function () {
        $scope.contextBody.crumble();

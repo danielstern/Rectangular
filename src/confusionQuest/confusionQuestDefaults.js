@@ -1,6 +1,6 @@
 angular.module("ConfusionQuest")
 .service("ConfusionQuestDefaults",function(){
-	var defaults = [{
+	this.defaults = [{
 	      name: 'Wooden Box',
 	      shape: 'box',
 	      skin: {

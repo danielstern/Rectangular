@@ -14,7 +14,7 @@ angular.module('shapemaker')
     }
 
     this.addDefaults = function(_presets) {
-      presets = concat(presets, _presets);
+      this.presets = this.presets.concat(_presets);
     }
 
     this.context = {
@@ -80,21 +80,6 @@ angular.module('shapemaker')
       circle: {
         params: 'radius restitution density friction'
       }
-    }
-
-    this.creatorDefaults = {
-      height: 2,
-      width: 1,
-      radius: 2,
-      restitution: 0.3,
-      density: 0.5,
-      friction: 0.5,
-      linearDamping: 0.5,
-      gravityScale: 0.5,
-      angle: 0,
-      innerAngle: 90,
-      adjacent: 2,
-      opposite: 2,
     }
 
     this.presets = []

@@ -10,13 +10,12 @@ angular.module('shapemaker')
       },
       controller: function ($scope, $attrs, $element, ngrEnvironment, ngrWorld, ngrState, shapemakerDefaults) {
 
-        $scope.q = _.clone(shapemakerDefaults.creatorDefaults);
-        var q = $scope.q;
+       $scope.defaults = shapemakerDefaults.shapeDefaultParams;
+       var q = $scope.q = {};
         
 
-        $scope.defaults = shapemakerDefaults.shapeDefaultParams;
-
         $scope.$watchCollection('q.preset', function () {
+          console.log("Preset watch",q.preset);
           if ($scope.q.preset) {
             var pre = $scope.q.preset;
             _.each(pre.presets, function (_pre, key) {
@@ -42,7 +41,8 @@ angular.module('shapemaker')
         }
 
         $scope.$watch('q', function () {
-          //if ($scope.defaults) $scope.properties = $scope.defaults[$scope.q.shape.type].params.split(' ');
+          console.log("Q watch time",$scope.q,$scope.defaults)
+           $scope.defaults[$scope.q.shape.type].params.split(' ');
         }, true)
 
         $scope.options = shapemakerDefaults.shapeOptions;
