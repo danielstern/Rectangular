@@ -45,9 +45,10 @@ angular.module('shapemaker')
           $scope.addShape();
         }
 
-        $scope.$watch('params', function () {
+        $scope.$watch('params', function (x) {
+          console.log("Params watch",x);
           if (!$scope.params.shape) return;
-          $scope.defaults[$scope.params.shape.type].params.split(' ');
+          $scope.properties = $scope.defaults[$scope.params.shape.type].params.split(' ');
         }, true)
 
 
