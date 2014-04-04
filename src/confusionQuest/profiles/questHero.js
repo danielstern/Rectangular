@@ -105,13 +105,26 @@ angular.module('ConfusionQuest')
       if (!state.airborneGraceTime) state.airborne = true;
       while (contacts) {
         if (contacts && contacts.contact.IsTouching() && contacts.other.GetUserData() && contacts.other.GetUserData().isFloor) {
-          state.airborne = false;
-          state.airborneGraceTime = stats.airborneGrace;
-          state.usedGroundSmash = false;
+          var p1 = new b2Vec2(body.GetPosition().x, body.GetPosition().y); //center of scene
+          var p2 = new b2Vec2(body.GetPosition().x, body.GetPosition().y + 5); //center of scene
+          ngrWorld.getWorld().RayCast(function(x){
+            //console.log("Got raycast,",x.m_body.GetUserData());
+            var otherData = x.m_body.GetUserData();
+            if (otherData.isFloor) {
+              state.airborne = false;
+              state.airborneGraceTime = stats.airborneGrace;
+              state.usedGroundSmash = false;
+            }
+          }, p1,p2);
+//          state.airborne = false;
+  //        state.airborneGraceTime = stats.airborneGrace;
+    //      state.usedGroundSmash = false;
         }
 
         contacts = contacts.next;
       }
+
+
 
       if (state.goingRight) {
         if (anim.paused) anim.gotoAndPlay("run");
@@ -202,13 +215,8 @@ angular.module('ConfusionQuest')
       
 
       //calculate points of ray
-      var rayLength = 25; //long enough to hit the walls
-      var p1 = new b2Vec2(body.GetPosition().x, body.GetPosition().y); //center of scene
-      var p2 = new b2Vec2(body.GetPosition().x, body.GetPosition().y + 5); //center of scene
-      //console.log("Casting...",p1,p2);
-      ngrWorld.getWorld().RayCast(function(x){
-        console.log("Got raycast,",x)
-      }, p1,p2);
+
+
 
    //   var res = ngrWorld.getWorld().RayCastAll(p1, p2);
      // console.log("Res?", res);

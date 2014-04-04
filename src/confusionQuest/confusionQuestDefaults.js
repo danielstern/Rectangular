@@ -129,7 +129,7 @@ angular.module("ConfusionQuest")
           jump: {
             frames: [3],
             next: "stand",
-            speed: 0.03
+            speed: 0.3
 
           }
         }
