@@ -25,7 +25,7 @@ angular.module('shapemaker')
             $scope.params[key] = _pre;
           });
 
-          $scope.params.userData = $scope.params.userData || {};
+          $scope.params.userData = $scope.preset.userData || {};
 
           $scope.params.shape = _.find($scope.shapes, function (option) {
             return (pre.shape == option.type);

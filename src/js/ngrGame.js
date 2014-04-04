@@ -8,6 +8,11 @@ angular.module("Rectangular")
     var panning = false;
     var dragging = false;
     var profiles = [];
+    var createEntityListeners = [];
+
+    this.oncreateentity = function(f) {
+      createEntityListeners.push(f);
+    }
 
     ngrWorld.oncreatebody(function(body){
       
@@ -18,13 +23,19 @@ angular.module("Rectangular")
             console.error("No profile available,",body.options.profile)
             return;
         };
-        profile(body);
+        var entity = new profile(body);
+        entity.type = body.options.profile;
+        entity.constructor = profile;
+
+        _.call(createEntityListeners,entity);
       }
     })
 
     this.score = function(points) {
       console.log("You scored " + points + " points dog");
     }
+
+    this.powerup = undefined;
 
     this.dragToPan = function (enable) {
       ngrInterface.onclick(function (r) {
@@ -52,6 +63,49 @@ angular.module("Rectangular")
         }
       })
     }
+
+    this.control = function (hero, map) {
+
+      var state = hero.getState();
+      if (controlLoop) ngrLoop.removeHook(controlLoop);
+      controlLoop = ngrLoop.addHook(hero.tick);
+
+      bindControls();
+
+      function bindControls() {
+
+        Mousetrap.bind({
+          'd': function () {
+            state.goingRight = true;
+          },
+          'a': function () {
+            state.goingLeft = true;
+          },
+          'w': function () {
+            state.isJumping = true;
+          },
+          's': function () {
+            state.isCrouching = true;
+          },
+        }, 'keydown');
+
+        Mousetrap.bind({
+          'd': function () {
+            state.goingRight = false;
+          },
+          'a': function () {
+            state.goingLeft = false;
+          },
+          'w': function () {
+            state.isJumping = false;
+          },
+          's': function () {
+            state.isCrouching = false;
+          },
+        }, 'keyup');
+
+      }
+    };
 
     // Lift and throw boxes like the puny pawns they are!
     this.godMode = function (enable) {
@@ -161,55 +215,7 @@ angular.module("Rectangular")
 
     var controlLoop;
 
-    this.control = function (body, hero, map) {
-
-      console.log("Controlling body...", body);
-      
-      if (!profiles[hero]) {
-          throw new Error ("You haven't defined this profile", hero);
-      }
-
-      var hero = new profiles[hero](body);
-      var state = hero.getState();
-      if (controlLoop) ngrLoop.removeHook(controlLoop);
-      controlLoop = ngrLoop.addHook(hero.tick);
-
-      bindControls();
-
-      function bindControls() {
-
-        Mousetrap.bind({
-          'd': function () {
-            state.goingRight = true;
-          },
-          'a': function () {
-            state.goingLeft = true;
-          },
-          'w': function () {
-            state.isJumping = true;
-          },
-          's': function () {
-            state.isCrouching = true;
-          },
-        }, 'keydown');
-
-        Mousetrap.bind({
-          'd': function () {
-            state.goingRight = false;
-          },
-          'a': function () {
-            state.goingLeft = false;
-          },
-          'w': function () {
-            state.isJumping = false;
-          },
-          's': function () {
-            state.isCrouching = false;
-          },
-        }, 'keyup');
-
-      }
-    }
+    //this.control = undefined;
 
     this.addProfile = function(name,def) {
       profiles[name] = def;

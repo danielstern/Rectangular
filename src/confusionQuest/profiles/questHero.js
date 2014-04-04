@@ -3,6 +3,13 @@ angular.module('ConfusionQuest')
 .service('questHero', function (ngrGame) {
 
   function Hero(body, options) {
+
+    console.log("QUEST HERO ACTIVEATE!");
+
+    body.profile = this;
+
+    //ngrGame.setHero(this);
+
     var h = this;
     h.height = 1.2;
     h.width = 0.7;
@@ -175,17 +182,40 @@ angular.module('ConfusionQuest')
   ngrGame.addProfile('questHero', Hero);
 
 })
-.service('confCoin', function (ngrGame) {
-  var Coin = function(body) {
-    body.onimpact(function(body,other){
-      
-      if (other.GetUserData() && other.GetUserData().isHero) {
-        body.crumble();
-        ngrGame.score(10);
+  .service('confCoin', function (ngrGame) {
+    var Coin = function (body) {
+      body.onimpact(function (body, other) {
+
+        if (other.GetUserData() && other.GetUserData().isHero) {
+          body.crumble();
+          ngrGame.score(10);
+        }
+      })
+    }
+
+    ngrGame.addProfile('confCoin', Coin);
+
+  })
+  .service('boots1', function (ngrGame) {
+    var stats = {
+      id: "boots1",
+      name: "Trévon's Greaves of Dunking",
+      description: "These legendary shoes increase your jumping power by 10%",
+      hero: {
+        speed: 10
       }
-    })
-  }
+    }
+    var Boots1 = function (body) {
+      body.onimpact(function (body, other) {
 
-  ngrGame.addProfile('confCoin', Coin);
+        if (other.GetUserData() && other.GetUserData().isHero) {
+          body.crumble();
+          console.log("Power up!");
+          ngrGame.powerup(stats);
+        }
+      })
+    }
 
-})
+    ngrGame.addProfile('boots1', Boots1);
+
+  })
