@@ -12,9 +12,7 @@ angular.module('ConfusionQuest', [])
   	if (_.find(CQState.powerups, function(_powerup){
   		if (_powerup.id == powerup.id) return true;
   	})) {
-  		//console.warn("You already got this powerup",powerup);
   	} else {
-  		//console.log("Showing prompt...");
   		ngrGame.pause();
   		var modal = ngrStage.modal({
   			title: powerup.name,
@@ -23,15 +21,13 @@ angular.module('ConfusionQuest', [])
   			flavor: powerup.flavor
   		});
 
-  		modal.find('.button').on('click',function(){
-  			modal.hide();
-  			ngrGame.unpause();
-  		})
+  		modal.find('.button').on('click',endModal);
+  		var esc = ngrInterface.onescape(endModal);
 
-  		var esc = ngrInterface.onescape(function(){
+  		function endModal(){
   			modal.hide();
   			ngrGame.unpause();
-  		})
+  		}
   	}
 
   	if (powerup.hero) {
