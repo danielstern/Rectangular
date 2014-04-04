@@ -20,6 +20,60 @@ canvas {
 	height: 500;
 }
 
+.modal {
+	width: 500px;
+	height: 400px;
+	/* padding: 15px; */
+	background-color: #fefefe;
+	border-radius: 20px;
+	z-index: 10000;
+	position: absolute;
+	margin: auto;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	font-family: Arial;
+}
+
+.modal h1 {
+	margin: auto;
+	text-align: center;
+	margin-top: 25px;
+	font-size: 48px;
+}
+
+.modal img {
+	width: 20%;
+	margin: auto;
+	display: block;
+}
+
+.modal p {
+	text-align: center;
+	font-size: 24px;
+	
+}
+
+.modal p.flavor {
+	font-size: 10px;
+	font-family: Arial Italic;
+}
+
+.modal .button {
+	width: 200px;
+	margin: auto;
+	text-align: center;
+	border: 1px solid green;
+	padding: 10px;
+	border-radius: 10px;
+	font-size: 30px;
+	background-color: #eeffee;
+	color: black;
+	cursor: pointer;	
+	
+}
+
 
 .untouchable {
 	pointer-events: none;

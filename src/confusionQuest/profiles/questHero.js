@@ -232,7 +232,7 @@ angular.module('ConfusionQuest')
           ngrGame.powerup({
             id: "coin1",
             name: "Bitcoin",
-            img: "img/coin.png",
+            img: "img/coinGold.png",
             description: "You can redeem these coins for powerful upgrades at the end of each level.",
             flavor: "In the video game world, Bitcoin takes the form of handy coins.",
             points: 10

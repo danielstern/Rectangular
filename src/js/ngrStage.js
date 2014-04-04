@@ -42,6 +42,13 @@ angular.module('Rectangular')
     this.modal =function(data) {
       var r = $q.defer();
       console.log("creating modal...",data);
+      p.append("<div class='modal'></div>");
+      var modal = p.find('.modal');
+      modal.append('<h1>' + data.title + '</h1>');
+      modal.append('<img src="'+ data.img +'">');
+      modal.append('<p>' + data.text + '</p>');
+      modal.append('<div class="button">' + "OK (SPACE / ENTER)" + '</button>');
+      modal.append('<p class="flavor">' + data.flavor + '</p>');
       return r.promise;
     }
 

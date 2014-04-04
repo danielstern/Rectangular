@@ -1,5 +1,5 @@
 angular.module('ConfusionQuest', [])
-.service("ConfusionQuest",function(ngrGame, ngrCamera, ngrState, ConfusionQuestDefaults, questHero, confCoin, boots1){
+.service("ConfusionQuest",function(ngrGame, ngrCamera, ngrState, ngrStage, ConfusionQuestDefaults, questHero, confCoin, boots1){
  
  	var CQState = {
  		powerups:[],
@@ -14,7 +14,12 @@ angular.module('ConfusionQuest', [])
   	} else {
   		console.log("Showing prompt...");
   		ngrGame.pause();
-  		ngrStage.modal(powerup)
+  		ngrStage.modal({
+  			title: powerup.name,
+  			img: powerup.img,
+  			text: powerup.description,
+  			flavor: powerup.flavor
+  		})
   		.then(ngrGame.unpause);
   	}
 
