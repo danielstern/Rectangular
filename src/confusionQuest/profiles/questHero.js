@@ -1,4 +1,5 @@
 angular.module('ConfusionQuest')
+
 .service('questHero', function (ngrGame) {
 
   function Hero(body, options) {

@@ -1,4 +1,4 @@
-angular.module("ConfusionQuest",[])
+angular.module("ConfusionQuest")
 .service("ConfusionQuestDefaults",function(){
 	var defaults = [{
 	      name: 'Wooden Box',

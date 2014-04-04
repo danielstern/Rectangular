@@ -1,1 +1,4 @@
-angular.module("ConfusionQuest",[])
+angular.module('ConfusionQuest', [])
+.service("ConfusionQuest",function(ConfusionQuestDefaults, questHero){
+	
+})

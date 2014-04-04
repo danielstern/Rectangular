@@ -42,7 +42,7 @@ angular.module('shapemaker')
         }
 
         $scope.$watch('q', function () {
-          if ($scope.defaults) $scope.properties = $scope.defaults[$scope.q.shape.type].params.split(' ');
+          //if ($scope.defaults) $scope.properties = $scope.defaults[$scope.q.shape.type].params.split(' ');
         }, true)
 
         $scope.options = shapemakerDefaults.shapeOptions;
