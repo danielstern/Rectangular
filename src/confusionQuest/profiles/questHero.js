@@ -178,7 +178,7 @@ angular.module('ConfusionQuest')
 .service('confCoin', function (ngrGame) {
   var Coin = function(body) {
     body.onimpact(function(body,other){
-      console.log("Coin impacted.",other.GetUserData());
+      
       if (other.GetUserData() && other.GetUserData().isHero) {
         body.crumble();
         ngrGame.score(10);

@@ -179,10 +179,9 @@
      }
 
      $scope.pinContextItem = function () {
-       var cti = $scope.contextBody;
-       var pin = ngrEnvironment.pin(cti);
-       cti.pins = cti.pins || [];
-       cti.pins.push(pin);
+       var pin = ngrInterface.pinToMouse($scope.contextBody);
+       $scope.contextBody.pins = $scope.contextBody.pins || [];
+       $scope.contextBody.pins.push(pin);
        hideContextMenu();
      }
 
@@ -264,7 +263,7 @@
 
          $(contextMenu).hide();
          contextmenu = null;
-         ngrWorld.unpin(contextPin);
+         ngrWorld.destroyJoint(contextPin);
 
        }
      }

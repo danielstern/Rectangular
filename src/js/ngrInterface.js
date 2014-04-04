@@ -142,7 +142,7 @@ angular.module('Rectangular')
   }
 
   this.pinToMouse = function (body) {
-    var pin = ngrWorld.pin(body, last);
+    var pin = ngrWorld.addMouseJoint(body, last);
     return pin;
 
   }
