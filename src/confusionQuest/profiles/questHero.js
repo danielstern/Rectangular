@@ -1,6 +1,6 @@
 angular.module('ConfusionQuest')
 
-.service('questHero', function (ngrGame) {
+.service('questHero', function (ngrGame, ngrWorld) {
 
   function Hero(body, options) {
 
@@ -59,7 +59,7 @@ angular.module('ConfusionQuest')
       var percentChange = 1 + (boost / 100)
       switch (stat) {
       case "speed":
-        console.log("Boosting speed",percentChange);
+        console.log("Boosting speed", percentChange);
         stats.lateralSpeed *= percentChange;
         stats.lateralSpeedJumping *= percentChange;
         stats.maxSpeed *= percentChange;
@@ -198,6 +198,23 @@ angular.module('ConfusionQuest')
       if (state.dashCurrentCooldown) state.dashCurrentCooldown--;
 
       h.body.SetAngle(0);
+
+      
+
+      //calculate points of ray
+      var rayLength = 25; //long enough to hit the walls
+      var p1 = new b2Vec2(body.GetPosition().x, body.GetPosition().y); //center of scene
+      var p2 = new b2Vec2(body.GetPosition().x, body.GetPosition().y + 5); //center of scene
+      //console.log("Casting...",p1,p2);
+      ngrWorld.getWorld().RayCast(function(x){
+        console.log("Got raycast,",x)
+      }, p1,p2);
+
+   //   var res = ngrWorld.getWorld().RayCastAll(p1, p2);
+     // console.log("Res?", res);
+
+      window.world = ngrWorld.getWorld();
+
     }
   }
 
@@ -206,9 +223,9 @@ angular.module('ConfusionQuest')
 })
   .service('confCoin', function (ngrGame) {
     var Coin = function (body) {
-      
+
       //console.log("Fixtures?",body.GetFixtureList());
-    
+
       body.setSensor(true);
 
       body.onimpact(function (body, other) {
