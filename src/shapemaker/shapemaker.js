@@ -60,6 +60,7 @@
        'd': function () {
          $scope.toggleDebug();
        },
+       
        'x': function () {
          $scope.explodeContextItem();
        },

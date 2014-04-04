@@ -50,7 +50,7 @@ angular.module('shapemaker')
         }, true)
 
 
-        $scope.addShape = function (shape) {
+        $scope.addShape = function () {
 
           var preset = $scope.preset;
 
@@ -60,8 +60,13 @@ angular.module('shapemaker')
           };
           $scope.params.profile = preset.profile;
           
-          ngrWorld.addElement(shapemakerDefaults.shape($scope.params));
+          return ngrWorld.addElement(shapemakerDefaults.shape($scope.params));
         }
+
+        Mousetrap.bind('p',function(){
+          var q = $scope.addShape();
+          q.freeze();
+        })
 
         $scope.destroy = function () {
           $($element).hide();

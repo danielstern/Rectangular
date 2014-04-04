@@ -207,11 +207,9 @@ angular.module('ConfusionQuest')
   .service('confCoin', function (ngrGame) {
     var Coin = function (body) {
       
-      console.log("Fixtures?",body.GetFixtureList());
-
-      
-
-//      body.setSensor(true);
+      //console.log("Fixtures?",body.GetFixtureList());
+    
+      body.setSensor(true);
 
       body.onimpact(function (body, other) {
 
