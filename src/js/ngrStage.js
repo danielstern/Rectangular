@@ -39,6 +39,12 @@ angular.module('Rectangular')
       return ctx;
     }
 
+    this.modal =function(data) {
+      var r = $q.defer();
+      console.log("creating modal...",data);
+      return r.promise;
+    }
+
     this.toggleStage = function(toggle) {
       if (toggle) {
         c.alpha = 1;

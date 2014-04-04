@@ -24,6 +24,8 @@ angular.module('shapemaker')
             $scope.context.selectedAngle = bodyAngle / Math.PI * 180;
           }
 
+        //  $scope.context.zoom = ngrCamera.getTrueZoom();
+
           $scope.state = ngrState.getState();
           $scope.$apply();
 

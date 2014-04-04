@@ -19,6 +19,10 @@ angular.module("Rectangular")
       return zoom;
     }
 
+    this.getTrueZoom = function() {
+      return zoomTo;
+    }
+
     this.getFocus = function () {
       return focus;
     }

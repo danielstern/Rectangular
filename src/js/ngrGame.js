@@ -37,6 +37,9 @@ angular.module("Rectangular")
 
     this.powerup = undefined;
 
+    this.pause = ngrLoop.stop;
+    this.unpause = ngrLoop.start;
+
     this.dragToPan = function (enable) {
       ngrInterface.onclick(function (r) {
         panning = r.body == undefined;

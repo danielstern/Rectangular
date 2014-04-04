@@ -99,7 +99,6 @@ angular.module('ConfusionQuest')
       var speedingR = currentSpeed > stats.maxSpeed;
       var anim = body.sprite.animation;
       window.sprite = anim;
-      // console.log("Current speed?",currentSpeed);
 
       var contacts = h.body.GetContactList();
       if (!state.airborneGraceTime) state.airborne = true;
@@ -107,24 +106,18 @@ angular.module('ConfusionQuest')
         if (contacts && contacts.contact.IsTouching() && contacts.other.GetUserData() && contacts.other.GetUserData().isFloor) {
           var p1 = new b2Vec2(body.GetPosition().x, body.GetPosition().y); //center of scene
           var p2 = new b2Vec2(body.GetPosition().x, body.GetPosition().y + 5); //center of scene
-          ngrWorld.getWorld().RayCast(function(x){
-            //console.log("Got raycast,",x.m_body.GetUserData());
+          ngrWorld.getWorld().RayCast(function (x) {
             var otherData = x.m_body.GetUserData();
             if (otherData.isFloor) {
               state.airborne = false;
               state.airborneGraceTime = stats.airborneGrace;
               state.usedGroundSmash = false;
             }
-          }, p1,p2);
-//          state.airborne = false;
-  //        state.airborneGraceTime = stats.airborneGrace;
-    //      state.usedGroundSmash = false;
+          }, p1, p2);
         }
 
         contacts = contacts.next;
       }
-
-
 
       if (state.goingRight) {
         if (anim.paused) anim.gotoAndPlay("run");
@@ -212,14 +205,10 @@ angular.module('ConfusionQuest')
 
       h.body.SetAngle(0);
 
-      
-
       //calculate points of ray
 
-
-
-   //   var res = ngrWorld.getWorld().RayCastAll(p1, p2);
-     // console.log("Res?", res);
+      //   var res = ngrWorld.getWorld().RayCastAll(p1, p2);
+      // console.log("Res?", res);
 
       window.world = ngrWorld.getWorld();
 
@@ -240,7 +229,14 @@ angular.module('ConfusionQuest')
 
         if (other.GetUserData() && other.GetUserData().isHero) {
           body.crumble();
-          ngrGame.score(10);
+          ngrGame.powerup({
+            id: "coin1",
+            name: "Bitcoin",
+            img: "img/coin.png",
+            description: "You can redeem these coins for powerful upgrades at the end of each level.",
+            flavor: "In the video game world, Bitcoin takes the form of handy coins.",
+            points: 10
+          });
         }
       })
     }

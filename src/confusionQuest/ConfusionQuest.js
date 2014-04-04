@@ -1,5 +1,5 @@
 angular.module('ConfusionQuest', [])
-.service("ConfusionQuest",function(ngrGame, ConfusionQuestDefaults, questHero, confCoin, boots1){
+.service("ConfusionQuest",function(ngrGame, ngrCamera, ngrState, ConfusionQuestDefaults, questHero, confCoin, boots1){
  
  	var CQState = {
  		powerups:[],
@@ -11,6 +11,11 @@ angular.module('ConfusionQuest', [])
   	console.log("POWER UP!!",powerup);
   	if (_.contains(CQState.powerups)) {
   		console.warn("You already got this powerup",powerup);
+  	} else {
+  		console.log("Showing prompt...");
+  		ngrGame.pause();
+  		ngrStage.modal(powerup)
+  		.then(ngrGame.unpause);
   	}
 
   	if (powerup.hero) {
@@ -32,9 +37,20 @@ angular.module('ConfusionQuest', [])
   			'd':'goingRight',
   			'w':'isJumping',
   			's':'isCrouching',
-  		})
+  		});
 
   		hero = entity;
+
+  		ngrCamera.follow(entity.body);
+  		ngrCamera.setZoom(1);
+  		var room = ngrState.getState().room;
+  		console.log("Room?",room);
+  	   ngrCamera.constrainFocus({
+         x: 0,
+         y: 0,
+         width: room.width,
+         height: room.height
+       });
   	}
   })
 

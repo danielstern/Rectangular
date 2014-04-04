@@ -61,6 +61,10 @@
         e.preventDefault();
         $scope.save();
        },
+       'ctrl+l':function(e){
+        e.preventDefault();
+        $scope.loadLastMap();
+       },
        'd': function () {
          $scope.toggleDebug();
        },
@@ -253,6 +257,11 @@
        ngrRoom.createRoom();
 
        $scope.context.room = _.clone(ngrState.getState().room);
+     }
+
+     $scope.loadLastMap = function () {
+      var map = $scope.savedWorlds[$scope.savedWorlds.length - 1];
+      $scope.load(map);
      }
 
      $scope.exportSavedWorld = function (_world) {
