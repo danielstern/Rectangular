@@ -40,7 +40,7 @@ angular.module('Rectangular')
     }
 
     this.modal =function(data) {
-      var r = $q.defer();
+
       console.log("creating modal...",data);
       p.append("<div class='modal'></div>");
       var modal = p.find('.modal');
@@ -49,7 +49,7 @@ angular.module('Rectangular')
       modal.append('<p>' + data.text + '</p>');
       modal.append('<div class="button">' + "OK (SPACE / ENTER)" + '</button>');
       modal.append('<p class="flavor">' + data.flavor + '</p>');
-      return r.promise;
+      return modal;
     }
 
     this.toggleStage = function(toggle) {

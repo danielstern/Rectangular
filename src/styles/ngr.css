@@ -23,7 +23,7 @@ canvas {
 .modal {
 	width: 500px;
 	height: 400px;
-	/* padding: 15px; */
+	padding: 15px;
 	background-color: #fefefe;
 	border-radius: 20px;
 	z-index: 10000;
@@ -40,7 +40,7 @@ canvas {
 	margin: auto;
 	text-align: center;
 	margin-top: 25px;
-	font-size: 48px;
+	font-size: 33px;
 }
 
 .modal img {
@@ -51,8 +51,11 @@ canvas {
 
 .modal p {
 	text-align: center;
-	font-size: 24px;
+	font-size: 22px;
 	
+	width: 80%;
+	margin: auto;
+	margin-bottom: 40px;
 }
 
 .modal p.flavor {
@@ -61,7 +64,7 @@ canvas {
 }
 
 .modal .button {
-	width: 200px;
+	width: 80%;
 	margin: auto;
 	text-align: center;
 	border: 1px solid green;
@@ -72,6 +75,7 @@ canvas {
 	color: black;
 	cursor: pointer;	
 	
+	margin-bottom: 10px;
 }
 
 

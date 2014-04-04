@@ -1,5 +1,5 @@
 angular.module('ConfusionQuest', [])
-.service("ConfusionQuest",function(ngrGame, ngrCamera, ngrState, ngrStage, ConfusionQuestDefaults, questHero, confCoin, boots1){
+.service("ConfusionQuest",function(ngrGame, ngrCamera, ngrState, ngrInterface, ngrStage, ConfusionQuestDefaults, questHero, confCoin, boots1){
  
  	var CQState = {
  		powerups:[],
@@ -8,19 +8,30 @@ angular.module('ConfusionQuest', [])
  	var hero = undefined;
 
   ngrGame.powerup = function(powerup) {
-  	console.log("POWER UP!!",powerup);
-  	if (_.contains(CQState.powerups)) {
-  		console.warn("You already got this powerup",powerup);
+  	console.log("POWER UP!!",powerup,CQState.powerups);
+  	if (_.find(CQState.powerups, function(_powerup){
+  		if (_powerup.id == powerup.id) return true;
+  	})) {
+  		//console.warn("You already got this powerup",powerup);
   	} else {
-  		console.log("Showing prompt...");
+  		//console.log("Showing prompt...");
   		ngrGame.pause();
-  		ngrStage.modal({
+  		var modal = ngrStage.modal({
   			title: powerup.name,
   			img: powerup.img,
   			text: powerup.description,
   			flavor: powerup.flavor
+  		});
+
+  		modal.find('.button').on('click',function(){
+  			modal.hide();
+  			ngrGame.unpause();
   		})
-  		.then(ngrGame.unpause);
+
+  		var esc = ngrInterface.onescape(function(){
+  			modal.hide();
+  			ngrGame.unpause();
+  		})
   	}
 
   	if (powerup.hero) {
