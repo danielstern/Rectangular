@@ -156,6 +156,11 @@ angular.module('Rectangular')
     ngrCamera.setFocus(focus);
   }
 
+  this.getMousePos = function() {
+    var r = targeter.getInfo();
+    return r;
+  }
+
   this.getBodyAtMouse = function (r) {
     var targetVec = {
       x: mouseX,

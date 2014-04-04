@@ -8,7 +8,7 @@ angular.module('shapemaker')
       scope: {
 
       },
-      controller: function ($scope, $attrs, $element, ngrEnvironment, ngrWorld, ngrState, shapemakerDefaults) {
+      controller: function ($scope, $attrs, $element, ngrInterface, ngrEnvironment, ngrWorld, ngrState, shapemakerDefaults) {
 
         $scope.defaults = shapemakerDefaults.shapeDefaultParams;
         $scope.shapes = shapemakerDefaults.shapeOptions;
@@ -63,9 +63,12 @@ angular.module('shapemaker')
           return ngrWorld.addElement(shapemakerDefaults.shape($scope.params));
         }
 
-        Mousetrap.bind('p',function(){
+        Mousetrap.bind('q',function(){
           var q = $scope.addShape();
           q.freeze();
+          var pos = ngrInterface.getMousePos();
+          console.log("mouseinfo?",pos);
+          q.SetPosition(new b2Vec2(pos.worldPosX, pos.worldPosY));
         })
 
         $scope.destroy = function () {
