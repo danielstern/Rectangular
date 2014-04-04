@@ -164,6 +164,10 @@ angular.module("Rectangular")
     this.control = function (body, hero, map) {
 
       console.log("Controlling body...", body);
+      
+      if (!profiles[hero]) {
+          throw new Error ("You haven't defined this profile", hero);
+      }
 
       var hero = new profiles[hero](body);
       var state = hero.getState();
