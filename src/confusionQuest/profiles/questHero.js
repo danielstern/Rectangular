@@ -54,6 +54,28 @@ angular.module('ConfusionQuest')
       brakeSpeed: 0.5
     }
 
+    this.changeStat = function (stat, boost) {
+      console.log("HERO changing stat...", stat, boost);
+      var percentChange = 1 + (boost / 100)
+      switch (stat) {
+      case "speed":
+        console.log("Boosting speed",percentChange);
+        stats.lateralSpeed *= percentChange;
+        stats.lateralSpeedJumping *= percentChange;
+        stats.maxSpeed *= percentChange;
+        break;
+      case "jump":
+        stats.jumpForce *= percentChange;
+        break;
+      default:
+        console.warn("Dont know how to use this powerup...", stat);
+        break;
+      }
+
+      console.log(stats);
+
+    }
+
     this.getState = function () {
       return state;
     }
@@ -200,9 +222,11 @@ angular.module('ConfusionQuest')
     var stats = {
       id: "boots1",
       name: "Trévon's Greaves of Dunking",
-      description: "These legendary shoes increase your jumping power by 10%",
+      description: "These legendary shoes increase your jumping power by 10%. Also makes you run a bit faster.",
+      flavor: "Thou tries to dunks't against me, ser?",
       hero: {
-        speed: 10
+        speed: 5,
+        jump: 10
       }
     }
     var Boots1 = function (body) {
