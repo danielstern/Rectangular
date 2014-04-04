@@ -57,6 +57,10 @@
        'c': function () {
          $scope.controlContextBody();
        },
+       'ctrl+s':function(e){
+        e.preventDefault();
+        $scope.save();
+       },
        'd': function () {
          $scope.toggleDebug();
        },
