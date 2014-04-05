@@ -157,7 +157,7 @@ angular.module("ConfusionQuest")
         frames: {
           width: 78,
           height: 110,
-          regX: 36,
+          regX: 39,
           regY: 60,
         },
         frameWidth: 79,
@@ -178,8 +178,8 @@ angular.module("ConfusionQuest")
         doodad: true,
       },
       presets: {
-        height: 3,
-        width: 1.3,
+        height: 5,
+        width: 2.5,
         restitution: 0.1,
         density: 0.07,
         friction: 0.2,

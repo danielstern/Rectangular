@@ -1,5 +1,6 @@
 angular.module('ConfusionQuest', [])
-.service("ConfusionQuest",function(ngrGame, ngrCamera, ngrState, ngrInterface, ngrStage, ConfusionQuestDefaults, questHero, confCoin, boots1){
+.service("ConfusionQuest",function(ngrGame, ngrCamera, ngrState, ngrInterface, ngrStage, 
+  ConfusionQuestDefaults, questHero, confCoin, boots1,enemy1){
  
  	var CQState = {
     lives: 0,

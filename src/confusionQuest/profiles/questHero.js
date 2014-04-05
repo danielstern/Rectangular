@@ -209,3 +209,28 @@ angular.module('ConfusionQuest')
   ngrGame.addProfile('questHero', Hero);
 
 })
+
+.service('enemy1', function (ngrGame) {
+  var stats = {
+    id: "enemy1",
+    health: 20,
+    damage: 5,
+    speed: 0.2,
+    img: 'img/mahakana.png',
+    name: "Mahakana",
+    description: "The lowliest servants of the Emperor. Their tenetacles carry a powerful electrical charge.",
+    flavor: "Tentacles, why did it have to be tentacles?",
+  }
+
+  var Enemy1 = function (body) {
+    body.onimpact(function (body, other) {
+
+      if (other.GetUserData() && other.GetUserData().isHero) {
+        console.log("Mahakana impacts hero...",other);
+      }
+    })
+  }
+
+  ngrGame.addProfile('enemy1', Enemy1);
+
+})
