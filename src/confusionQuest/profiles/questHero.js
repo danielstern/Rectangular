@@ -210,7 +210,7 @@ angular.module('ConfusionQuest')
 
 })
 
-.service('enemy1', function (ngrGame) {
+.service('enemy1', function (ngrGame, ngrLoop,ngrWorld) {
   var stats = {
     id: "enemy1",
     health: 20,
@@ -223,12 +223,30 @@ angular.module('ConfusionQuest')
   }
 
   var Enemy1 = function (body) {
+    var mahakana = this;
+
     body.onimpact(function (body, other) {
 
       if (other.GetUserData() && other.GetUserData().isHero) {
         console.log("Mahakana impacts hero...",other);
       }
     })
+
+    ngrLoop.addHook(function(){
+      mahakana.float();
+    })
+
+    this.float = function() {
+
+      window.world = ngrWorld.getWorld();
+      var currentSpeedY = body.GetLinearVelocity().y;
+      var currentSpeedX = body.GetLinearVelocity().x;
+      body.ApplyForce(new b2Vec2(0, -ngrWorld.getWorld().GetGravity().y * body.GetMass()), body.GetWorldCenter());
+      
+      body.ApplyForce(new b2Vec2(0, -currentSpeedY * body.GetMass() * body.GetInertia()), body.GetWorldCenter());
+      body.ApplyForce(new b2Vec2(-currentSpeedX * body.GetMass() * body.GetInertia()), body.GetWorldCenter(), 0);
+      body.SetAngle(0);
+    }
   }
 
   ngrGame.addProfile('enemy1', Enemy1);
