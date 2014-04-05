@@ -178,8 +178,8 @@ angular.module("ConfusionQuest")
         doodad: true,
       },
       presets: {
-        height: 5,
-        width: 2.5,
+        height: 3,
+        width: 1.5,
         restitution: 0.1,
         density: 0.07,
         friction: 0.2,

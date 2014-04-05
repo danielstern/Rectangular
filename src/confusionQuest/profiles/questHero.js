@@ -216,10 +216,10 @@ angular.module('ConfusionQuest')
     health: 20,
     damage: 5,
     speed: 0.2,
-    minFloatHeight: 10,
-    maxFloatHeight: 20,
-    floatPower: 100,
-    antiGravity: 59,
+    minFloatHeight: 7,
+    maxFloatHeight: 18,
+    floatPower: 50,
+    antiGravity: 0.8,
     img: 'img/mahakana.png',
     name: "Mahakana",
     description: "The lowliest servants of the Emperor. Their tenetacles carry a powerful electrical charge.",
@@ -228,6 +228,7 @@ angular.module('ConfusionQuest')
 
   var Enemy1 = function (body) {
     var mahakana = this;
+    var hitTop = false;
 
     body.onimpact(function (body, other) {
 
@@ -238,50 +239,59 @@ angular.module('ConfusionQuest')
 
     ngrLoop.addHook(function () {
 
+      var inRange = false;
+      var currentSpeedY = body.GetLinearVelocity().y;
+      var currentSpeedX = body.GetLinearVelocity().x;
+
       var p1 = new b2Vec2(body.GetPosition().x, body.GetPosition().y);
       var p2 = new b2Vec2(body.GetPosition().x, body.GetPosition().y + stats.minFloatHeight); //center of scene
       var p3 = new b2Vec2(body.GetPosition().x, body.GetPosition().y + stats.minFloatHeight + stats.maxFloatHeight); //center of scene
       ngrWorld.getWorld().RayCast(function (x) {
 
-      //  mahakana.float();
-        body.ApplyForce(new b2Vec2(0, -stats.floatPower * body.GetMass()), body.GetWorldCenter());;
-        //mahakana.propelup();
+        hitTop = false;
+
+        var otherData = x.m_body.GetUserData();
+        if (otherData.isFloor) {
+          //body.ApplyForce(new b2Vec2(0, -stats.floatPower * body.GetMass()), body.GetWorldCenter());;
+        }
+
+        inRange = true;
 
       }, p1, p2);
 
       ngrWorld.getWorld().RayCast(function (x) {
+        inRange = true;
 
-
-    //    mahakana.float();
+        //    mahakana.float();
         //mahakana.propelup();
 
       }, p2, p3);
 
-      var antiGravity = ngrWorld.getWorld().GetGravity().y * 0.9;
+      if (!inRange) {
+        hitTop = true;
+        body.ApplyForce(new b2Vec2(0, -currentSpeedY * body.GetMass() * body.GetInertia()), body.GetWorldCenter());
+
+      }
+      if (!hitTop) body.ApplyForce(new b2Vec2(0, -stats.floatPower * body.GetMass()), body.GetWorldCenter());;
+
+      body.ApplyForce(new b2Vec2(-currentSpeedX * body.GetMass() * body.GetInertia()), body.GetWorldCenter(), 0);
+
+      var antiGravity = ngrWorld.getWorld().GetGravity().y * stats.antiGravity;
 
       body.ApplyForce(new b2Vec2(0, -antiGravity * body.GetMass()), body.GetWorldCenter());;
 
       body.SetAngle(0);
-      mahakana.balance();
 
     })
 
-    this.balance = function() {
-      var currentSpeedY = body.GetLinearVelocity().y;
-      var currentSpeedX = body.GetLinearVelocity().x;
+    this.balance = function () {
 
-      //body.ApplyForce(new b2Vec2(0, -currentSpeedY * body.GetMass() * body.GetInertia()), body.GetWorldCenter());
-      body.ApplyForce(new b2Vec2(-currentSpeedX * body.GetMass() * body.GetInertia()), body.GetWorldCenter(), 0);
-      
     }
-
 
     this.float = function () {
 
-      
       body.ApplyForce(new b2Vec2(0, -ngrWorld.getWorld().GetGravity().y * body.GetMass()), body.GetWorldCenter());
 
-      
     }
   }
 
