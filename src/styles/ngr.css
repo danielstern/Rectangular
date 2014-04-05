@@ -24,8 +24,8 @@ canvas {
 	width: 500px;
 	height: 400px;
 	padding: 15px;
-	background-color: #fefefe;
-	border-radius: 20px;
+	background-color: #FFFFFF;
+	border-radius: 5;
 	z-index: 10000;
 	position: absolute;
 	margin: auto;
@@ -33,14 +33,16 @@ canvas {
 	bottom: 0;
 	left: 0;
 	right: 0;
-	font-family: Arial;
+	font-family: 'Playfair Display SC', serif;
+	border: 1px solid rgb(235, 235, 235);
+	box-shadow: 2px 2px 8px 1px rgba(0,0,0,0.5);
 }
 
 .modal h1 {
 	margin: auto;
 	text-align: center;
 	margin-top: 25px;
-	font-size: 33px;
+	font-size: 30px;
 }
 
 .modal img {
@@ -55,12 +57,13 @@ canvas {
 	
 	width: 80%;
 	margin: auto;
-	margin-bottom: 40px;
+	margin-bottom: 26px;
 }
 
 .modal p.flavor {
-	font-size: 10px;
-	font-family: Arial Italic;
+	font-size: 12px;
+	font-family: 'Playfair Display SC', serif;
+	font-style: italic;
 }
 
 .modal .button {

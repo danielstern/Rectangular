@@ -233,7 +233,7 @@ angular.module('ConfusionQuest')
     body.onimpact(function (body, other) {
 
       if (other.GetUserData() && other.GetUserData().isHero) {
-        console.log("Mahakana impacts hero...", other);
+        //console.log("Mahakana impacts hero...", other);
       }
     })
 
