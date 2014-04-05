@@ -49,6 +49,7 @@ angular.module('Rectangular')
       modal.append('<p>' + data.text + '</p>');
       modal.append('<div class="button">' + "OK (SPACE / ENTER)" + '</button>');
       modal.append('<p class="flavor">' + data.flavor + '</p>');
+      modal.addClass('animated rollIn');
       return modal;
     }
 

@@ -27,7 +27,8 @@ angular.module('ConfusionQuest', [])
   		var esc = ngrInterface.onescape(endModal);
 
   		function endModal(){
-  			modal.hide();
+        modal.removeClass('rollIn');
+  			modal.addClass('rollOut');
   			ngrGame.unpause();
   		}
   	}
