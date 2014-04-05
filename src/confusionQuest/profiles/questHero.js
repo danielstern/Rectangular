@@ -210,12 +210,16 @@ angular.module('ConfusionQuest')
 
 })
 
-.service('enemy1', function (ngrGame, ngrLoop,ngrWorld) {
+.service('enemy1', function (ngrGame, ngrLoop, ngrWorld) {
   var stats = {
     id: "enemy1",
     health: 20,
     damage: 5,
     speed: 0.2,
+    minFloatHeight: 10,
+    maxFloatHeight: 20,
+    floatPower: 100,
+    antiGravity: 59,
     img: 'img/mahakana.png',
     name: "Mahakana",
     description: "The lowliest servants of the Emperor. Their tenetacles carry a powerful electrical charge.",
@@ -228,24 +232,56 @@ angular.module('ConfusionQuest')
     body.onimpact(function (body, other) {
 
       if (other.GetUserData() && other.GetUserData().isHero) {
-        console.log("Mahakana impacts hero...",other);
+        console.log("Mahakana impacts hero...", other);
       }
     })
 
-    ngrLoop.addHook(function(){
-      mahakana.float();
+    ngrLoop.addHook(function () {
+
+      var p1 = new b2Vec2(body.GetPosition().x, body.GetPosition().y);
+      var p2 = new b2Vec2(body.GetPosition().x, body.GetPosition().y + stats.minFloatHeight); //center of scene
+      var p3 = new b2Vec2(body.GetPosition().x, body.GetPosition().y + stats.minFloatHeight + stats.maxFloatHeight); //center of scene
+      ngrWorld.getWorld().RayCast(function (x) {
+
+      //  mahakana.float();
+        body.ApplyForce(new b2Vec2(0, -stats.floatPower * body.GetMass()), body.GetWorldCenter());;
+        //mahakana.propelup();
+
+      }, p1, p2);
+
+      ngrWorld.getWorld().RayCast(function (x) {
+
+
+    //    mahakana.float();
+        //mahakana.propelup();
+
+      }, p2, p3);
+
+      var antiGravity = ngrWorld.getWorld().GetGravity().y * 0.9;
+
+      body.ApplyForce(new b2Vec2(0, -antiGravity * body.GetMass()), body.GetWorldCenter());;
+
+      body.SetAngle(0);
+      mahakana.balance();
+
     })
 
-    this.float = function() {
-
-      window.world = ngrWorld.getWorld();
+    this.balance = function() {
       var currentSpeedY = body.GetLinearVelocity().y;
       var currentSpeedX = body.GetLinearVelocity().x;
-      body.ApplyForce(new b2Vec2(0, -ngrWorld.getWorld().GetGravity().y * body.GetMass()), body.GetWorldCenter());
-      
-      body.ApplyForce(new b2Vec2(0, -currentSpeedY * body.GetMass() * body.GetInertia()), body.GetWorldCenter());
+
+      //body.ApplyForce(new b2Vec2(0, -currentSpeedY * body.GetMass() * body.GetInertia()), body.GetWorldCenter());
       body.ApplyForce(new b2Vec2(-currentSpeedX * body.GetMass() * body.GetInertia()), body.GetWorldCenter(), 0);
-      body.SetAngle(0);
+      
+    }
+
+
+    this.float = function () {
+
+      
+      body.ApplyForce(new b2Vec2(0, -ngrWorld.getWorld().GetGravity().y * body.GetMass()), body.GetWorldCenter());
+
+      
     }
   }
 
