@@ -4,11 +4,7 @@ angular.module('ConfusionQuest')
 
   function Hero(body, options) {
 
-    console.log("QUEST HERO ACTIVEATE!");
-
     body.profile = this;
-
-    //ngrGame.setHero(this);
 
     var h = this;
     h.height = 1.2;
@@ -204,11 +200,6 @@ angular.module('ConfusionQuest')
       if (state.dashCurrentCooldown) state.dashCurrentCooldown--;
 
       h.body.SetAngle(0);
-
-      //calculate points of ray
-
-      //   var res = ngrWorld.getWorld().RayCastAll(p1, p2);
-      // console.log("Res?", res);
 
       window.world = ngrWorld.getWorld();
 
