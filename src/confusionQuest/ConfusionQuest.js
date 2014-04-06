@@ -45,7 +45,7 @@ angular.module('ConfusionQuest', [])
   }	
 
   ngrGame.oncreateentity(function(entity){
-  	console.log("CQ got Created entity...",entity);
+  	
   	if (entity.type == "questHero") {
   		ngrGame.control(entity,{
   			'a':'goingLeft',

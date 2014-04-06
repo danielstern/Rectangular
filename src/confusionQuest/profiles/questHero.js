@@ -7,6 +7,7 @@ angular.module('ConfusionQuest')
     body.profile = this;
 
     var h = this;
+    var hero = this;
     h.height = 1.2;
     h.width = 0.7;
     h.body = body;
@@ -32,6 +33,9 @@ angular.module('ConfusionQuest')
       dashReadyRight: false,
       dashReadyLeft: false,
       idling: false,
+      health: 0,
+      invincible: false,
+      invincibleTimeout: 0,
     }
 
     var stats = {
@@ -47,6 +51,9 @@ angular.module('ConfusionQuest')
       dashForce: 500,
       maxSpeed: 30,
       dashForceAir: 250,
+      flinchForceX: 1500,
+      flinchForceY: -100,
+      invincibilityTime: 30,
       brakeSpeed: 0.5,
       hp: 100,
       defense: 10,
@@ -55,6 +62,12 @@ angular.module('ConfusionQuest')
       canShoot: false,
       canSprint: false,
     }
+
+    this.init = function () {
+      state.health = stats.hp;
+    }
+
+    h.init();
 
     this.changeStat = function (stat, boost) {
       console.log("HERO changing stat...", stat, boost);
@@ -80,12 +93,46 @@ angular.module('ConfusionQuest')
         break;
       }
 
-      console.log(stats);
-
     }
 
     this.getState = function () {
       return state;
+    }
+
+    this.damage = function (dmg, attacker) {
+      var enemyPosX = 0;
+      var heroPosX;
+
+      if (state.invincible) return;
+      state.health -= reduceByDefense(dmg);
+      console.log("Took damage", state.health);
+
+      state.invincibleTimeout = stats.invincibilityTime;
+      state.invincible = true;
+
+      //window.sprite = body.sprite;
+
+      body.sprite.animation.gotoAndPlay("hurt");
+      var heroPosX = body.GetPosition().x;
+      if (attacker) enemyPosX = attacker.body.GetPosition().x;
+
+      body.SetLinearVelocity(new b2Vec2(0,0));
+
+      if (enemyPosX > heroPosX) hero.flinchLeft();
+      if (enemyPosX < heroPosX) hero.flinchRight();
+    }
+
+    function reduceByDefense(dmg) {
+      dmg -= stats.defense;
+      return dmg;
+    }
+
+    this.flinchRight = function () {
+      body.ApplyForce(new b2Vec2(stats.flinchForceX, stats.flinchForceY), body.GetWorldCenter());
+    }
+
+    this.flinchLeft = function () {
+      body.ApplyForce(new b2Vec2(-stats.flinchForceX, stats.flinchForceY), body.GetWorldCenter());
     }
 
     this.brake = function () {
@@ -105,7 +152,12 @@ angular.module('ConfusionQuest')
       var speedingL = currentSpeed < -stats.maxSpeed;
       var speedingR = currentSpeed > stats.maxSpeed;
       var anim = body.sprite.animation;
-      window.sprite = anim;
+      //      window.sprite = anim;
+
+      state.invincibleTimeout--;
+      if (state.invincibleTimeout < 0) {
+        state.invincible = false;
+      }
 
       var contacts = h.body.GetContactList();
       if (!state.airborneGraceTime) state.airborne = true;
@@ -137,7 +189,9 @@ angular.module('ConfusionQuest')
       }
 
       if (state.isJumping) {
-        anim.gotoAndPlay("jump");
+        if (!state.invincible) {
+          anim.gotoAndPlay("jump");
+        }
 
       }
 
@@ -218,112 +272,5 @@ angular.module('ConfusionQuest')
   }
 
   ngrGame.addProfile('questHero', Hero);
-
-})
-
-.service('enemy1', function (ngrGame, ngrLoop, ngrWorld) {
-
-  var Enemy1 = function (body) {
-    var stats = {
-      id: "enemy1",
-      health: 20,
-      damage: 5,
-      speed: 0.2,
-      minFloatHeight: 5,
-      maxFloatHeight: 12,
-      maxVelocityY: 4,
-      floatPower: 50,
-      antiGravity: 0.8,
-      img: 'img/mahakana.png',
-      name: "Mahakana",
-      description: "The lowliest servants of the Emperor. Their tenetacles carry a powerful electrical charge.",
-      flavor: "Tentacles, why did it have to be tentacles?",
-    }
-
-    var mahakana = this;
-    var hitTop = false;
-
-    body.onimpact(function (body, other) {
-
-      if (other.GetUserData() && other.GetUserData().isHero) {
-        //console.log("Mahakana impacts hero...", other);
-      }
-    })
-
-    ngrLoop.addHook(function () {
-
-      var inRange = false;
-
-      var p1 = new b2Vec2(body.GetPosition().x, body.GetPosition().y);
-      var p2 = new b2Vec2(body.GetPosition().x, body.GetPosition().y + stats.minFloatHeight); //center of scene
-      var p3 = new b2Vec2(body.GetPosition().x, body.GetPosition().y + stats.minFloatHeight + stats.maxFloatHeight); //center of scene
-      ngrWorld.getWorld().RayCast(function (x) {
-
-        var otherData = x.m_body.GetUserData();
-        if (otherData.isFloor) {
-
-          stats.antiGravity = 1.1;
-          inRange = true;
-        }
-
-      }, p1, p2);
-
-      ngrWorld.getWorld().RayCast(function (x) {
-        inRange = true;
-      }, p2, p3);
-
-      if (!inRange) {
-
-        stats.antiGravity = 0.9;
-      //  mahakana.stopAscent();
-        //hitTop = true;
-
-      }
-
-      
-      mahakana.balanceX();
-      mahakana.float();
-      mahakana.throttleSpeed();
-
-      body.SetAngle(0);
-
-    });
-
-    this.throttleSpeed = function() {
-      var currentSpeedY = body.GetLinearVelocity().y;
-      var currentSpeedX = body.GetLinearVelocity().x;
-    //  console.log("Current speed Y?",currentSpeedY)
-      if (currentSpeedY > stats.maxVelocityY) {
-        body.SetLinearVelocity(new b2Vec2(currentSpeedX, stats.maxVelocityY));
-      } else if (currentSpeedY < -stats.maxVelocityY) {
-        body.SetLinearVelocity(new b2Vec2(currentSpeedX, -stats.maxVelocityY));
-      }
-    }
-
-    /*this.stopAscent = function() {
-      var currentSpeedY = body.GetLinearVelocity().y;
-      if (currentSpeedY < 0 ) body.ApplyForce(new b2Vec2(0, -currentSpeedY * body.GetMass()), body.GetWorldCenter());
-    }*/
-
-    this.balanceY = function () {
-        var currentSpeedY = body.GetLinearVelocity().y;
-        body.ApplyForce(new b2Vec2(0, -currentSpeedY * body.GetMass() * body.GetInertia()), body.GetWorldCenter());
-    }
-
-    this.balanceX = function () {
-         var currentSpeedX = body.GetLinearVelocity().x;
-          body.ApplyForce(new b2Vec2(-currentSpeedX * body.GetMass() * body.GetInertia()), body.GetWorldCenter(), 0);
-    }
-
-    this.float = function () {
-
-      //body.ApplyForce(new b2Vec2(0, -ngrWorld.getWorld().GetGravity().y * body.GetMass()), body.GetWorldCenter());
-      var antiGravity = ngrWorld.getWorld().GetGravity().y * stats.antiGravity;
-      body.ApplyForce(new b2Vec2(0, -antiGravity * body.GetMass()), body.GetWorldCenter());;
-
-    }
-  }
-
-  ngrGame.addProfile('enemy1', Enemy1);
 
 })
