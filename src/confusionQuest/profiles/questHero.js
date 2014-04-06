@@ -216,8 +216,9 @@ angular.module('ConfusionQuest')
     health: 20,
     damage: 5,
     speed: 0.2,
-    minFloatHeight: 5,
-    maxFloatHeight: 10,
+    minFloatHeight: 6,
+    maxFloatHeight: 8,
+    maxVelocityY: 4,
     floatPower: 50,
     antiGravity: 0.8,
     img: 'img/mahakana.png',
@@ -241,7 +242,7 @@ angular.module('ConfusionQuest')
 
       var inRange = false;
       var hitTop = false;
-      var currentSpeedX = body.GetLinearVelocity().x;
+  
 
       var p1 = new b2Vec2(body.GetPosition().x, body.GetPosition().y);
       var p2 = new b2Vec2(body.GetPosition().x, body.GetPosition().y + stats.minFloatHeight); //center of scene
@@ -266,32 +267,51 @@ angular.module('ConfusionQuest')
       if (!inRange) {
 
         stats.antiGravity = 0.9;
-        mahakana.stopAscent();
+      //  mahakana.stopAscent();
         //hitTop = true;
 
       }
 
-      body.ApplyForce(new b2Vec2(-currentSpeedX * body.GetMass() * body.GetInertia()), body.GetWorldCenter(), 0);
-      var antiGravity = ngrWorld.getWorld().GetGravity().y * stats.antiGravity;
-      body.ApplyForce(new b2Vec2(0, -antiGravity * body.GetMass()), body.GetWorldCenter());;
+      
+      mahakana.balanceX();
+      mahakana.float();
+      mahakana.throttleSpeed();
 
       body.SetAngle(0);
 
     });
 
-    this.stopAscent = function() {
+    this.throttleSpeed = function() {
+      var currentSpeedY = body.GetLinearVelocity().y;
+      var currentSpeedX = body.GetLinearVelocity().x;
+    //  console.log("Current speed Y?",currentSpeedY)
+      if (currentSpeedY > stats.maxVelocityY) {
+        body.SetLinearVelocity(new b2Vec2(currentSpeedX, stats.maxVelocityY));
+      } else if (currentSpeedY < -stats.maxVelocityY) {
+        body.SetLinearVelocity(new b2Vec2(currentSpeedX, -stats.maxVelocityY));
+      }
+    }
+
+    /*this.stopAscent = function() {
       var currentSpeedY = body.GetLinearVelocity().y;
       if (currentSpeedY < 0 ) body.ApplyForce(new b2Vec2(0, -currentSpeedY * body.GetMass()), body.GetWorldCenter());
-    }
+    }*/
 
     this.balanceY = function () {
         var currentSpeedY = body.GetLinearVelocity().y;
         body.ApplyForce(new b2Vec2(0, -currentSpeedY * body.GetMass() * body.GetInertia()), body.GetWorldCenter());
     }
 
+    this.balanceX = function () {
+         var currentSpeedX = body.GetLinearVelocity().x;
+          body.ApplyForce(new b2Vec2(-currentSpeedX * body.GetMass() * body.GetInertia()), body.GetWorldCenter(), 0);
+    }
+
     this.float = function () {
 
-      body.ApplyForce(new b2Vec2(0, -ngrWorld.getWorld().GetGravity().y * body.GetMass()), body.GetWorldCenter());
+      //body.ApplyForce(new b2Vec2(0, -ngrWorld.getWorld().GetGravity().y * body.GetMass()), body.GetWorldCenter());
+      var antiGravity = ngrWorld.getWorld().GetGravity().y * stats.antiGravity;
+      body.ApplyForce(new b2Vec2(0, -antiGravity * body.GetMass()), body.GetWorldCenter());;
 
     }
   }
