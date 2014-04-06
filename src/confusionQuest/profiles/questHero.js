@@ -211,23 +211,24 @@ angular.module('ConfusionQuest')
 })
 
 .service('enemy1', function (ngrGame, ngrLoop, ngrWorld) {
-  var stats = {
-    id: "enemy1",
-    health: 20,
-    damage: 5,
-    speed: 0.2,
-    minFloatHeight: 6,
-    maxFloatHeight: 8,
-    maxVelocityY: 4,
-    floatPower: 50,
-    antiGravity: 0.8,
-    img: 'img/mahakana.png',
-    name: "Mahakana",
-    description: "The lowliest servants of the Emperor. Their tenetacles carry a powerful electrical charge.",
-    flavor: "Tentacles, why did it have to be tentacles?",
-  }
 
   var Enemy1 = function (body) {
+    var stats = {
+      id: "enemy1",
+      health: 20,
+      damage: 5,
+      speed: 0.2,
+      minFloatHeight: 5,
+      maxFloatHeight: 12,
+      maxVelocityY: 4,
+      floatPower: 50,
+      antiGravity: 0.8,
+      img: 'img/mahakana.png',
+      name: "Mahakana",
+      description: "The lowliest servants of the Emperor. Their tenetacles carry a powerful electrical charge.",
+      flavor: "Tentacles, why did it have to be tentacles?",
+    }
+
     var mahakana = this;
     var hitTop = false;
 
@@ -241,8 +242,6 @@ angular.module('ConfusionQuest')
     ngrLoop.addHook(function () {
 
       var inRange = false;
-      var hitTop = false;
-  
 
       var p1 = new b2Vec2(body.GetPosition().x, body.GetPosition().y);
       var p2 = new b2Vec2(body.GetPosition().x, body.GetPosition().y + stats.minFloatHeight); //center of scene
@@ -253,7 +252,6 @@ angular.module('ConfusionQuest')
         if (otherData.isFloor) {
 
           stats.antiGravity = 1.1;
-          hitTop = false;
           inRange = true;
         }
 
@@ -261,7 +259,6 @@ angular.module('ConfusionQuest')
 
       ngrWorld.getWorld().RayCast(function (x) {
         inRange = true;
-
       }, p2, p3);
 
       if (!inRange) {
