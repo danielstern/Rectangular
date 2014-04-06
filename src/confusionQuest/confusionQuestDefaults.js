@@ -39,6 +39,26 @@ angular.module("ConfusionQuest")
       }
 
     }, {
+      name: 'Ruby',
+      shape: 'box',
+      skin: {
+        src: 'img/gemRed.png',
+        bg: 'sprite'
+      },
+      profile: "ruby",
+      userData: {
+        doodad: true,
+        isCoin: true,
+      },
+      presets: {
+        radius: 1,
+        height: 2,
+        width: 2,
+        restitution: 0.2,
+        density: 0.2
+      }
+
+    },{
       name: 'Powerup - Boots 1',
       shape: 'box',
       skin: {
