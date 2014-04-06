@@ -47,7 +47,13 @@ angular.module('ConfusionQuest')
       dashForce: 500,
       maxSpeed: 30,
       dashForceAir: 250,
-      brakeSpeed: 0.5
+      brakeSpeed: 0.5,
+      hp: 100,
+      defense: 10,
+      attack: 10,
+      evade: 0,
+      canShoot: false,
+      canSprint: false,
     }
 
     this.changeStat = function (stat, boost) {
@@ -62,6 +68,12 @@ angular.module('ConfusionQuest')
         break;
       case "jump":
         stats.jumpForce *= percentChange;
+        break;
+      case "hp":
+        stats.hp *= percentChange;
+        break;
+      case "defense":
+        stats.defense *= percentChange;
         break;
       default:
         console.warn("Dont know how to use this powerup...", stat);
@@ -81,7 +93,6 @@ angular.module('ConfusionQuest')
 
       var y = heroBody.GetLinearVelocity().x * heroBody.GetInertia();
       var n = heroBody.GetAngularVelocity() * heroBody.GetInertia();
-      //console.log("Braking",y)
       heroBody.ApplyForce(new b2Vec2(-y * 10, 0), heroBody.GetWorldCenter());
       heroBody.ApplyTorque(-n * 10);
     }

@@ -1,6 +1,6 @@
 angular.module('ConfusionQuest', [])
 .service("ConfusionQuest",function(ngrGame, ngrCamera, ngrState, ngrInterface, ngrStage, 
-  ConfusionQuestDefaults, questHero, confCoin, boots1,enemy1){
+  ConfusionQuestDefaults, questHero, confCoin, boots1,helmet1,enemy1){
  
  	var CQState = {
     lives: 0,
@@ -59,13 +59,13 @@ angular.module('ConfusionQuest', [])
   		ngrCamera.follow(entity.body);
   		ngrCamera.setZoom(1);
   		var room = ngrState.getState().room;
-  		console.log("Room?",room);
-  	   ngrCamera.constrainFocus({
+  	//	console.log("Room?",room);
+  	 /*  ngrCamera.constrainFocus({
          x: 0,
          y: 0,
          width: room.width,
          height: room.height
-       });
+       });*/
   	}
   })
 
