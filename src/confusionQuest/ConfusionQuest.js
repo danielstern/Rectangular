@@ -12,7 +12,7 @@ angular.module('ConfusionQuest', [])
     var hero = undefined;
     var stateChangeListeners = [];
 
-    this.onstagechange = function(l) {
+    this.onstatechange = function (l) {
       stateChangeListeners.push(l);
     }
 
@@ -53,8 +53,8 @@ angular.module('ConfusionQuest', [])
         })
       }
 
-      if (powerup.score) {
-        CQState.score+= score;
+      if (powerup.points) {
+        CQState.score += powerup.points;
         console.log("Score change!", CQState.score);
       }
 
@@ -75,9 +75,19 @@ angular.module('ConfusionQuest', [])
 
         hero = entity;
 
+        CQState.hero = hero;
+
         ngrCamera.follow(entity.body);
         ngrCamera.setZoom(1);
         var room = ngrState.getState().room;
+
+        console.log("Adding listener to", hero);
+
+        hero.onstatechange(function (heroState) {
+          console.log("Hero state changed", heroState);
+          _.call(stateChangeListeners, CQState);
+        });
+
         //  console.log("Room?",room);
         /*  ngrCamera.constrainFocus({
          x: 0,

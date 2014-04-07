@@ -5,7 +5,7 @@ angular.module('ConfusionQuest')
     var stats = {
       id: "enemy1",
       health: 20,
-      damage: 5,
+      damage: 15,
       speed: 0.2,
       minFloatHeight: 5,
       maxFloatHeight: 12,

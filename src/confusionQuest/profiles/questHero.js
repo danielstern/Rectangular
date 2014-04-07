@@ -15,28 +15,17 @@ angular.module('ConfusionQuest')
     h.friction = 0.1;
     h.density = 0.2;
 
+    var stateChangeListeners = [];
+
+    this.onstatechange = function(l) {
+      stateChangeListeners.push(l);
+    }
+
+
     body.SetUserData({
       isHero: true
     })
 
-    var state = {
-      goingLeft: false,
-      goingRight: false,
-      isJumping: false,
-      airBorne: false,
-      jumpWait: 0,
-      airborneGraceTime: 0,
-      usedGroundSmash: false,
-      dashInputTimeRight: 0,
-      dashInputTimeLeft: 0,
-      dashCurrentCooldown: 0,
-      dashReadyRight: false,
-      dashReadyLeft: false,
-      idling: false,
-      health: 0,
-      invincible: false,
-      invincibleTimeout: 0,
-    }
 
     var stats = {
       lateralSpeed: 60,
@@ -55,12 +44,32 @@ angular.module('ConfusionQuest')
       flinchForceY: -100,
       invincibilityTime: 30,
       brakeSpeed: 0.5,
-      hp: 100,
-      defense: 10,
+      hp: 55,
+      defense: 5,
       attack: 10,
       evade: 0,
       canShoot: false,
       canSprint: false,
+    }
+ 
+    var state = {
+      goingLeft: false,
+      goingRight: false,
+      isJumping: false,
+      airBorne: false,
+      jumpWait: 0,
+      airborneGraceTime: 0,
+      usedGroundSmash: false,
+      dashInputTimeRight: 0,
+      dashInputTimeLeft: 0,
+      dashCurrentCooldown: 0,
+      dashReadyRight: false,
+      dashReadyLeft: false,
+      idling: false,
+      health: 0,
+      invincible: false,
+      invincibleTimeout: 0,
+      stats: stats,
     }
 
     this.init = function () {
@@ -120,6 +129,9 @@ angular.module('ConfusionQuest')
 
       if (enemyPosX > heroPosX) hero.flinchLeft();
       if (enemyPosX < heroPosX) hero.flinchRight();
+
+
+      _.call(stateChangeListeners, state);
     }
 
     function reduceByDefense(dmg) {

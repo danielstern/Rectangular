@@ -55,6 +55,44 @@ canvas {
 	border: 0px solid transparent;
 }
 
+
+.score {
+	position: absolute;
+	width: 300px;
+	height: 30px;
+	bottom: 20px;
+	right: 20px;
+	z-index: 1000;
+	border: 0px solid;
+}
+
+.coins-container {
+	font-family: 'Playfair Display SC', serif;
+	color: white;
+	
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	right: 0;
+	margin: auto;
+	text-shadow: 2px 2px rgba(0,0,0,0.3);
+}
+
+.coins {
+	font-size: 24px;
+	float: right;
+}
+
+.legend {
+	position: static;
+	left: 0;
+	width:35px;
+	height: 35px;
+	float: left;
+	background: url('../img/coinGold.png');
+	background-size: cover;
+}
+
 .bar-outer {
 	position: absolute;
 	top: 0;
@@ -66,6 +104,7 @@ canvas {
 	border: 1px solid rgba(0,0,0,0.5);
 	border-radius: 3px;
 	box-shadow: 2px 2px 2px 1px rgba(0,0,0,0.3), 0px 0px 2px 1px rgba(0,0,0,0.3);
+	background-color: #1d5132;
 }
 
 .bar-inner {
@@ -74,6 +113,7 @@ canvas {
 	width: 100%;
 	height: 100%;
 	background-color: #5cc248;
+	transition: 0.2s all;
 }
 
 .modal img {
