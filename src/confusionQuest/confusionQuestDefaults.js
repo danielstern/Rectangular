@@ -216,11 +216,11 @@ angular.module("ConfusionQuest")
         frames: {
           width: 78,
           height: 110,
-          regX: 39,
-          regY: 60,
+          regX: 44,
+          regY: 50,
         },
-        frameWidth: 79,
-        frameHeight: 119,
+        frameWidth: 54,
+        frameHeight: 70,
         animations: {
 
           stand: {
