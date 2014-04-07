@@ -1,6 +1,7 @@
 angular.module('ConfusionQuest', [])
-  .service("ConfusionQuest", function (ngrGame, ngrCamera, ngrState, ngrInterface, ngrStage,
-    ConfusionQuestDefaults, questHero, confCoin, ruby,
+  .service("ConfusionQuest", function (ngrGame, ngrEnvironment, ngrCamera, ngrData, ngrState, ngrWorld, ngrInterface, ngrStage,
+    ConfusionQuestDefaults, ConfusionQuestLevels,
+    questHero, confCoin, ruby,
     boots1, helmet1, enemy1) {
 
     var CQState = {
@@ -22,6 +23,20 @@ angular.module('ConfusionQuest', [])
         powerups: [],
         score: 0,
       }
+
+      console.log("Initing game!");
+      ngrEnvironment.clearAll();
+      ngrData.load(ConfusionQuestLevels.levels[0]);
+
+      ngrCamera.setZoom(1);
+
+      var room = ngrState.getState().room;
+      ngrCamera.constrainFocus({
+        x: 0,
+        y: 0,
+        width: room.width,
+        height: room.height
+      });
     }
 
     ngrGame.powerup = function (powerup) {
@@ -55,7 +70,7 @@ angular.module('ConfusionQuest', [])
 
       if (powerup.points) {
         CQState.score += powerup.points;
-        
+
       }
       _.call(stateChangeListeners, CQState);
       CQState.powerups.push(powerup);
@@ -76,8 +91,6 @@ angular.module('ConfusionQuest', [])
         CQState.hero = hero;
 
         ngrCamera.follow(entity.body);
-        ngrCamera.setZoom(1);
-        var room = ngrState.getState().room;
 
         console.log("Adding listener to", hero);
 
@@ -93,12 +106,7 @@ angular.module('ConfusionQuest', [])
         });
 
         //  console.log("Room?",room);
-        /*  ngrCamera.constrainFocus({
-         x: 0,
-         y: 0,
-         width: room.width,
-         height: room.height
-       });*/
+
       }
     })
 

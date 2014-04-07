@@ -132,6 +132,10 @@
        if ($scope.contextBody) ngrGame.control($scope.contextBody, "questHero");
      }
 
+     $scope.startGame = function() {
+      ngrGame.init();
+     }
+
      $scope.constrainFocus = function () {
       var room = $scope.context.room;
        ngrCamera.constrainFocus({
