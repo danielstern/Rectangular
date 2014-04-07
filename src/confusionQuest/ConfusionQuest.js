@@ -55,12 +55,10 @@ angular.module('ConfusionQuest', [])
 
       if (powerup.points) {
         CQState.score += powerup.points;
-        console.log("Score change!", CQState.score);
+        
       }
-
       _.call(stateChangeListeners, CQState);
       CQState.powerups.push(powerup);
-
     }
 
     ngrGame.oncreateentity(function (entity) {
@@ -86,6 +84,12 @@ angular.module('ConfusionQuest', [])
         hero.onstatechange(function (heroState) {
           console.log("Hero state changed", heroState);
           _.call(stateChangeListeners, CQState);
+          if (heroState.dead) {
+            console.log("hero died...");
+            ngrCamera.unfollow();
+            ngrCamera.setZoom(0.5);
+            ngrLoop.setSpeed(30);
+          }
         });
 
         //  console.log("Room?",room);

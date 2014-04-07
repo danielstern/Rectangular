@@ -130,6 +130,10 @@ angular.module('ConfusionQuest')
       if (enemyPosX > heroPosX) hero.flinchLeft();
       if (enemyPosX < heroPosX) hero.flinchRight();
 
+      if (state.health <= 0) {
+        hero.die();
+      }
+
 
       _.call(stateChangeListeners, state);
     }
@@ -137,6 +141,12 @@ angular.module('ConfusionQuest')
     function reduceByDefense(dmg) {
       dmg -= stats.defense;
       return dmg;
+    }
+
+    this.die = function() {
+      //var fixture = body.getFixture
+      body.setSensor(true);
+      state.dead = true;
     }
 
     this.flinchRight = function () {
@@ -149,6 +159,8 @@ angular.module('ConfusionQuest')
 
     this.brake = function () {
       var heroBody = h.body;
+
+      if (state.dead) return;
 
       var y = heroBody.GetLinearVelocity().x * heroBody.GetInertia();
       var n = heroBody.GetAngularVelocity() * heroBody.GetInertia();

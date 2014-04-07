@@ -16,12 +16,12 @@ angular.module('ConfusionQuest')
 
     health.append("<div class='bar-bg'></div>");
 
-    console.log("H?", health);
+
 
     ConfusionQuest.onstatechange(function (state) {
-      console.log("State change?", state);
+      
       var heroState = state.hero.getState();
-      console.log("hero health?", heroState.health);
+      
       inner.css("width", heroState.health / heroState.stats.hp * 100 + "%");
       //inner.removeClass('flash');
       setTimeout(function () {
