@@ -45,6 +45,16 @@ canvas {
 	font-size: 30px;
 }
 
+.health {
+	position: absolute;
+	width: 350px;
+	height: 40px;
+	bottom: 20px;
+	left: 20px;
+	z-index: 1000;
+	border: 1px solid black;
+}
+
 .modal img {
 	width: 20%;
 	margin: auto;
