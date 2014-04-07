@@ -37,8 +37,13 @@ angular.module('ConfusionQuest')
       body.onimpact(function (body, other) {
 
         if (other.GetUserData() && other.GetUserData().isHero) {
-          console.log("You're on the door now, dog")
+          console.log("You're on the door now, dog",ngrGame.getEvents());
+
+          if (ngrGame.getEvents().redKey) {
+            ngrGame.endGame();
+          }
         }
+
       })
     }
 

@@ -8,10 +8,22 @@ angular.module("Rectangular")
     var panning = false;
     var dragging = false;
     var profiles = [];
+    var events = [];
     var createEntityListeners = [];
 
     this.oncreateentity = function(f) {
       createEntityListeners.push(f);
+    }
+
+    this.getEvents = function() {
+      _.each(events,function(event){
+        events[event] = true;
+      })
+      return events;
+    }
+
+    this.setEvent = function(event) {
+      events.push(event);
     }
 
     ngrWorld.oncreatebody(function(body){

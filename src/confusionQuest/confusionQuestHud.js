@@ -23,9 +23,7 @@ angular.module('ConfusionQuest')
       var heroState = state.hero.getState();
       
       inner.css("width", heroState.health / heroState.stats.hp * 100 + "%");
-      //inner.removeClass('flash');
       setTimeout(function () {
-       // inner.addClass('animated flash')
       }, 1);
 
       currentScore = state.score;
@@ -33,12 +31,27 @@ angular.module('ConfusionQuest')
 
     });
 
+    ConfusionQuest.onmessage(function(msg){
+      console.log("Displaying message",msg);
+      message.html(msg);
+      message.removeClass('fadeOutRight');
+      message.addClass('animated fadeInLeft');
+      setTimeout(function(){
+        message.removeClass('fadeInLeft');
+        message.addClass('fadeOutRight');
+      },2000)
+    })
+
     ngrLoop.addPermanentHook(function(){
     	  if (scoreDisplay < currentScore) scoreDisplay += 1;
+        if (scoreDisplay > currentScore) scoreDisplay --;
     	  //console.log("Current score?",currentScore,scoreDisplay)
 
     		coins.html(scoreDisplay);
     })
+
+    p.append("<div class='message'></div>")
+    var message = p.find('.message');
 
 
     

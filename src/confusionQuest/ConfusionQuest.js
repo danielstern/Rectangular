@@ -1,5 +1,5 @@
 angular.module('ConfusionQuest', [])
-  .service("ConfusionQuest", function (ngrGame, ngrEnvironment, ngrCamera, ngrData, ngrState, ngrWorld, ngrInterface, ngrStage,
+  .service("ConfusionQuest", function (ngrGame, ngrEnvironment, ngrLoop, ngrCamera, ngrData, ngrState, ngrWorld, ngrInterface, ngrStage,
     ConfusionQuestDefaults, ConfusionQuestLevels,
     questHero, confCoin, ruby, keyRed, doorRed,
     boots1, helmet1, enemy1) {
@@ -12,9 +12,14 @@ angular.module('ConfusionQuest', [])
 
     var hero = undefined;
     var stateChangeListeners = [];
+    var messageListeners = [];
 
     this.onstatechange = function (l) {
       stateChangeListeners.push(l);
+    }
+
+    this.onmessage = function (l) {
+      messageListeners.push(l);
     }
 
     ngrGame.init = function () {
@@ -29,7 +34,11 @@ angular.module('ConfusionQuest', [])
 
       ngrData.load(ConfusionQuestLevels.levels[0]);
 
+      ngrGame.screen("img/Confusion-Quest-Title-NoText.png");
+
       ngrCamera.setZoom(1);
+      ngrLoop.setSpeed(60);
+      //ngrLoop.unpause();
 
       var room = ngrState.getState().room;
       ngrCamera.constrainFocus({
@@ -40,6 +49,13 @@ angular.module('ConfusionQuest', [])
       });
 
       _.call(stateChangeListeners, CQState);
+      _.call(messageListeners, "Press enter");
+    }
+
+    ngrGame.endGame = function() {
+      ngrGame.screen("img/Confusion-Quest-Title-NoText.png");
+      _.call(messageListeners, "Demo Over");
+      setTimeout( ngrGame.init, 2000);
     }
 
     ngrGame.powerup = function (powerup) {
@@ -69,6 +85,11 @@ angular.module('ConfusionQuest', [])
         _.each(powerup.hero, function (boost, stat) {
           hero.changeStat(stat, boost);
         })
+      }
+
+      if (powerup.event) {
+
+        ngrGame.setEvent(powerup.event);
       }
 
       if (powerup.points) {
@@ -105,6 +126,11 @@ angular.module('ConfusionQuest', [])
             ngrCamera.unfollow();
             ngrCamera.setZoom(0.5);
             ngrLoop.setSpeed(30);
+
+            ngrLoop.wait(30)
+            .then(function(){
+              ngrGame.init();
+            })
           }
         });
 

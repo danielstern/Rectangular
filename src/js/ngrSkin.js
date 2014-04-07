@@ -220,6 +220,8 @@ angular.module('Rectangular')
     }
 
     this.coverCanvas = function (src, parallax) {
+        
+      var canvas = $('canvas');
 
       var sprite = {
         container: new createjs.Container(),
@@ -233,7 +235,7 @@ angular.module('Rectangular')
       function initImg(bgData) {
 
         var env = ngrState.getState();
-        var scaleX = env.canvas.width() / bgData.image.width;
+        var scaleX = canvas.width() / bgData.image.width;
         bgData.scaleX = scaleX;
         bgData.scaleY = scaleX;
 
