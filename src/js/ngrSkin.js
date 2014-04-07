@@ -208,7 +208,7 @@ angular.module('Rectangular')
 
         var env = ngrState.getState();
         env.canvas = $('canvas');
-        var scaleX = env.canvas.width() / bgData.image.width;
+        var scaleX = env.canvas.width() / bgData.image.width * 1.1; // to cover the scene
         bgData.scaleX = scaleX;
         bgData.scaleY = scaleX;
 

@@ -35,7 +35,7 @@ canvas {
 	right: 0;
 	font-family: 'Playfair Display SC', serif;
 	border: 1px solid rgb(235, 235, 235);
-	box-shadow: 2px 2px 8px 1px rgba(0,0,0,0.5);
+	box-shadow: 2px 2px 2px 1px rgba(0,0,0,0.5), 0px 0px 1px 1px rgba(0,0,0,0.3);
 }
 
 .modal h1 {
@@ -48,11 +48,32 @@ canvas {
 .health {
 	position: absolute;
 	width: 350px;
-	height: 40px;
+	height: 30px;
 	bottom: 20px;
 	left: 20px;
 	z-index: 1000;
-	border: 1px solid black;
+	border: 0px solid transparent;
+}
+
+.bar-outer {
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: 10px;
+	margin: auto;
+	width: 250px;
+	height: 10px;
+	border: 1px solid rgba(0,0,0,0.5);
+	border-radius: 3px;
+	box-shadow: 2px 2px 2px 1px rgba(0,0,0,0.3), 0px 0px 2px 1px rgba(0,0,0,0.3);
+}
+
+.bar-inner {
+	position: absolute;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: #5cc248;
 }
 
 .modal img {

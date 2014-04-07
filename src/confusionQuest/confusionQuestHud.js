@@ -6,7 +6,8 @@ angular.module('ConfusionQuest')
   var health = p.find(".health");
 
   health.append("<div class='bar-outer'></div>");
-  health.append("<div class='bar-inner'></div>");
+  var bar = health.find(".bar-outer")
+  bar.append("<div class='bar-inner'></div>");
   health.append("<div class='bar-bg'></div>");
 
   console.log("H?", health);
