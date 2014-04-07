@@ -31,7 +31,7 @@ angular.module('ConfusionQuest')
       lateralSpeed: 60,
       lateralSpeedJumping: 45,
       jumpCooldown: 25,
-      jumpForce: 1500,
+      jumpForce: 1700,
       doubleJumpForce: 0,
       airborneGrace: 20,
       groundSmashPower: 3000,

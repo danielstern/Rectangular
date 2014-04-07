@@ -78,7 +78,8 @@ angular.module('Rectangular')
     this.addSprite = function(b,options) {
 
       var sprite = ngrSkin.skin(b,options);
-      s.addChild(sprite.container);
+      console.log("Adding sprite",options);
+      s.addChildAt(sprite.container, options.index || sprite.container.getNumChildren());
       actors.push(sprite.actor);
 
       b.sprite = sprite;

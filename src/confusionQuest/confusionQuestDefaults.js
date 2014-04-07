@@ -99,6 +99,23 @@ angular.module("ConfusionQuest")
       }
 
     }, {
+      name: 'Door - Red',
+      shape: 'box',
+      skin: {
+        src: 'img/lock_red.png',
+        bg: 'sprite',
+        index:0
+      },
+      profile: "doorRed",
+      presets: {
+        radius: 1,
+        height: 4,
+        width: 4,
+        restitution: 0.2,
+        density: 0.2
+      }
+
+    }, {
       name: 'Density-Less Platform',
       shape: 'box',
       skin: {

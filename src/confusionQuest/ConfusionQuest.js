@@ -1,7 +1,7 @@
 angular.module('ConfusionQuest', [])
   .service("ConfusionQuest", function (ngrGame, ngrEnvironment, ngrCamera, ngrData, ngrState, ngrWorld, ngrInterface, ngrStage,
     ConfusionQuestDefaults, ConfusionQuestLevels,
-    questHero, confCoin, ruby,
+    questHero, confCoin, ruby, keyRed, doorRed,
     boots1, helmet1, enemy1) {
 
     var CQState = {
@@ -26,6 +26,7 @@ angular.module('ConfusionQuest', [])
 
       console.log("Initing game!");
       ngrEnvironment.clearAll();
+
       ngrData.load(ConfusionQuestLevels.levels[0]);
 
       ngrCamera.setZoom(1);
@@ -37,6 +38,8 @@ angular.module('ConfusionQuest', [])
         width: room.width,
         height: room.height
       });
+
+      _.call(stateChangeListeners, CQState);
     }
 
     ngrGame.powerup = function (powerup) {
