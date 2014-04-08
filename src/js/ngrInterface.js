@@ -28,7 +28,8 @@ angular.module('Rectangular')
     })
 
 
-    Mousetrap.bind(['space', 'enter', 'escape'], function () {
+    Mousetrap.bind(['space', 'enter', 'escape'], function (evt) {
+      evt.preventDefault();
       _.call(onEscapeListeners);
     })
 
@@ -222,6 +223,8 @@ angular.module('Rectangular')
     canvas.addEventListener('mousemove', function (evt) {
       var r = getInfo(evt);
 
+
+
       _.each(onmoveListeners, function (_listener) {
         _listener(r);
       })
@@ -245,6 +248,7 @@ angular.module('Rectangular')
     }
 
     canvas.addEventListener('mousedown', function (evt) {
+      evt.preventDefault();
       if (event.which == 1) {
         var r = getInfo(evt);
 

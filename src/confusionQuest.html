@@ -1,0 +1,111 @@
+<doctype HTML>
+
+    <html ng-app='ConfusionQuestDemo' ng-controller='ConfusionQuest'>
+
+    <head>
+        <title>Shapemaker: Enjoy Shapes</title>
+
+        <script src="lib/angular.js"></script>
+        <script src="lib/jquery.js"></script>
+        <script src="lib/underscore.js"></script>
+        <script src="lib/mousetrap.js"></script>
+        <script src="lib/Box2dWeb-2.1.a.3.js"></script>
+        <!--<script src="lib/Box2d.js"></script>-->
+        <script src="js/util.js"></script>
+        <script src="js/Rectangular.js"></script>
+
+        <script src="js/ngrStage.js"></script>
+        <script src="js/ngrState.js"></script>
+        <script src="js/ngrWorld.js"></script>
+        <script src="js/ngrRoom.js"></script>
+        <script src="js/ngrSkin.js"></script>
+        <script src="js/ngrLoop.js"></script>
+        <script src="js/ngrActor.js"></script>
+        <script src="js/ngrGame.js"></script>
+        <script src="js/ngrCamera.js"></script>
+        <script src="js/ngrDefaults.js"></script>
+        <script src="js/ngrData.js"></script>
+        <script src="js/ngrEnvironment.js"></script>
+        <script src="js/ngrModels.js"></script>
+        <script src="js/ngrBody.js"></script>
+        <script src="js/ngrDebug.js"></script>
+        <script src="js/ngrInterface.js"></script>
+        <script src="js/ngrBox.js"></script>
+
+        <script src="lib/angular.audio.js"></script>
+        <script type="text/javascript" src="lib/easel.js"></script>
+        <script type="text/javascript" src="lib/create.js"></script>
+
+        <link rel="stylesheet" type="text/css" href="styles/shapemaker.css">
+        <link rel="stylesheet" type="text/css" href="styles/ngr.css">
+        <link rel="stylesheet" type="text/css" href="styles/animate.css">
+
+        <link href='http://fonts.googleapis.com/css?family=Playfair+Display+SC:400,400italic,700' rel='stylesheet' type='text/css'>
+
+
+    </head>
+
+    <body>
+
+
+        <div class='main' contextmenu='shapemakercontext'>
+            <canvas ng-stage id='gameCanvas' width='750' height='500'></canvas>
+        </div>
+    </body>
+
+    </html>
+
+    
+    <script src="confusionQuest/ConfusionQuest.js"></script>
+    <script src="confusionQuest/profiles/questHero.js"></script>
+    <script src="confusionQuest/profiles/confCoin.js"></script>
+    <script src="confusionQuest/profiles/boots1.js"></script>
+    <script src="confusionQuest/profiles/keyRed.js"></script>
+    <script src="confusionQuest/profiles/mahakana.js"></script>
+    
+    <script src="confusionQuest/confusionQuestDefaults.js"></script>
+    <script src="confusionQuest/confusionQuestHud.js"></script>
+    <script src="confusionQuest/confusionQuestLevels.js"></script>
+
+
+    <!-- ZOR -->
+    <script src='shapemaker/shapemaker.js'></script>
+    <script src="shapemaker/shapemakerDefaults.js"></script>
+    <script src='shapemaker/clickput.directive.js'></script>
+    <script src="shapemaker/shapecreator.directive.js"></script>
+    <script src="shapemaker/contextmenu.directive.js"></script>
+    <script src="shapemaker/slider.directive.js"></script>
+    <script src="shapemaker/worldcontroller.directive.js"></script>
+
+    <script>
+    console.log("Initing");
+      angular.module("ConfusionQuestDemo",['ConfusionQuest','Rectangular'])
+      .controller("ConfusionQuest",function($scope,ConfusionQuest, 
+        ngrGame, ConfusionQuestHud, ngrEnvironment, ngrInterface, ngrStage, ngrCamera){
+
+
+        ngrEnvironment.init({
+            fps: 60,
+            debug: false,
+        });
+        ngrInterface.init();
+
+        ngrStage.background('img/bg1.png', 0);
+
+        ngrCamera.constrainZoom({
+          min: 0.05,
+          max: 2,
+        })
+
+        ngrInterface.onmove(function (r) {
+          $scope.r = r;
+          $scope.$apply();
+        })
+
+        ngrGame.init();
+        ngrInterface.onclick(function (r) {
+          $scope.contextBody = r.body;
+
+        })
+      })
+    </script>
