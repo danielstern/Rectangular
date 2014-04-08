@@ -14,11 +14,14 @@ define([
   'cq/profiles/mahakana',
   'cq/profiles/questhero',
 
+  'cq/levels/devLevel'
+
 ], function () {
   angular.module('ConfusionQuest')
     .service("ConfusionQuest", function (ngrGame, ngrEnvironment, ngrLoop, ngrCamera, ngrData, ngrState, ngrWorld, ngrInterface, ngrStage,
       ConfusionQuestDefaults, ConfusionQuestLevels,
       questHero, confCoin, ruby, keyRed, doorRed,
+      devLevel,
       boots1, helmet1, enemy1) {
 
       var CQState = {
