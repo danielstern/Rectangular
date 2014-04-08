@@ -6,7 +6,6 @@ requirejs.config({
 
 define([
   'shapemakerDefaults',
-  '../confusionQuest/ConfusionQuest.js'
   ],function(){
 
     console.log("Defining shapemaker...");

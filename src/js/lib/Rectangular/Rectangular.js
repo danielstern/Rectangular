@@ -1,6 +1,9 @@
+angular.module('Rectangular', []);
+
 requirejs.config({
   baseUrl: 'js/lib/Rectangular',
 });
+
 
 define([
   'ngrActor',
@@ -15,9 +18,11 @@ define([
   'ngrInterface',
   'ngrLoop',
   'ngrModels',
+  'ngrRoom',
   'ngrSkin',
   'ngrStage',
   'ngrState',
   'ngrWorld',
-])
-angular.module('Rectangular', [])
+],function(){
+  
+})
