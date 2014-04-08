@@ -1,6 +1,5 @@
 angular.module('ConfusionQuest', ['Rectangular']);
 
-
 define([
   'cq/ConfusionQuestDefaults',
   'cq/ConfusionQuestHud',
