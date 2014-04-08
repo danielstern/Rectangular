@@ -1,5 +1,18 @@
- angular.module("shapemaker", ['ngAudio', 'Rectangular','ConfusionQuest'])
-   .controller('myDemoCtrl', function ($scope, ngrGame, ConfusionQuest, ConfusionQuestHud, ConfusionQuestDefaults, shapemakerDefaults, $element, ngrStage, ngrData, ngrRoom, ngrCamera, ngrData, ngrDefaults, ngrLoop, ngrWorld, ngrInterface, ngrEnvironment, ngrState, ngAudio, $compile) {
+angular.module("shapemaker", ['ngAudio', 'Rectangular','ConfusionQuest']);
+
+requirejs.config({
+  baseUrl:'shapemaker',
+});
+
+define([
+  'shapemakerDefaults',
+  '../confusionQuest/ConfusionQuest.js'
+  ],function(){
+
+    console.log("Defining shapemaker...");
+  
+ angular.module("shapemaker")
+   .controller('myDemoCtrl', function ($scope, ngrGame, ConfusionQuestDefaults, shapemakerDefaults, $element, ngrStage, ngrData, ngrRoom, ngrCamera, ngrData, ngrDefaults, ngrLoop, ngrWorld, ngrInterface, ngrEnvironment, ngrState, ngAudio, $compile) {
 
      var contextMenu;
      var contextPin;
@@ -287,3 +300,4 @@
      }
 
    })
+})

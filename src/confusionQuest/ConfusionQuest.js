@@ -1,4 +1,10 @@
-angular.module('ConfusionQuest', [])
+angular.module('ConfusionQuest', []);
+requirejs.config({
+  baseUrl: 'ConfusionQuest',
+});
+
+define(['ConfusionQuestDefaults'], function(){
+  angular.module('ConfusionQuest')
   .service("ConfusionQuest", function (ngrGame, ngrEnvironment, ngrLoop, ngrCamera, ngrData, ngrState, ngrWorld, ngrInterface, ngrStage,
     ConfusionQuestDefaults, ConfusionQuestLevels,
     questHero, confCoin, ruby, keyRed, doorRed,
@@ -140,3 +146,4 @@ angular.module('ConfusionQuest', [])
     })
 
   })
+})
