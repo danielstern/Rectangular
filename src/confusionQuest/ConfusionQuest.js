@@ -6,8 +6,11 @@ define([
   'cq/ConfusionQuestLevels',
 
   'cq/profiles/boots1',
+  'cq/profiles/helmet1',
   'cq/profiles/confCoin',
+  'cq/profiles/ruby',
   'cq/profiles/keyRed',
+  'cq/profiles/doorRed',
   'cq/profiles/mahakana',
   'cq/profiles/questhero',
 

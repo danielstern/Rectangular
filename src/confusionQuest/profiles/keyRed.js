@@ -22,31 +22,3 @@ angular.module('ConfusionQuest')
     ngrGame.addProfile('keyRed', RedKey);
 
   })
-  .service('doorRed', function (ngrGame) {
-    
-    
-
-    var RedDoor = function (body) {
-
-      console.log("Red door",body);
-      
-      body.setSensor(true);
-
-      //body.sprite.container.parent.setChildIndex(body.sprite.container,0);
-      
-      body.onimpact(function (body, other) {
-
-        if (other.GetUserData() && other.GetUserData().isHero) {
-          console.log("You're on the door now, dog",ngrGame.getEvents());
-
-          if (ngrGame.getEvents().redKey) {
-            ngrGame.endGame();
-          }
-        }
-
-      })
-    }
-
-    ngrGame.addProfile('doorRed', RedDoor);
-
-  })

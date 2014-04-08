@@ -1,7 +1,5 @@
 angular.module("shapemaker", ['ngAudio', 'Rectangular','ConfusionQuest']);
 
-
-
 define([
   'shapemaker/shapemakerDefaults',
   'shapemaker/shapecreator.directive',
