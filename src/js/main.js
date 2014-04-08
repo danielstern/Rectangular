@@ -3,7 +3,10 @@ requirejs.config({
     paths: {
       shapemaker: '../shapemaker',
       confusionQuest: '../confusionQuest',
-      Rectangular: 'lib/Rectangular/Rectangular'
+      Rectangular: 'lib/Rectangular',
+      angular: 'lib/angular',
+      Box2D: 'lib/Box2dWeb-2.1.a.3',
+      cq: '../confusionQuest',
     },
     shim: {
       jquery: {
@@ -15,14 +18,14 @@ requirejs.config({
     }});
 
   require([
-    'lib/angular',
+    'lib/jquery',
     'lib/create'    ,
     'lib/easel'    ,
     'lib/underscore',
     'lib/box2d',
     'lib/mousetrap',
     'lib/angular.audio',
-    'Rectangular',
+    'Rectangular/Rectangular',
 
     'shapemaker/shapemaker.js',
     'confusionQuest/confusionQuest.js',

@@ -1,12 +1,17 @@
 angular.module('ConfusionQuest', ['Rectangular']);
-requirejs.config({
-  baseUrl: 'ConfusionQuest',
-});
+
 
 define([
-  'ConfusionQuestDefaults',
-  'ConfusionQuestHud',
-  'ConfusionQuestLevels'
+  'cq/ConfusionQuestDefaults',
+  'cq/ConfusionQuestHud',
+  'cq/ConfusionQuestLevels',
+
+  'cq/profiles/boots1',
+  'cq/profiles/confCoin',
+  'cq/profiles/keyRed',
+  'cq/profiles/mahakana',
+  'cq/profiles/questhero',
+
 ], function () {
   angular.module('ConfusionQuest')
     .service("ConfusionQuest", function (ngrGame, ngrEnvironment, ngrLoop, ngrCamera, ngrData, ngrState, ngrWorld, ngrInterface, ngrStage,

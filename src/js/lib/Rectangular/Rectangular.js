@@ -1,28 +1,23 @@
 angular.module('Rectangular', []);
 
-requirejs.config({
-  baseUrl: 'js/lib/Rectangular',
-});
-
-
 define([
-  'ngrActor',
-  'ngrBody',
-  'ngrBox',
-  'ngrCamera',
-  'ngrData',
-  'ngrDefaults',
-  'ngrDebug',
-  'ngrEnvironment',
-  'ngrGame',
-  'ngrInterface',
-  'ngrLoop',
-  'ngrModels',
-  'ngrRoom',
-  'ngrSkin',
-  'ngrStage',
-  'ngrState',
-  'ngrWorld',
+  'Rectangular/ngrActor',
+  'Rectangular/ngrBody',
+  'Rectangular/ngrBox',
+  'Rectangular/ngrCamera',
+  'Rectangular/ngrData',
+  'Rectangular/ngrDefaults',
+  'Rectangular/ngrDebug',
+  'Rectangular/ngrEnvironment',
+  'Rectangular/ngrGame',
+  'Rectangular/ngrInterface',
+  'Rectangular/ngrLoop',
+  'Rectangular/ngrModels',
+  'Rectangular/ngrRoom',
+  'Rectangular/ngrSkin',
+  'Rectangular/ngrStage',
+  'Rectangular/ngrState',
+  'Rectangular/ngrWorld',
 ],function(){
   
 })
