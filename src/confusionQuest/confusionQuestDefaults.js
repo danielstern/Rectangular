@@ -139,18 +139,18 @@ angular.module("ConfusionQuest")
       shape: 'box',
       profile: 'questHero',
       skin: {
-        src: 'img/sprites/p1_spritesheet.png',
+        src: 'img/sprites/calvin/calvin1.png',
         bg: 'spritesheet',
-        /*frames: {
-            width: 73,
-            height: 97,
-            regX: 36.5,
-            regY: 50,
+        frames: {
+            width: 158.5,
+            height: 150,
+            regX:80,
+            regY: 80,
             count: 16
-          },*/
-        frameWidth: 73,
-        frameHeight: 97,
-        frames: [
+          },
+        frameWidth: 90,
+        frameHeight: 150,
+       /* frames: [
           [365, 98, 69, 71, 0, 37, 48],
           [0, 196, 66, 92, 0, 37, 48],
           [438, 0, 69, 92, 0, 37, 48],
@@ -167,10 +167,10 @@ angular.module("ConfusionQuest")
           [219, 98, 72, 97, 0, 37, 48],
           [365, 0, 72, 97, 0, 37, 48],
           [292, 98, 72, 97, 0, 37, 48],
-        ],
+        ],*/
         animations: {
           run: {
-            frames: [6, 7, 8, 9, 8, 7],
+            frames: [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14],
             next: 'stand',
             speed: 0.2
           },
@@ -198,7 +198,7 @@ angular.module("ConfusionQuest")
         doodad: true,
       },
       presets: {
-        height: 2.3,
+        height: 2,
         width: 1.24,
         restitution: 0.1,
         density: 0.07,

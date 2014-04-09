@@ -34,5 +34,6 @@ requirejs.config({
     shapemaker
   ) {
     console.log("Yay!", arguments);
-    angular.bootstrap(document, ['shapemaker']);
+//    angular.bootstrap(document, ['shapemaker']);
+    angular.bootstrap(document, ['ConfusionQuestDemo']);
   })

@@ -158,4 +158,37 @@ define([
       })
 
     })
+
+angular.module("ConfusionQuestDemo",['ConfusionQuest','Rectangular'])
+.controller("ConfusionQuest",function($scope,ConfusionQuest, 
+  ngrGame, ConfusionQuestHud, ngrEnvironment, ngrInterface, ngrStage, ngrCamera){
+
+  console.log("initing controller");
+
+  ngrEnvironment.init({
+      fps: 60,
+      debug: false,
+  });
+  ngrInterface.init();
+
+  ngrStage.background('img/bg1.png', 0);
+
+  ngrCamera.constrainZoom({
+    min: 0.05,
+    max: 2,
+  })
+
+  ngrInterface.onmove(function (r) {
+    $scope.r = r;
+    $scope.$apply();
+  })
+
+  ngrGame.init();
+  ngrInterface.onclick(function (r) {
+    $scope.contextBody = r.body;
+
+  })
 })
+
+})
+
