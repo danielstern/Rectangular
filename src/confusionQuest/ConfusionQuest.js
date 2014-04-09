@@ -139,10 +139,8 @@ define([
           console.log("Adding listener to", hero);
 
           hero.onstatechange(function (heroState) {
-            console.log("Hero state changed", heroState);
             _.call(stateChangeListeners, CQState);
             if (heroState.dead) {
-              console.log("hero died...");
               ngrCamera.unfollow();
               ngrCamera.setZoom(0.5);
               ngrLoop.setSpeed(30);
