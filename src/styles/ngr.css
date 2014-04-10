@@ -23,6 +23,7 @@ canvas {
 .overlay {
 	position: absolute;
 	
+	z-index: 5;
 }
 
 .modal {
@@ -56,7 +57,7 @@ canvas {
 	height: 30px;
 	bottom: 20px;
 	left: 20px;
-	z-index: 1000;
+	z-index: 3;
 	border: 0px solid transparent;
 		pointer-events: none;
 }
@@ -68,7 +69,7 @@ canvas {
 	height: 30px;
 	bottom: 20px;
 	right: 20px;
-	z-index: 1000;
+	z-index: 3;
 	border: 0px solid;
 		pointer-events: none;
 }

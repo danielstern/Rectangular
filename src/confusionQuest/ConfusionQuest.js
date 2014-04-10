@@ -39,9 +39,9 @@ angular.module('ConfusionQuest')
 
       ngrData.load(ConfusionQuestLevels.levels[0]);
 
-      ngrGame.screen({
+      /*ngrGame.screen({
         bg:"img/Confusion-Quest-Title-NoText.png",
-      });
+      });*/
 
       ngrCamera.setZoom(1);
       ngrLoop.setSpeed(60);
@@ -56,7 +56,7 @@ angular.module('ConfusionQuest')
       });
 
       _.call(stateChangeListeners, CQState);
-      _.call(messageListeners, "Press enter");
+      _.call(messageListeners, "Demo Level");
     }
 
     ngrGame.endGame = function () {
@@ -117,6 +117,7 @@ angular.module('ConfusionQuest')
           'd': 'goingRight',
           'w': 'isJumping',
           's': 'isCrouching',
+          'space': 'isJumping',
         });
 
         hero = entity;
