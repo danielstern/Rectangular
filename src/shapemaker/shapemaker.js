@@ -136,6 +136,8 @@ angular.module("shapemaker")
 
     $scope.startGame = function () {
       ngrGame.init();
+      $('button').focus();
+      $('button').blur();
     }
 
     $scope.constrainFocus = function () {
