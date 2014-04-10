@@ -34,34 +34,6 @@
         <script src="js/lib/angular.audio.js"></script>
         <script type="text/javascript" src="js/lib/easel.js"></script>
         <script type="text/javascript" src="js/lib/create.js"></script>
-
-        <link rel="stylesheet" type="text/css" href="styles/shapemaker.css">
-        <link rel="stylesheet" type="text/css" href="styles/ngr.css">
-        <link rel="stylesheet" type="text/css" href="styles/animate.css">
-
-        <link href='http://fonts.googleapis.com/css?family=Playfair+Display+SC:400,400italic,700' rel='stylesheet' type='text/css'>
-
-
-    </head>
-
-    <body>
-
-
-        <div class='main' contextmenu='shapemakercontext'>
-            <canvas ng-stage id='gameCanvas' width='750' height='500'></canvas>
-        </div>
-        <worldcontroller></worldcontroller>
-        <creationPanel>
-        <makers>
-            <shapemaker shape='box'></shapemaker>
-        </makers>
-  <button ng-click='clearAll()'>Clear</button>
-        <button ng-click='startGame()'>START GAME</button>
-        </creationPanel>
-    </body>
-
-    </html>
-
     
     <script src="confusionQuest/ConfusionQuest.js"></script>
 
@@ -90,3 +62,31 @@
     <script src="shapemaker/contextmenu.directive.js"></script>
     <script src="shapemaker/slider.directive.js"></script>
     <script src="shapemaker/worldcontroller.directive.js"></script>
+
+        <link rel="stylesheet" type="text/css" href="styles/shapemaker.css">
+        <link rel="stylesheet" type="text/css" href="styles/ngr.css">
+        <link rel="stylesheet" type="text/css" href="styles/animate.css">
+
+        <link href='http://fonts.googleapis.com/css?family=Playfair+Display+SC:400,400italic,700' rel='stylesheet' type='text/css'>
+
+
+    </head>
+
+    <body>
+
+
+        <div class='main' contextmenu='shapemakercontext'>
+            <canvas ng-stage id='gameCanvas' width='750' height='500'></canvas>
+        </div>
+        <worldcontroller></worldcontroller>
+        <creationPanel>
+        <makers>
+            <shapemaker shape='box'></shapemaker>
+        </makers>
+  <button ng-click='clearAll()'>Clear</button>
+        <button ng-click='startGame()'>START GAME</button>
+        </creationPanel>
+    </body>
+
+    </html>
+

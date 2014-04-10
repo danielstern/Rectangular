@@ -27,26 +27,6 @@ angular.module("ConfusionQuest")
       }
 
     }, {
-      name: 'Coin',
-      shape: 'box',
-      skin: {
-        src: 'img/coinGold.png',
-        bg: 'sprite'
-      },
-      profile: "confCoin",
-      userData: {
-        doodad: true,
-        isCoin: true,
-      },
-      presets: {
-        radius: 1,
-        height: 1,
-        width: 1,
-        restitution: 0.2,
-        density: 0.2
-      }
-
-    }, {
       name: 'Ruby',
       shape: 'box',
       skin: {
@@ -67,26 +47,6 @@ angular.module("ConfusionQuest")
       }
 
     },{
-      name: 'Powerup - Boots 1',
-      shape: 'box',
-      skin: {
-        src: 'img/powershoe.png',
-        bg: 'sprite'
-      },
-      profile: "boots1",
-      userData: {
-        doodad: true,
-        isCoin: true,
-      },
-      presets: {
-        radius: 1,
-        height: 3,
-        width: 3,
-        restitution: 0.2,
-        density: 0.2
-      }
-
-    },  {
       name: 'Powerup - Helmet 1',
       shape: 'box',
       skin: {

@@ -1,6 +1,6 @@
 angular.module('ConfusionQuest')
 
-  .service('boots1', function (ngrGame) {
+  .service('boots1', function (ngrGame,ConfusionQuestDefaults) {
     var stats = {
       id: "boots1",
       img: 'img/powershoe.png',
@@ -21,8 +21,31 @@ angular.module('ConfusionQuest')
           ngrGame.powerup(stats);
         }
       })
-    }
+    };
 
+    var defaults = {
+      name: 'Powerup - Boots 1',
+      shape: 'box',
+      skin: {
+        src: 'img/powershoe.png',
+        bg: 'sprite'
+      },
+      profile: "boots1",
+      userData: {
+        doodad: true,
+        isCoin: true,
+      },
+      presets: {
+        radius: 1,
+        height: 3,
+        width: 3,
+        restitution: 0.2,
+        density: 0.2
+      }
+
+    };
+
+    ConfusionQuestDefaults.addDefault(defaults);
     ngrGame.addProfile('boots1', Boots1);
 
   })
