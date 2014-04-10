@@ -1,5 +1,5 @@
 angular.module("Rectangular")
-  .service('ngrGame', function (ngrWorld, ngrStage, ngrInterface, ngrCamera, ngrLoop, ngrDefaults, $q) {
+  .service('ngrGame', function (ngrWorld, ngrStage, ngrDisplay, ngrInterface, ngrCamera, ngrLoop, ngrDefaults, $q) {
 
     var w = ngrWorld;
     var g = this;
@@ -160,7 +160,7 @@ angular.module("Rectangular")
 
     this.screen = function (options) {
       var r = $q.defer();
-      var c = ngrStage.overlay(options.bg);
+      var c = ngrDisplay.overlay(options.bg);
       ngrInterface.onescape(function () {
         endScreen();
       });
@@ -170,7 +170,7 @@ angular.module("Rectangular")
       }
 
       function endScreen() {
-        ngrStage.removeChild(c);
+        c.close();
         r.resolve();
       }
 

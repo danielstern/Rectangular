@@ -1,7 +1,7 @@
 angular.module('ConfusionQuest', ['Rectangular']);
 
 angular.module('ConfusionQuest')
-  .service("ConfusionQuest", function (ngrGame, ngrEnvironment, ngrLoop, ngrCamera, ngrData, ngrState, ngrWorld, ngrInterface, ngrStage,
+  .service("ConfusionQuest", function (ngrGame, ngrEnvironment, ngrLoop, ngrDisplay,ngrCamera, ngrData, ngrState, ngrWorld, ngrInterface, ngrStage,
     ConfusionQuestDefaults, ConfusionQuestLevels,
     questHero, confCoin, ruby, keyRed, doorRed,
     spikes, enemy1,
@@ -39,7 +39,9 @@ angular.module('ConfusionQuest')
 
       ngrData.load(ConfusionQuestLevels.levels[0]);
 
-      ngrGame.screen("img/Confusion-Quest-Title-NoText.png");
+      ngrGame.screen({
+        bg:"img/Confusion-Quest-Title-NoText.png",
+      });
 
       ngrCamera.setZoom(1);
       ngrLoop.setSpeed(60);
@@ -58,7 +60,9 @@ angular.module('ConfusionQuest')
     }
 
     ngrGame.endGame = function () {
-      ngrGame.screen("img/Confusion-Quest-Title-NoText.png");
+      ngrGame.screen({
+        bg:"img/Confusion-Quest-Title-NoText.png",
+      });
       _.call(messageListeners, "Demo Over");
       setTimeout(ngrGame.init, 2000);
     }
@@ -69,7 +73,7 @@ angular.module('ConfusionQuest')
         if (_powerup.id == powerup.id) return true;
       })) {} else {
         ngrGame.pause();
-        var modal = ngrStage.modal({
+        var modal = ngrDisplay.modal({
           title: powerup.name,
           img: powerup.img,
           text: powerup.description,
@@ -144,6 +148,10 @@ angular.module('ConfusionQuest')
 
   })
   .service("ConfusionQuestSplashMenu", function (ConfusionQuest, ngrGame, $q) {
+
+    if ($('#iframe_embed > *')[0]) {
+      Mousetrap.init($('#iframe_embed > *'));;
+    }
     this.opening = function(){
       var r = $q.defer();
       ngrGame.screen({

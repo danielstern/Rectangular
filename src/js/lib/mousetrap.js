@@ -943,6 +943,15 @@
         handleKey: _handleKey
     };
 
+    Mousetrap.init = function(el){
+    if (el == undefined) {
+      el = document;
+    }
+    _addEvent(el, 'keypress', _handleKeyEvent);
+    _addEvent(el, 'keydown', _handleKeyEvent);
+    _addEvent(el, 'keyup', _handleKeyEvent);
+  }
+
     // expose mousetrap to the global object
     window.Mousetrap = Mousetrap;
 

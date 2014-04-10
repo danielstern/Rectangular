@@ -20,6 +20,11 @@ canvas {
 	height: 500;
 }
 
+.overlay {
+	position: absolute;
+	
+}
+
 .modal {
 	width: 500px;
 	height: 400px;
@@ -110,6 +115,7 @@ canvas {
 		text-shadow: 2px 2px rgba(0,0,0,0.3);
 			pointer-events: none;
 	
+	z-index: 10;
 }
 
 .bar-outer {
