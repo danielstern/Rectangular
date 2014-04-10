@@ -1,5 +1,13 @@
 angular.module("ConfusionQuest")
   .service("ConfusionQuestDefaults", function () {
+      
+     var ConfusionQuestDefaults = this;
+
+    this.addDefault = function(def) {
+      console.log("Pushing default,",def);
+      ConfusionQuestDefaults.defaults.push(def);
+    };
+
     this.defaults = [{
       name: 'Wooden Box',
       shape: 'box',

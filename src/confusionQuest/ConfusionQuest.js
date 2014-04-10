@@ -4,8 +4,10 @@ angular.module('ConfusionQuest', ['Rectangular']);
     .service("ConfusionQuest", function (ngrGame, ngrEnvironment, ngrLoop, ngrCamera, ngrData, ngrState, ngrWorld, ngrInterface, ngrStage,
       ConfusionQuestDefaults, ConfusionQuestLevels,
       questHero, confCoin, ruby, keyRed, doorRed,
+      spikes, enemy1,
+      confCoin, ruby, keyRed, doorRed,
       devLevel,
-      boots1, helmet1, enemy1) {
+      boots1, helmet1) {
 
       var CQState = {
         lives: 0,
