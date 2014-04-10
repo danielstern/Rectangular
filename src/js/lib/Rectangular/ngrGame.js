@@ -158,13 +158,21 @@ angular.module("Rectangular")
 
     }
 
-    this.screen = function (src) {
+    this.screen = function (options) {
       var r = $q.defer();
-      var c = ngrStage.overlay(src);
+      var c = ngrStage.overlay(options.bg);
       ngrInterface.onescape(function () {
+        endScreen();
+      });
+
+      if (options.duration) {
+        setTimeout(endScreen, options.duration * 1000)
+      }
+
+      function endScreen() {
         ngrStage.removeChild(c);
         r.resolve();
-      })
+      }
 
       return r.promise;
     }

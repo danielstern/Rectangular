@@ -146,7 +146,11 @@ angular.module('ConfusionQuest')
   .service("ConfusionQuestSplashMenu", function (ConfusionQuest, ngrGame, $q) {
     this.opening = function(){
       var r = $q.defer();
-      ngrGame.screen('img/screen_open.png')
+      ngrGame.screen({
+        bg: 'img/screen_open.png',
+        duration: 3,
+        exitOnEscape: true,
+      })
       .then(function(){
         r.resolve();
       })
