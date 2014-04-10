@@ -82,6 +82,8 @@ angular.module("Rectangular")
     this.control = function (hero, map) {
 
       var state = hero.getState();
+
+      console.log("Binding controls, ",Mousetrap);
       if (controlLoop) ngrLoop.removeHook(controlLoop);
       controlLoop = ngrLoop.addHook(hero.tick);
 

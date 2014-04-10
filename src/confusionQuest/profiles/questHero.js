@@ -203,12 +203,15 @@ angular.module('ConfusionQuest')
       }
 
       if (state.goingRight) {
-        if (anim.paused) anim.gotoAndPlay("run");
+        //if (anim.paused) 
+        window.anim = anim;
+          if (anim.currentAnimation != "run") anim.gotoAndPlay("run");
         anim.scaleX = Math.abs(anim.scaleX);
       }
 
       if (state.goingLeft) {
-        if (anim.paused) anim.gotoAndPlay("run");
+        //if (anim.paused)
+         if (anim.currentAnimation != "run")  anim.gotoAndPlay("run");
         anim.scaleX = -Math.abs(anim.scaleX);
       }
 
@@ -217,6 +220,10 @@ angular.module('ConfusionQuest')
           anim.gotoAndPlay("jump");
         }
 
+      }
+
+      if (!state.goingLeft && !state.goingRight) {
+        if (anim.currentAnimation != "stand") anim.gotoAndPlay("stand");
       }
 
       if (state.goingLeft && !speedingL) {

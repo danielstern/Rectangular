@@ -29,7 +29,7 @@ angular.module('Rectangular')
 
 
     Mousetrap.bind(['space', 'enter', 'escape'], function (evt) {
-      evt.preventDefault();
+    //  evt.preventDefault();
       _.call(onEscapeListeners);
     })
 

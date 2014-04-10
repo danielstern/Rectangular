@@ -12,7 +12,8 @@ define([
   'cq/profiles/keyRed',
   'cq/profiles/doorRed',
   'cq/profiles/mahakana',
-  'cq/profiles/questhero',
+  //
+  'cq/profiles/questHero',
 
   'cq/levels/devLevel'
 

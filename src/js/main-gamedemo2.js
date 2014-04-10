@@ -2,7 +2,6 @@ requirejs.config({
     baseUrl: 'js',
     paths: {
       shapemaker: '../shapemaker',
-      confusionQuest: '../confusionQuest',
       Rectangular: 'lib/Rectangular',
       angular: 'lib/angular',
       Box2D: 'lib/Box2dWeb-2.1.a.3',
@@ -29,11 +28,14 @@ requirejs.config({
 
     'shapemaker/shapemaker.js',
     'confusionQuest/ConfusionQuest.js',
+
+    // //
+
     'util',
   ], function (
     shapemaker
   ) {
     console.log("Yay!", arguments);
-   angular.bootstrap(document, ['shapemaker']);
- //   angular.bootstrap(document, ['ConfusionQuestDemo']);
+//    angular.bootstrap(document, ['shapemaker']);
+    angular.bootstrap(document, ['ConfusionQuestDemo']);
   })
