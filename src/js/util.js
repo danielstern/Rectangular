@@ -15,7 +15,6 @@
  */
 /* global Mousetrap:true */
 
-define(['Box2D'],function () {
   Mousetrap = (function (Mousetrap) {
     var self = Mousetrap,
       _oldBind = self.bind,
@@ -83,4 +82,3 @@ define(['Box2D'],function () {
       })
     }
   })
-})
