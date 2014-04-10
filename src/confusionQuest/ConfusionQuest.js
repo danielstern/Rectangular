@@ -1,23 +1,5 @@
 angular.module('ConfusionQuest', ['Rectangular']);
 
-define([
-  'cq/ConfusionQuestDefaults',
-  'cq/ConfusionQuestHud',
-  'cq/ConfusionQuestLevels',
-
-  'cq/profiles/boots1',
-  'cq/profiles/helmet1',
-  'cq/profiles/confCoin',
-  'cq/profiles/ruby',
-  'cq/profiles/keyRed',
-  'cq/profiles/doorRed',
-  'cq/profiles/mahakana',
-  //
-  'cq/profiles/questHero',
-
-  'cq/levels/devLevel'
-
-], function () {
   angular.module('ConfusionQuest')
     .service("ConfusionQuest", function (ngrGame, ngrEnvironment, ngrLoop, ngrCamera, ngrData, ngrState, ngrWorld, ngrInterface, ngrStage,
       ConfusionQuestDefaults, ConfusionQuestLevels,
@@ -190,6 +172,3 @@ angular.module("ConfusionQuestDemo",['ConfusionQuest','Rectangular'])
 
   })
 })
-
-})
-
