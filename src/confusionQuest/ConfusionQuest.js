@@ -143,10 +143,14 @@ angular.module('ConfusionQuest')
     })
 
   })
-  .service("ConfusionQuestSplashMenu", function (ConfusionQuest, ngrGame) {
+  .service("ConfusionQuestSplashMenu", function (ConfusionQuest, ngrGame, $q) {
     this.opening = function(){
-      ngrGame.screen('img/screen_open.png');
-      return;
+      var r = $q.defer();
+      ngrGame.screen('img/screen_open.png')
+      .then(function(){
+        r.resolve();
+      })
+      return r.promise;
     }
   });
 

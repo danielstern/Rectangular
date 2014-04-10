@@ -159,10 +159,14 @@ angular.module("Rectangular")
     }
 
     this.screen = function (src) {
+      var r = $q.defer();
       var c = ngrStage.overlay(src);
       ngrInterface.onescape(function () {
         ngrStage.removeChild(c);
+        r.resolve();
       })
+
+      return r.promise;
     }
 
 
