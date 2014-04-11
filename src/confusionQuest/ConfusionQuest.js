@@ -39,6 +39,13 @@ angular.module('ConfusionQuest')
 
       ngrData.load(ConfusionQuestLevels.levels[0]);
 
+      ngrStage.background('img/parallax/foggy/foggy0003.png', 0);
+      ngrStage.background('img/parallax/foggy/foggy0004.png', 1);
+      ngrStage.background('img/parallax/foggy/foggy0005.png', 2);
+      ngrStage.background('img/parallax/foggy/foggy0006.png', 3);
+      ngrStage.background('img/parallax/foggy/foggy0007.png', 4);
+
+
       /*ngrGame.screen({
         bg:"img/Confusion-Quest-Title-NoText.png",
       });*/
@@ -117,7 +124,7 @@ angular.module('ConfusionQuest')
           'd': 'goingRight',
           'w': 'isJumping',
           's': 'isCrouching',
-          'space': 'isJumping',
+          //'space': 'isJumping',
         });
 
         hero = entity;
@@ -178,8 +185,7 @@ angular.module("ConfusionQuestDemo", ['ConfusionQuest', 'Rectangular'])
     });
     ngrInterface.init();
 
-    ngrStage.background('img/bg1.png', 0);
-
+   
     ngrCamera.constrainZoom({
       min: 0.05,
       max: 2,
