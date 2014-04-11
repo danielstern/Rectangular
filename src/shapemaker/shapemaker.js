@@ -33,6 +33,12 @@ angular.module("shapemaker")
 
     })
 
+    ngrStage.background('img/parallax/foggy/bg_0020_fog.png',0);
+    ngrStage.background('img/parallax/foggy/bg_0019_fog.png',0);
+    ngrStage.background('img/parallax/foggy/bg_0018_fog.png',0);
+    ngrStage.background('img/parallax/foggy/bg_0017_fog.png',1);
+    ngrStage.background('img/parallax/foggy/bg_0016_fog.png',1);
+
     Mousetrap.bind({
       'f': function () {
         var cti = $scope.contextBody;

@@ -39,15 +39,7 @@ angular.module('ConfusionQuest')
 
       ngrData.load(ConfusionQuestLevels.levels[0]);
 
-      ngrStage.background('img/parallax/foggy/foggy0003.png');
-      ngrStage.background('img/parallax/foggy/foggy0004.png', 1);
-      ngrStage.background('img/parallax/foggy/foggy0005.png', 1);
-      ngrStage.background('img/parallax/foggy/foggy0006.png', 2);
-      ngrStage.background('img/parallax/foggy/foggy0007.png', 2);
-      ngrStage.background('img/parallax/foggy/foggy0008.png', 2);
-      ngrStage.background('img/parallax/foggy/foggy0019.png', 2);
-      ngrStage.background('img/parallax/foggy/foggy0018.png', 3);
-      ngrStage.background('img/parallax/foggy/foggy0020.png', 4);
+
      // ngrStage.background('img/parallax/foggy/foggy0005.png', 2);
     //  ngrStage.background('img/parallax/foggy/foggy0006.png', 3);
      // ngrStage.background('img/parallax/foggy/foggy0007.png', 4);
