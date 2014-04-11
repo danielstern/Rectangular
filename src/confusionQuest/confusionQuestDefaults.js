@@ -114,11 +114,11 @@ angular.module("ConfusionQuest")
           width: 238.5,
           height: 223.5,
           regX: 120,
-          regY: 165,
+          regY: 145,
 
         },
         frameWidth: 90,
-        frameHeight: 150,
+        frameHeight: 160,
         animations: {
           run: [0,15],
           stand: [16,45],
