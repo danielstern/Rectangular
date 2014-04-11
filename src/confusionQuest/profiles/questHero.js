@@ -203,26 +203,27 @@ angular.module('ConfusionQuest')
       }
 
       if (state.goingRight) {
-        //if (anim.paused) 
-        window.anim = anim;
           if (anim.currentAnimation != "run") anim.gotoAndPlay("run");
         anim.scaleX = Math.abs(anim.scaleX);
       }
 
       if (state.goingLeft) {
-        //if (anim.paused)
          if (anim.currentAnimation != "run")  anim.gotoAndPlay("run");
         anim.scaleX = -Math.abs(anim.scaleX);
       }
 
       if (state.isJumping) {
         if (!state.invincible) {
-          anim.gotoAndPlay("jump");
+          if (anim.currentAnimation != "jump") anim.gotoAndPlay("jump");
         }
 
       }
 
-      if (!state.goingLeft && !state.goingRight) {
+      if (state.isCrouching) {
+          if (anim.currentAnimation != "duck") anim.gotoAndPlay("duck");
+      }
+
+      if (!state.goingLeft && !state.goingRight && !state.isCrouching && !state.isJumping) {
         if (anim.currentAnimation != "stand") anim.gotoAndPlay("stand");
       }
 
@@ -297,10 +298,17 @@ angular.module('ConfusionQuest')
 
       h.body.SetAngle(0);
 
-      window.world = ngrWorld.getWorld();
+      //window.world = ngrWorld.getWorld();
+      //window.charAnim = anim;
+  //    console.log("Anim?",anim);
+        _.each(anim.spriteSheet.getAnimations(),function(animation){
+     anim.spriteSheet.getAnimation(animation).speed = 0.4;
+  })
 
     }
   }
+
+
 
   ngrGame.addProfile('questHero', Hero);
 

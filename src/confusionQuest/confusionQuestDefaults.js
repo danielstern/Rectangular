@@ -1,10 +1,10 @@
 angular.module("ConfusionQuest")
   .service("ConfusionQuestDefaults", function () {
-      
-     var ConfusionQuestDefaults = this;
 
-    this.addDefault = function(def) {
-      console.log("Pushing default,",def);
+    var ConfusionQuestDefaults = this;
+
+    this.addDefault = function (def) {
+      console.log("Pushing default,", def);
       ConfusionQuestDefaults.defaults.push(def);
     };
 
@@ -46,7 +46,7 @@ angular.module("ConfusionQuest")
         density: 0.2
       }
 
-    },{
+    }, {
       name: 'Powerup - Helmet 1',
       shape: 'box',
       skin: {
@@ -72,7 +72,7 @@ angular.module("ConfusionQuest")
       skin: {
         src: 'img/lock_red.png',
         bg: 'sprite',
-        index:0
+        index: 0
       },
       profile: "doorRed",
       presets: {
@@ -107,45 +107,23 @@ angular.module("ConfusionQuest")
       shape: 'box',
       profile: 'questHero',
       skin: {
-        src: 'img/sprites/calvin/calvin2.png',
+        src: 'img/sprites/calvin/calvin1.png',
         bg: 'spritesheet',
+        framerate: 90,
         frames: {
-            width:233.5 ,
-            height: 257.5,
-            regX:120,
-            regY: 165,
-            
-          },
+          width: 238.5,
+          height: 223.5,
+          regX: 120,
+          regY: 165,
+
+        },
         frameWidth: 90,
         frameHeight: 150,
         animations: {
-          run: {
-            frames: [30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45],
-            speed: 0.4,
-            
-          },
-          stand: {
-            frames: [0,1,2,3,4,5,6,7,8,9,
-            10,11,12,13,14,15,16,17,18,19,
-            20,21,22,23,24,25,26,27,28,29
-            ],
-            next: "stand",
-            speed: 0.4,
-          },
-          duck: {
-            frames: [0]
-          },
-          hurt: {
-            frames: [2],
-            next: "stand",
-            speed: 0.03
-          },
-          jump: {
-            frames: [3],
-            next: "stand",
-            speed: 0.3
-
-          }
+          run: [0,15],
+          stand: [16,45],
+          jump: [46,59],
+          duck: [60,130],
         }
       },
       controls: 'platform-hero',
@@ -179,10 +157,10 @@ angular.module("ConfusionQuest")
         animations: {
 
           stand: {
-            frames: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11,12,13,14,15,16,15,14,13,12,11,10,9,8,7,6,5,4,3,2],
+            frames: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2],
             speed: 0.2
           },
-         /* hurt: {
+          /* hurt: {
             frames: [2],
             next: "stand",
           },*/

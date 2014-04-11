@@ -48,9 +48,14 @@ angular.module('Rectangular')
             var data = {
               images: [options.src],
               frames: options.frames,
-              animations: options.animations
+              framerate: options.framerate,
+              animations: options.animations,
+              speed:0.4,
             };
+
+           // console.log("Spritesheet,",data);
             var spriteSheet = new createjs.SpriteSheet(data);
+            window.charSprite = spriteSheet;
             r.animation = new createjs.Sprite(spriteSheet, "stand");
 
             var animScale = options.spriteHeight / options.frameHeight * 2;

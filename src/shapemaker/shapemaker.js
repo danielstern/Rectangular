@@ -33,28 +33,6 @@ angular.module("shapemaker")
 
     })
 
-    ngrStage.background('img/parallax/foggy/bg_0020_fog.png',0);
-    ngrStage.background('img/parallax/foggy/bg_0019_fog.png',0);
-    ngrStage.background('img/parallax/foggy/bg_0018_fog.png',0);
-    ngrStage.background('img/parallax/foggy/bg_0017_fog.png',1);
-    ngrStage.background('img/parallax/foggy/bg_0016_fog.png',1);
-    ngrStage.background('img/parallax/foggy/bg_0015_fog.png',3);
-    ngrStage.background('img/parallax/foggy/bg_0014_fog.png',2);
-    ngrStage.background('img/parallax/foggy/bg_0013_fog.png',4);
-    ngrStage.background('img/parallax/foggy/bg_0012_fog.png',2);
-    ngrStage.background('img/parallax/foggy/bg_0011_fog.png',3);
-    ngrStage.background('img/parallax/foggy/bg_0010_fog.png',2);
-    ngrStage.background('img/parallax/foggy/bg_0009_fog.png',5);
-    ngrStage.background('img/parallax/foggy/bg_0008_fog.png',5);
-    ngrStage.background('img/parallax/foggy/bg_0007_fog.png',5);
-    ngrStage.background('img/parallax/foggy/bg_0006_fog.png',5);
-    ngrStage.background('img/parallax/foggy/bg_0005_fog.png',6);
-    ngrStage.background('img/parallax/foggy/bg_0004_fog.png',7);
-    ngrStage.background('img/parallax/foggy/bg_0003_fog.png',7);
-    ngrStage.background('img/parallax/foggy/bg_0002_fog.png',7);
-    ngrStage.background('img/parallax/foggy/bg_0001_fog.png',8);
-    ngrStage.background('img/parallax/foggy/bg_0000_fog.png',9);
-
     Mousetrap.bind({
       'f': function () {
         var cti = $scope.contextBody;
