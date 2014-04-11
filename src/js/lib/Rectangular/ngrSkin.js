@@ -210,10 +210,11 @@ angular.module('Rectangular')
 
         var env = ngrState.getState();
         env.canvas = $('canvas');
-        var scaleX = env.canvas.width() / bgData.image.width * 1.2 * (sprite.parallax || 1); // to cover the scene
-        bgData.scaleX = scaleX;
-        bgData.scaleY = scaleX;
-        bgData.regX = 100;
+        var scaleX = env.canvas.width() / bgData.image.width * ngrCamera.getLens() * (sprite.parallax || 1); // to cover the scene
+        //bgData.scaleX = scaleX;
+        //bgData.scaleY = scaleX;
+        //bgData.regX = bgData.image.width / 10;
+        //bgData.regY = bgData.image.height / 10;
 
 
         sprite.container.parallax = parallax;

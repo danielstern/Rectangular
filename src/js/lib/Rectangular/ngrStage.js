@@ -128,10 +128,13 @@ angular.module('Rectangular')
       for (var i = 0; i < bgContainer.getNumChildren(); i++) {
 
         var child = bgContainer.getChildAt(i);
-        child.x = c.x / child.parallax || 1;
-        child.y = c.y / child.parallax || 1;
+        //child.x = c.x / child.parallax;
+        //child.y = c.y / child.parallax;
 
-        if (child.parallax !==0) child.scaleX = child.scaleY = 1 + ngrCamera.getZoom() / 3;
+        child.x = c.x * ngrCamera.getLens();
+        child.y = c.y * ngrCamera.getLens();
+
+        child.scaleX = child.scaleY = 1 + ngrCamera.getZoom();
 
       }
 

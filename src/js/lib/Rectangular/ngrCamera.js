@@ -19,12 +19,18 @@ angular.module("Rectangular")
       return zoom;
     }
 
+    var lens = 2;
+
     this.getTrueZoom = function() {
       return zoomTo;
     }
 
     this.getFocus = function () {
       return focus;
+    }
+
+    this.getLens = function() {
+      return lens;
     }
 
     this.follow = function (body) {
