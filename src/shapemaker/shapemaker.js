@@ -16,7 +16,7 @@ angular.module("shapemaker")
     ngrEnvironment.init($scope.context);
     ngrInterface.init();
 
-    ngrStage.background('img/bg1.png', 0);
+    //ngrStage.background('img/bg1.png', 0);
 
     ngrCamera.constrainZoom({
       min: 0.05,
