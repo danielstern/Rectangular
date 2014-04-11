@@ -203,12 +203,12 @@ angular.module('ConfusionQuest')
       }
 
       if (state.goingRight) {
-          if (anim.currentAnimation != "run") anim.gotoAndPlay("run");
+          if (anim.currentAnimation != "run" && anim.currentAnimation != "jump" && !state.airborne) anim.gotoAndPlay("run");
         anim.scaleX = Math.abs(anim.scaleX);
       }
 
       if (state.goingLeft) {
-         if (anim.currentAnimation != "run")  anim.gotoAndPlay("run");
+         if (anim.currentAnimation != "run" && anim.currentAnimation != "jump" && !state.airborne)  anim.gotoAndPlay("run");
         anim.scaleX = -Math.abs(anim.scaleX);
       }
 
@@ -220,14 +220,14 @@ angular.module('ConfusionQuest')
       }
 
       if (state.isCrouching) {
-          if (anim.currentAnimation != "duck") anim.gotoAndPlay("duck");
+          if (anim.currentAnimation != "duck" && !state.airborne) anim.gotoAndPlay("duck");
       }
 
-      if (!state.goingLeft && !state.goingRight && !state.isCrouching && !state.isJumping) {
+      if (!state.goingLeft && !state.goingRight && !state.isCrouching && !state.isJumping && !state.airborne) {
         if (anim.currentAnimation != "stand") anim.gotoAndPlay("stand");
       }
 
-      if (state.goingLeft && !speedingL) {
+      if (state.goingLeft && !speedingL && !state.isCrouching) {
         var s = stats;
         var heroBody = h.body;
         if (state.dashReadyLeft) {
@@ -244,7 +244,7 @@ angular.module('ConfusionQuest')
         if (!state.dashCurrentCooldown) state.dashReadyLeft = true;
       } else
 
-      if (state.goingRight && !speedingR) {
+      if (state.goingRight && !speedingR && !state.isCrouching) {
         var s = stats;
         var heroBody = h.body;
         if (state.dashReadyRight) {
@@ -284,7 +284,7 @@ angular.module('ConfusionQuest')
       if (state.airborne && state.isCrouching) {
         if (!state.usedGroundSmash) {
           var force = stats.groundSmashPower;
-          heroBody.ApplyForce(new b2Vec2(0, stats.groundSmashPower), heroBody.GetWorldCenter());
+        //  heroBody.ApplyForce(new b2Vec2(0, stats.groundSmashPower), heroBody.GetWorldCenter());
           state.usedGroundSmash = true;
         }
 

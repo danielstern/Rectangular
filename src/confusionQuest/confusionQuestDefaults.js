@@ -122,8 +122,9 @@ angular.module("ConfusionQuest")
         animations: {
           run: [0,15],
           stand: [16,45],
-          jump: [46,59],
-          duck: [60,130],
+          jump: [46,75,"fly"],
+          fly:[75],
+          duck: [76,145],
         }
       },
       controls: 'platform-hero',
