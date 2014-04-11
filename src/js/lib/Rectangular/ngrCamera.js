@@ -19,7 +19,7 @@ angular.module("Rectangular")
       return zoom;
     }
 
-    var lens = 0.03;
+    var lens = 0.01;
 
     this.getTrueZoom = function() {
       return zoomTo;
