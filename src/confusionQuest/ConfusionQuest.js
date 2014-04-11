@@ -40,10 +40,6 @@ angular.module('ConfusionQuest')
       ngrData.load(ConfusionQuestLevels.levels[0]);
 
 
-     // ngrStage.background('img/parallax/foggy/foggy0005.png', 2);
-    //  ngrStage.background('img/parallax/foggy/foggy0006.png', 3);
-     // ngrStage.background('img/parallax/foggy/foggy0007.png', 4);
-
 
       /*ngrGame.screen({
         bg:"img/Confusion-Quest-Title-NoText.png",

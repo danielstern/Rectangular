@@ -38,6 +38,12 @@ angular.module("shapemaker")
     ngrStage.background('img/parallax/foggy/bg_0018_fog.png',0);
     ngrStage.background('img/parallax/foggy/bg_0017_fog.png',1);
     ngrStage.background('img/parallax/foggy/bg_0016_fog.png',1);
+    ngrStage.background('img/parallax/foggy/bg_0015_fog.png',3);
+    ngrStage.background('img/parallax/foggy/bg_0014_fog.png',2);
+    ngrStage.background('img/parallax/foggy/bg_0013_fog.png',4);
+    ngrStage.background('img/parallax/foggy/bg_0012_fog.png',2);
+    ngrStage.background('img/parallax/foggy/bg_0011_fog.png',3);
+    ngrStage.background('img/parallax/foggy/bg_0010_fog.png',2);
 
     Mousetrap.bind({
       'f': function () {
