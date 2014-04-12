@@ -174,8 +174,6 @@ angular.module('Rectangular')
         mask.graphics.drawCircle(0, 0, options.spriteHeight);
       }
 
-      console.log("options?",options);
-
       var strokeColor = options.strokeColor || "#000"
 
       var stroke = new createjs.Shape();

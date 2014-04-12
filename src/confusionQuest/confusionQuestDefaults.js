@@ -102,45 +102,7 @@ angular.module("ConfusionQuest")
         gravityScale: 0
       }
 
-    }, {
-      name: 'Dude',
-      shape: 'box',
-      profile: 'questHero',
-      skin: {
-        src: 'img/sprites/calvin/calvin1.png',
-        bg: 'spritesheet',
-        framerate: 90,
-        frames: {
-          width: 238.5,
-          height: 223.5,
-          regX: 120,
-          regY: 145,
-
-        },
-        frameWidth: 90,
-        frameHeight: 160,
-        animations: {
-          run: [0,15],
-          stand: [16,45],
-          jump: [46,75,"fly"],
-          fly:[75],
-          duck: [76,145],
-        }
-      },
-      controls: 'platform-hero',
-      userData: {
-        doodad: true,
-      },
-      presets: {
-        height: 2,
-        width: 1.24,
-        restitution: 0.1,
-        density: 0.07,
-        friction: 0.2,
-        gravityScale: 0.4
-      }
-
-    }, {
+    },  {
       name: 'Enemy',
       shape: 'box',
       profile: 'enemy1',

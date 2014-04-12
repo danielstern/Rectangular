@@ -69,6 +69,21 @@
       window.b2PrismaticJointDef = Box2D.Dynamics.Joints.b2PrismaticJointDef;
   }
 
+  console.logOnce = function(msg) {
+    window.__loggedFunctions = window.__loggedFunctions || [];
+    var caller = arguments.callee.caller.toString();
+    for (var i = 0; i < __loggedFunctions.length; i++ ) {
+      if (caller == __loggedFunctions[i]) return;
+    }
+    window.logOnce = arguments;
+
+    for (var i = 0; i < arguments.length; i++) {
+      console.log(arguments[i]);  
+    }
+    
+    __loggedFunctions.push(caller);
+  }
+
   window.epicId = function() {
     var a = "infusive paleobotany telecourse lauenburg braird interwreathed humpless dogcatcher debutante perilaus excluded polyvoltine chemosmotic coadventuring ephah buncombe reconcentrate".split(" ");
     var b = "brevetted jobyna ashkhabad trophozoite concentrate galopade mucking alcoholizing lud cystoid unreassuring monocarpous equestrienne shrimplike significative resystematizing freeing".split(" ");

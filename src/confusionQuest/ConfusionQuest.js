@@ -94,7 +94,7 @@ angular.module('ConfusionQuest')
     }
 
     ngrGame.powerup = function (powerup) {
-      console.log("POWER UP!!", powerup, CQState.powerups);
+      
       if (_.find(CQState.powerups, function (_powerup) {
         if (_powerup.id == powerup.id) return true;
       })) {} else {

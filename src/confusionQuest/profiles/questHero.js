@@ -1,19 +1,14 @@
 angular.module('ConfusionQuest')
 
-.service('questHero', function (ngrGame, ngrWorld) {
+.service('questHero', function (ngrGame, ngrWorld, ConfusionQuestDefaults) {
 
   function Hero(body, options) {
 
     body.profile = this;
-
-    var h = this;
     var hero = this;
-    h.height = 1.2;
-    h.width = 0.7;
-    h.body = body;
-    h.type = 'dynamic';
-    h.friction = 0.1;
-    h.density = 0.2;
+    var heroBody = body;
+
+    this.body = heroBody;
 
     var stateChangeListeners = [];
 
@@ -31,8 +26,8 @@ angular.module('ConfusionQuest')
       jumpCooldown: 25,
       jumpForce: 1700,
       doubleJumpForce: 0,
-      airborneGrace: 10,
-      groundSmashPower: 3000,
+      airborneGrace: 3,
+      groundSmashPower: 1000,
       dashInputTimeout: 5,
       dashCooldown: 40,
       dashForce: 500,
@@ -70,18 +65,16 @@ angular.module('ConfusionQuest')
       stats: stats,
     }
 
-    this.init = function () {
+    hero.init = function () {
       state.health = stats.hp;
     }
 
-    h.init();
+    hero.init();
 
-    this.changeStat = function (stat, boost) {
-      console.log("HERO changing stat...", stat, boost);
+    hero.changeStat = function (stat, boost) {
       var percentChange = 1 + (boost / 100)
       switch (stat) {
       case "speed":
-        console.log("Boosting speed", percentChange);
         stats.lateralSpeed *= percentChange;
         stats.lateralSpeedJumping *= percentChange;
         stats.maxSpeed *= percentChange;
@@ -99,27 +92,24 @@ angular.module('ConfusionQuest')
         console.warn("Dont know how to use this powerup...", stat);
         break;
       }
-
     }
 
-    this.getState = function () {
+    hero.getState = function () {
       return state;
     }
 
-    this.damage = function (dmg, attacker) {
+    hero.damage = function (dmg, attacker) {
       var enemyPosX = 0;
       var heroPosX;
 
       if (state.invincible) return;
       state.health -= reduceByDefense(dmg);
-      console.log("Took damage", state.health);
 
       state.invincibleTimeout = stats.invincibilityTime;
       state.invincible = true;
 
-      //window.sprite = body.sprite;
-
       body.sprite.animation.gotoAndPlay("hurt");
+
       var heroPosX = body.GetPosition().x;
       if (attacker) enemyPosX = attacker.body.GetPosition().x;
 
@@ -128,20 +118,15 @@ angular.module('ConfusionQuest')
       if (enemyPosX > heroPosX) hero.flinchLeft();
       if (enemyPosX < heroPosX) hero.flinchRight();
 
-      if (state.health <= 0) {
-        hero.die();
-      }
-
       _.call(stateChangeListeners, state);
+
+      function reduceByDefense(dmg) {
+        dmg -= stats.defense;
+        return dmg;
+      }
     }
 
-    function reduceByDefense(dmg) {
-      dmg -= stats.defense;
-      return dmg;
-    }
-
-    this.die = function () {
-      //var fixture = body.getFixture
+    hero.die = function () {
       body.setSensor(true);
       state.dead = true;
     }
@@ -155,7 +140,6 @@ angular.module('ConfusionQuest')
     }
 
     this.brake = function () {
-      var heroBody = h.body;
 
       if (state.dead) return;
 
@@ -163,13 +147,17 @@ angular.module('ConfusionQuest')
       var n = heroBody.GetAngularVelocity() * heroBody.GetInertia();
       heroBody.ApplyForce(new b2Vec2(-y * 10, 0), heroBody.GetWorldCenter());
       heroBody.ApplyTorque(-n * 10);
-    }
+    };
 
     this.tick = function () {
 
-      var heroBody = h.body;
+      console.logOnce("Herobody?", body, heroBody);
 
-      var currentSpeed = heroBody.GetLinearVelocity().x;
+      if (state.health <= 0) {
+        hero.die();
+      }
+
+      var currentSpeed = body.GetLinearVelocity().x;
       var speedingL = currentSpeed < -stats.maxSpeed;
       var speedingR = currentSpeed > stats.maxSpeed;
       var anim = body.sprite.animation;
@@ -180,14 +168,24 @@ angular.module('ConfusionQuest')
         state.invincible = false;
       }
 
-      var contacts = h.body.GetContactList();
+
+
+      var contacts = body.GetContactList();
       if (!state.airborneGraceTime) state.airborne = true;
       while (contacts) {
         if (contacts && contacts.contact.IsTouching() && contacts.other.GetUserData() && contacts.other.GetUserData().isFloor) {
-          var p1 = new b2Vec2(body.GetPosition().x, body.GetPosition().y); //center of scene
-          var p2 = new b2Vec2(body.GetPosition().x, body.GetPosition().y + 5); //center of scene
-          ngrWorld.getWorld().RayCast(function (x) {
-            var otherData = x.m_body.GetUserData();
+          var footPrint = 1;
+          var safeDistance = 5;
+          var heroPos = body.GetPosition();
+          var p1 = new b2Vec2(heroPos.x + footPrint, heroPos.y);
+          var p2 = new b2Vec2(heroPos.x + footPrint, heroPos.y + safeDistance); 
+          var p3 = new b2Vec2(heroPos.x - footPrint, heroPos.y);
+          var p4 = new b2Vec2(heroPos.x - footPrint, heroPos.y + safeDistance); 
+          ngrWorld.getWorld().RayCast(ongroundtouch, p1, p2);
+          ngrWorld.getWorld().RayCast(ongroundtouch, p3, p4);
+
+          function ongroundtouch(other) {
+            var otherData = other.m_body.GetUserData();
             if (otherData.isFloor) {
               if (state.airborne) {
                 var currentXSpeed = heroBody.GetLinearVelocity().x;
@@ -196,12 +194,15 @@ angular.module('ConfusionQuest')
               state.airborne = false;
               state.airborneGraceTime = stats.airborneGrace;
               state.usedGroundSmash = false;
-              window.charBody = heroBody;
             }
-          }, p1, p2);
+          }
         }
 
         contacts = contacts.next;
+      }
+
+      if (!state.airborne && anim.currentAnimation == "jump" || !state.airborne && anim.currentAnimation == "fly") {
+        anim.gotoAndPlay("stand");
       }
 
       if (state.goingRight) {
@@ -235,7 +236,6 @@ angular.module('ConfusionQuest')
 
       if (state.goingLeft && !speedingL && !state.isCrouching) {
         var s = stats;
-        var heroBody = h.body;
         if (state.dashReadyLeft) {
           // console.log("dashing.");
           var force = state.airborne ? s.dashForceAir : s.dashForce;
@@ -252,7 +252,6 @@ angular.module('ConfusionQuest')
 
       if (state.goingRight && !speedingR && !state.isCrouching) {
         var s = stats;
-        var heroBody = h.body;
         if (state.dashReadyRight) {
           // console.log("dashing.");
           var force = state.airborne ? s.dashForceAir : s.dashForce;
@@ -269,7 +268,7 @@ angular.module('ConfusionQuest')
 
       if (!state.goingRight && !state.goingLeft) {
         state.idling = true;
-        h.brake()
+        hero.brake()
       } else {
         state.idling = false;
       }
@@ -290,7 +289,7 @@ angular.module('ConfusionQuest')
       if (state.airborne && state.isCrouching) {
         if (!state.usedGroundSmash) {
           var force = stats.groundSmashPower;
-          //  heroBody.ApplyForce(new b2Vec2(0, stats.groundSmashPower), heroBody.GetWorldCenter());
+          heroBody.ApplyForce(new b2Vec2(0, stats.groundSmashPower), heroBody.GetWorldCenter());
           state.usedGroundSmash = true;
         }
 
@@ -302,11 +301,8 @@ angular.module('ConfusionQuest')
       if (state.dashInputTimeLeft) state.dashInputTimeLeft--;
       if (state.dashCurrentCooldown) state.dashCurrentCooldown--;
 
-      h.body.SetAngle(0);
+      heroBody.SetAngle(0);
 
-      //window.world = ngrWorld.getWorld();
-      //window.charAnim = anim;
-      //    console.log("Anim?",anim);
       _.each(anim.spriteSheet.getAnimations(), function (animation) {
         anim.spriteSheet.getAnimation(animation).speed = 0.4;
       })
@@ -314,6 +310,47 @@ angular.module('ConfusionQuest')
     }
   }
 
+  var defaults = {
+    name: 'Dude',
+    shape: 'box',
+    profile: 'questHero',
+    skin: {
+      src: 'img/sprites/calvin/calvin1.png',
+      bg: 'spritesheet',
+      framerate: 90,
+      frames: {
+        width: 238.5,
+        height: 223.5,
+        regX: 120,
+        regY: 145,
+
+      },
+      frameWidth: 90,
+      frameHeight: 160,
+      animations: {
+        run: [0, 15],
+        stand: [16, 45],
+        jump: [46, 75, "fly"],
+        fly: [75],
+        duck: [76, 145],
+      }
+    },
+    controls: 'platform-hero',
+    userData: {
+      doodad: true,
+    },
+    presets: {
+      height: 2,
+      width: 1.24,
+      restitution: 0.1,
+      density: 0.07,
+      friction: 0.2,
+      gravityScale: 0.4
+    }
+
+  };
+
+  ConfusionQuestDefaults.addDefault(defaults);
   ngrGame.addProfile('questHero', Hero);
 
 })
