@@ -1,6 +1,6 @@
 angular.module('ConfusionQuest')
 
-.service('questHero', function (ngrGame, ngrWorld, ConfusionQuestDefaults) {
+.service('questHero', function (ngrGame, ngrWorld, ConfusionQuestDefaults, QuestHeroAnimations) {
 
   function Hero(body, options) {
 
@@ -18,7 +18,9 @@ angular.module('ConfusionQuest')
 
     body.SetUserData({
       isHero: true
-    })
+    });
+
+    QuestHeroAnimations.animate(hero);
 
     var stats = {
       lateralSpeed: 60,
@@ -201,39 +203,6 @@ angular.module('ConfusionQuest')
         contacts = contacts.next;
       }
 
-      if (!state.airborne && anim.currentAnimation == "jump" || !state.airborne && anim.currentAnimation == "fly") {
-        anim.gotoAndPlay("stand");
-      }
-
-      if (state.goingRight) {
-        if (anim.currentAnimation != "run" && anim.currentAnimation != "jump" && !state.airborne) anim.gotoAndPlay("run");
-        anim.scaleX = Math.abs(anim.scaleX);
-      }
-
-      if (state.goingLeft) {
-        if (anim.currentAnimation != "run" && anim.currentAnimation != "jump" && !state.airborne) anim.gotoAndPlay("run");
-        anim.scaleX = -Math.abs(anim.scaleX);
-      }
-
-      if (state.airborne) {
-        if (anim.currentAnimation != "jump" && anim.currentAnimation != "fly") anim.gotoAndPlay("fly");
-      }
-
-      if (state.isJumping) {
-        if (!state.invincible) {
-          if (anim.currentAnimation != "jump") anim.gotoAndPlay("jump");
-        }
-
-      }
-
-      if (state.isCrouching) {
-        if (anim.currentAnimation != "duck" && !state.airborne) anim.gotoAndPlay("duck");
-      }
-
-      if (!state.goingLeft && !state.goingRight && !state.isCrouching && !state.isJumping && !state.airborne) {
-        if (anim.currentAnimation != "stand") anim.gotoAndPlay("stand");
-      }
-
       if (state.goingLeft && !speedingL && !state.isCrouching) {
         var s = stats;
         if (state.dashReadyLeft) {
@@ -303,10 +272,7 @@ angular.module('ConfusionQuest')
 
       heroBody.SetAngle(0);
 
-      _.each(anim.spriteSheet.getAnimations(), function (animation) {
-        anim.spriteSheet.getAnimation(animation).speed = 0.4;
-      })
-
+     
     }
   }
 
@@ -352,5 +318,67 @@ angular.module('ConfusionQuest')
 
   ConfusionQuestDefaults.addDefault(defaults);
   ngrGame.addProfile('questHero', Hero);
+
+})
+.service("QuestHeroAnimations",function(ngrLoop){
+  var hero;
+  var anim;
+
+  this.animate = function(_hero) {
+    hero = _hero;
+
+    ngrLoop.addHook(tick);
+  }
+
+
+  function tick(){
+
+    var state = hero.getState();
+    anim = hero.body.sprite.animation;
+
+    if (!anim) return;
+
+    console.logOnce("Anim?",anim, hero);
+    if (!state.airborne && anim.currentAnimation == "jump" || !state.airborne && anim.currentAnimation == "fly") {
+      anim.gotoAndPlay("stand");
+    }
+
+    if (state.goingRight) {
+      if (anim.currentAnimation != "run" && anim.currentAnimation != "jump" && !state.airborne) anim.gotoAndPlay("run");
+      anim.scaleX = Math.abs(anim.scaleX);
+    }
+
+    if (state.goingLeft) {
+      if (anim.currentAnimation != "run" && anim.currentAnimation != "jump" && !state.airborne) anim.gotoAndPlay("run");
+      anim.scaleX = -Math.abs(anim.scaleX);
+    }
+
+    if (state.airborne) {
+      if (anim.currentAnimation != "jump" && anim.currentAnimation != "fly") anim.gotoAndPlay("fly");
+    }
+
+    if (state.isJumping) {
+      if (!state.invincible) {
+        if (anim.currentAnimation != "jump") anim.gotoAndPlay("jump");
+      }
+
+    }
+
+
+    if (state.isCrouching) {
+      if (anim.currentAnimation != "duck" && !state.airborne) anim.gotoAndPlay("duck");
+    }
+
+    if (!state.goingLeft && !state.goingRight && !state.isCrouching && !state.isJumping && !state.airborne) {
+      if (anim.currentAnimation != "stand") anim.gotoAndPlay("stand");
+    }
+
+    _.each(anim.spriteSheet.getAnimations(), function (animation) {
+      anim.spriteSheet.getAnimation(animation).speed = 0.4;
+    });
+
+
+
+  };
 
 })
