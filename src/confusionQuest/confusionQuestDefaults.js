@@ -4,7 +4,7 @@ angular.module("ConfusionQuest")
     var ConfusionQuestDefaults = this;
 
     this.addDefault = function (def) {
-      console.log("Pushing default,", def);
+      
       ConfusionQuestDefaults.defaults.push(def);
     };
 

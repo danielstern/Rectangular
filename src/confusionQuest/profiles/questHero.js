@@ -1,7 +1,7 @@
 angular.module('ConfusionQuest')
 
 .service('questHero', function (ngrGame, ngrWorld, ConfusionQuestDefaults,
- QuestHeroAnimations, QuestHeroStats) {
+  QuestHeroAnimations, QuestHeroStats) {
 
   function Hero(body, options) {
 
@@ -25,8 +25,6 @@ angular.module('ConfusionQuest')
     });
 
     QuestHeroAnimations.animate(hero);
-
-  
 
     hero.init = function () {
       state.health = stats.hp;
@@ -70,8 +68,6 @@ angular.module('ConfusionQuest')
 
       state.invincibleTimeout = stats.invincibilityTime;
       state.invincible = true;
-
-      body.sprite.animation.gotoAndPlay("hurt");
 
       var heroPosX = body.GetPosition().x;
       if (attacker) enemyPosX = attacker.body.GetPosition().x;
@@ -124,14 +120,11 @@ angular.module('ConfusionQuest')
       var speedingL = currentSpeed < -stats.maxSpeed;
       var speedingR = currentSpeed > stats.maxSpeed;
       var anim = body.sprite.animation;
-      //      window.sprite = anim;
 
       state.invincibleTimeout--;
       if (state.invincibleTimeout < 0) {
         state.invincible = false;
       }
-
-
 
       var contacts = body.GetContactList();
       if (!state.airborneGraceTime) state.airborne = true;
@@ -141,9 +134,9 @@ angular.module('ConfusionQuest')
           var safeDistance = 5;
           var heroPos = body.GetPosition();
           var p1 = new b2Vec2(heroPos.x + footPrint, heroPos.y);
-          var p2 = new b2Vec2(heroPos.x + footPrint, heroPos.y + safeDistance); 
+          var p2 = new b2Vec2(heroPos.x + footPrint, heroPos.y + safeDistance);
           var p3 = new b2Vec2(heroPos.x - footPrint, heroPos.y);
-          var p4 = new b2Vec2(heroPos.x - footPrint, heroPos.y + safeDistance); 
+          var p4 = new b2Vec2(heroPos.x - footPrint, heroPos.y + safeDistance);
           ngrWorld.getWorld().RayCast(ongroundtouch, p1, p2);
           ngrWorld.getWorld().RayCast(ongroundtouch, p3, p4);
 
@@ -167,7 +160,6 @@ angular.module('ConfusionQuest')
       if (state.goingLeft && !speedingL && !state.isCrouching) {
         var s = stats;
         if (state.dashReadyLeft) {
-          // console.log("dashing.");
           var force = state.airborne ? s.dashForceAir : s.dashForce;
           heroBody.ApplyForce(new b2Vec2(-force, 0), heroBody.GetWorldCenter());
           state.dashReadyLeft = false;
@@ -183,7 +175,6 @@ angular.module('ConfusionQuest')
       if (state.goingRight && !speedingR && !state.isCrouching) {
         var s = stats;
         if (state.dashReadyRight) {
-          // console.log("dashing.");
           var force = state.airborne ? s.dashForceAir : s.dashForce;
           heroBody.ApplyForce(new b2Vec2(force, 0), heroBody.GetWorldCenter());
           state.dashReadyRight = false;
@@ -208,7 +199,6 @@ angular.module('ConfusionQuest')
 
         if (!state.jumpWait) {
 
-          console.log("Jumping")
           state.jumpWait = stats.jumpCooldown;
           var force = state.airborne ? s.doubleJumpForce : s.jumpForce;
           heroBody.ApplyForce(new b2Vec2(0, -force), heroBody.GetWorldCenter());
@@ -233,80 +223,78 @@ angular.module('ConfusionQuest')
 
       heroBody.SetAngle(0);
 
-     
     }
   }
-
- 
 
   ConfusionQuestDefaults.addDefault(QuestHeroStats.defaults);
   ngrGame.addProfile('questHero', Hero);
 
 })
-.service("QuestHeroAnimations",function(ngrLoop){
-  var hero;
-  var anim;
+  .service("QuestHeroAnimations", function (ngrLoop) {
+    var hero;
+    var anim;
 
-  this.animate = function(_hero) {
-    hero = _hero;
+    this.animate = function (_hero) {
+      hero = _hero;
 
-    ngrLoop.addHook(tick);
-  }
-
-
-  function tick(){
-
-    var state = hero.getState();
-    anim = hero.body.sprite.animation;
-
-    if (!anim) return;
-
-    console.logOnce("Anim?",anim, hero);
-    if (!state.airborne && anim.currentAnimation == "jump" || !state.airborne && anim.currentAnimation == "fly") {
-      anim.gotoAndPlay("stand");
+      ngrLoop.addHook(tick);
     }
 
-    if (state.goingRight) {
-      if (anim.currentAnimation != "run" && anim.currentAnimation != "jump" && !state.airborne) anim.gotoAndPlay("run");
-      anim.scaleX = Math.abs(anim.scaleX);
-    }
+    function tick() {
 
-    if (state.goingLeft) {
-      if (anim.currentAnimation != "run" && anim.currentAnimation != "jump" && !state.airborne) anim.gotoAndPlay("run");
-      anim.scaleX = -Math.abs(anim.scaleX);
-    }
+      var state = hero.getState();
+      anim = hero.body.sprite.animation;
 
-    if (state.airborne) {
-      if (anim.currentAnimation != "jump" && anim.currentAnimation != "fly") anim.gotoAndPlay("fly");
-    }
+      if (!anim) return;
 
-    if (state.isJumping) {
-      if (!state.invincible) {
-        if (anim.currentAnimation != "jump") anim.gotoAndPlay("jump");
+      console.logOnce("Anim?", anim, hero);
+      if (!state.airborne && anim.currentAnimation == "jump" || !state.airborne && anim.currentAnimation == "fly") {
+        anim.gotoAndPlay("stand");
       }
 
-    }
+      if (state.goingRight) {
+        if (anim.currentAnimation != "run" && anim.currentAnimation != "jump" && !state.airborne) anim.gotoAndPlay("run");
+        anim.scaleX = Math.abs(anim.scaleX);
+      }
 
+      if (state.goingLeft) {
+        if (anim.currentAnimation != "run" && anim.currentAnimation != "jump" && !state.airborne) anim.gotoAndPlay("run");
+        anim.scaleX = -Math.abs(anim.scaleX);
+      }
 
-    if (state.isCrouching) {
-      if (anim.currentAnimation != "duck" && !state.airborne) anim.gotoAndPlay("duck");
-    }
+      if (state.airborne) {
+        if (anim.currentAnimation != "jump" && anim.currentAnimation != "fly") anim.gotoAndPlay("fly");
+      }
 
-    if (!state.goingLeft && !state.goingRight && !state.isCrouching && !state.isJumping && !state.airborne) {
-      if (anim.currentAnimation != "stand") anim.gotoAndPlay("stand");
-    }
+      if (state.isJumping) {
+        if (!state.invincible) {
+          if (anim.currentAnimation != "jump") anim.gotoAndPlay("jump");
+        }
 
-    _.each(anim.spriteSheet.getAnimations(), function (animation) {
-      anim.spriteSheet.getAnimation(animation).speed = 0.4;
-    });
+      }
 
+      if (state.invincible) {
 
+        anim.gotoAndPlay("hurt");
+      }
 
-  };
+      if (state.isCrouching) {
+        if (anim.currentAnimation != "duck" && !state.airborne) anim.gotoAndPlay("duck");
+      }
 
-})
+      if (!state.goingLeft && !state.goingRight && !state.isCrouching && !state.isJumping && !state.airborne) {
+        if (anim.currentAnimation != "stand") anim.gotoAndPlay("stand");
+      }
 
-.service("QuestHeroStats",function(){
+      _.each(anim.spriteSheet.getAnimations(), function (animation) {
+        anim.spriteSheet.getAnimation(animation).speed = 0.4;
+      });
+
+    };
+
+  })
+
+.service("QuestHeroStats", function () {
   this.stats = {
     lateralSpeed: 60,
     lateralSpeedJumping: 45,

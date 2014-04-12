@@ -51,7 +51,7 @@
   }
 
   if (Box2D) {
-    console.log("Defining util...");
+    
       window.b2Vec2 = Box2D.Common.Math.b2Vec2;
       window.b2AABB = Box2D.Collision.b2AABB;
       window.b2BodyDef = Box2D.Dynamics.b2BodyDef;
