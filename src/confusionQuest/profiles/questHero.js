@@ -1,12 +1,16 @@
 angular.module('ConfusionQuest')
 
-.service('questHero', function (ngrGame, ngrWorld, ConfusionQuestDefaults, QuestHeroAnimations) {
+.service('questHero', function (ngrGame, ngrWorld, ConfusionQuestDefaults,
+ QuestHeroAnimations, QuestHeroStats) {
 
   function Hero(body, options) {
 
     body.profile = this;
     var hero = this;
     var heroBody = body;
+
+    var stats = _.clone(QuestHeroStats.stats);
+    var state = _.clone(QuestHeroStats.state);
 
     this.body = heroBody;
 
@@ -22,50 +26,7 @@ angular.module('ConfusionQuest')
 
     QuestHeroAnimations.animate(hero);
 
-    var stats = {
-      lateralSpeed: 60,
-      lateralSpeedJumping: 45,
-      jumpCooldown: 25,
-      jumpForce: 1700,
-      doubleJumpForce: 0,
-      airborneGrace: 3,
-      groundSmashPower: 1000,
-      dashInputTimeout: 5,
-      dashCooldown: 40,
-      dashForce: 500,
-      maxSpeed: 30,
-      dashForceAir: 250,
-      flinchForceX: 1500,
-      flinchForceY: -100,
-      invincibilityTime: 30,
-      brakeSpeed: 0.5,
-      hp: 55,
-      defense: 5,
-      attack: 10,
-      evade: 0,
-      canShoot: false,
-      canSprint: false,
-    }
-
-    var state = {
-      goingLeft: false,
-      goingRight: false,
-      isJumping: false,
-      airBorne: false,
-      jumpWait: 0,
-      airborneGraceTime: 0,
-      usedGroundSmash: false,
-      dashInputTimeRight: 0,
-      dashInputTimeLeft: 0,
-      dashCurrentCooldown: 0,
-      dashReadyRight: false,
-      dashReadyLeft: false,
-      idling: false,
-      health: 0,
-      invincible: false,
-      invincibleTimeout: 0,
-      stats: stats,
-    }
+  
 
     hero.init = function () {
       state.health = stats.hp;
@@ -276,47 +237,9 @@ angular.module('ConfusionQuest')
     }
   }
 
-  var defaults = {
-    name: 'Dude',
-    shape: 'box',
-    profile: 'questHero',
-    skin: {
-      src: 'img/sprites/calvin/calvin1.png',
-      bg: 'spritesheet',
-      framerate: 90,
-      frames: {
-        width: 238.5,
-        height: 223.5,
-        regX: 120,
-        regY: 145,
+ 
 
-      },
-      frameWidth: 90,
-      frameHeight: 160,
-      animations: {
-        run: [0, 15],
-        stand: [16, 45],
-        jump: [46, 75, "fly"],
-        fly: [75],
-        duck: [76, 145],
-      }
-    },
-    controls: 'platform-hero',
-    userData: {
-      doodad: true,
-    },
-    presets: {
-      height: 2,
-      width: 1.24,
-      restitution: 0.1,
-      density: 0.07,
-      friction: 0.2,
-      gravityScale: 0.4
-    }
-
-  };
-
-  ConfusionQuestDefaults.addDefault(defaults);
+  ConfusionQuestDefaults.addDefault(QuestHeroStats.defaults);
   ngrGame.addProfile('questHero', Hero);
 
 })
@@ -381,4 +304,91 @@ angular.module('ConfusionQuest')
 
   };
 
+})
+
+.service("QuestHeroStats",function(){
+  this.stats = {
+    lateralSpeed: 60,
+    lateralSpeedJumping: 45,
+    jumpCooldown: 25,
+    jumpForce: 1700,
+    doubleJumpForce: 0,
+    airborneGrace: 3,
+    groundSmashPower: 1000,
+    dashInputTimeout: 5,
+    dashCooldown: 40,
+    dashForce: 500,
+    maxSpeed: 30,
+    dashForceAir: 250,
+    flinchForceX: 1500,
+    flinchForceY: -100,
+    invincibilityTime: 30,
+    brakeSpeed: 0.5,
+    hp: 55,
+    defense: 5,
+    attack: 10,
+    evade: 0,
+    canShoot: false,
+    canSprint: false,
+  }
+
+  this.state = {
+    goingLeft: false,
+    goingRight: false,
+    isJumping: false,
+    airBorne: false,
+    jumpWait: 0,
+    airborneGraceTime: 0,
+    usedGroundSmash: false,
+    dashInputTimeRight: 0,
+    dashInputTimeLeft: 0,
+    dashCurrentCooldown: 0,
+    dashReadyRight: false,
+    dashReadyLeft: false,
+    idling: false,
+    health: 0,
+    invincible: false,
+    invincibleTimeout: 0,
+    stats: this.stats,
+  }
+
+  this.defaults = {
+    name: 'Calvin',
+    shape: 'box',
+    profile: 'questHero',
+    skin: {
+      src: 'img/sprites/calvin/calvin1.png',
+      bg: 'spritesheet',
+      framerate: 90,
+      frames: {
+        width: 238.5,
+        height: 223.5,
+        regX: 120,
+        regY: 145,
+
+      },
+      frameWidth: 90,
+      frameHeight: 160,
+      animations: {
+        run: [0, 15],
+        stand: [16, 45],
+        jump: [46, 75, "fly"],
+        fly: [75],
+        duck: [76, 145],
+      }
+    },
+    controls: 'platform-hero',
+    userData: {
+      doodad: true,
+    },
+    presets: {
+      height: 2,
+      width: 1.24,
+      restitution: 0.1,
+      density: 0.07,
+      friction: 0.2,
+      gravityScale: 0.4
+    }
+
+  };
 })
