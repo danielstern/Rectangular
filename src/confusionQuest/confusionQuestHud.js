@@ -32,7 +32,7 @@ angular.module('ConfusionQuest')
     });
 
     ConfusionQuest.onmessage(function(msg){
-      console.log("Displaying message",msg);
+      
       message.html(msg);
       message.removeClass('fadeOutRight');
       message.addClass('animated fadeInLeft');

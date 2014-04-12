@@ -78,7 +78,7 @@
     window.logOnce = arguments;
 
     for (var i = 0; i < arguments.length; i++) {
-      console.log(arguments[i]);  
+      console.log(arguments[i], caller);  
     }
     
     __loggedFunctions.push(caller);

@@ -110,8 +110,6 @@ angular.module('ConfusionQuest')
 
     this.tick = function () {
 
-      console.logOnce("Herobody?", body, heroBody);
-
       if (state.health <= 0) {
         hero.die();
       }
@@ -247,7 +245,7 @@ angular.module('ConfusionQuest')
 
       if (!anim) return;
 
-      console.logOnce("Anim?", anim, hero);
+      
       if (!state.airborne && anim.currentAnimation == "jump" || !state.airborne && anim.currentAnimation == "fly") {
         anim.gotoAndPlay("stand");
       }
