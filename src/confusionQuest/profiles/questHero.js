@@ -17,15 +17,13 @@ angular.module('ConfusionQuest')
 
     var stateChangeListeners = [];
 
-    this.onstatechange = function(l) {
+    this.onstatechange = function (l) {
       stateChangeListeners.push(l);
     }
-
 
     body.SetUserData({
       isHero: true
     })
-
 
     var stats = {
       lateralSpeed: 60,
@@ -33,7 +31,7 @@ angular.module('ConfusionQuest')
       jumpCooldown: 25,
       jumpForce: 1700,
       doubleJumpForce: 0,
-      airborneGrace: 20,
+      airborneGrace: 10,
       groundSmashPower: 3000,
       dashInputTimeout: 5,
       dashCooldown: 40,
@@ -51,7 +49,7 @@ angular.module('ConfusionQuest')
       canShoot: false,
       canSprint: false,
     }
- 
+
     var state = {
       goingLeft: false,
       goingRight: false,
@@ -125,7 +123,7 @@ angular.module('ConfusionQuest')
       var heroPosX = body.GetPosition().x;
       if (attacker) enemyPosX = attacker.body.GetPosition().x;
 
-      body.SetLinearVelocity(new b2Vec2(0,0));
+      body.SetLinearVelocity(new b2Vec2(0, 0));
 
       if (enemyPosX > heroPosX) hero.flinchLeft();
       if (enemyPosX < heroPosX) hero.flinchRight();
@@ -133,7 +131,6 @@ angular.module('ConfusionQuest')
       if (state.health <= 0) {
         hero.die();
       }
-
 
       _.call(stateChangeListeners, state);
     }
@@ -143,7 +140,7 @@ angular.module('ConfusionQuest')
       return dmg;
     }
 
-    this.die = function() {
+    this.die = function () {
       //var fixture = body.getFixture
       body.setSensor(true);
       state.dead = true;
@@ -192,9 +189,14 @@ angular.module('ConfusionQuest')
           ngrWorld.getWorld().RayCast(function (x) {
             var otherData = x.m_body.GetUserData();
             if (otherData.isFloor) {
+              if (state.airborne) {
+                var currentXSpeed = heroBody.GetLinearVelocity().x;
+                heroBody.SetLinearVelocity(new b2Vec2(currentXSpeed, 0));
+              }
               state.airborne = false;
               state.airborneGraceTime = stats.airborneGrace;
               state.usedGroundSmash = false;
+              window.charBody = heroBody;
             }
           }, p1, p2);
         }
@@ -203,13 +205,17 @@ angular.module('ConfusionQuest')
       }
 
       if (state.goingRight) {
-          if (anim.currentAnimation != "run" && anim.currentAnimation != "jump" && !state.airborne) anim.gotoAndPlay("run");
+        if (anim.currentAnimation != "run" && anim.currentAnimation != "jump" && !state.airborne) anim.gotoAndPlay("run");
         anim.scaleX = Math.abs(anim.scaleX);
       }
 
       if (state.goingLeft) {
-         if (anim.currentAnimation != "run" && anim.currentAnimation != "jump" && !state.airborne)  anim.gotoAndPlay("run");
+        if (anim.currentAnimation != "run" && anim.currentAnimation != "jump" && !state.airborne) anim.gotoAndPlay("run");
         anim.scaleX = -Math.abs(anim.scaleX);
+      }
+
+      if (state.airborne) {
+        if (anim.currentAnimation != "jump" && anim.currentAnimation != "fly") anim.gotoAndPlay("fly");
       }
 
       if (state.isJumping) {
@@ -220,7 +226,7 @@ angular.module('ConfusionQuest')
       }
 
       if (state.isCrouching) {
-          if (anim.currentAnimation != "duck" && !state.airborne) anim.gotoAndPlay("duck");
+        if (anim.currentAnimation != "duck" && !state.airborne) anim.gotoAndPlay("duck");
       }
 
       if (!state.goingLeft && !state.goingRight && !state.isCrouching && !state.isJumping && !state.airborne) {
@@ -284,7 +290,7 @@ angular.module('ConfusionQuest')
       if (state.airborne && state.isCrouching) {
         if (!state.usedGroundSmash) {
           var force = stats.groundSmashPower;
-        //  heroBody.ApplyForce(new b2Vec2(0, stats.groundSmashPower), heroBody.GetWorldCenter());
+          //  heroBody.ApplyForce(new b2Vec2(0, stats.groundSmashPower), heroBody.GetWorldCenter());
           state.usedGroundSmash = true;
         }
 
@@ -300,15 +306,13 @@ angular.module('ConfusionQuest')
 
       //window.world = ngrWorld.getWorld();
       //window.charAnim = anim;
-  //    console.log("Anim?",anim);
-        _.each(anim.spriteSheet.getAnimations(),function(animation){
-     anim.spriteSheet.getAnimation(animation).speed = 0.4;
-  })
+      //    console.log("Anim?",anim);
+      _.each(anim.spriteSheet.getAnimations(), function (animation) {
+        anim.spriteSheet.getAnimation(animation).speed = 0.4;
+      })
 
     }
   }
-
-
 
   ngrGame.addProfile('questHero', Hero);
 
