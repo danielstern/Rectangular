@@ -155,7 +155,7 @@ angular.module('ConfusionQuest')
         contacts = contacts.next;
       }
 
-      if (state.goingLeft && !speedingL && !state.isCrouching) {
+      if (state.goingLeft && !speedingL && !state.isCrouching && state.canAct) {
         var s = stats;
         if (state.dashReadyLeft) {
           var force = state.airborne ? s.dashForceAir : s.dashForce;
@@ -170,7 +170,7 @@ angular.module('ConfusionQuest')
         if (!state.dashCurrentCooldown) state.dashReadyLeft = true;
       } else
 
-      if (state.goingRight && !speedingR && !state.isCrouching) {
+      if (state.goingRight && !speedingR && !state.isCrouching && state.canAct) {
         var s = stats;
         if (state.dashReadyRight) {
           var force = state.airborne ? s.dashForceAir : s.dashForce;
@@ -192,7 +192,7 @@ angular.module('ConfusionQuest')
         state.idling = false;
       }
 
-      if (state.isJumping) {
+      if (state.isJumping && state.canAct) {
         var s = stats;
 
         if (!state.jumpWait) {
@@ -213,13 +213,56 @@ angular.module('ConfusionQuest')
 
       }
 
+      if (state.isPunching && state.punchReleased) {
+        hero.attack("punch");
+      };
+
+      if (!state.isPunching) state.punchReleased = true;
+
+
+      if (state.isKicking && state.kickReleased) {
+          hero.attack("kick");
+      }
+
+      if (!state.isKicking) state.kickReleased = true;
+
       if (state.jumpWait) state.jumpWait--;
       if (state.airborneGraceTime) state.airborneGraceTime--;
       if (state.dashInputTimeRight) state.dashInputTimeRight--;
       if (state.dashInputTimeLeft) state.dashInputTimeLeft--;
       if (state.dashCurrentCooldown) state.dashCurrentCooldown--;
 
+      if (state.canActCooldown) state.canActCooldown--;
+      if (!state.canActCooldown) {
+        state.canAct = true;
+      }
+
+      if (state.isAttackingCooldown) state.isAttackingCooldown--;
+      if (!state.isAttackingCooldown) {
+        state.isAttacking = false;
+      }
+
       heroBody.SetAngle(0);
+
+    }
+
+    hero.attack = function (atk) {
+      console.log("Using attack", atk);
+      var attack;
+      if (atk == 'punch') {
+        attack = stats.attacks["punch1"];
+        console.log("attack? ", attack);
+      };
+      if (atk == 'kick') {
+        attack = stats.attacks["kick1"];
+      }
+
+      state.currentAttack = attack.id;
+      state.canActCooldown = attack.stunnedTime;
+      state.isAttackingCooldown = attack.duration;
+      state.canAct = false;
+      state.isAttacking = true;
+      console.log("Crnt attack?", state.currentAttack);
 
     }
   }
@@ -245,7 +288,6 @@ angular.module('ConfusionQuest')
 
       if (!anim) return;
 
-      
       if (!state.airborne && anim.currentAnimation == "jump" || !state.airborne && anim.currentAnimation == "fly") {
         anim.gotoAndPlay("stand");
       }
@@ -275,8 +317,18 @@ angular.module('ConfusionQuest')
         if (anim.currentAnimation != "duck" && !state.airborne) anim.gotoAndPlay("duck");
       }
 
-      if (!state.goingLeft && !state.goingRight && !state.isCrouching && !state.isJumping && !state.airborne) {
+      if (!state.goingLeft && !state.goingRight && !state.isAttacking && !state.isCrouching && !state.isJumping && !state.airborne) {
         if (anim.currentAnimation != "stand") anim.gotoAndPlay("stand");
+      }
+
+      if (state.isAttacking && state.currentAttack) {
+        if (state.currentAttack == "punch1") {
+          if (anim.currentAnimation != "punch1") anim.gotoAndPlay("punch1");
+        }
+
+        if (state.currentAttack == "kick1") {
+          if (anim.currentAnimation != "kick1") anim.gotoAndPlay("kick1");
+        }
       }
 
       if (state.invincible) {
@@ -315,6 +367,26 @@ angular.module('ConfusionQuest')
     evade: 0,
     canShoot: false,
     canSprint: false,
+    attacks: {
+      punch1: {
+        id: 'punch1',
+        name: 'Punch of Meaning',
+        animation: 'punch1',
+        damage: 10,
+        stunnedTime: 10,
+        duration: 18,
+        canComboTime: 100
+      },
+      kick1: {
+        id: 'kick1',
+        name: 'Kick of Truth',
+        animation: 'kick1',
+        damage: 15,
+        stunnedTime: 5,
+        duration: 8,
+        canComboTime: 120
+      }
+    }
   }
 
   this.state = {
@@ -323,7 +395,11 @@ angular.module('ConfusionQuest')
     isJumping: false,
     airBorne: false,
     jumpWait: 0,
+    isAttacking: false,
+    canAttack: true,
+    currentAttack: null,
     airborneGraceTime: 0,
+    canAct: true,
     usedGroundSmash: false,
     dashInputTimeRight: 0,
     dashInputTimeLeft: 0,
@@ -361,7 +437,8 @@ angular.module('ConfusionQuest')
         fly: [75],
         duck: [76, 165],
         hurt: [166],
-        attack1: [167-193],
+        punch1: [167, 175,"stand"],
+        kick1: [176, 181,"stand"],
       }
     },
     controls: 'platform-hero',

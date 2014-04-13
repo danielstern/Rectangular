@@ -143,6 +143,8 @@ angular.module('ConfusionQuest')
           'd': 'goingRight',
           'w': 'isJumping',
           's': 'isCrouching',
+          'p': 'isPunching',
+          'k': 'isKicking',
           //'space': 'isJumping',
         });
 
