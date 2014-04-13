@@ -271,17 +271,16 @@ angular.module('ConfusionQuest')
 
       }
 
-      if (state.invincible) {
-
-        anim.gotoAndPlay("hurt");
-      }
-
       if (state.isCrouching) {
         if (anim.currentAnimation != "duck" && !state.airborne) anim.gotoAndPlay("duck");
       }
 
       if (!state.goingLeft && !state.goingRight && !state.isCrouching && !state.isJumping && !state.airborne) {
         if (anim.currentAnimation != "stand") anim.gotoAndPlay("stand");
+      }
+
+      if (state.invincible) {
+        anim.gotoAndPlay("hurt");
       }
 
       _.each(anim.spriteSheet.getAnimations(), function (animation) {
@@ -343,7 +342,7 @@ angular.module('ConfusionQuest')
     shape: 'box',
     profile: 'questHero',
     skin: {
-      src: 'img/sprites/calvin/calvin1.png',
+      src: 'img/sprites/calvin/calvin.png',
       bg: 'spritesheet',
       framerate: 90,
       frames: {
@@ -360,7 +359,9 @@ angular.module('ConfusionQuest')
         stand: [16, 45],
         jump: [46, 75, "fly"],
         fly: [75],
-        duck: [76, 145],
+        duck: [76, 165],
+        hurt: [166],
+        attack1: [167-193],
       }
     },
     controls: 'platform-hero',
