@@ -215,13 +215,18 @@ angular.module('ConfusionQuest')
 
       if (state.isPunching && state.punchReleased) {
         hero.attack("punch");
+        state.punchReleased = false;
       };
 
       if (!state.isPunching) state.punchReleased = true;
 
-
       if (state.isKicking && state.kickReleased) {
-          hero.attack("kick");
+        hero.attack("kick");
+        state.kickReleased = false;
+      }
+
+      if (state.isAttacking) {
+        hero.brake();
       }
 
       if (!state.isKicking) state.kickReleased = true;
@@ -231,6 +236,10 @@ angular.module('ConfusionQuest')
       if (state.dashInputTimeRight) state.dashInputTimeRight--;
       if (state.dashInputTimeLeft) state.dashInputTimeLeft--;
       if (state.dashCurrentCooldown) state.dashCurrentCooldown--;
+      if (state.canComboTime) state.canComboTime--;
+      if (!state.canComboTime) {
+        state.canCombo = false;
+      }
 
       if (state.canActCooldown) state.canActCooldown--;
       if (!state.canActCooldown) {
@@ -247,21 +256,36 @@ angular.module('ConfusionQuest')
     }
 
     hero.attack = function (atk) {
-      console.log("Using attack", atk);
       var attack;
+      if (!state.canAct) return;
       if (atk == 'punch') {
-        attack = stats.attacks["punch1"];
-        console.log("attack? ", attack);
+        if (state.canCombo) {
+          attack = stats.attacks[state.currentAttack.nextPunch1]
+        } else {
+          attack = stats.attacks["punch1"];
+        }
       };
       if (atk == 'kick') {
-        attack = stats.attacks["kick1"];
+        if (state.canCombo) {
+          attack = stats.attacks[state.currentAttack.nextKick1]
+        } else {
+          attack = stats.attacks["kick1"];
+        }
       }
 
-      state.currentAttack = attack.id;
+      if (state.canCombo) {
+        console.log("using combo", state.currentAttack);
+      }
+      console.log("Using attack", attack);
+
+      state.currentAttack = attack;
       state.canActCooldown = attack.stunnedTime;
       state.isAttackingCooldown = attack.duration;
       state.canAct = false;
       state.isAttacking = true;
+
+      state.canCombo = true;
+      state.canComboTime = attack.canComboTime;
       console.log("Crnt attack?", state.currentAttack);
 
     }
@@ -288,25 +312,25 @@ angular.module('ConfusionQuest')
 
       if (!anim) return;
 
-      if (!state.airborne && anim.currentAnimation == "jump" || !state.airborne && anim.currentAnimation == "fly") {
+      if (!state.isAttacking && !state.airborne && anim.currentAnimation == "jump" || !state.airborne && anim.currentAnimation == "fly") {
         anim.gotoAndPlay("stand");
       }
 
-      if (state.goingRight) {
+      if (!state.isAttacking && state.goingRight) {
         if (anim.currentAnimation != "run" && anim.currentAnimation != "jump" && !state.airborne) anim.gotoAndPlay("run");
         anim.scaleX = Math.abs(anim.scaleX);
       }
 
-      if (state.goingLeft) {
+      if (!state.isAttacking && state.goingLeft) {
         if (anim.currentAnimation != "run" && anim.currentAnimation != "jump" && !state.airborne) anim.gotoAndPlay("run");
         anim.scaleX = -Math.abs(anim.scaleX);
       }
 
-      if (state.airborne) {
+      if (!state.isAttacking && state.airborne) {
         if (anim.currentAnimation != "jump" && anim.currentAnimation != "fly") anim.gotoAndPlay("fly");
       }
 
-      if (state.isJumping) {
+      if (!state.isAttacking && state.isJumping) {
         if (!state.invincible) {
           if (anim.currentAnimation != "jump") anim.gotoAndPlay("jump");
         }
@@ -322,12 +346,20 @@ angular.module('ConfusionQuest')
       }
 
       if (state.isAttacking && state.currentAttack) {
-        if (state.currentAttack == "punch1") {
+        if (state.currentAttack.id == "punch1") {
           if (anim.currentAnimation != "punch1") anim.gotoAndPlay("punch1");
         }
 
-        if (state.currentAttack == "kick1") {
+        if (state.currentAttack.id == "punch2") {
+          if (anim.currentAnimation != "punch2") anim.gotoAndPlay("punch2");
+        }
+
+        if (state.currentAttack.id == "kick1") {
           if (anim.currentAnimation != "kick1") anim.gotoAndPlay("kick1");
+        }
+
+        if (state.currentAttack.id == "kick2") {
+          if (anim.currentAnimation != "kick2") anim.gotoAndPlay("kick2");
         }
       }
 
@@ -373,18 +405,51 @@ angular.module('ConfusionQuest')
         name: 'Punch of Meaning',
         animation: 'punch1',
         damage: 10,
+        stunnedTime: 15,
+        duration: 25,
+        canComboTime: 50,
+        nextPunch1: "punch2",
+        nextPunch2: "punch2Super",
+        nextKick1: "kick1",
+        nextKick2: "kick1Super",
+      },punch2: {
+        id: 'punch2',
+        name: 'Punch of Honesty',
+        animation: 'punch2',
+        damage: 15,
         stunnedTime: 10,
-        duration: 18,
-        canComboTime: 100
+        duration: 16,
+        canComboTime: 50,
+        nextPunch1: "punch1",
+        nextPunch2: "punch2Super",
+        nextKick1: "kick1",
+        nextKick2: "kick1Super",
       },
       kick1: {
         id: 'kick1',
         name: 'Kick of Truth',
         animation: 'kick1',
         damage: 15,
-        stunnedTime: 5,
-        duration: 8,
-        canComboTime: 120
+        stunnedTime: 15,
+        duration: 18,
+        canComboTime: 50,
+        nextPunch1: "punch2",
+        nextPunch2: "punch1",
+        nextKick1: "kick2",
+        nextKick2: "kick1Super",
+      },
+      kick2: {
+        id: 'kick2',
+        name: 'Kick of Friendship',
+        animation: 'kick2',
+        damage: 20,
+        stunnedTime: 6,
+        duration: 18,
+        canComboTime: 50,
+        nextPunch1: "punch1",
+        nextPunch2: "punch1Super",
+        nextKick1: "kick1",
+        nextKick2: "kick2Super",
       }
     }
   }
@@ -437,8 +502,10 @@ angular.module('ConfusionQuest')
         fly: [75],
         duck: [76, 165],
         hurt: [166],
-        punch1: [167, 175,"stand"],
-        kick1: [176, 181,"stand"],
+        punch1: [167, 180, "stand"],
+        kick1: [176, 185, "stand"],
+        kick2: [180, 187, "stand"],
+        punch2: [188, 193,192,191, "stand"],
       }
     },
     controls: 'platform-hero',
