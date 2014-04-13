@@ -156,6 +156,8 @@ angular.module('ConfusionQuest')
       }
 
       if (state.goingLeft && !speedingL && !state.isCrouching && state.canAct) {
+        state.facingLeft = true;
+        state.facingRight = false;
         var s = stats;
         if (state.dashReadyLeft) {
           var force = state.airborne ? s.dashForceAir : s.dashForce;
@@ -171,6 +173,8 @@ angular.module('ConfusionQuest')
       } else
 
       if (state.goingRight && !speedingR && !state.isCrouching && state.canAct) {
+        state.facingLeft = false;
+        state.facingRight = true;
         var s = stats;
         if (state.dashReadyRight) {
           var force = state.airborne ? s.dashForceAir : s.dashForce;
@@ -276,7 +280,32 @@ angular.module('ConfusionQuest')
       if (state.canCombo) {
         console.log("using combo", state.currentAttack);
       }
+
+      var heroPos = heroBody.GetPosition();
       console.log("Using attack", attack);
+
+      var newPoint;
+      if (state.facingRight) {
+        newPoint = heroPos.x + attack.range;
+      } else {
+        newPoint = heroPos.x - attack.range;
+      }
+
+       var p1 = new b2Vec2(heroPos.x, heroPos.y);
+       var p2 = new b2Vec2(newPoint, heroPos.y);
+
+
+      function onhitsomething(other) {
+        var otherBody = other.m_body;
+        var force = stats.muscle * (attack.knockback || 0);
+        if (state.facingLeft) force *= -1;
+        console.log("hit something!",other);
+        console.log("Force?",force);
+
+        otherBody.ApplyForce(new b2Vec2(force, 0), otherBody.GetWorldCenter());
+      }
+
+      ngrWorld.getWorld().RayCast(onhitsomething, p1, p2);
 
       state.currentAttack = attack;
       state.canActCooldown = attack.stunnedTime;
@@ -395,6 +424,7 @@ angular.module('ConfusionQuest')
     brakeSpeed: 0.5,
     hp: 55,
     defense: 5,
+    muscle: 1000,
     attack: 10,
     evade: 0,
     canShoot: false,
@@ -405,8 +435,10 @@ angular.module('ConfusionQuest')
         name: 'Punch of Meaning',
         animation: 'punch1',
         damage: 10,
+        range: 5,
         stunnedTime: 15,
         duration: 25,
+        knockback: 10,
         canComboTime: 50,
         nextPunch1: "punch2",
         nextPunch2: "punch2Super",
@@ -419,6 +451,8 @@ angular.module('ConfusionQuest')
         damage: 15,
         stunnedTime: 10,
         duration: 16,
+        knockback: 10,
+        range: 5,
         canComboTime: 50,
         nextPunch1: "punch1",
         nextPunch2: "punch2Super",
@@ -432,6 +466,8 @@ angular.module('ConfusionQuest')
         damage: 15,
         stunnedTime: 15,
         duration: 18,
+        knockback: 15,
+        range: 10,
         canComboTime: 50,
         nextPunch1: "punch2",
         nextPunch2: "punch1",
@@ -443,6 +479,8 @@ angular.module('ConfusionQuest')
         name: 'Kick of Friendship',
         animation: 'kick2',
         damage: 20,
+        range: 10,
+        knockback: 15,
         stunnedTime: 6,
         duration: 18,
         canComboTime: 50,
