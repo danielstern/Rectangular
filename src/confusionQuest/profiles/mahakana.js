@@ -1,9 +1,9 @@
-angular.module('ConfusionQuest')
-.service('enemy1', function (ngrGame, ngrLoop, ngrWorld) {
+angular.module('Mahakana',['Rectangular'])
+.service('Mahakana', function (ngrGame, ngrLoop, ngrWorld, ConfusionQuestDefaults) {
 
-  var Enemy1 = function (body) {
+  var Mahakana = function (body) {
     var stats = {
-      id: "enemy1",
+      id: "Mahakana",
       health: 20,
       damage: 15,
       speed: 0.2,
@@ -102,81 +102,48 @@ angular.module('ConfusionQuest')
     }
   }
 
-  ngrGame.addProfile('enemy1', Enemy1);
+  var defaults =  {
+      name: 'Mahakana',
+      shape: 'box',
+      profile: 'Mahakana',
+      skin: {
+        src: 'img/sprites/mahakana.png',
+        bg: 'spritesheet',
+        frames: {
+          width: 78,
+          height: 110,
+          regX: 44,
+          regY: 50,
+        },
+        frameWidth: 54,
+        frameHeight: 70,
+        animations: {
 
-})
-
-.service('Madness', function (ngrGame, ngrLoop, ngrWorld,ConfusionQuestDefaults) {
-
-  var Madness = function (body) {
-    var stats = {
-      id: "enemy2",
-      name: "madness",
-      health: 20,
-      damage: 15,
-      speed: 0.2,
-      attack: 15,
-      img: 'img/unbalance.png',
-      name: "Unbalance",
-      description: "A shadowy and dangerous being.",
-      flavor: "Not as friendly as you'd think.",
-    }
-
-    var madness = this;
-    madness.body = body;
-
-    body.onimpact(function (body, other) {
-
-      if (other.GetUserData() && other.GetUserData().isHero) {
-      console.log("Impact hero",other);
-        var hero = other.profile;
-        hero.damage(stats.attack, madness);
-
-      }
-    })
-
-    ngrLoop.addHook(function () {
-
-      _.each(body.sprite.animation.spriteSheet.getAnimations(), function (animation) {
-         body.sprite.animation.spriteSheet.getAnimation(animation).speed = 0.4;
-      });
-
-
-    });
-  };
-
-
-  var defaults = {
-    name: 'Madness',
-    shape: 'box',
-    profile: 'Madness',
-    skin: {
-      src: 'img/sprites/enemy1.png',
-      bg: 'spritesheet',
-      frames: {
-        width: 395,
-        height: 390,
-        regX: 200,
-        regY: 220,
+          stand: {
+            frames: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2],
+            speed: 0.2
+          },
+          /* hurt: {
+            frames: [2],
+            next: "stand",
+          },*/
+        }
       },
-      frameWidth: 300,
-      frameHeight: 300,
-      animations: {
-        stand: [0, 47],
+      userData: {
+        doodad: true,
+      },
+      presets: {
+        height: 3,
+        width: 1.5,
+        restitution: 0.1,
+        density: 0.07,
+        friction: 0.2,
+        gravityScale: 0.4
       }
-    },
-    presets: {
-      height: 2,
-      width: 2,
-      restitution: 0.1,
-      density: 0.07,
-      friction: 0.2,
-      gravityScale: 0.4
-    }
 
-  };
+    };
 
-  ngrGame.addProfile('Madness', Madness);
-  ConfusionQuestDefaults.addDefault(defaults);
+  ngrGame.addProfile('Mahakana', Mahakana);
+    ConfusionQuestDefaults.addDefault(defaults);
 
 })

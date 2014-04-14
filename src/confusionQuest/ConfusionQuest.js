@@ -1,13 +1,18 @@
-angular.module('ConfusionQuest', ['Rectangular']);
+angular.module('ConfusionQuest', [
+  'Rectangular',
+  'Calvin','Mahakana'
+  ]);
 
 angular.module('ConfusionQuest')
-  .service("ConfusionQuest", function (ngrGame, ngrEnvironment, ngrLoop, ngrDisplay,ngrCamera, ngrData, ngrState, ngrWorld, ngrInterface, ngrStage,
+  .service("ConfusionQuest", function (
+    ngrGame, ngrEnvironment, ngrLoop, ngrDisplay,ngrCamera, ngrData, ngrState, ngrWorld, ngrInterface, ngrStage,
     ConfusionQuestDefaults, ConfusionQuestLevels,
-    questHero, confCoin, ruby, keyRed, doorRed,
-    spikes, enemy1,Madness,
+    Calvin, 
+    spikes, Mahakana,Madness,
     confCoin, ruby, keyRed, doorRed,
     devLevel,
-    boots1, helmet1) {
+    boots1, helmet1
+    ) {
 
     var CQState = {
       lives: 0,
@@ -137,7 +142,7 @@ angular.module('ConfusionQuest')
 
     ngrGame.oncreateentity(function (entity) {
 
-      if (entity.type == "questHero") {
+      if (entity.type == "Calvin") {
         ngrGame.control(entity, {
           'a': 'goingLeft',
           'd': 'goingRight',

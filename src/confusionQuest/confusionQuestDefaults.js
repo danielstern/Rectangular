@@ -103,45 +103,6 @@ angular.module("ConfusionQuest")
       }
 
     },  {
-      name: 'Enemy',
-      shape: 'box',
-      profile: 'enemy1',
-      skin: {
-        src: 'img/sprites/mahakana.png',
-        bg: 'spritesheet',
-        frames: {
-          width: 78,
-          height: 110,
-          regX: 44,
-          regY: 50,
-        },
-        frameWidth: 54,
-        frameHeight: 70,
-        animations: {
-
-          stand: {
-            frames: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2],
-            speed: 0.2
-          },
-          /* hurt: {
-            frames: [2],
-            next: "stand",
-          },*/
-        }
-      },
-      userData: {
-        doodad: true,
-      },
-      presets: {
-        height: 3,
-        width: 1.5,
-        restitution: 0.1,
-        density: 0.07,
-        friction: 0.2,
-        gravityScale: 0.4
-      }
-
-    }, {
       name: 'Bouncey Platform',
       shape: 'box',
       skin: {

@@ -1,16 +1,15 @@
-angular.module('ConfusionQuest')
+angular.module('Calvin',['Rectangular'])
+.service('Calvin', function (ngrGame, ngrWorld, ConfusionQuestDefaults,
+  CalvinAnimations, CalvinStats) {
 
-.service('questHero', function (ngrGame, ngrWorld, ConfusionQuestDefaults,
-  QuestHeroAnimations, QuestHeroStats) {
-
-  function Hero(body, options) {
+  function Calvin(body, options) {
 
     body.profile = this;
     var hero = this;
     var heroBody = body;
 
-    var stats = _.clone(QuestHeroStats.stats);
-    var state = _.clone(QuestHeroStats.state);
+    var stats = _.clone(CalvinStats.stats);
+    var state = _.clone(CalvinStats.state);
 
     this.body = heroBody;
 
@@ -24,7 +23,7 @@ angular.module('ConfusionQuest')
       isHero: true
     });
 
-    QuestHeroAnimations.animate(hero);
+    CalvinAnimations.animate(hero);
 
     hero.init = function () {
       state.health = stats.hp;
@@ -338,16 +337,15 @@ angular.module('ConfusionQuest')
         state.canCombo = true;
         state.canComboTime = attack.canComboTime;
       }
-    //  console.log("Crnt attack?", state.currentAttack);
-
     }
   }
 
-  ConfusionQuestDefaults.addDefault(QuestHeroStats.defaults);
-  ngrGame.addProfile('questHero', Hero);
+  ConfusionQuestDefaults.addDefault(CalvinStats.defaults);
+  ngrGame.addProfile('Calvin', Calvin);
 
 })
-  .service("QuestHeroAnimations", function (ngrLoop) {
+
+  .service("CalvinAnimations", function (ngrLoop) {
     var hero;
     var anim;
 
@@ -437,7 +435,7 @@ angular.module('ConfusionQuest')
 
   })
 
-.service("QuestHeroStats", function () {
+.service("CalvinStats", function () {
 
   var explosion1 = {
     skin: {
@@ -671,7 +669,7 @@ angular.module('ConfusionQuest')
   this.defaults = {
     name: 'Calvin',
     shape: 'box',
-    profile: 'questHero',
+    profile: 'Calvin',
     skin: {
       src: 'img/sprites/calvin/calvin.png',
       bg: 'spritesheet',
