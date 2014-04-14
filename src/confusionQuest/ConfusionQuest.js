@@ -145,7 +145,6 @@ angular.module('ConfusionQuest')
           's': 'isCrouching',
           'p': 'isPunching',
           'k': 'isKicking',
-          //'space': 'isJumping',
         });
 
         hero = entity;

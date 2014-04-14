@@ -35,7 +35,7 @@ angular.module("Rectangular")
       effectDef.startAt = 'explode';
       effectDef = _.extend(effectDef,effect.skin)
       var effect = ngrWorld.addElement(effectDef);
-      console.log("effect?",effect.sprite);
+      //console.log("effect?",effect.sprite);
       effect.SetPosition(point);
       effect.SetType(0);
       effect.setSensor(true);

@@ -155,9 +155,20 @@ angular.module('ConfusionQuest')
         contacts = contacts.next;
       }
 
-      if (state.goingLeft && !speedingL && !state.isCrouching && state.canAct) {
+      if (state.canAct && state.goingLeft) {
         state.facingLeft = true;
         state.facingRight = false;
+      };
+
+      if (state.canAct && state.goingRight) {
+            state.facingLeft = false;
+        state.facingRight = true;
+      };
+
+     
+
+      if (state.goingLeft && !speedingL && !state.isCrouching && state.canAct) {
+        
         var s = stats;
         if (state.dashReadyLeft) {
           var force = state.airborne ? s.dashForceAir : s.dashForce;
@@ -173,8 +184,7 @@ angular.module('ConfusionQuest')
       } else
 
       if (state.goingRight && !speedingR && !state.isCrouching && state.canAct) {
-        state.facingLeft = false;
-        state.facingRight = true;
+
         var s = stats;
         if (state.dashReadyRight) {
           var force = state.airborne ? s.dashForceAir : s.dashForce;
@@ -264,25 +274,31 @@ angular.module('ConfusionQuest')
       if (!state.canAct) return;
       if (atk == 'punch') {
         if (state.canCombo) {
-          attack = stats.attacks[state.currentAttack.nextPunch1]
+          if (state.canComboTime > 18) {
+            attack = stats.attacks[state.currentAttack.nextPunch1]
+          } else {
+            attack = stats.attacks[state.currentAttack.nextPunch2]
+            console.log("using super",attack)
+          }
         } else {
           attack = stats.attacks["punch1"];
         }
       };
       if (atk == 'kick') {
         if (state.canCombo) {
-          attack = stats.attacks[state.currentAttack.nextKick1]
+          if (state.canComboTime > 18) {
+            attack = stats.attacks[state.currentAttack.nextKick1]
+          } else {
+            attack = stats.attacks[state.currentAttack.nextKick2]
+            console.log("using super",attack)
+          }
         } else {
           attack = stats.attacks["kick1"];
         }
       }
 
-      if (state.canCombo) {
-        console.log("using combo", state.currentAttack);
-      }
-
       var heroPos = heroBody.GetPosition();
-      console.log("Using attack", attack);
+    //  console.log("Using attack", attack);
 
       var newPoint;
       if (state.facingRight) {
@@ -303,13 +319,19 @@ angular.module('ConfusionQuest')
         var otherBody = other.m_body;
         var force = stats.muscle * (attack.knockback || 0);
         if (state.facingLeft) force *= -1;
-        console.log("hit something!", other);
-        console.log("Force?", force);
+        ///console.log("hit something!", other);
+        //console.log("Force?", force);
 
         otherBody.ApplyForce(new b2Vec2(force, 0), otherBody.GetWorldCenter());
       }
 
       ngrWorld.getWorld().RayCast(onhitsomething, p1, p2);
+
+      if (attack.propel) {
+        var propelForce = attack.propel * stats.muscle;
+        if (state.facingLeft) propelForce *= -1;
+        heroBody.ApplyForce(new b2Vec2(propelForce, 0), heroBody.GetWorldCenter())
+      }
 
       state.currentAttack = attack;
       state.canActCooldown = attack.stunnedTime;
@@ -317,9 +339,11 @@ angular.module('ConfusionQuest')
       state.canAct = false;
       state.isAttacking = true;
 
-      state.canCombo = true;
-      state.canComboTime = attack.canComboTime;
-      console.log("Crnt attack?", state.currentAttack);
+      if (attack.canComboTime) {
+        state.canCombo = true;
+        state.canComboTime = attack.canComboTime;
+      }
+    //  console.log("Crnt attack?", state.currentAttack);
 
     }
   }
@@ -349,14 +373,22 @@ angular.module('ConfusionQuest')
         anim.gotoAndPlay("stand");
       }
 
+      if (state.facingRight) {
+        anim.scaleX = Math.abs(anim.scaleX);
+      };
+
+      if (state.facingLeft) {
+        anim.scaleX = -Math.abs(anim.scaleX);
+      }
+
       if (!state.isAttacking && state.goingRight) {
         if (anim.currentAnimation != "run" && anim.currentAnimation != "jump" && !state.airborne) anim.gotoAndPlay("run");
-        anim.scaleX = Math.abs(anim.scaleX);
+        
       }
 
       if (!state.isAttacking && state.goingLeft) {
         if (anim.currentAnimation != "run" && anim.currentAnimation != "jump" && !state.airborne) anim.gotoAndPlay("run");
-        anim.scaleX = -Math.abs(anim.scaleX);
+        
       }
 
       if (!state.isAttacking && state.airborne) {
@@ -379,19 +411,21 @@ angular.module('ConfusionQuest')
       }
 
       if (state.isAttacking && state.currentAttack) {
-        if (state.currentAttack.id == "punch1") {
+        if (state.currentAttack.animation == "punch1") {
           if (anim.currentAnimation != "punch1") anim.gotoAndPlay("punch1");
         }
 
-        if (state.currentAttack.id == "punch2") {
+        if (state.currentAttack.animation == "punch2") {
           if (anim.currentAnimation != "punch2") anim.gotoAndPlay("punch2");
         }
 
-        if (state.currentAttack.id == "kick1") {
+        //console.log("")
+
+        if (state.currentAttack.animation == "kick1") {
           if (anim.currentAnimation != "kick1") anim.gotoAndPlay("kick1");
         }
 
-        if (state.currentAttack.id == "kick2") {
+        if (state.currentAttack.animation == "kick2") {
           if (anim.currentAnimation != "kick2") anim.gotoAndPlay("kick2");
         }
       }
@@ -435,6 +469,30 @@ angular.module('ConfusionQuest')
     },
   };
 
+  var explosion1Big = {
+    skin: {
+      src: 'img/sprites/explosion1.png',
+      bg: 'spritesheet',
+      framerate: 90,
+      frames: {
+        width: 123,
+        height: 120,
+        regX: 65,
+        regY: 95,
+
+      },
+      frameWidth: 50,
+      frameHeight: 50,
+      animations: {
+        explode: {
+          frames: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20],
+          speed: 0.4,
+          next: 'hide'
+        },
+        hide: [21]
+      }
+    },
+  };
 
   var explosion2 = {
     skin: {
@@ -494,12 +552,28 @@ angular.module('ConfusionQuest')
         stunnedTime: 15,
         duration: 25,
         knockback: 10,
+        propel: 0.2,
+        superTime: 40,
         canComboTime: 50,
-        effect:explosion2,
+        effect: explosion2,
         nextPunch1: "punch2",
-        nextPunch2: "punch2Super",
+        nextPunch2: "punch1Super",
         nextKick1: "kick1",
         nextKick2: "kick1Super",
+      },
+      punch1Super: {
+        id: 'punch1Super',
+        name: 'Punch of Intergrity',
+        animation: 'punch1',
+        damage: 30,
+        range: 4,
+        stunnedTime: 20,
+        propel: 2,
+        duration: 25,
+        knockback: 30,
+        superTime: 0,
+        canComboTime: 0,
+        effect: explosion1Big,
       },
       punch2: {
         id: 'punch2',
@@ -510,10 +584,12 @@ angular.module('ConfusionQuest')
         duration: 16,
         knockback: 10,
         range: 3,
+        propel: 0.2,
+        superTime: 40,
         canComboTime: 50,
-        effect:explosion2,
+        effect: explosion2,
         nextPunch1: "punch1",
-        nextPunch2: "punch2Super",
+        nextPunch2: "punch1Super",
         nextKick1: "kick1",
         nextKick2: "kick1Super",
       },
@@ -526,12 +602,30 @@ angular.module('ConfusionQuest')
         duration: 18,
         knockback: 15,
         range: 4,
+        propel: 0.3,
+        superTime: 40,
         canComboTime: 50,
-        effect:explosion1,
+        effect: explosion1,
         nextPunch1: "punch2",
-        nextPunch2: "punch1",
+        nextPunch2: "punch1Super",
         nextKick1: "kick2",
         nextKick2: "kick1Super",
+      },
+      kick1Super: {
+        id: 'kick1Super',
+        animation:'kick1',
+        name: 'Kick of Riches',
+        animation: 'kick1',
+        damage: 50,
+        range: 5,
+        propel: 5,
+        stunnedTime: 25,
+        duration: 18,
+        knockback: 30,
+        superTime: 0,
+        canComboTime: 0,
+        effect: explosion1Big,
+
       },
       kick2: {
         id: 'kick2',
@@ -542,12 +636,13 @@ angular.module('ConfusionQuest')
         knockback: 15,
         stunnedTime: 6,
         duration: 18,
-        effect:explosion1,
+        effect: explosion1,
+        superTime: 40,
         canComboTime: 50,
         nextPunch1: "punch1",
         nextPunch2: "punch1Super",
         nextKick1: "kick1",
-        nextKick2: "kick2Super",
+        nextKick2: "kick1Super",
       }
     }
   }
@@ -555,6 +650,8 @@ angular.module('ConfusionQuest')
   this.state = {
     goingLeft: false,
     goingRight: false,
+    facingRight: true,
+    facingLeft: false,
     isJumping: false,
     airBorne: false,
     jumpWait: 0,
