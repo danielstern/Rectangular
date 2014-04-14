@@ -299,8 +299,8 @@ angular.module('ConfusionQuest')
           frames: {
             width: 123,
             height: 120,
-            regX: 50,
-            regY: 60,
+            regX: 80,
+            regY: 85,
 
           },
           frameWidth: 90,
@@ -309,7 +309,9 @@ angular.module('ConfusionQuest')
             explode:{
               frames:[0,1,2,3,4,5,6,7,8,9,10,11,12],
               speed:0.4,
-            }
+              next:'hide'
+            },
+            hide:[15]
           }
         },
       }

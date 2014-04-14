@@ -44,7 +44,7 @@ angular.module('ConfusionQuest')
       ngrWorld.getWorld().RayCast(function (x) {
 
         var otherData = x.m_body.GetUserData();
-        if (otherData.isFloor) {
+        if (otherData && otherData.isFloor) {
 
           stats.antiGravity = 1.1;
           inRange = true;
