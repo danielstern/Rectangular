@@ -291,9 +291,31 @@ angular.module('ConfusionQuest')
         newPoint = heroPos.x - attack.range;
       }
 
+      var explosion = {
+        skin: {
+          src: 'img/sprites/explosion1.png',
+          bg: 'spritesheet',
+          framerate: 90,
+          frames: {
+            width: 114,
+            height: 110,
+            regX: 50,
+            regY: 60,
+
+          },
+          frameWidth: 90,
+          frameHeight: 90,
+          animations: {
+            explode:[0,15]
+          }
+        },
+      }
+
+
        var p1 = new b2Vec2(heroPos.x, heroPos.y);
        var p2 = new b2Vec2(newPoint, heroPos.y);
 
+      ngrGame.effect(explosion,p2);
 
       function onhitsomething(other) {
         var otherBody = other.m_body;
@@ -435,7 +457,7 @@ angular.module('ConfusionQuest')
         name: 'Punch of Meaning',
         animation: 'punch1',
         damage: 10,
-        range: 5,
+        range: 3,
         stunnedTime: 15,
         duration: 25,
         knockback: 10,
@@ -452,7 +474,7 @@ angular.module('ConfusionQuest')
         stunnedTime: 10,
         duration: 16,
         knockback: 10,
-        range: 5,
+        range: 3,
         canComboTime: 50,
         nextPunch1: "punch1",
         nextPunch2: "punch2Super",
@@ -467,7 +489,7 @@ angular.module('ConfusionQuest')
         stunnedTime: 15,
         duration: 18,
         knockback: 15,
-        range: 10,
+        range: 5,
         canComboTime: 50,
         nextPunch1: "punch2",
         nextPunch2: "punch1",
@@ -479,7 +501,7 @@ angular.module('ConfusionQuest')
         name: 'Kick of Friendship',
         animation: 'kick2',
         damage: 20,
-        range: 10,
+        range: 5,
         knockback: 15,
         stunnedTime: 6,
         duration: 18,

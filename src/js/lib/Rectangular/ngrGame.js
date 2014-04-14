@@ -26,6 +26,17 @@ angular.module("Rectangular")
       events.push(event);
     }
 
+    this.effect = function(effect,point) {
+      var effectBody = _.clone(ngrDefaults.body);
+      //effectBody.skin = effect.skin;
+      effectBody.shapeKind = 'circle';
+      var effect = ngrWorld.addElement(effectBody);
+      console.log("effect?",effect,point);
+      effect.SetPosition(point);
+      //effect.SetType(0);
+      //effect.setSensor(true);
+    }
+
     ngrWorld.oncreatebody(function(body){
       
       if (body.options.profile) {
