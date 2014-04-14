@@ -4,7 +4,7 @@ angular.module('ConfusionQuest')
   .service("ConfusionQuest", function (ngrGame, ngrEnvironment, ngrLoop, ngrDisplay,ngrCamera, ngrData, ngrState, ngrWorld, ngrInterface, ngrStage,
     ConfusionQuestDefaults, ConfusionQuestLevels,
     questHero, confCoin, ruby, keyRed, doorRed,
-    spikes, enemy1,
+    spikes, enemy1,Madness,
     confCoin, ruby, keyRed, doorRed,
     devLevel,
     boots1, helmet1) {
