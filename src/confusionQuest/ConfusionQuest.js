@@ -67,16 +67,8 @@ angular.module('ConfusionQuest')
       ngrStage.background('img/parallax/foggy/bg_0001_fog.png',8);
       ngrStage.background('img/parallax/foggy/bg_0000_fog.png',9);
 
-
-
-
-      /*ngrGame.screen({
-        bg:"img/Confusion-Quest-Title-NoText.png",
-      });*/
-
       ngrCamera.setZoom(1);
       ngrLoop.setSpeed(60);
-      //ngrLoop.unpause();
 
       var room = ngrState.getState().room;
       ngrCamera.constrainFocus({
@@ -174,61 +166,8 @@ angular.module('ConfusionQuest')
           }
         });
 
-        //  console.log("Room?",room);
-
       }
     })
 
   })
-  .service("ConfusionQuestSplashMenu", function (ConfusionQuest, ngrGame, $q) {
-
-    if ($('#iframe_embed > *')[0]) {
-      Mousetrap.init($('#iframe_embed > *'));;
-    }
-    this.opening = function(){
-      var r = $q.defer();
-      ngrGame.screen({
-        bg: 'img/screen_open.png',
-        duration: 3,
-        exitOnEscape: true,
-      })
-      .then(function(){
-        r.resolve();
-      })
-      return r.promise;
-    }
-  });
-
-angular.module("ConfusionQuestDemo", ['ConfusionQuest', 'Rectangular'])
-  .controller("ConfusionQuest", function ($scope, ConfusionQuest, ConfusionQuestSplashMenu, ngrGame, ConfusionQuestHud, ngrEnvironment, ngrInterface, ngrStage, ngrCamera) {
-
-    console.log("initing controller");
-
-    ngrEnvironment.init({
-      fps: 60,
-      debug: false,
-    });
-    ngrInterface.init();
-
-   
-    ngrCamera.constrainZoom({
-      min: 0.05,
-      max: 2,
-    })
-
-    ngrInterface.onmove(function (r) {
-      $scope.r = r;
-      $scope.$apply();
-    })
-
-    ConfusionQuestSplashMenu.opening()
-      .then(function () {
-
-        ngrGame.init();
-        ngrInterface.onclick(function (r) {
-          $scope.contextBody = r.body;
-
-        })
-
-      })
-  })
+ 
