@@ -27,14 +27,17 @@ angular.module("Rectangular")
     }
 
     this.effect = function(effect,point) {
-      var effectBody = _.clone(ngrDefaults.body);
-      //effectBody.skin = effect.skin;
-      effectBody.shapeKind = 'circle';
-      var effect = ngrWorld.addElement(effectBody);
-      console.log("effect?",effect,point);
+      var effectDef = _.clone(ngrDefaults.body);
+      //effectDef.radius = 0.3;
+      effectDef.skin = effect.skin;
+      effectDef.shapeKind = 'circle';
+      effectDef.bg = 'spritesheet';
+      effectDef = _.extend(effectDef,effect.skin)
+      var effect = ngrWorld.addElement(effectDef);
+     // console.log("effect?",effect,effectBody);
       effect.SetPosition(point);
-      //effect.SetType(0);
-      //effect.setSensor(true);
+      effect.SetType(0);
+      effect.setSensor(true);
     }
 
     ngrWorld.oncreatebody(function(body){

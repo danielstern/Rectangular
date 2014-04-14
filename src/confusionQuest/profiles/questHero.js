@@ -140,7 +140,7 @@ angular.module('ConfusionQuest')
 
           function ongroundtouch(other) {
             var otherData = other.m_body.GetUserData();
-            if (otherData.isFloor) {
+            if (otherData && otherData.isFloor) {
               if (state.airborne) {
                 var currentXSpeed = heroBody.GetLinearVelocity().x;
                 heroBody.SetLinearVelocity(new b2Vec2(currentXSpeed, 0));
@@ -297,8 +297,8 @@ angular.module('ConfusionQuest')
           bg: 'spritesheet',
           framerate: 90,
           frames: {
-            width: 114,
-            height: 110,
+            width: 123,
+            height: 120,
             regX: 50,
             regY: 60,
 
@@ -306,7 +306,10 @@ angular.module('ConfusionQuest')
           frameWidth: 90,
           frameHeight: 90,
           animations: {
-            explode:[0,15]
+            explode:{
+              frames:[0,1,2,3,4,5,6,7,8,9,10,11,12],
+              speed:0.4,
+            }
           }
         },
       }

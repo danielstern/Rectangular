@@ -43,7 +43,9 @@ angular.module('Rectangular')
 
             _container.addChild(nd.tile(img, options));
 
+          //console.log("bg",options);
           } else if (options.bg == 'spritesheet') {
+
             
             var data = {
               images: [options.src],
