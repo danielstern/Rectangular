@@ -291,43 +291,20 @@ angular.module('ConfusionQuest')
         newPoint = heroPos.x - attack.range;
       }
 
-      var explosion = {
-        skin: {
-          src: 'img/sprites/explosion1.png',
-          bg: 'spritesheet',
-          framerate: 90,
-          frames: {
-            width: 123,
-            height: 120,
-            regX: 80,
-            regY: 85,
+      var p1 = new b2Vec2(heroPos.x, heroPos.y);
+      var p2 = new b2Vec2(newPoint, heroPos.y);
 
-          },
-          frameWidth: 90,
-          frameHeight: 90,
-          animations: {
-            explode:{
-              frames:[0,1,2,3,4,5,6,7,8,9,10,11,12],
-              speed:0.4,
-              next:'hide'
-            },
-            hide:[15]
-          }
-        },
+      if (attack.effect) {
+
+        ngrGame.effect(attack.effect, p2);
       }
-
-
-       var p1 = new b2Vec2(heroPos.x, heroPos.y);
-       var p2 = new b2Vec2(newPoint, heroPos.y);
-
-      ngrGame.effect(explosion,p2);
 
       function onhitsomething(other) {
         var otherBody = other.m_body;
         var force = stats.muscle * (attack.knockback || 0);
         if (state.facingLeft) force *= -1;
-        console.log("hit something!",other);
-        console.log("Force?",force);
+        console.log("hit something!", other);
+        console.log("Force?", force);
 
         otherBody.ApplyForce(new b2Vec2(force, 0), otherBody.GetWorldCenter());
       }
@@ -432,6 +409,57 @@ angular.module('ConfusionQuest')
   })
 
 .service("QuestHeroStats", function () {
+
+  var explosion1 = {
+    skin: {
+      src: 'img/sprites/explosion1.png',
+      bg: 'spritesheet',
+      framerate: 90,
+      frames: {
+        width: 123,
+        height: 120,
+        regX: 65,
+        regY: 95,
+
+      },
+      frameWidth: 150,
+      frameHeight: 150,
+      animations: {
+        explode: {
+          frames: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20],
+          speed: 0.4,
+          next: 'hide'
+        },
+        hide: [21]
+      }
+    },
+  };
+
+
+  var explosion2 = {
+    skin: {
+      src: 'img/sprites/explosion2.png',
+      bg: 'spritesheet',
+      framerate: 90,
+      frames: {
+        width: 283,
+        height: 312,
+        regX: 142,
+        regY: 156,
+
+      },
+      frameWidth: 280,
+      frameHeight: 280,
+      animations: {
+        explode: {
+          frames: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20],
+          speed: 0.4,
+          next: 'hide'
+        },
+        hide: [21]
+      }
+    },
+  }
   this.stats = {
     lateralSpeed: 60,
     lateralSpeedJumping: 45,
@@ -467,11 +495,13 @@ angular.module('ConfusionQuest')
         duration: 25,
         knockback: 10,
         canComboTime: 50,
+        effect:explosion2,
         nextPunch1: "punch2",
         nextPunch2: "punch2Super",
         nextKick1: "kick1",
         nextKick2: "kick1Super",
-      },punch2: {
+      },
+      punch2: {
         id: 'punch2',
         name: 'Punch of Honesty',
         animation: 'punch2',
@@ -481,6 +511,7 @@ angular.module('ConfusionQuest')
         knockback: 10,
         range: 3,
         canComboTime: 50,
+        effect:explosion2,
         nextPunch1: "punch1",
         nextPunch2: "punch2Super",
         nextKick1: "kick1",
@@ -494,8 +525,9 @@ angular.module('ConfusionQuest')
         stunnedTime: 15,
         duration: 18,
         knockback: 15,
-        range: 5,
+        range: 4,
         canComboTime: 50,
+        effect:explosion1,
         nextPunch1: "punch2",
         nextPunch2: "punch1",
         nextKick1: "kick2",
@@ -506,10 +538,11 @@ angular.module('ConfusionQuest')
         name: 'Kick of Friendship',
         animation: 'kick2',
         damage: 20,
-        range: 5,
+        range: 4.1,
         knockback: 15,
         stunnedTime: 6,
         duration: 18,
+        effect:explosion1,
         canComboTime: 50,
         nextPunch1: "punch1",
         nextPunch2: "punch1Super",
@@ -570,7 +603,7 @@ angular.module('ConfusionQuest')
         punch1: [167, 180, "stand"],
         kick1: [176, 185, "stand"],
         kick2: [180, 187, "stand"],
-        punch2: [188, 193,192,191, "stand"],
+        punch2: [188, 193, 192, 191, "stand"],
       }
     },
     controls: 'platform-hero',

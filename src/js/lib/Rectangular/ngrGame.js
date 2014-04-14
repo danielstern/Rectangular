@@ -36,10 +36,14 @@ angular.module("Rectangular")
       effectDef = _.extend(effectDef,effect.skin)
       var effect = ngrWorld.addElement(effectDef);
       console.log("effect?",effect.sprite);
-//      effect.sprite.animation.gotoAndPlay('explode');
       effect.SetPosition(point);
       effect.SetType(0);
       effect.setSensor(true);
+      ngrLoop.wait(300)
+      .then(function(){
+        effect.crumble();
+      })
+
     }
 
     ngrWorld.oncreatebody(function(body){
