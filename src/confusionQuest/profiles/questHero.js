@@ -278,7 +278,6 @@ angular.module('ConfusionQuest')
             attack = stats.attacks[state.currentAttack.nextPunch1]
           } else {
             attack = stats.attacks[state.currentAttack.nextPunch2]
-            console.log("using super",attack)
           }
         } else {
           attack = stats.attacks["punch1"];
@@ -290,7 +289,6 @@ angular.module('ConfusionQuest')
             attack = stats.attacks[state.currentAttack.nextKick1]
           } else {
             attack = stats.attacks[state.currentAttack.nextKick2]
-            console.log("using super",attack)
           }
         } else {
           attack = stats.attacks["kick1"];
@@ -298,7 +296,6 @@ angular.module('ConfusionQuest')
       }
 
       var heroPos = heroBody.GetPosition();
-    //  console.log("Using attack", attack);
 
       var newPoint;
       if (state.facingRight) {
@@ -319,8 +316,6 @@ angular.module('ConfusionQuest')
         var otherBody = other.m_body;
         var force = stats.muscle * (attack.knockback || 0);
         if (state.facingLeft) force *= -1;
-        ///console.log("hit something!", other);
-        //console.log("Force?", force);
 
         otherBody.ApplyForce(new b2Vec2(force, 0), otherBody.GetWorldCenter());
       }

@@ -127,7 +127,6 @@ angular.module('ConfusionQuest')
 
     body.onimpact(function (body, other) {
 
-
       if (other.GetUserData() && other.GetUserData().isHero) {
       console.log("Impact hero",other);
         var hero = other.profile;

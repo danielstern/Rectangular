@@ -45,22 +45,7 @@ angular.module('Rectangular')
           var contact = edge.contact;
           var other = edge.other;
 
-          var bodyMomentumX = body.GetLinearVelocity().x * body.GetInertia();
-          var bodyMomentumY = body.GetLinearVelocity().y * body.GetInertia();
-          var otherMomentumX = other.GetLinearVelocity().x * other.GetInertia();
-          var otherMomentumY = other.GetLinearVelocity().y * other.GetInertia();
-
-          var diffX = Math.abs(bodyMomentumX - otherMomentumX);
-          var diffY = Math.abs(bodyMomentumY - otherMomentumY);
-          var vect = Math.sqrt(diffX + diffY);
-
-          var momentumDiff = {
-            x: diffX,
-            y: diffY,
-            vect: vect
-          }
-
-          if (vect > 0.0001) _.invoke(impactListeners, 'func', body, other, vect);
+          if (contact.IsTouching()) _.invoke(impactListeners, 'func', body, other);
 
           edge = edge.next;
         }
