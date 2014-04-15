@@ -8,10 +8,8 @@ angular.module('shapemaker')
         var input = $element.find('input')[0];
 
         $($element).click(function() {
-          console.log("You clicked the clickput");
           $element.find('entry').removeClass('invisible');
           $element.find('display').addClass('invisible');
-
 
           input.focus();
           input.select();
@@ -27,7 +25,6 @@ angular.module('shapemaker')
             $element.find('entry').addClass('invisible');
             $element.find('display').removeClass('invisible');
             input.blur();
-
           }
         })
       }
