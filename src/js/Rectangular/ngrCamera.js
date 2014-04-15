@@ -19,6 +19,9 @@ angular.module("Rectangular")
       return zoom;
     }
 
+    //var speed = 0.7;
+    var inc = 0.5;
+
     var lens = 0.01;
 
     this.getTrueZoom = function() {
@@ -158,7 +161,7 @@ angular.module("Rectangular")
       var canvas = $('canvas');
       var scale = ngrState.getScale() * zoom;
       //  console.log("Scale?",scale);
-      var incX = Math.abs(focusTo.x - focus.x) * 0.05;
+      var incX = Math.abs(focusTo.x - focus.x) * inc;
       if (Math.abs(focusTo.x - focus.x) < incX * 2) {
         focus.x = focusTo.x;
       } else if (focusTo.x > focus.x) {
@@ -167,7 +170,7 @@ angular.module("Rectangular")
         focus.x -= incX;
       }
 
-      var incY = Math.abs(focusTo.y - focus.y) * 0.05;
+      var incY = Math.abs(focusTo.y - focus.y) * inc;
 
       if (Math.abs(focusTo.y - focus.y) < incY * 2) {
 

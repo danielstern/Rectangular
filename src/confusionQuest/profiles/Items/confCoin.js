@@ -10,9 +10,6 @@ angular.module('ConfusionQuest')
       points: 10
     };
 
-    //  _.extend(this, new Item.profile);
-    //     this.init(body);
-
     var defaults = {
       name: 'Coin',
       shape: 'box',
