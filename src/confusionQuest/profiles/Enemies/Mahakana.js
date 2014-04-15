@@ -1,5 +1,5 @@
 angular.module('Mahakana',['Rectangular'])
-.service('Mahakana', function (ngrGame, ngrLoop, ngrWorld, ConfusionQuestDefaults) {
+.service('Mahakana', function (ngrGame, ngrLoop, ngrWorld, Enemy, ConfusionQuestDefaults) {
 
   var Mahakana = function (body) {
     var stats = {
@@ -19,20 +19,16 @@ angular.module('Mahakana',['Rectangular'])
       flavor: "Tentacles, why did it have to be tentacles?",
     }
 
+    this.stats = stats;
+
     var mahakana = this;
     var hitTop = false;
     body.profile = this;
 
     this.body = body;
 
-    body.onimpact(function (other) {
-
-      if (other.GetUserData() && other.GetUserData().isHero) {
-        var hero = other.profile;
-        hero.damage(stats.attack, mahakana);
-
-      }
-    })
+    _.extend(this, new Enemy.profile());
+    this.init();
 
     ngrLoop.addHook(function () {
 

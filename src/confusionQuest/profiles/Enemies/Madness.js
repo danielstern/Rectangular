@@ -1,5 +1,5 @@
 angular.module('ConfusionQuest')
-  .service('Madness', function (ngrGame, ngrLoop, ngrWorld,  ConfusionQuestSFX, ConfusionQuestDefaults) {
+  .service('Madness', function (ngrGame, ngrLoop, Enemy, ngrWorld, ConfusionQuestSFX, ConfusionQuestDefaults) {
 
     var Madness = function (body) {
       var stats = {
@@ -14,64 +14,24 @@ angular.module('ConfusionQuest')
         description: "A shadowy and dangerous being.",
         flavor: "Not as friendly as you'd think.",
       };
-
-      var state = {
-        hp: 0
-      }
-
-      this.init = function() {
-        state.hp = stats.health;
-      };
-
       this.stats = stats;
-      this.init();
+
+      _.extend(this, new Enemy.profile());
 
       var madness = this;
       madness.body = body;
       body.profile = this;
 
-      body.onimpact(function (other) {
-
-        if (other.GetUserData() && other.GetUserData().isHero) {
-          var hero = other.profile;
-          hero.damage(stats.attack, madness);
-        }
-      });
-
-      this.damage = function(dmg) {
-        console.log("I'm damaged",dmg);
-        state.hp-=dmg;
-      }
-
-      madness.die = function() {
-        var pos = body.GetPosition();
-        ngrGame.effect(ConfusionQuestSFX.explosion3Big, pos);
-        body.crumble();
-        state.dead = true;
-      }
-
+      this.init();
 
       ngrLoop.addHook(function () {
-        if (state.dead) return;
-        _.each(body.sprite.animation.spriteSheet.getAnimations(), function (animation) {
-          body.sprite.animation.spriteSheet.getAnimation(animation).speed = 0.4;
-        });
-
-        if (state.hp <= 0) {
-          madness.die();
-        }
 
       });
     };
 
-    var Enemy = {
-      state: {
-       // hp: this.stats.heath,
-      },
-    };
 
-   _.extend(Madness, Enemy);
-//    console.log("Extending", new Madness);
+   // _.extend(Madness, new Enemy.profile);
+    //    console.log("Extending", new Madness);
 
     var defaults = {
       name: 'Madness',
