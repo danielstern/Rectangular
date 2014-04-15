@@ -49,8 +49,6 @@ angular.module("Rectangular")
 
     this.aoe = function(point,range,callback,duration) {
       var effectDef = _.clone(ngrDefaults.body);
-      //effectDef.radius = 0.3;
-
       var hitBodies = [];
       
       effectDef.shapeKind = 'circle';
@@ -58,7 +56,6 @@ angular.module("Rectangular")
       effectDef.y = point.y;
 
       var effect = ngrWorld.addElement(effectDef);
-      //effect.SetPosition(point);
       effect.SetType(0);
         
       ngrLoop.wait(duration || 1)
@@ -67,7 +64,7 @@ angular.module("Rectangular")
       });
 
       effect.onimpact(function(j,p1,p2,manifold){
-        console.log("impact",j,p1,p2,manifold);
+        //console.log("impact",j,p1,p2,manifold);
         if (hitBodies.indexOf(j.id) > -1) return;
         hitBodies.push(j.id);
         callback(j,p1,p2);

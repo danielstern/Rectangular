@@ -99,4 +99,8 @@ angular.module("ConfusionQuest")
       }
     },
   }
+
+  this.explosion3Big = _.clone(this.explosion3);
+  this.explosion3Big.skin.frameWidth = 50;
+  this.explosion3Big.skin.frameHeight = 50;
 })

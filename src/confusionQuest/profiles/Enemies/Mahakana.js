@@ -21,6 +21,7 @@ angular.module('Mahakana',['Rectangular'])
 
     var mahakana = this;
     var hitTop = false;
+    body.profile = this;
 
     this.body = body;
 
