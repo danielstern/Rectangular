@@ -47,14 +47,13 @@ angular.module('Rectangular')
 
           var worldManifold = new Box2D.Collision.b2WorldManifold;
           contact.GetWorldManifold(worldManifold);
-          setTimeout(function(){
-
-            
-          },5)
+          //setTimeout(function(){
+          //  console.log(worldManifold.m_points[0].y);
+          //},0)
           var points = worldManifold.m_points;
           window._var = worldManifold;
 
-          if (contact.IsTouching()) _.invoke(impactListeners, 'func', other,points[0],points[1]);
+          if (contact.IsTouching()) _.invoke(impactListeners, 'func', other,points[0],points[1],worldManifold);
           edge = edge.next;
         }
 

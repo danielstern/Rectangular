@@ -46,23 +46,30 @@ angular.module("Rectangular")
 
     }
 
+
     this.aoe = function(point,range,callback,duration) {
       var effectDef = _.clone(ngrDefaults.body);
       //effectDef.radius = 0.3;
+
+      var hitBodies = [];
       
       effectDef.shapeKind = 'circle';
+      effectDef.x = point.x;
+      effectDef.y = point.y;
 
       var effect = ngrWorld.addElement(effectDef);
-      effect.SetPosition(point);
+      //effect.SetPosition(point);
       effect.SetType(0);
-      effect.setSensor(true);
+        
       ngrLoop.wait(duration || 1)
       .then(function(){
         effect.crumble();
       });
 
-      effect.onimpact(function(j,p1,p2){
-        console.log("impact",j,p1,p2);
+      effect.onimpact(function(j,p1,p2,manifold){
+        console.log("impact",j,p1,p2,manifold);
+        if (hitBodies.indexOf(j.id) > -1) return;
+        hitBodies.push(j.id);
         callback(j,p1,p2);
       })
 
