@@ -1,80 +1,6 @@
 angular.module("Calvin")
-.service("CalvinStats", function () {
+.service("CalvinStats", function (ConfusionQuestSFX) {
 
-  var explosion1 = {
-    skin: {
-      src: 'img/sprites/explosion1.png',
-      bg: 'spritesheet',
-      framerate: 90,
-      frames: {
-        width: 123,
-        height: 120,
-        regX: 65,
-        regY: 95,
-
-      },
-      frameWidth: 150,
-      frameHeight: 150,
-      animations: {
-        explode: {
-          frames: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20],
-          speed: 0.4,
-          next: 'hide'
-        },
-        hide: [21]
-      }
-    },
-  };
-
-  var explosion1Big = {
-    skin: {
-      src: 'img/sprites/explosion1.png',
-      bg: 'spritesheet',
-      framerate: 90,
-      frames: {
-        width: 123,
-        height: 120,
-        regX: 65,
-        regY: 95,
-
-      },
-      frameWidth: 50,
-      frameHeight: 50,
-      animations: {
-        explode: {
-          frames: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20],
-          speed: 0.4,
-          next: 'hide'
-        },
-        hide: [21]
-      }
-    },
-  };
-
-  var explosion2 = {
-    skin: {
-      src: 'img/sprites/explosion2.png',
-      bg: 'spritesheet',
-      framerate: 90,
-      frames: {
-        width: 283,
-        height: 312,
-        regX: 142,
-        regY: 156,
-
-      },
-      frameWidth: 280,
-      frameHeight: 280,
-      animations: {
-        explode: {
-          frames: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20],
-          speed: 0.4,
-          next: 'hide'
-        },
-        hide: [21]
-      }
-    },
-  }
   this.stats = {
     lateralSpeed: 60,
     lateralSpeedJumping: 45,
@@ -94,7 +20,7 @@ angular.module("Calvin")
     brakeSpeed: 0.5,
     hp: 55,
     defense: 5,
-    muscle: 1000,
+    muscle: 100,
     attack: 10,
     evade: 0,
     canShoot: false,
@@ -112,7 +38,7 @@ angular.module("Calvin")
         propel: 0.2,
         superTime: 40,
         canComboTime: 50,
-        effect: explosion2,
+        effect: ConfusionQuestSFX.explosion2,
         nextPunch1: "punch2",
         nextPunch2: "punch1Super",
         nextKick1: "kick1",
@@ -123,14 +49,14 @@ angular.module("Calvin")
         name: 'Punch of Intergrity',
         animation: 'punch1',
         damage: 30,
-        range: 5,
+        range: 4.5,
         stunnedTime: 20,
-        propel: 2,
+        propel: 0.4,
         duration: 25,
         knockback: 30,
         superTime: 0,
         canComboTime: 0,
-        effect: explosion1Big,
+        effect: ConfusionQuestSFX.explosion1Big,
       },
       punch2: {
         id: 'punch2',
@@ -144,7 +70,7 @@ angular.module("Calvin")
         propel: 0.2,
         superTime: 40,
         canComboTime: 50,
-        effect: explosion2,
+        effect: ConfusionQuestSFX.explosion2,
         nextPunch1: "punch1",
         nextPunch2: "punch1Super",
         nextKick1: "kick1",
@@ -158,11 +84,11 @@ angular.module("Calvin")
         stunnedTime: 15,
         duration: 18,
         knockback: 15,
-        range: 6,
+        range: 5,
         propel: 0.3,
         superTime: 40,
         canComboTime: 50,
-        effect: explosion1,
+        effect: ConfusionQuestSFX.explosion1,
         nextPunch1: "punch2",
         nextPunch2: "punch1Super",
         nextKick1: "kick2",
@@ -174,14 +100,14 @@ angular.module("Calvin")
         name: 'Kick of Riches',
         animation: 'kick1',
         damage: 50,
-        range: 5,
+        range: 6,
         propel: 5,
         stunnedTime: 25,
         duration: 18,
         knockback: 30,
         superTime: 0,
         canComboTime: 0,
-        effect: explosion1Big,
+        effect: ConfusionQuestSFX.explosion1Big,
 
       },
       kick2: {
@@ -193,7 +119,7 @@ angular.module("Calvin")
         knockback: 15,
         stunnedTime: 6,
         duration: 18,
-        effect: explosion1,
+        effect: ConfusionQuestSFX.explosion1,
         superTime: 40,
         canComboTime: 50,
         nextPunch1: "punch1",
