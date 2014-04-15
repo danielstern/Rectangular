@@ -38,7 +38,7 @@ angular.module('ConfusionQuest')
             };
 
             if (enemy.state.hp <= 0) {
-              console.log("im dying");
+              
               enemy.die();
             }
 

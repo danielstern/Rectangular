@@ -156,6 +156,7 @@ angular.module('ConfusionQuest')
         console.log("Adding listener to", hero);
 
         hero.onstatechange(function (heroState) {
+          console.log("Hero change",heroState)
           _.call(stateChangeListeners, CQState);
           if (heroState.dead) {
             ngrCamera.unfollow();

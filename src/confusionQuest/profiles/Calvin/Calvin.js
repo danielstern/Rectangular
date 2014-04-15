@@ -88,6 +88,8 @@ angular.module('Calvin', ['Rectangular'])
       hero.die = function () {
         body.setSensor(true);
         state.dead = true;
+        
+        _.call(stateChangeListeners, state);
       }
 
       this.flinchRight = function () {
