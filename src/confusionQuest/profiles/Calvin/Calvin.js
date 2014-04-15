@@ -314,7 +314,7 @@ angular.module('Calvin', ['Rectangular'])
 
         function onhitsomething(other, point1, point2) {
 
-          console.log("hit something",other);
+          
           var otherBody = other;
           var force = stats.muscle * (attack.knockback || 0);
           if (state.facingLeft) force *= -1;

@@ -65,7 +65,7 @@ angular.module('Rectangular')
     }
 
     this.stop = function () {
-      console.log("Clearing interval", loop);
+      
       clearInterval(loop);
     }
 

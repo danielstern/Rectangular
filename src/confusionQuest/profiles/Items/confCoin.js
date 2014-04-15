@@ -1,23 +1,17 @@
 angular.module('ConfusionQuest')
-  .service('confCoin', function (ngrGame,ConfusionQuestDefaults) {
-    var Coin = function (body) {
+  .service('confCoin', function (ngrGame, Item, ConfusionQuestDefaults) {
 
-      body.setSensor(true);
-      body.onimpact(function (other) {
+    var stats = {
+      id: "coin1",
+      name: "Bitcoin",
+      img: "img/coinGold.png",
+      description: "You can redeem these coins for powerful upgrades at the end of each level.",
+      flavor: "In the video game world, Bitcoin takes the form of handy coins.",
+      points: 10
+    };
 
-        if (other.GetUserData() && other.GetUserData().isHero) {
-          body.crumble();
-          ngrGame.powerup({
-            id: "coin1",
-            name: "Bitcoin",
-            img: "img/coinGold.png",
-            description: "You can redeem these coins for powerful upgrades at the end of each level.",
-            flavor: "In the video game world, Bitcoin takes the form of handy coins.",
-            points: 10
-          });
-        }
-      })
-    }
+    //  _.extend(this, new Item.profile);
+    //     this.init(body);
 
     var defaults = {
       name: 'Coin',
@@ -27,19 +21,13 @@ angular.module('ConfusionQuest')
         bg: 'sprite'
       },
       profile: "confCoin",
-      userData: {
-        doodad: true,
-        isCoin: true,
-      },
-      presets: {
-        radius: 1,
-        height: 1,
-        width: 1,
-        restitution: 0.2,
-        density: 0.2
-      }
-
+      presets: Item.dimensions
     }
+
+    var Coin = Item({
+      defaults: defaults,
+      stats: stats
+    })
 
     ConfusionQuestDefaults.addDefault(defaults);
     ngrGame.addProfile('confCoin', Coin);

@@ -46,9 +46,9 @@ angular.module('ConfusionQuest')
 
         },
         damage: function (dmg) {
-          console.log("I'm damaged", dmg);
+          
           this.state.hp -= dmg;
-          console.log(this.state);
+          
         }
       }
     };

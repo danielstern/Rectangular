@@ -53,25 +53,6 @@ angular.module("ConfusionQuest")
       }
 
     }, {
-      name: 'Powerup - Helmet 1',
-      shape: 'box',
-      skin: {
-        src: 'img/helmet1.png',
-        bg: 'sprite'
-      },
-      profile: "helmet1",
-      userData: {
-        doodad: true,
-        isCoin: true,
-      },
-      presets: {
-        radius: 1,
-        height: 3,
-        width: 3,
-        restitution: 0.2,
-        density: 0.2
-      }
-    }, {
       name: 'Door - Red',
       shape: 'box',
       skin: {

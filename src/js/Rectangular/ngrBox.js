@@ -61,7 +61,7 @@ angular.module('Rectangular')
         var f = new b2FixtureDef;
 
         if (options.effect) {
-          console.log("this is effect");
+          
           options.radius = 0;
         }
 
