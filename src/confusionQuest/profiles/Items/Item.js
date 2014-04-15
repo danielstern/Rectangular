@@ -30,8 +30,13 @@ angular.module("ConfusionQuest")
     };
 
     Item.fn.init = function (def) {
+      console.log("Profile def...",def);
       ConfusionQuestDefaults.addDefault(def.defaults);
-      ngrGame.addProfile('boots1', profile);
+      var newProf = _.extend({
+        stats:def.stats,
+      }, profile);
+      console.log("Returning profile...",profile);
+      ngrGame.addProfile(def.stats.id, profile);
       return profile;
     }
 

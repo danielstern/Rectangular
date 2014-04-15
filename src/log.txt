@@ -1,149 +1,89 @@
-commit a0448f26e95d2d909793c698d53aafad3095ac36
+commit 1e62e22572279a2fa1b062e8e785a49167020841
 Author: unknown <daniel@danielstern.ca>
-Date:   Thu Apr 10 07:49:41 2014 -0400
+Date:   Tue Apr 15 15:23:05 2014 -0400
 
-    new sprite
+    workin items over
 
-commit 973cd279c2806f56eacff84edbccc8908616e93d
+commit afd45fd22d6476013c21dffd92924258704135c9
 Author: unknown <daniel@danielstern.ca>
-Date:   Wed Apr 9 15:17:28 2014 -0400
+Date:   Tue Apr 15 14:03:09 2014 -0400
 
-    game is back
+    kind of working but... ?
 
-commit 7ba9efc5b7318a1b11e9400fdea63183fea5709e
+commit 7917f441b188de01fa9cefb771e87618e3676263
 Author: unknown <daniel@danielstern.ca>
-Date:   Wed Apr 9 14:58:59 2014 -0400
+Date:   Tue Apr 15 12:45:06 2014 -0400
 
-    added new sprite
+    seperate item class works
 
-commit 0327a96b709059cf48c4be1c4b2015cc01956c59
+commit 2456b792347c1feed2751760427d083e530938f3
 Author: unknown <daniel@danielstern.ca>
-Date:   Tue Apr 8 16:30:07 2014 -0400
+Date:   Tue Apr 15 12:34:52 2014 -0400
 
-    removed files
+    improve effects
 
-commit e437e082cab0f339e63ca5cfe3cdf64b12fb5eeb
+commit 3a1d8c5951b6995791873c5e21e02ab7240fe79d
 Author: unknown <daniel@danielstern.ca>
-Date:   Tue Apr 8 16:30:01 2014 -0400
+Date:   Tue Apr 15 09:06:52 2014 -0400
 
-    modularized levels
+    fixed slowdown bug, fixing game loop
 
-commit f828218e40ea31df325fa738c92ee017357c193a
+commit 0c1f1b1bd2f36939e0550e263521d252ce51cb0e
 Author: unknown <daniel@danielstern.ca>
-Date:   Tue Apr 8 15:34:33 2014 -0400
+Date:   Tue Apr 15 08:17:50 2014 -0400
 
-    cleaned up
+    exercise utterly successful
 
-commit 113150ca4207b5b52f12208354d4f3874239725e
+commit 35a69b37244f4ed144ee136a189a97c85d337f57
 Author: unknown <daniel@danielstern.ca>
-Date:   Tue Apr 8 15:31:36 2014 -0400
+Date:   Tue Apr 15 07:57:07 2014 -0400
 
-    works again!
+    enemy dies... too sweet
 
-commit 95e41ea50c146c030b0cefb3717c8a2033fd02ab
+commit 732ed1145247bed5b611a9d8d3b61d66912d09f3
 Author: unknown <daniel@danielstern.ca>
-Date:   Tue Apr 8 15:28:49 2014 -0400
+Date:   Tue Apr 15 07:32:22 2014 -0400
 
-    works again! add hud
+    solved bug, looks too sweet
 
-commit 075c0402c643e60d35b93f24b6acb487b405186b
+commit 0d24f678579479fa1d3ee1f21a380a6ddad3a688
 Author: unknown <daniel@danielstern.ca>
-Date:   Tue Apr 8 15:04:36 2014 -0400
+Date:   Mon Apr 14 21:15:18 2014 -0400
 
-    i see the light
+    working on bug
 
-commit 760ef8a56e9c5477d55be360bbd16b5a3c2ced48
+commit 5842284ad2bb6d68ef081469ae1cd7d8769bc1b2
 Author: unknown <daniel@danielstern.ca>
-Date:   Tue Apr 8 14:23:47 2014 -0400
+Date:   Mon Apr 14 20:13:08 2014 -0400
 
-    refactor ehh
+    added new explosion
 
-commit 9c5bdf6452c69332661124ff5e72b97dfd6e22a7
+commit 008a086f83fe577b34466acfcbbf8ba765503ac4
 Author: unknown <daniel@danielstern.ca>
-Date:   Tue Apr 8 13:26:13 2014 -0400
+Date:   Mon Apr 14 19:37:17 2014 -0400
 
-    changed some stuff
+    tightened
 
-commit c5f22236f02a5a1ad0dc4b51964576e6d6b9adeb
+commit 6aa346be2e0b5da50e12de362221eecdd1f3a1ff
 Author: unknown <daniel@danielstern.ca>
-Date:   Mon Apr 7 14:57:24 2014 -0400
+Date:   Mon Apr 14 19:25:43 2014 -0400
 
-    game loop complete!!!
+    refactorin working
 
-commit 2533bd32f88c308aa6de97c6b3654ca9fc5d7c1d
+commit 1fa6153c3c811be6682b872650f91f51c0226108
 Author: unknown <daniel@danielstern.ca>
-Date:   Mon Apr 7 14:03:28 2014 -0400
+Date:   Mon Apr 14 19:15:25 2014 -0400
 
-    improved hitbox on dude
+    slight refactor
 
-commit ad1a5d4e9fa38a70526c43f6c00dea86bc473b25
+commit 776facfe071c085633072ef27f72fa888e9f89fe
 Author: unknown <daniel@danielstern.ca>
-Date:   Mon Apr 7 14:02:21 2014 -0400
+Date:   Mon Apr 14 18:21:09 2014 -0400
 
-    improved hitbox on dude
+    fixed collision bug
 
-commit eaf6a1c08a782479b5a27d6f88571c048092c1b1
+commit 21051545e18f994146adca37743bf84160843464
 Author: unknown <daniel@danielstern.ca>
-Date:   Mon Apr 7 13:55:12 2014 -0400
+Date:   Mon Apr 14 17:47:54 2014 -0400
 
-    added convincing key and door sprites
-
-commit 9620059aaaf401413c646a1c17dff3080a98a9dd
-Author: unknown <daniel@danielstern.ca>
-Date:   Mon Apr 7 13:22:33 2014 -0400
-
-    added cohesive start game function
-
-commit 02a62316986ba3e65bc6db98eb32de1ac26da49f
-Author: unknown <daniel@danielstern.ca>
-Date:   Mon Apr 7 11:02:45 2014 -0400
-
-    added listener for hero death
-
-commit 42708b08f90a94452c86425efe59e648eed153d5
-Author: unknown <daniel@danielstern.ca>
-Date:   Mon Apr 7 10:15:55 2014 -0400
-
-    added great score display!!!!
-
-commit 347681b8df3ae2ba79b560a9b02a734b6c84c38f
-Author: unknown <daniel@danielstern.ca>
-Date:   Mon Apr 7 09:36:52 2014 -0400
-
-    improved hud styles, blogged, fixed slight bg issue
-
-commit 301ca10344bc9ff56fdc6bb91313d8939cfc9e28
-Author: unknown <daniel@danielstern.ca>
-Date:   Mon Apr 7 08:33:08 2014 -0400
-
-    adding HUD (wont break project)
-
-commit b7933829e72949cba4e94f8c50e5a048a0257ba7
-Author: unknown <daniel@danielstern.ca>
-Date:   Sun Apr 6 08:03:19 2014 -0400
-
-    added new item, before hud
-
-commit a80ccf3caeb91439071cb6f7e18807c3a4b61c2f
-Author: unknown <daniel@danielstern.ca>
-Date:   Sun Apr 6 07:46:58 2014 -0400
-
-    hero contact
-
-commit b7674c96ed1f816ccbfcdd943a7fd5cb1867b5ac
-Author: unknown <daniel@danielstern.ca>
-Date:   Sun Apr 6 07:07:36 2014 -0400
-
-    added enemies, helmet
-
-commit f6dc4aa1fce063de2783964b0cb6a69b0945b21e
-Author: unknown <daniel@danielstern.ca>
-Date:   Sun Apr 6 06:17:15 2014 -0400
-
-    fixed mahakana bug
-
-commit 2c3d557832661e421ca787409e90ea595747dced
-Author: unknown <daniel@danielstern.ca>
-Date:   Sun Apr 6 05:59:20 2014 -0400
-
-    fixed mahakana
+    removing beatings bud

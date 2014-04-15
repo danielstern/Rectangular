@@ -2,7 +2,7 @@ angular.module('ConfusionQuest')
   .service('confCoin', function (ngrGame, Item, ConfusionQuestDefaults) {
 
     var stats = {
-      id: "coin1",
+      id: "confCoin",
       name: "Bitcoin",
       img: "img/coinGold.png",
       description: "You can redeem these coins for powerful upgrades at the end of each level.",
@@ -28,7 +28,5 @@ angular.module('ConfusionQuest')
       defaults: defaults,
       stats: stats
     })
-
-    ngrGame.addProfile('confCoin', Coin);
 
   })
