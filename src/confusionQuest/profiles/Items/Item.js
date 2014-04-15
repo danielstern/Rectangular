@@ -8,36 +8,36 @@ angular.module("ConfusionQuest")
 
     Item.fn = Item.prototype;
 
-    var profile = function (body) {
-
+    var profile = function () {
+      
       var item = this;
 
       this.init = function (body) {
         item.body = body;
         body.setSensor(true);
-        item.body.onimpact(function (other) {
+        body.onimpact(function (other) {
 
           if (other.GetUserData() && other.GetUserData().isHero) {
-            item.body.crumble();
+            body.crumble();
             console.log("powerup...", item);
             ngrGame.powerup(item.stats);
           }
         })
       }
 
-      return this.init(body);
-
     };
 
     Item.fn.init = function (def) {
-      console.log("Profile def...",def);
       ConfusionQuestDefaults.addDefault(def.defaults);
-      var newProf = _.extend({
-        stats:def.stats,
-      }, profile);
-      console.log("Returning profile...",profile);
-      ngrGame.addProfile(def.stats.id, profile);
-      return profile;
+
+      var R = new profile();
+      R.init.stats = def.stats;
+      R.stats = def.stats;
+
+      console.log("Creating profile",R);
+      
+      ngrGame.addProfile(def.stats.id, R.init);
+      //return R;
     }
 
     Item.fn.dimensions = {
