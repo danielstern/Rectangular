@@ -37,7 +37,7 @@ angular.module('ConfusionQuest')
     stats:stats,
     defaults:defaults
   })
-  ConfusionQuestDefaults.addDefault(defaults);
-  ngrGame.addProfile('boots1', Boots1);
+
+  
 
 })

@@ -29,7 +29,6 @@ angular.module('ConfusionQuest')
       stats: stats
     })
 
-    ConfusionQuestDefaults.addDefault(defaults);
     ngrGame.addProfile('confCoin', Coin);
 
   })

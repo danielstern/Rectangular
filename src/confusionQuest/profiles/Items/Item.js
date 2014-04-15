@@ -1,5 +1,5 @@
 angular.module("ConfusionQuest")
-  .service("Item", function (ngrGame,ConfusionQuestDefaults) {
+  .service("Item", function (ngrGame, ConfusionQuestDefaults) {
     //return this.fn.init;
 
     Item = function (config) {
@@ -8,11 +8,13 @@ angular.module("ConfusionQuest")
 
     Item.fn = Item.prototype;
 
-    Item.fn.default = function () {
-     
-        var item = this;
-        item.body = body || this.body;
-        item.body.setSensor(true);
+    var profile = function (body) {
+
+      var item = this;
+
+      this.init = function (body) {
+        item.body = body;
+        body.setSensor(true);
         item.body.onimpact(function (other) {
 
           if (other.GetUserData() && other.GetUserData().isHero) {
@@ -21,17 +23,16 @@ angular.module("ConfusionQuest")
             ngrGame.powerup(item.stats);
           }
         })
-      
-    }
+      }
+
+      return this.init(body);
+
+    };
 
     Item.fn.init = function (def) {
-      console.log("Returning item definition", def,this);
-      this.stats = def.stats;
-      /*return {
-        init(Item.default)
-      };*/
-
-      return this.fn;
+      ConfusionQuestDefaults.addDefault(def.defaults);
+      ngrGame.addProfile('boots1', profile);
+      return profile;
     }
 
     Item.fn.dimensions = {
