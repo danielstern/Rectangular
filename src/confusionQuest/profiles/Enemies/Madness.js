@@ -18,23 +18,18 @@ angular.module('ConfusionQuest')
     var madness = this;
     madness.body = body;
 
-    body.onimpact(function (body, other) {
+    body.onimpact(function (other) {
 
       if (other.GetUserData() && other.GetUserData().isHero) {
-      console.log("Impact hero",other);
         var hero = other.profile;
         hero.damage(stats.attack, madness);
-
       }
     })
 
     ngrLoop.addHook(function () {
-
       _.each(body.sprite.animation.spriteSheet.getAnimations(), function (animation) {
          body.sprite.animation.spriteSheet.getAnimation(animation).speed = 0.4;
       });
-
-
     });
   };
 
@@ -69,6 +64,7 @@ angular.module('ConfusionQuest')
 
   };
 
+  _.extend(defaults,ConfusionQuestDefaults.enemy);
   ngrGame.addProfile('Madness', Madness);
   ConfusionQuestDefaults.addDefault(defaults);
 

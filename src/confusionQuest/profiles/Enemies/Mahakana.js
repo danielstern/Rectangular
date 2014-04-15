@@ -24,12 +24,9 @@ angular.module('Mahakana',['Rectangular'])
 
     this.body = body;
 
-    body.onimpact(function (body, other) {
-
-      //console.log("Other...",other);
+    body.onimpact(function (other) {
 
       if (other.GetUserData() && other.GetUserData().isHero) {
-        console.log("Mahakana impacts hero...", other);
         var hero = other.profile;
         hero.damage(stats.attack, mahakana);
 
@@ -95,7 +92,6 @@ angular.module('Mahakana',['Rectangular'])
 
     this.float = function () {
 
-      //body.ApplyForce(new b2Vec2(0, -ngrWorld.getWorld().GetGravity().y * body.GetMass()), body.GetWorldCenter());
       var antiGravity = ngrWorld.getWorld().GetGravity().y * stats.antiGravity;
       body.ApplyForce(new b2Vec2(0, -antiGravity * body.GetMass()), body.GetWorldCenter());;
 
@@ -125,7 +121,7 @@ angular.module('Mahakana',['Rectangular'])
         }
       },
       userData: {
-        doodad: true,
+        isEnemy: true,
       },
       presets: {
         height: 3,
@@ -137,6 +133,10 @@ angular.module('Mahakana',['Rectangular'])
       }
 
     };
+
+    _.extend(defaults,ConfusionQuestDefaults.enemy)
+
+    
 
   ngrGame.addProfile('Mahakana', Mahakana);
     ConfusionQuestDefaults.addDefault(defaults);

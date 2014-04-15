@@ -312,19 +312,21 @@ angular.module('Calvin', ['Rectangular'])
 
         function onhitsomething(other, point1, point2) {
           console.log("On hit something", arguments);
-          var otherBody = other.m_body;
+          //return;
+          var otherBody = other;
           var force = stats.muscle * (attack.knockback || 0);
           if (state.facingLeft) force *= -1;
 
           if (otherBody.GetUserData() && otherBody.GetUserData().isEnemy) {
-            ngrGame.effect(ConfusionQuestSFX.explosion3, point1);
-            ngrGame.effect(ConfusionQuestSFX.explosion2, point2);
+            ngrGame.effect(ConfusionQuestSFX.explosion2, point1);
+            //ngrGame.effect(ConfusionQuestSFX.explosion2, point2);
           };
 
           otherBody.ApplyForce(new b2Vec2(force, 0), otherBody.GetWorldCenter());
         }
 
-        ngrWorld.getWorld().RayCast(onhitsomething, p1, p2);
+        ngrGame.aoe(p2, attack.splash || 0.3, onhitsomething);
+        //ngrWorld.getWorld().RayCast(onhitsomething, p1, p2);
 
         if (attack.propel) {
           var propelForce = attack.propel * stats.muscle;

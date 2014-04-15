@@ -3,6 +3,12 @@ angular.module("ConfusionQuest")
 
     var ConfusionQuestDefaults = this;
 
+    ConfusionQuestDefaults.enemy = {
+      userData: {
+        isEnemy: true,
+      }
+    }
+
     this.addDefault = function (def) {
       
       ConfusionQuestDefaults.defaults.push(def);
@@ -65,7 +71,6 @@ angular.module("ConfusionQuest")
         restitution: 0.2,
         density: 0.2
       }
-
     }, {
       name: 'Door - Red',
       shape: 'box',
@@ -82,7 +87,6 @@ angular.module("ConfusionQuest")
         restitution: 0.2,
         density: 0.2
       }
-
     }, {
       name: 'Density-Less Platform',
       shape: 'box',
@@ -101,23 +105,6 @@ angular.module("ConfusionQuest")
         friction: 0.2,
         gravityScale: 0
       }
-
-    },  {
-      name: 'Bouncey Platform',
-      shape: 'box',
-      skin: {
-        src: 'img/box-blue.png',
-      },
-      userData: {
-        doodad: true,
-      },
-      presets: {
-        height: 0.4,
-        width: 2.5,
-        restitution: 0.9,
-        density: 0.2
-      }
-
     }, {
       name: 'Circle',
       shape: 'circle',

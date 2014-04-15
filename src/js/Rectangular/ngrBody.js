@@ -45,8 +45,16 @@ angular.module('Rectangular')
           var contact = edge.contact;
           var other = edge.other;
 
-          if (contact.IsTouching()) _.invoke(impactListeners, 'func', body, other);
+          var worldManifold = new Box2D.Collision.b2WorldManifold;
+          contact.GetWorldManifold(worldManifold);
+          setTimeout(function(){
 
+            
+          },5)
+          var points = worldManifold.m_points;
+          window._var = worldManifold;
+
+          if (contact.IsTouching()) _.invoke(impactListeners, 'func', other,points[0],points[1]);
           edge = edge.next;
         }
 
