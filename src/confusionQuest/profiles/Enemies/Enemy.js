@@ -24,6 +24,8 @@ angular.module('ConfusionQuest')
             }
           });
 
+          this.body.SetType(2);
+
           ngrLoop.addHook(function () {
 
             if (enemy.state.dead) return;

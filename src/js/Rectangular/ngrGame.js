@@ -32,11 +32,13 @@ angular.module("Rectangular")
       effectDef.skin = effect.skin;
       effectDef.shapeKind = 'circle';
       effectDef.bg = 'spritesheet';
+      effectDef.effect = true;
+      effectDef.x = point.x;
+      effectDef.y = point.y;
       effectDef.startAt = 'explode';
       effectDef = _.extend(effectDef,effect.skin)
       var effect = ngrWorld.addElement(effectDef);
-      //console.log("effect?",effect.sprite);
-      effect.SetPosition(point);
+   //   effect.SetPosition(point);
       effect.SetType(0);
       effect.setSensor(true);
       ngrLoop.wait(300)
@@ -57,6 +59,8 @@ angular.module("Rectangular")
 
       var effect = ngrWorld.addElement(effectDef);
       effect.SetType(0);
+   //  effect.setSensor(true);
+      //effect.isSensor = true;
         
       ngrLoop.wait(duration || 1)
       .then(function(){

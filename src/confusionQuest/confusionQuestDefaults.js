@@ -87,6 +87,22 @@ angular.module("ConfusionQuest")
         restitution: 0.2,
         density: 0.2
       }
+    },{
+      name: 'Key - Red',
+      shape: 'box',
+      skin: {
+        src: 'img/keyRed.png',
+        bg: 'sprite',
+        index: 0
+      },
+      profile: "keyRed",
+      presets: {
+        radius: 1,
+        height: 1.5,
+        width: 1.5,
+        restitution: 0.2,
+        density: 0.2
+      }
     }, {
       name: 'Density-Less Platform',
       shape: 'box',

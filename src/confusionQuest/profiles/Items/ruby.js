@@ -4,7 +4,7 @@ angular.module('ConfusionQuest')
 
       body.setSensor(true);
 
-      body.onimpact(function (body, other) {
+      body.onimpact(function (other) {
 
         if (other.GetUserData() && other.GetUserData().isHero) {
           body.crumble();

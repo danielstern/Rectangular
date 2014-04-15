@@ -45,13 +45,11 @@ angular.module('Rectangular')
           var contact = edge.contact;
           var other = edge.other;
 
+        //var oldSensorValue = other.isSensor();
+
           var worldManifold = new Box2D.Collision.b2WorldManifold;
           contact.GetWorldManifold(worldManifold);
-          //setTimeout(function(){
-          //  console.log(worldManifold.m_points[0].y);
-          //},0)
           var points = worldManifold.m_points;
-          window._var = worldManifold;
 
           if (contact.IsTouching()) _.invoke(impactListeners, 'func', other,points[0],points[1],worldManifold);
           edge = edge.next;
@@ -77,9 +75,10 @@ angular.module('Rectangular')
 
       body.setSensor = function(bool) {
         var f = body.GetFixtureList();
-        f.SetSensor(bool);
-        window.f = f;
+        if (f) f.SetSensor(bool);
       }
+
+      
 
       body.onfall = function (func) {
         fallListeners.push(func);

@@ -52,10 +52,13 @@ angular.module('ConfusionQuest')
       ngrStage.background('img/parallax/foggy/bg_0016_fog.png',1);
       ngrStage.background('img/parallax/foggy/bg_0015_fog.png',3);
       ngrStage.background('img/parallax/foggy/bg_0014_fog.png',2);
+    /*
       ngrStage.background('img/parallax/foggy/bg_0013_fog.png',4);
       ngrStage.background('img/parallax/foggy/bg_0012_fog.png',2);
       ngrStage.background('img/parallax/foggy/bg_0011_fog.png',3);
       ngrStage.background('img/parallax/foggy/bg_0010_fog.png',2);
+      */
+      /**/
       ngrStage.background('img/parallax/foggy/bg_0009_fog.png',5);
       ngrStage.background('img/parallax/foggy/bg_0008_fog.png',5);
       ngrStage.background('img/parallax/foggy/bg_0007_fog.png',5);
@@ -157,6 +160,7 @@ angular.module('ConfusionQuest')
           if (heroState.dead) {
             ngrCamera.unfollow();
             ngrCamera.setZoom(0.5);
+            console.log("Hero dead.");
             ngrLoop.setSpeed(30);
 
             ngrLoop.wait(30)

@@ -60,6 +60,11 @@ angular.module('Rectangular')
       this.getFixtureDef = function () {
         var f = new b2FixtureDef;
 
+        if (options.effect) {
+          console.log("this is effect");
+          options.radius = 0;
+        }
+
         switch (options.shapeKind) {
         case 'box':
           f.shape = new b2PolygonShape();
@@ -76,6 +81,8 @@ angular.module('Rectangular')
           throw new Error("You must defind a shapeKind in your options.");
           break;
         }
+
+
 
         f.density = Number(options.density || 0);
         f.friction = Number(options.friction || 0);

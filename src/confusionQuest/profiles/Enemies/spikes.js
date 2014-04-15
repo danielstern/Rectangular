@@ -27,7 +27,7 @@ angular.module('ConfusionQuest')
 
     this.body = body;
 
-    body.onimpact(function (body, other) {
+    body.onimpact(function (other) {
 
       if (other.GetUserData() && other.GetUserData().isHero) {
         //console.log("Mahakana impacts hero...", other);
