@@ -24,7 +24,7 @@ angular.module('ConfusionQuest')
       presets: Item.dimensions
     }
 
-    var Coin = Item({
+    Item({
       defaults: defaults,
       stats: stats
     })

@@ -1,24 +1,30 @@
 angular.module('ConfusionQuest')
 
-  .service('keyRed', function (ngrGame) {
-    var stats = {
-      id: "keyRed",
-      img: 'img/keyRed.png',
-      name: "Red Key",
-      description: "Opens red locked doors.",
-      flavor: "Known as the leader of the keys.",
-      event: "redKey"
-    }
-    var RedKey = function (body) {
-      body.onimpact(function (other) {
+.service('keyRed', function (ngrGame) {
+  var stats = {
+    id: "keyRed",
+    img: 'img/keyRed.png',
+    name: "Red Key",
+    description: "Opens red locked doors.",
+    flavor: "Known as the leader of the keys.",
+    event: "redKey"
+  }
 
-        if (other.GetUserData() && other.GetUserData().isHero) {
-          body.crumble();
-          ngrGame.powerup(stats);
-        }
-      })
-    }
+  var defaults = {
+    name: 'Key - Red',
+    shape: 'box',
+    skin: {
+      src: 'img/keyRed.png',
+      bg: 'sprite',
+      index: 0
+    },
+    profile: "keyRed",
+    presets: Item.dimensions
+  };
 
-    ngrGame.addProfile('keyRed', RedKey);
+    Item({
+      stats: stats,
+      defaults: defaults
+    })
 
-  })
+})

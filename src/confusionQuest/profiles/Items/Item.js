@@ -1,6 +1,5 @@
 angular.module("ConfusionQuest")
   .service("Item", function (ngrGame, ConfusionQuestDefaults) {
-    //return this.fn.init;
 
     Item = function (config) {
       return Item.fn.init(config);
@@ -9,7 +8,6 @@ angular.module("ConfusionQuest")
     Item.fn = Item.prototype;
 
     var profile = function () {
-      
       var item = this;
 
       this.init = function (body) {
@@ -24,7 +22,6 @@ angular.module("ConfusionQuest")
           }
         })
       }
-
     };
 
     Item.fn.init = function (def) {
@@ -34,14 +31,10 @@ angular.module("ConfusionQuest")
       R.init.stats = def.stats;
       R.stats = def.stats;
 
-      console.log("Creating profile",R);
-      
       ngrGame.addProfile(def.stats.id, R.init);
-      //return R;
     }
 
     Item.fn.dimensions = {
-
       radius: 1,
       height: 3,
       width: 3,

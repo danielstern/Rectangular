@@ -1,25 +1,30 @@
 angular.module('ConfusionQuest')
-  .service('ruby', function (ngrGame) {
-    var Ruby = function (body) {
+  .service('ruby', function (ngrGame, Item) {
 
-      body.setSensor(true);
+    var stats = {
+      id: "ruby",
+      name: "Ruby",
+      img: "img/gemRed.png",
+      description: "Rubies are worth a goodly amount of coins.",
+      flavor: "A goodly amount indeed.",
+      points: 200
+    };
 
-      body.onimpact(function (other) {
+    var defaults = {
+      name: 'Ruby',
+      shape: 'box',
+      skin: {
+        src: 'img/gemRed.png',
+        bg: 'sprite'
+      },
+      profile: "ruby",
+      presets: Item.dimensions
 
-        if (other.GetUserData() && other.GetUserData().isHero) {
-          body.crumble();
-          ngrGame.powerup({
-            id: "ruby",
-            name: "Ruby",
-            img: "img/gemRed.png",
-            description: "Rubies are worth a goodly amount of coins.",
-            flavor: "A goodly amount indeed.",
-            points: 200
-          });
-        }
-      })
-    }
+    };
 
-    ngrGame.addProfile('ruby', Ruby);
+    Item({
+      stats: stats,
+      defaults: defaults
+    })
 
   })

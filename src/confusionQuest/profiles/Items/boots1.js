@@ -13,14 +13,6 @@ angular.module('ConfusionQuest')
     }
   }
 
-/*  var Boots1 = function (body) {
-
-    _.extend(this, new Item.profile);
-    this.stats = stats;
-    this.init(body);
-
-  };*/
-
   var defaults = {
     name: 'Powerup - Boots 1',
     shape: 'box',
@@ -33,11 +25,9 @@ angular.module('ConfusionQuest')
   };
 
 
-  var Boots1 = Item({
+  Item({
     stats:stats,
     defaults:defaults
   })
-
-  
 
 })

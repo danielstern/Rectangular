@@ -28,19 +28,9 @@ angular.module("ConfusionQuest")
       presets: Item.dimensions
     };
 
-    var Helmet1 = Item({
+    Item({
       stats: stats,
       defaults: defaults
     })
-    /*
-    var Helmet1 = function (body) {
-      _.extend(this, new Item.profile);
-      this.stats = stats;
-      this.init(body);
-    };
-    */
-
-    ConfusionQuestDefaults.addDefault(defaults);
-    ngrGame.addProfile('helmet1', Helmet1);
 
   })
