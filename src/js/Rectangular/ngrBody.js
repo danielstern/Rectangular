@@ -25,8 +25,7 @@ angular.module('Rectangular')
       body.crumbleListeners = [];
       body.impactListeners = [];
       body.fallListeners = [];
-      //this.ngrBody = true;
-      console.log("Bodifying...",body);
+      
 
       var bodyOriginalY = body.GetPosition().y;
       var bodyLoop = ngrLoop.addHook(function () {

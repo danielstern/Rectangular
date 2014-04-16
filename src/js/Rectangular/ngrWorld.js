@@ -86,7 +86,7 @@ angular.module('Rectangular')
     var f = def.getFixtureDef()
     b.CreateFixture(f);
 
-    console.log("New body...",b);
+    
     b.options = options;
 
     var _b = ngrBody(b);
@@ -159,16 +159,6 @@ angular.module('Rectangular')
 
   var b2World = function(gravity,draw) {
     var world = new Box2D.Dynamics.b2World(gravity,draw);
-    return world;
-  };
-
-  this.setWorld = function (gravityX, gravityY, sleep) {
-
-    var gravity = new b2Vec2(gravityX, gravityY);
-    var doSleep = sleep;
-
-    world = world || new b2World(gravity, false);
-
     var b2Listener = Box2D.Dynamics.b2ContactListener;
 
     //Add listeners for contact
@@ -185,12 +175,13 @@ angular.module('Rectangular')
     }
 
     listener.PostSolve = function(contact, impulse) {
-        if (contact.GetFixtureA().GetBody().GetUserData() == 'ball' || contact.GetFixtureB().GetBody().GetUserData() == 'ball') {
+/*        if (contact.GetFixtureA().GetBody().GetUserData() == 'ball' || contact.GetFixtureB().GetBody().GetUserData() == 'ball') {
             var impulse = impulse.normalImpulses[0];
             if (impulse < 0.2) return; //threshold ignore small impacts
             world.ball.impulse = impulse > 0.6 ? 0.5 : impulse;
             console.log(world.ball.impulse);
-        }
+        */
+       
     }
 
     listener.PreSolve = function(contact, oldManifold) {
@@ -199,6 +190,15 @@ angular.module('Rectangular')
     }
 
     world.SetContactListener(listener);
+    return world;
+  };
+
+  this.setWorld = function (gravityX, gravityY, sleep) {
+
+    var gravity = new b2Vec2(gravityX, gravityY);
+    var doSleep = sleep;
+
+    world = world || new b2World(gravity, false);
 
 
     return world;
