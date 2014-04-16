@@ -1,56 +1,9 @@
 angular.module('ConfusionQuest')
   .service('Madness', function (ngrGame, ngrLoop, Enemy, ngrWorld, ConfusionQuestSFX, ConfusionQuestDefaults) {
 
-    var Madness = function (body) {
-      var stats = {
-        id: "enemy2",
-        name: "madness",
-        health: 20,
-        damage: 15,
-        speed: 0.2,
-        attack: 15,
-        img: 'img/unbalance.png',
-        name: "Unbalance",
-        description: "A shadowy and dangerous being.",
-        flavor: "Not as friendly as you'd think.",
-      };
-      this.stats = stats;
+    var Madness = new Enemy();
 
-      _.extend(this, new Enemy.profile());
-
-      var madness = this;
-      madness.body = body;
-      body.profile = this;
-
-      this.init();
-
-      this.state = {
-        facingLeft: true,
-        facingRight: false,
-        isJumping: false,
-        isAttacking: false,
-        hp: stats.health,
-      }
-
-      this.getState = function() {
-        return madness.state;
-      };
-
-      madness.tick = function() {
-        if (madness.state.isAttacking) {
-          console.log("madness attack!");
-        }
-
-      }
-
-      return;
-      ngrGame.control(madness,{
-        'a': 'goingLeft',
-        'd': 'goingRight',
-        'w': 'isJumping',
-        'p': 'isAttacking',
-      })
-    };
+    console.log("Madness?",Madness);
 
 
    // _.extend(Madness, new Enemy.profile);
