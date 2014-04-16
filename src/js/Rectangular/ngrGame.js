@@ -1,4 +1,4 @@
-angular.module("Rectangular")
+angular.module("GameAgent", ['Rectangular', 'ngAudio'])
   .service('ngrGame', function (ngrWorld, ngrStage, ngrDisplay, ngrInterface, ngrCamera, ngrLoop, ngrDefaults, $q) {
 
     var w = ngrWorld;
@@ -11,22 +11,22 @@ angular.module("Rectangular")
     var events = [];
     var createEntityListeners = [];
 
-    this.oncreateentity = function(f) {
+    this.oncreateentity = function (f) {
       createEntityListeners.push(f);
     }
 
-    this.getEvents = function() {
-      _.each(events,function(event){
+    this.getEvents = function () {
+      _.each(events, function (event) {
         events[event] = true;
       })
       return events;
     }
 
-    this.setEvent = function(event) {
+    this.setEvent = function (event) {
       events.push(event);
     }
 
-    this.effect = function(effect,point) {
+    this.effect = function (effect, point) {
       var effectDef = _.clone(ngrDefaults.body);
       //effectDef.radius = 0.3;
       effectDef.skin = effect.skin;
@@ -36,64 +36,63 @@ angular.module("Rectangular")
       effectDef.x = point.x;
       effectDef.y = point.y;
       effectDef.startAt = 'explode';
-      effectDef = _.extend(effectDef,effect.skin)
+      effectDef = _.extend(effectDef, effect.skin)
       var effect = ngrWorld.addElement(effectDef);
-   //   effect.SetPosition(point);
+      //   effect.SetPosition(point);
       effect.SetType(0);
       effect.setSensor(true);
       ngrLoop.wait(300)
-      .then(function(){
-        effect.crumble();
-      })
+        .then(function () {
+          effect.crumble();
+        })
 
     }
 
-
-    this.aoe = function(point,range,callback,duration) {
+    this.aoe = function (point, range, callback, duration) {
       var effectDef = _.clone(ngrDefaults.body);
       var hitBodies = [];
-      
+
       effectDef.shapeKind = 'circle';
       effectDef.x = point.x;
       effectDef.y = point.y;
 
       var effect = ngrWorld.addElement(effectDef);
       effect.SetType(0);
-   //  effect.setSensor(true);
+      //  effect.setSensor(true);
       //effect.isSensor = true;
-        
-      ngrLoop.wait(duration || 1)
-      .then(function(){
-        effect.crumble();
-      });
 
-      effect.onimpact(function(j,p1,p2,manifold){
+      ngrLoop.wait(duration || 1)
+        .then(function () {
+          effect.crumble();
+        });
+
+      effect.onimpact(function (j, p1, p2, manifold) {
         //console.log("impact",j,p1,p2,manifold);
         if (hitBodies.indexOf(j.id) > -1) return;
         hitBodies.push(j.id);
-        callback(j,p1,p2);
+        callback(j, p1, p2);
       })
 
     }
 
-    ngrWorld.oncreatebody(function(body){
-      
+    ngrWorld.oncreatebody(function (body) {
+
       if (body.options.profile) {
-      
+
         var profile = profiles[body.options.profile];
         if (!profile) {
-            console.error("No profile available,",body.options.profile)
-            return;
+          console.error("No profile available,", body.options.profile)
+          return;
         };
         var entity = new profile(body);
         entity.type = body.options.profile;
         entity.constructor = profile;
 
-        _.call(createEntityListeners,entity);
+        _.call(createEntityListeners, entity);
       }
     })
 
-    this.score = function(points) {
+    this.score = function (points) {
       //console.log("You scored " + points + " points dog");
     }
 
@@ -133,16 +132,16 @@ angular.module("Rectangular")
 
       var state = hero.getState();
 
-      console.log("Binding controls, ",Mousetrap);
+      console.log("Binding controls, ", Mousetrap);
       if (controlLoop) ngrLoop.removeHook(controlLoop);
       controlLoop = ngrLoop.addHook(hero.tick);
 
-      _.each(map,function(value,key){
-        Mousetrap.bind(key, function(){
+      _.each(map, function (value, key) {
+        Mousetrap.bind(key, function () {
           state[value] = true;
         }, 'keydown');
 
-        Mousetrap.bind(key, function(){
+        Mousetrap.bind(key, function () {
           state[value] = false;
         }, 'keyup');
       })
@@ -227,16 +226,33 @@ angular.module("Rectangular")
       return r.promise;
     }
 
-
     var controlLoop;
 
-    this.addProfile = function(name,def) {
+    this.addProfile = function (name, def) {
       profiles[name] = def;
     }
 
-
     this.turnToCannonball = function (thing, volatility) {
       thing.onimpact(g.explode);
+    }
+
+  })
+  .service('ngrSoundtrack', function () {
+
+    var soundtrack = this;
+
+    createjs.Sound.alternateExtensions = ["mp3"];
+    createjs.Sound.addEventListener("fileload", createjs.proxy(soundtrack.loadHandler, (soundtrack)));
+
+    this.registerSounds = function (sounds) {
+      console.log("registering sounds", sounds);
+      _.each(sounds, function (sound) {
+         createjs.Sound.registerSound(sound.src, sound.id, 4);
+      })
+    }
+
+    this.loadHandler = function(e) {
+      console.log("Loaded",e);
     }
 
   })

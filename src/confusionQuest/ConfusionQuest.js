@@ -5,7 +5,8 @@ angular.module('ConfusionQuest', [
 
 angular.module('ConfusionQuest')
   .service("ConfusionQuest", function (
-    ngrGame, ngrEnvironment, ngrLoop, ngrDisplay,ngrCamera, ngrData, ngrState, ngrWorld, ngrInterface, ngrStage,
+    ngrGame, ngrSoundtrack,
+    ngrEnvironment, ngrLoop, ngrDisplay,ngrCamera, ngrData, ngrState, ngrWorld, ngrInterface, ngrStage,
     ConfusionQuestDefaults, ConfusionQuestLevels,
     Calvin, 
     spikes, Mahakana,Madness,
@@ -31,6 +32,16 @@ angular.module('ConfusionQuest')
     this.onmessage = function (l) {
       messageListeners.push(l);
     }
+
+    ngrSoundtrack.registerSounds([{
+      name:'punch1',
+      defaultVolume: 0.3,
+      src:'audio/fight/Punch1.wav',
+      family:'punch',
+      kind:'effect',
+    }
+
+    ])
 
     ngrGame.init = function () {
       CQState = {
