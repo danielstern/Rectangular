@@ -1,33 +1,19 @@
 angular.module('ConfusionQuest')
   .service('Enemy', function (ngrGame, ngrLoop, ngrWorld, ConfusionQuestSFX, ConfusionQuestDefaults) {
 
-    function Enemy(x) {
-      return newEnemy();
+    function Enemy(stats) {
+      return newEnemy(stats);
     }
 
-    function newEnemy() {
+    function newEnemy(stats) {
 
       var Enemy = function (body) {
-        var stats = {
-          id: "enemy2",
-          name: "enemy",
-          health: 20,
-          damage: 15,
-          speed: 0.2,
-          attack: 15,
-          img: 'img/unbalance.png',
-          name: "Unbalance",
-          description: "A shadowy and dangerous being.",
-          flavor: "Not as friendly as you'd think.",
-        };
+        
         this.stats = stats;
-
-   //     _.extend(this, new Enemy.profile());
 
         var enemy = this;
         enemy.body = body;
         body.profile = this;
-
    
         this.state = {
           facingLeft: true,
@@ -40,6 +26,17 @@ angular.module('ConfusionQuest')
         this.getState = function () {
           return enemy.state;
         };
+
+        this.die =  function () {
+          var pos = this.body.GetPosition();
+          ngrGame.effect(ConfusionQuestSFX.explosion3Big, pos);
+          this.body.crumble();
+          this.state.dead = true;
+        };
+
+        this.damage = function (dmg) {
+          this.state.hp -= dmg;
+        }
         
         this.init =  function () {
 
@@ -96,24 +93,6 @@ angular.module('ConfusionQuest')
       return Enemy;
 
     }
-    Enemy.profile = function () {
-      return {
-        state: {
-          hp: 0
-        },
-        die: function () {
-          var pos = this.body.GetPosition();
-          ngrGame.effect(ConfusionQuestSFX.explosion3Big, pos);
-          this.body.crumble();
-          this.state.dead = true;
-        },
-        damage: function (dmg) {
-
-          this.state.hp -= dmg;
-
-        }
-      }
-    };
-
+    
     return Enemy;
   });

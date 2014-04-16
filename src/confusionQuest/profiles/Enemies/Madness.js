@@ -1,7 +1,21 @@
 angular.module('ConfusionQuest')
   .service('Madness', function (ngrGame, ngrLoop, Enemy, ngrWorld, ConfusionQuestSFX, ConfusionQuestDefaults) {
 
-    var Madness = new Enemy();
+
+   var stats = {
+          id: "enemy2",
+          name: "enemy",
+          health: 20,
+          damage: 15,
+          speed: 0.2,
+          attack: 15,
+          img: 'img/unbalance.png',
+          name: "Unbalance",
+          description: "A shadowy and dangerous being.",
+          flavor: "Not as friendly as you'd think.",
+        };
+
+    var Madness = new Enemy(stats);
 
     console.log("Madness?",Madness);
 
