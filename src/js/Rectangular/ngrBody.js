@@ -7,7 +7,7 @@ angular.module('Rectangular')
     }
 
     ngrBody.prototype.init = function(config){
-      console.log("initing prototype...",config);
+      
       if (!config) return;
       return ngrBody.prototype.Body(config);
     }
@@ -124,7 +124,7 @@ angular.module('Rectangular')
       return body;
     }
 
-    console.log("Ngrbody?",ngrBody.prototype);
+    
     return ngrBody;
 
   })

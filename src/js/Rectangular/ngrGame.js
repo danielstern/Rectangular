@@ -167,7 +167,7 @@ angular.module("GameAgent", ['Rectangular', 'ngAudio'])
 
       var state = hero.getState();
 
-      console.log("Binding controls, ", Mousetrap);
+      
       if (controlLoop) ngrLoop.removeHook(controlLoop);
       controlLoop = ngrLoop.addHook(hero.tick);
 
