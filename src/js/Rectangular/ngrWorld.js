@@ -86,31 +86,34 @@ angular.module('Rectangular')
     var f = def.getFixtureDef()
     b.CreateFixture(f);
 
-    b = new ngrBody.Body(b);
+    console.log("New body...",b);
+    b.options = options;
+
+    var _b = ngrBody(b);
     
-    b.oncrumble(function (body) {
+    _b.oncrumble(function (body) {
       w.removeElement(body);
     })
 
-    if (options.userData) b.SetUserData(options.userData);
+    if (options.userData) _b.SetUserData(options.userData);
 
     if (options.memo) {
       var prev = w.getBodyByAttribute('memo', options.memo);
       if (prev) w.removeElement(prev);
     }
 
-    b.id = id;
-    b.definition = def;
+    _b.id = id;
+    _b.definition = def;
 
 
-    b.options = _.clone(options);
-    b.options.cycle = 0;
+    _b.options = _.clone(options);
+    _b.options.cycle = 0;
 
-    bodies.push(b);
+    bodies.push(_b);
 
-    _.call(onCreateBodyListeners,b);
+    _.call(onCreateBodyListeners,_b);
 
-    return b;
+    return _b;
   };
 
   this.getElements = function() {

@@ -2,26 +2,31 @@ angular.module('Rectangular')
   .service("ngrBody", function (ngrLoop) {
 
     var ngrBody = function(config) {
+      console.log("running constructor");
       return ngrBody.prototype.init(config);
     }
 
     ngrBody.prototype.init = function(config){
-      console.log("initing prototype...");
+      console.log("initing prototype...",config);
+      if (!config) return;
+      return ngrBody.prototype.Body(config);
     }
 
-    
+
 
     var _bodyP = b2Body.prototype;
     _bodyP.hello = "Hello";
-    _bodyP.crumbleListeners = [];
-    _bodyP.impactListeners = [];
-    _bodyP.fallListeners = [];
-    _bodyP.ngrBody = true;
+
 
     ngrBody.prototype.Body = function (_body) {
       window.__body = _body;
       var body = _body;
-      //console.log("Bodifying...",body);
+      //var ngrBody = this;
+      body.crumbleListeners = [];
+      body.impactListeners = [];
+      body.fallListeners = [];
+      //this.ngrBody = true;
+      console.log("Bodifying...",body);
 
       var bodyOriginalY = body.GetPosition().y;
       var bodyLoop = ngrLoop.addHook(function () {
@@ -64,13 +69,13 @@ angular.module('Rectangular')
           contact.GetWorldManifold(worldManifold);
           var points = worldManifold.m_points;
 
-          if (contact.IsTouching()) _.invoke(this.impactListeners, 'func', other,points[0],points[1],worldManifold);
+          if (contact.IsTouching()) _.invoke(body.impactListeners, 'func', other,points[0],points[1],worldManifold);
           edge = edge.next;
         }
 
 
         if (body.GetPosition().y - bodyOriginalY > 2) {
-          _.call(this.fallListeners);
+          _.call(body.fallListeners);
         }
 
         if (body.GetPosition().y > 500) body.crumble();
@@ -120,7 +125,7 @@ angular.module('Rectangular')
       return body;
     }
 
-    console.log("Ngrbody?",new ngrBody());
-    return ngrBody.prototype;
+    console.log("Ngrbody?",ngrBody.prototype);
+    return ngrBody;
 
   })
