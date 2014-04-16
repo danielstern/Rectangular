@@ -29,6 +29,7 @@ angular.module('ConfusionQuest')
         facingRight: false,
         isJumping: false,
         isAttacking: false,
+        hp: stats.health,
       }
 
       this.getState = function() {
@@ -42,7 +43,7 @@ angular.module('ConfusionQuest')
 
       }
 
-
+      return;
       ngrGame.control(madness,{
         'a': 'goingLeft',
         'd': 'goingRight',

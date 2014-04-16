@@ -1,6 +1,10 @@
 angular.module('ConfusionQuest')
   .service('Enemy', function (ngrGame, ngrLoop, ngrWorld, ConfusionQuestSFX, ConfusionQuestDefaults) {
-  	this.profile = function () {
+
+    function Enemy (x) {
+      return Enemy.profile(x);
+    }
+  	Enemy.profile = function () {
       return {
         state: {
           hp: 0
@@ -52,4 +56,6 @@ angular.module('ConfusionQuest')
         }
       }
     };
+
+    return Enemy;
   });
