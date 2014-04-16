@@ -1,13 +1,28 @@
 angular.module('Rectangular')
   .service("ngrBody", function (ngrLoop) {
 
-    this.Body = function (_body) {
-      var body = _body;
-      var crumbleListeners = [];
-      var impactListeners = [];
-      var fallListeners = [];
+    var ngrBody = function(config) {
+      return ngrBody.prototype.init(config);
+    }
 
-      body.ngrBody = true;
+    ngrBody.prototype.init = function(config){
+      console.log("initing prototype...");
+    }
+
+    
+
+    var _bodyP = b2Body.prototype;
+    _bodyP.hello = "Hello";
+    _bodyP.crumbleListeners = [];
+    _bodyP.impactListeners = [];
+    _bodyP.fallListeners = [];
+    _bodyP.ngrBody = true;
+
+    ngrBody.prototype.Body = function (_body) {
+      window.__body = _body;
+      var body = _body;
+      //console.log("Bodifying...",body);
+
       var bodyOriginalY = body.GetPosition().y;
       var bodyLoop = ngrLoop.addHook(function () {
 
@@ -49,24 +64,24 @@ angular.module('Rectangular')
           contact.GetWorldManifold(worldManifold);
           var points = worldManifold.m_points;
 
-          if (contact.IsTouching()) _.invoke(impactListeners, 'func', other,points[0],points[1],worldManifold);
+          if (contact.IsTouching()) _.invoke(this.impactListeners, 'func', other,points[0],points[1],worldManifold);
           edge = edge.next;
         }
 
 
         if (body.GetPosition().y - bodyOriginalY > 2) {
-          _.call(fallListeners);
+          _.call(this.fallListeners);
         }
 
         if (body.GetPosition().y > 500) body.crumble();
       })
 
       body.oncrumble = function (func) {
-        crumbleListeners.push(func);
+        this.crumbleListeners.push(func);
       }
 
       body.onimpact = function (func) {
-        impactListeners.push({
+        this.impactListeners.push({
           func: func
         });
       }
@@ -95,12 +110,17 @@ angular.module('Rectangular')
       body.crumble = function () {
         ngrLoop.removeHook(bodyLoop);
         body.crumbled = true;
-        _.each(crumbleListeners, function (l) {
+        _.each(this.crumbleListeners, function (l) {
           l(body);
         })
       }
 
+      console.log("Returning",body);
+
       return body;
     }
+
+    console.log("Ngrbody?",new ngrBody());
+    return ngrBody.prototype;
 
   })

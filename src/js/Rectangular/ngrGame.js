@@ -62,10 +62,7 @@ angular.module("GameAgent", ['Rectangular', 'ngAudio'])
       var data1 = body1.GetUserData() || {};
       var data2 = body2.GetUserData() || {};
 
-
-      //console.log("collision between two bodies");
       if (data1.isEffect || data2.isEffect) {
-        console.log("one is an effect");
         contact.SetEnabled(false);
       }
     }
@@ -81,11 +78,8 @@ angular.module("GameAgent", ['Rectangular', 'ngAudio'])
         isEffect: true,
       }
       
-
       var effect = ngrWorld.addElement(effectDef);
       effect.SetType(0);
-      //  effect.setSensor(true);
-      //effect.isSensor = true;
 
       ngrLoop.wait(duration || 1)
         .then(function () {
@@ -93,12 +87,10 @@ angular.module("GameAgent", ['Rectangular', 'ngAudio'])
         });
 
       effect.onimpact(function (j, p1, p2, manifold) {
-        //console.log("impact",j,p1,p2,manifold);
         if (hitBodies.indexOf(j.id) > -1) return;
         hitBodies.push(j.id);
         callback(j, p1, p2);
       })
-
     }
 
     ngrWorld.oncreatebody(function (body) {
