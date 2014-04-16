@@ -157,6 +157,11 @@ angular.module('Rectangular')
 
   }
 
+  var b2World = function(gravity,draw) {
+    var world = new Box2D.Dynamics.b2World(gravity,draw);
+    return world;
+  };
+
   this.setWorld = function (gravityX, gravityY, sleep) {
 
     var gravity = new b2Vec2(gravityX, gravityY);

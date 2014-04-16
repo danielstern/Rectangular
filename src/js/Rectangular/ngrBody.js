@@ -2,7 +2,7 @@ angular.module('Rectangular')
   .service("ngrBody", function (ngrLoop) {
 
     var ngrBody = function(config) {
-      console.log("running constructor");
+      //console.log("running constructor");
       return ngrBody.prototype.init(config);
     }
 
@@ -120,7 +120,7 @@ angular.module('Rectangular')
         })
       }
 
-      console.log("Returning",body);
+      //console.log("Returning",body);
 
       return body;
     }
