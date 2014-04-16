@@ -19,6 +19,7 @@ angular.module('ConfusionQuest')
         this.state.hp -= dmg;
       };
 
+
       Enemy.prototype.init = function () {
         
         var enemy = this;
@@ -35,7 +36,7 @@ angular.module('ConfusionQuest')
 
         this.body.SetType(2);
 
-        ngrLoop.addHook(function () {
+        enemy.tick = function() {
 
           if (enemy.state.dead) return;
           if (enemy.body.sprite && enemy.body.sprite.animation) {
@@ -51,7 +52,13 @@ angular.module('ConfusionQuest')
             enemy.die();
           }
 
-        })
+          if (enemy.state.isAttacking) {
+            console.log("enemy attack!");
+          }
+
+        }
+
+        ngrLoop.addHook(enemy.tick)
 
       }
 
@@ -91,12 +98,7 @@ angular.module('ConfusionQuest')
 
         this.init();
 
-        entity.tick = function () {
-          if (entity.state.isAttacking) {
-            console.log("entity attack!");
-          }
-
-        }
+        
 
         ngrGame.control(entity, {
           'a': 'goingLeft',
