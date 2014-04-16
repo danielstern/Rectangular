@@ -24,9 +24,31 @@ angular.module('ConfusionQuest')
 
       this.init();
 
-      ngrLoop.addHook(function () {
+      this.state = {
+        facingLeft: true,
+        facingRight: false,
+        isJumping: false,
+        isAttacking: false,
+      }
 
-      });
+      this.getState = function() {
+        return madness.state;
+      };
+
+      madness.tick = function() {
+        if (madness.state.isAttacking) {
+          console.log("madness attack!");
+        }
+
+      }
+
+
+      ngrGame.control(madness,{
+        'a': 'goingLeft',
+        'd': 'goingRight',
+        'w': 'isJumping',
+        'p': 'isAttacking',
+      })
     };
 
 
@@ -38,18 +60,20 @@ angular.module('ConfusionQuest')
       shape: 'box',
       profile: 'Madness',
       skin: {
-        src: 'img/sprites/enemy1.png',
+        src: 'img/sprites/enemy3.png',
         bg: 'spritesheet',
         frames: {
-          width: 395,
-          height: 390,
+          width: 460,
+          height: 449,
           regX: 200,
-          regY: 220,
+          regY: 270,
         },
-        frameWidth: 300,
-        frameHeight: 300,
+        frameWidth: 325,
+        frameHeight: 325,
         animations: {
           stand: [0, 47],
+          jump: [48, 71,],
+          attack: [72, 79, 79, 77]
         }
       },
       presets: {
