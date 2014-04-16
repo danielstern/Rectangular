@@ -20,48 +20,7 @@ angular.module('ConfusionQuest')
       };
 
 
-      Enemy.prototype.init = function () {
-        
-        var enemy = this;
-
-        this.state.hp = enemy.stats.health;
-
-        enemy.body.onimpact(function (other) {
-
-          if (other.GetUserData() && other.GetUserData().isHero) {
-            var hero = other.profile;
-            hero.damage(enemy.stats.attack, enemy);
-          }
-        });
-
-        this.body.SetType(2);
-
-        enemy.tick = function() {
-
-          if (enemy.state.dead) return;
-          if (enemy.body.sprite && enemy.body.sprite.animation) {
-            var anim = enemy.body.sprite.animation;
-
-            _.each(anim.spriteSheet.getAnimations(), function (animation) {
-              anim.spriteSheet.getAnimation(animation).speed = 0.4;
-            });
-          };
-
-          if (enemy.state.hp <= 0) {
-
-            enemy.die();
-          }
-
-          if (enemy.state.isAttacking) {
-            console.log("enemy attack!");
-          }
-
-        }
-
-        ngrLoop.addHook(enemy.tick)
-
-      }
-
+      
       return Enemy;
 
     }
