@@ -68,8 +68,6 @@ angular.module("GameAgent", ['Rectangular', 'ngAudio'])
         console.log("one is an effect");
         contact.SetEnabled(false);
       }
-      //console.log(contact.GetFixtureA().GetBody().GetUserData());
-       //console.log(contact.GetFixtureB().GetBody().GetUserData());
     }
 
     this.aoe = function (point, range, callback, duration) {
