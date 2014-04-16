@@ -45,8 +45,6 @@ angular.module('Rectangular')
           var contact = edge.contact;
           var other = edge.other;
 
-        //var oldSensorValue = other.isSensor();
-
           var worldManifold = new Box2D.Collision.b2WorldManifold;
           contact.GetWorldManifold(worldManifold);
           var points = worldManifold.m_points;

@@ -7,6 +7,8 @@ angular.module('Rectangular')
     bodies = [],
     w = this,
     onCreateBodyListeners = [];
+    beginContactListeners = [];
+    presolveListeners = [];
 
   var worldLoop = undefined;
 
@@ -41,6 +43,14 @@ angular.module('Rectangular')
 
   this.oncreatebody = function(l) {
     onCreateBodyListeners.push(l);
+  }
+
+  this.onbegincontact = function(l) {
+    beginContactListeners.push(l);
+  }
+
+  this.onpresolve = function(l) {
+    presolveListeners.push(l);
   }
 
   this.getBodyByAttribute = function (key, val) {
@@ -150,6 +160,38 @@ angular.module('Rectangular')
     var doSleep = sleep;
 
     world = world || new b2World(gravity, false);
+
+    var b2Listener = Box2D.Dynamics.b2ContactListener;
+
+    //Add listeners for contact
+    var listener = new b2Listener;
+
+    listener.BeginContact = function(contact) {
+       //console.log(contact.GetFixtureA().GetBody().GetUserData());
+       //console.log(contact.GetFixtureB().GetBody().GetUserData());
+       _.call(beginContactListeners,contact);
+    }
+
+    listener.EndContact = function(contact) {
+        // console.log(contact.GetFixtureA().GetBody().GetUserData());
+    }
+
+    listener.PostSolve = function(contact, impulse) {
+        if (contact.GetFixtureA().GetBody().GetUserData() == 'ball' || contact.GetFixtureB().GetBody().GetUserData() == 'ball') {
+            var impulse = impulse.normalImpulses[0];
+            if (impulse < 0.2) return; //threshold ignore small impacts
+            world.ball.impulse = impulse > 0.6 ? 0.5 : impulse;
+            console.log(world.ball.impulse);
+        }
+    }
+
+    listener.PreSolve = function(contact, oldManifold) {
+        // PreSolve
+        _.call(presolveListeners,contact,oldManifold);
+    }
+
+    world.SetContactListener(listener);
+
 
     return world;
   }

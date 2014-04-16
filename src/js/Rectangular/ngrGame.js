@@ -36,7 +36,11 @@ angular.module("GameAgent", ['Rectangular', 'ngAudio'])
       effectDef.x = point.x;
       effectDef.y = point.y;
       effectDef.startAt = 'explode';
-      effectDef = _.extend(effectDef, effect.skin)
+      effectDef = _.extend(effectDef, effect.skin);
+      effectDef.userData = {
+        isEffect: true,
+      }
+
       var effect = ngrWorld.addElement(effectDef);
       //   effect.SetPosition(point);
       effect.SetType(0);
@@ -48,6 +52,26 @@ angular.module("GameAgent", ['Rectangular', 'ngAudio'])
 
     }
 
+    ngrWorld.onbegincontact(contactHandler);
+    ngrWorld.onpresolve(contactHandler);
+
+    function contactHandler(contact,_oldManifold){
+      var body1 = contact.GetFixtureA().GetBody();
+      var body2 = contact.GetFixtureB().GetBody();
+
+      var data1 = body1.GetUserData() || {};
+      var data2 = body2.GetUserData() || {};
+
+
+      //console.log("collision between two bodies");
+      if (data1.isEffect || data2.isEffect) {
+        console.log("one is an effect");
+        contact.SetEnabled(false);
+      }
+      //console.log(contact.GetFixtureA().GetBody().GetUserData());
+       //console.log(contact.GetFixtureB().GetBody().GetUserData());
+    }
+
     this.aoe = function (point, range, callback, duration) {
       var effectDef = _.clone(ngrDefaults.body);
       var hitBodies = [];
@@ -55,6 +79,10 @@ angular.module("GameAgent", ['Rectangular', 'ngAudio'])
       effectDef.shapeKind = 'circle';
       effectDef.x = point.x;
       effectDef.y = point.y;
+      effectDef.userData = {
+        isEffect: true,
+      }
+      
 
       var effect = ngrWorld.addElement(effectDef);
       effect.SetType(0);
@@ -247,7 +275,7 @@ angular.module("GameAgent", ['Rectangular', 'ngAudio'])
     this.registerSounds = function (sounds) {
       console.log("registering sounds", sounds);
       _.each(sounds, function (sound) {
-         createjs.Sound.registerSound(sound.src, sound.id, 4);
+         //createjs.Sound.registerSound(sound.src, sound.id, 4);
       })
     }
 
