@@ -14,26 +14,29 @@ angular.module('Calvin', ['Rectangular'])
       this.stateChangeListeners.push(l);
     }
 
-    calvin.init = function(hero) {
+    calvin.init = function() {
       var body = this.body;
 
       body.SetUserData({
         isHero: true
       });
 
+      this.state = state;
+      this.state.health = this.stats.hp;
+
 
       CalvinAnimations.animate(this);
 
     }
 
-
-
     calvin.damage = function(dmg, attacker) {
       var enemyPosX = 0;
       var heroPosX;
+      var state = this.state;
+      var stats = this.stats;
+      var body = this.body;
+      var hero = this;
 
-      console.error("Damaging");
-      return;
 
       if (state.invincible) return;
       state.health -= reduceByDefense(dmg);
@@ -49,7 +52,7 @@ angular.module('Calvin', ['Rectangular'])
       if (enemyPosX > heroPosX) hero.flinchLeft();
       if (enemyPosX < heroPosX) hero.flinchRight();
 
-      _.call(stateChangeListeners, state);
+      _.call(hero.stateChangeListeners, state);
 
       function reduceByDefense(dmg) {
         dmg -= stats.defense;
@@ -83,10 +86,11 @@ angular.module('Calvin', ['Rectangular'])
 
     calvin.die = function() {
       var calvin = this;
-      this.setSensor(true);
+      var body = this.body;
+      body.setSensor(true);
       this.state.dead = true;
 
-      _.call(stateChangeListeners, calvin.state);
+      _.call(calvin.stateChangeListeners, calvin.state);
     }
 
     calvin.flinchRight = function() {
@@ -277,15 +281,11 @@ angular.module('Calvin', ['Rectangular'])
 
     }
 
-
-
-    
-
     calvin.attack = function(atk) {
       var attack;
       var state = this.state;
       var body = this.body;
-      
+
       if (!state.canAct) return;
       if (atk == 'punch') {
         if (state.canCombo) {
@@ -363,11 +363,6 @@ angular.module('Calvin', ['Rectangular'])
         state.canCombo = true;
         state.canComboTime = attack.canComboTime;
       }
-    }
-
-
-    function _Calvin(body, options) {
-      
     }
 
     ConfusionQuestDefaults.addDefault(CalvinStats.defaults);

@@ -12,6 +12,7 @@ angular.module('Mahakana', ['Rectangular'])
             floatPower: 50,
             attack: 15,
             antiGravity: 0.8,
+            dangerTouch: true,
             img: 'img/mahakana.png',
             name: "Mahakana",
             description: "The lowliest servants of the Emperor. Their tenetacles carry a powerful electrical charge.",
