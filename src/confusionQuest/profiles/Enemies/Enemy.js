@@ -66,6 +66,10 @@ angular.module('ConfusionQuest')
                     isAttacking: false,
                 })
 
+                _.extend(enemy.stats, {
+                    attackCooldown: enemy.stats.attackCooldown || 60,
+                })
+
                 enemy.body.onimpact(function(other) {
 
                     if (other.GetUserData() && other.GetUserData().isHero) {
