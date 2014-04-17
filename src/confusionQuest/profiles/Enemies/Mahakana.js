@@ -35,8 +35,6 @@ angular.module('Mahakana', ['Rectangular'])
 
             mahakana.tick = function() {
 
-              console.log("Tick");
-
                 var inRange = false;
 
                 var p1 = new b2Vec2(body.GetPosition().x, body.GetPosition().y);
@@ -98,10 +96,6 @@ angular.module('Mahakana', ['Rectangular'])
                 body.ApplyForce(new b2Vec2(0, -antiGravity * body.GetMass()), body.GetWorldCenter());;
 
             }
-
-            this.oncreated();
-            this.ontick(this._tick);
-            this.ontick(this.tick);
 
         }
 

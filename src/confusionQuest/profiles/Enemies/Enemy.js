@@ -35,10 +35,6 @@ angular.module('ConfusionQuest')
 
                 });
 
-                if (this.tick) ngrLoop.addHook(this.tick);
-                ngrLoop.addHook(this._tick, enemy);
-
-                if (this.super) this.super(enemy);
             }
 
             Enemy.prototype._tick = function(enemy) {

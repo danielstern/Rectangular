@@ -21,10 +21,10 @@ angular.module("ConfusionQuest")
                   this.tickFunctions.push(l);
                 }
 
-                this.oncreated = function(l) {
+/*                this.oncreated = function(l) {
 
                 	this.createdListeners.push(l);
-                }
+                }*/
 
                 this.state = {
                     facingLeft: true,
@@ -35,8 +35,8 @@ angular.module("ConfusionQuest")
                 }
 
                 this.__tick = function(){
-            //    	console.log("__tick", entity.tickFunctions);
-                  _.call(entity.tickFunctions,entity);
+                   if (entity.tick) entity.tick(entity);
+                   if (entity._tick) entity._tick(entity);
                 }
 
                 this.getState = function() {
@@ -44,8 +44,8 @@ angular.module("ConfusionQuest")
                 };
 
                 this.init();
+                this.oncreated();
                 ngrLoop.addHook(entity.__tick);
-              //  _.call(entity.createdListeners);
 
                 /*
                 ngrGame.control(entity, {
@@ -55,6 +55,8 @@ angular.module("ConfusionQuest")
                     'p': 'isAttacking',
                 })*/
             };
+
+            Entity.prototype.hooks = [];
 
             return Entity;
 
