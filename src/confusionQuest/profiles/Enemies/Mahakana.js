@@ -15,7 +15,7 @@ angular.module('Mahakana', ['Rectangular'])
             dangerTouch: true,
             img: 'img/mahakana.png',
             name: "Mahakana",
-            description: "The lowliest servants of the Emperor. Their tenetacles carry a powerful electrical charge.",
+            description: "The lowliest servants of the Empwxlo eror. Their tenetacles carry a powerful electrical charge.",
             flavor: "Tentacles, why did it have to be tentacles?",
         }
 

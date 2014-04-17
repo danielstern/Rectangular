@@ -1,45 +1,28 @@
 angular.module('ConfusionQuest')
-.service('spikes', function (ngrGame, ngrLoop, ngrWorld,ConfusionQuestDefaults) {
+  .service('spikes', function(ngrGame, Enemy, ngrLoop, ngrWorld, ConfusionQuestDefaults) {
 
-  var Spikes = function (body) {
     var stats = {
       id: "Spikes",
       health: 20,
       damage: 15,
       speed: 0.2,
+      frozen: true,
       minFloatHeight: 5,
       maxFloatHeight: 12,
       maxVelocityY: 4,
       floatPower: 50,
       attack: 15,
       antiGravity: 0.8,
+      dangerTouch: true,
       img: 'img/spike.png',
       name: "Spikes",
       description: "Fiendish inanimate spikes.",
       flavor: "Known for their sharp wit.",
     }
 
-   
+    Spikes = new Enemy(stats);
 
-
-    var spikes = this;
-    var hitTop = false;
-
-    this.body = body;
-
-    body.onimpact(function (other) {
-
-      if (other.GetUserData() && other.GetUserData().isHero) {
-        //console.log("Mahakana impacts hero...", other);
-        var hero = other.profile;
-        hero.damage(stats.attack, spikes);
-
-      }
-    })
-
-  }
-  
-   var physics = {
+    var physics = {
       name: 'Spikes',
       shape: 'box',
       skin: {
@@ -50,7 +33,7 @@ angular.module('ConfusionQuest')
         doodad: true,
         isFloor: true,
       },
-      profile: 'spikes',
+      profile: 'Spikes',
       presets: {
         height: 1,
         width: 4,
@@ -62,7 +45,7 @@ angular.module('ConfusionQuest')
     }
 
 
-  ConfusionQuestDefaults.addDefault(physics);
-  ngrGame.addProfile('spikes', Spikes);
+    ConfusionQuestDefaults.addDefault(physics);
+    ngrGame.addProfile('Spikes', Spikes);
 
-})
+  })

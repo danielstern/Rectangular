@@ -22,7 +22,7 @@ angular.module('ConfusionQuest')
 
             Enemy.prototype.oncreated = function() {
                 var enemy = this;
-                enemy.body.SetType(2);
+                if (!enemy.stats.frozen) enemy.body.SetType(2);
                 enemy.stats.hp = this.stats.health;
 
                 enemy.body.onimpact(function(other) {
@@ -33,6 +33,10 @@ angular.module('ConfusionQuest')
                     }
 
                 });
+            }
+
+            Enemy.prototype.init = function() {
+
             }
 
             Enemy.prototype._tick = function(enemy) {
