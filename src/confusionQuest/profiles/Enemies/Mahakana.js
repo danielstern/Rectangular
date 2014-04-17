@@ -25,7 +25,7 @@ angular.module('Mahakana', ['Rectangular'])
 
             var mahakana = this;
 
-            this.state.hp = mahakana.stats.health;
+            mahakana.state.hp = mahakana.stats.health;
 
             mahakana.body.onimpact(function(other) {
 
@@ -35,7 +35,7 @@ angular.module('Mahakana', ['Rectangular'])
                 }
             });
 
-            this.body.SetType(2);
+            mahakana.body.SetType(2);
 
             mahakana.tick = function() {
 
@@ -72,12 +72,13 @@ angular.module('Mahakana', ['Rectangular'])
                 mahakana.float();
                 mahakana.throttleSpeed();
 
-                body.SetAngle(0);
+                mahakana.body.SetAngle(0);
 
             }
 
             ngrLoop.addHook(mahakana.tick)
 
+            var body = mahakana.body;
 
 
             this.throttleSpeed = function() {
