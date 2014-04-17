@@ -20,6 +20,36 @@ angular.module('ConfusionQuest')
                 this.state.hp -= dmg;
             };
 
+            Enemy.prototype.faceHero = function() {
+                var enemy = this;
+                var body = this.body;
+
+                var rayLength = this.stats.vision || 100;
+                var enemyPos = body.GetPosition();
+
+                var pL = new b2Vec2(enemyPos.x + rayLength, enemyPos.y);
+                var pR = new b2Vec2(enemyPos.x - rayLength, enemyPos.y);
+                ngrWorld.getWorld().RayCast(onSeeSomethingL, enemyPos, pR);
+                ngrWorld.getWorld().RayCast(onSeeSomethingR, enemyPos, pL);
+
+                function onSeeSomethingL(other) {
+                    var otherData = other.m_body.GetUserData();
+                    if (otherData && otherData.isHero) {
+                        console.log("hero is to my left");
+                    }
+                }
+
+                function onSeeSomethingR(other) {
+                    var otherData = other.m_body.GetUserData();
+                    if (otherData && otherData.isHero) {
+                        console.log("hero is to my right");
+                    }
+                }
+
+                
+            }
+
+
             Enemy.prototype.oncreated = function() {
                 var enemy = this;
                 if (!enemy.stats.frozen) enemy.body.SetType(2);
@@ -53,6 +83,8 @@ angular.module('ConfusionQuest')
                 if (enemy.state.isAttacking) {
                     console.log("enemy attack!");
                 }
+
+                this.faceHero();
             }
 
             Enemy.prototype.onhassprite = function() {
