@@ -21,13 +21,11 @@ angular.module('Mahakana', ['Rectangular'])
         var Mahakana = new Enemy(stats);
         Mahakana.prototype.init = function() {
 
-            console.log("initing mah")
-
             var mahakana = this;
+            var body = mahakana.body;
 
-            mahakana.state.hp = mahakana.stats.health;
 
-            mahakana.body.onimpact(function(other) {
+            body.onimpact(function(other) {
 
                 if (other.GetUserData() && other.GetUserData().isHero) {
                     var hero = other.profile;
@@ -35,12 +33,11 @@ angular.module('Mahakana', ['Rectangular'])
                 }
             });
 
-            mahakana.body.SetType(2);
-
             mahakana.tick = function() {
 
+              console.log("Tick");
+
                 var inRange = false;
-                var body = mahakana.body;
 
                 var p1 = new b2Vec2(body.GetPosition().x, body.GetPosition().y);
                 var p2 = new b2Vec2(body.GetPosition().x, body.GetPosition().y + mahakana.stats.minFloatHeight); //center of scene
@@ -62,7 +59,7 @@ angular.module('Mahakana', ['Rectangular'])
                 }, p2, p3);
 
                 if (!inRange) {
-                  mahakana.stats.antiGravity = 0.9;
+                    mahakana.stats.antiGravity = 0.9;
                 }
 
                 mahakana.balanceX();
@@ -73,7 +70,6 @@ angular.module('Mahakana', ['Rectangular'])
 
             }
 
-            var body = mahakana.body;
 
 
             mahakana.throttleSpeed = function() {
@@ -102,6 +98,8 @@ angular.module('Mahakana', ['Rectangular'])
                 body.ApplyForce(new b2Vec2(0, -antiGravity * body.GetMass()), body.GetWorldCenter());;
 
             }
+
+            this.oncreated();
 
         }
 
