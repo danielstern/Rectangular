@@ -120,6 +120,7 @@ angular.module("GameAgent", ['Rectangular', 'ngAudio'])
           return;
         };
         var entity = new profile(body);
+        console.log("Got profile",entity);
         entity.type = body.options.profile;
         entity.constructor = profile;
 
