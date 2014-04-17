@@ -39,21 +39,20 @@ angular.module('Mahakana', ['Rectangular'])
 
             mahakana.tick = function() {
 
-                console.log("Mahakana")
-
                 var inRange = false;
                 var body = mahakana.body;
 
                 var p1 = new b2Vec2(body.GetPosition().x, body.GetPosition().y);
-                var p2 = new b2Vec2(body.GetPosition().x, body.GetPosition().y + stats.minFloatHeight); //center of scene
-                var p3 = new b2Vec2(body.GetPosition().x, body.GetPosition().y + stats.minFloatHeight + stats.maxFloatHeight); //center of scene
+                var p2 = new b2Vec2(body.GetPosition().x, body.GetPosition().y + mahakana.stats.minFloatHeight); //center of scene
+                var p3 = new b2Vec2(body.GetPosition().x, body.GetPosition().y + mahakana.stats.minFloatHeight + mahakana.stats.maxFloatHeight); //center of scene
                 ngrWorld.getWorld().RayCast(function(x) {
 
                     var otherData = x.m_body.GetUserData();
                     if (otherData && otherData.isFloor) {
 
-                        stats.antiGravity = 1.1;
+                        mahakana.stats.antiGravity = 1.1;
                         inRange = true;
+
                     }
 
                 }, p1, p2);
@@ -63,9 +62,7 @@ angular.module('Mahakana', ['Rectangular'])
                 }, p2, p3);
 
                 if (!inRange) {
-
-                    stats.antiGravity = 0.9;
-
+                  mahakana.stats.antiGravity = 0.9;
                 }
 
                 mahakana.balanceX();
@@ -76,34 +73,32 @@ angular.module('Mahakana', ['Rectangular'])
 
             }
 
-            ngrLoop.addHook(mahakana.tick)
-
             var body = mahakana.body;
 
 
-            this.throttleSpeed = function() {
+            mahakana.throttleSpeed = function() {
                 var currentSpeedY = body.GetLinearVelocity().y;
                 var currentSpeedX = body.GetLinearVelocity().x;
-                //  console.log("Current speed Y?",currentSpeedY)
-                if (currentSpeedY > stats.maxVelocityY) {
-                    body.SetLinearVelocity(new b2Vec2(currentSpeedX, stats.maxVelocityY));
-                } else if (currentSpeedY < -stats.maxVelocityY) {
-                    body.SetLinearVelocity(new b2Vec2(currentSpeedX, -stats.maxVelocityY));
+
+                if (currentSpeedY > mahakana.stats.maxVelocityY) {
+                    body.SetLinearVelocity(new b2Vec2(currentSpeedX, mahakana.stats.maxVelocityY));
+                } else if (currentSpeedY < -mahakana.stats.maxVelocityY) {
+                    body.SetLinearVelocity(new b2Vec2(currentSpeedX, -mahakana.stats.maxVelocityY));
                 }
             }
-            this.balanceY = function() {
+            mahakana.balanceY = function() {
                 var currentSpeedY = body.GetLinearVelocity().y;
                 body.ApplyForce(new b2Vec2(0, -currentSpeedY * body.GetMass() * body.GetInertia()), body.GetWorldCenter());
             }
 
-            this.balanceX = function() {
+            mahakana.balanceX = function() {
                 var currentSpeedX = body.GetLinearVelocity().x;
                 body.ApplyForce(new b2Vec2(-currentSpeedX * body.GetMass() * body.GetInertia()), body.GetWorldCenter(), 0);
             }
 
-            this.float = function() {
+            mahakana.float = function() {
 
-                var antiGravity = ngrWorld.getWorld().GetGravity().y * stats.antiGravity;
+                var antiGravity = ngrWorld.getWorld().GetGravity().y * mahakana.stats.antiGravity;
                 body.ApplyForce(new b2Vec2(0, -antiGravity * body.GetMass()), body.GetWorldCenter());;
 
             }
