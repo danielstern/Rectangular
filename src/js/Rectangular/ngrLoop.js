@@ -10,7 +10,7 @@ angular.module('Rectangular')
     this.tick = function () {
 
       _.each(hooks, function (hook) {
-        hook.func();
+        hook.func(hook.arg);
       })
 
       _.each(permanentHooks, function (hook) {
@@ -21,12 +21,13 @@ angular.module('Rectangular')
 
     }
 
-    this.addHook = function (func) {
+    this.addHook = function (func, arg) {
       var id = guid();
 
       var hook = {
         func: func,
-        id: id
+        id: id,
+        arg:arg,
       }
 
       hooks.push(hook);

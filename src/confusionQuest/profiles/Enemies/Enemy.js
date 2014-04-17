@@ -20,6 +20,7 @@ angular.module('ConfusionQuest')
             };
 
             Enemy.prototype.oncreated = function() {
+              var enemy = this;
                 this.body.SetType(2);
                 this.stats.hp = this.stats.health;
 
@@ -32,11 +33,14 @@ angular.module('ConfusionQuest')
 
                 });
 
-                ngrLoop.addHook(this.tick);
+                if (this.tick) ngrLoop.addHook(this.tick);
+                ngrLoop.addHook(this._tick, enemy);
             }
 
-            Enemy.prototype._tick = function() {
-              var enemy = this;
+            Enemy.prototype._tick = function(enemy) {
+
+              console.log("_tick,",enemy);
+
               if (enemy.state.dead) return;
               if (enemy.body.sprite && enemy.body.sprite.animation) {
                 enemy.onhassprite();  

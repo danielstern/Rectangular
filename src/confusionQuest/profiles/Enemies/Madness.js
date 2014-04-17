@@ -19,12 +19,7 @@ angular.module('ConfusionQuest')
     Madness.prototype.init = function () {
       
       var enemy = this;
-
-      enemy.tick = function() {
-        console.log("Madness tick");
-      }
-
-      ngrLoop.addHook(enemy.tick)
+      this.oncreated();
 
     }
 
