@@ -97,182 +97,191 @@ angular.module('Calvin', ['Rectangular'])
 
 
     calvin.flinchLeft = function() {
+      var body = this.body;
+      var stats = this.stats;
       body.ApplyForce(new b2Vec2(-stats.flinchForceX, stats.flinchForceY), body.GetWorldCenter());
+    }
+
+    calvin.brake = function() {
+
+      if (this.state.dead) return;
+      var body = this.body;
+
+      var y = body.GetLinearVelocity().x * body.GetInertia();
+      var n = body.GetAngularVelocity() * body.GetInertia();
+      body.ApplyForce(new b2Vec2(-y * 10, 0), body.GetWorldCenter());
+      body.ApplyTorque(-n * 10);
+    };
+
+    calvin.tick = function(_calvin) {
+
+      var state = _calvin.getState();
+      var body = _calvin.body;
+      var hero = _calvin;
+
+
+      if (state.health <= 0) {
+        hero.die();
+      }
+
+      var currentSpeed = body.GetLinearVelocity().x;
+      var speedingL = currentSpeed < -stats.maxSpeed;
+      var speedingR = currentSpeed > stats.maxSpeed;
+      var anim = body.sprite.animation;
+
+      state.invincibleTimeout--;
+      if (state.invincibleTimeout < 0) {
+        state.invincible = false;
+      }
+
+      var contacts = body.GetContactList();
+      if (!state.airborneGraceTime) state.airborne = true;
+      while (contacts) {
+        if (contacts && contacts.contact.IsTouching() && contacts.other.GetUserData() && contacts.other.GetUserData().isFloor) {
+          var footPrint = 1;
+          var safeDistance = 5;
+          var heroPos = body.GetPosition();
+          var p1 = new b2Vec2(heroPos.x + footPrint, heroPos.y);
+          var p2 = new b2Vec2(heroPos.x + footPrint, heroPos.y + safeDistance);
+          var p3 = new b2Vec2(heroPos.x - footPrint, heroPos.y);
+          var p4 = new b2Vec2(heroPos.x - footPrint, heroPos.y + safeDistance);
+          ngrWorld.getWorld().RayCast(ongroundtouch, p1, p2);
+          ngrWorld.getWorld().RayCast(ongroundtouch, p3, p4);
+
+          function ongroundtouch(other) {
+            var otherData = other.m_body.GetUserData();
+            if (otherData && otherData.isFloor) {
+              if (state.airborne) {
+                var currentXSpeed = body.GetLinearVelocity().x;
+                body.SetLinearVelocity(new b2Vec2(currentXSpeed, 0));
+              }
+              state.airborne = false;
+              state.airborneGraceTime = stats.airborneGrace;
+              state.usedGroundSmash = false;
+            }
+          }
+        }
+
+        contacts = contacts.next;
+      }
+
+      if (state.canAct && state.goingLeft) {
+        state.facingLeft = true;
+        state.facingRight = false;
+      };
+
+      if (state.canAct && state.goingRight) {
+        state.facingLeft = false;
+        state.facingRight = true;
+      };
+
+      if (state.goingLeft && !speedingL && !state.isCrouching && state.canAct) {
+
+        var s = stats;
+        if (state.dashReadyLeft) {
+          var force = state.airborne ? s.dashForceAir : s.dashForce;
+          body.ApplyForce(new b2Vec2(-force, 0), body.GetWorldCenter());
+          state.dashReadyLeft = false;
+          state.dashCurrentCooldown = stats.dashCooldown;
+        }
+        if (state.idling) state.dashInputTimeLeft = s.dashInputTimeout;
+        var force = state.airborne ? s.lateralSpeedJumping : s.lateralSpeed;
+        body.ApplyForce(new b2Vec2(-force, 0), body.GetWorldCenter());
+      } else if (state.dashInputTimeLeft) {
+        if (!state.dashCurrentCooldown) state.dashReadyLeft = true;
+      } else
+
+      if (state.goingRight && !speedingR && !state.isCrouching && state.canAct) {
+
+        var s = stats;
+        if (state.dashReadyRight) {
+          var force = state.airborne ? s.dashForceAir : s.dashForce;
+          body.ApplyForce(new b2Vec2(force, 0), body.GetWorldCenter());
+          state.dashReadyRight = false;
+          state.dashCurrentCooldown = stats.dashCooldown;
+        }
+        if (state.idling) state.dashInputTimeRight = s.dashInputTimeout;
+        var force = state.airborne ? s.lateralSpeedJumping : s.lateralSpeed;
+        body.ApplyForce(new b2Vec2(force, 0), body.GetWorldCenter());
+      } else if (state.dashInputTimeRight) {
+        if (!state.dashCurrentCooldown) state.dashReadyRight = true;
+      }
+
+      if (!state.goingRight && !state.goingLeft) {
+        state.idling = true;
+        hero.brake()
+      } else {
+        state.idling = false;
+      }
+
+      if (state.isJumping && state.canAct) {
+        var s = stats;
+
+        if (!state.jumpWait) {
+
+          state.jumpWait = stats.jumpCooldown;
+          var force = state.airborne ? s.doubleJumpForce : s.jumpForce;
+          body.ApplyForce(new b2Vec2(0, -force), body.GetWorldCenter());
+
+        }
+      }
+
+      if (state.airborne && state.isCrouching) {
+        if (!state.usedGroundSmash) {
+          var force = stats.groundSmashPower;
+          body.ApplyForce(new b2Vec2(0, stats.groundSmashPower), body.GetWorldCenter());
+          state.usedGroundSmash = true;
+        }
+
+      }
+
+      if (state.isPunching && state.punchReleased) {
+        hero.attack("punch");
+        state.punchReleased = false;
+      };
+
+      if (!state.isPunching) state.punchReleased = true;
+
+      if (state.isKicking && state.kickReleased) {
+        hero.attack("kick");
+        state.kickReleased = false;
+      }
+
+      if (state.isAttacking) {
+        hero.brake();
+      }
+
+      if (!state.isKicking) state.kickReleased = true;
+
+      if (state.jumpWait) state.jumpWait--;
+      if (state.airborneGraceTime) state.airborneGraceTime--;
+      if (state.dashInputTimeRight) state.dashInputTimeRight--;
+      if (state.dashInputTimeLeft) state.dashInputTimeLeft--;
+      if (state.dashCurrentCooldown) state.dashCurrentCooldown--;
+      if (state.canComboTime) state.canComboTime--;
+      if (!state.canComboTime) {
+        state.canCombo = false;
+      }
+
+      if (state.canActCooldown) state.canActCooldown--;
+      if (!state.canActCooldown) {
+        state.canAct = true;
+      }
+
+      if (state.isAttackingCooldown) state.isAttackingCooldown--;
+      if (!state.isAttackingCooldown) {
+        state.isAttacking = false;
+      }
+
+      body.SetAngle(0);
+
     }
 
 
     function _Calvin(body, options) {
+      
 
-
-
-      this.brake = function() {
-
-        if (state.dead) return;
-
-        var y = heroBody.GetLinearVelocity().x * heroBody.GetInertia();
-        var n = heroBody.GetAngularVelocity() * heroBody.GetInertia();
-        heroBody.ApplyForce(new b2Vec2(-y * 10, 0), heroBody.GetWorldCenter());
-        heroBody.ApplyTorque(-n * 10);
-      };
-
-      this.tick = function() {
-
-        if (state.health <= 0) {
-          hero.die();
-        }
-
-        var currentSpeed = body.GetLinearVelocity().x;
-        var speedingL = currentSpeed < -stats.maxSpeed;
-        var speedingR = currentSpeed > stats.maxSpeed;
-        var anim = body.sprite.animation;
-
-        state.invincibleTimeout--;
-        if (state.invincibleTimeout < 0) {
-          state.invincible = false;
-        }
-
-        var contacts = body.GetContactList();
-        if (!state.airborneGraceTime) state.airborne = true;
-        while (contacts) {
-          if (contacts && contacts.contact.IsTouching() && contacts.other.GetUserData() && contacts.other.GetUserData().isFloor) {
-            var footPrint = 1;
-            var safeDistance = 5;
-            var heroPos = body.GetPosition();
-            var p1 = new b2Vec2(heroPos.x + footPrint, heroPos.y);
-            var p2 = new b2Vec2(heroPos.x + footPrint, heroPos.y + safeDistance);
-            var p3 = new b2Vec2(heroPos.x - footPrint, heroPos.y);
-            var p4 = new b2Vec2(heroPos.x - footPrint, heroPos.y + safeDistance);
-            ngrWorld.getWorld().RayCast(ongroundtouch, p1, p2);
-            ngrWorld.getWorld().RayCast(ongroundtouch, p3, p4);
-
-            function ongroundtouch(other) {
-              var otherData = other.m_body.GetUserData();
-              if (otherData && otherData.isFloor) {
-                if (state.airborne) {
-                  var currentXSpeed = heroBody.GetLinearVelocity().x;
-                  heroBody.SetLinearVelocity(new b2Vec2(currentXSpeed, 0));
-                }
-                state.airborne = false;
-                state.airborneGraceTime = stats.airborneGrace;
-                state.usedGroundSmash = false;
-              }
-            }
-          }
-
-          contacts = contacts.next;
-        }
-
-        if (state.canAct && state.goingLeft) {
-          state.facingLeft = true;
-          state.facingRight = false;
-        };
-
-        if (state.canAct && state.goingRight) {
-          state.facingLeft = false;
-          state.facingRight = true;
-        };
-
-        if (state.goingLeft && !speedingL && !state.isCrouching && state.canAct) {
-
-          var s = stats;
-          if (state.dashReadyLeft) {
-            var force = state.airborne ? s.dashForceAir : s.dashForce;
-            heroBody.ApplyForce(new b2Vec2(-force, 0), heroBody.GetWorldCenter());
-            state.dashReadyLeft = false;
-            state.dashCurrentCooldown = stats.dashCooldown;
-          }
-          if (state.idling) state.dashInputTimeLeft = s.dashInputTimeout;
-          var force = state.airborne ? s.lateralSpeedJumping : s.lateralSpeed;
-          heroBody.ApplyForce(new b2Vec2(-force, 0), heroBody.GetWorldCenter());
-        } else if (state.dashInputTimeLeft) {
-          if (!state.dashCurrentCooldown) state.dashReadyLeft = true;
-        } else
-
-        if (state.goingRight && !speedingR && !state.isCrouching && state.canAct) {
-
-          var s = stats;
-          if (state.dashReadyRight) {
-            var force = state.airborne ? s.dashForceAir : s.dashForce;
-            heroBody.ApplyForce(new b2Vec2(force, 0), heroBody.GetWorldCenter());
-            state.dashReadyRight = false;
-            state.dashCurrentCooldown = stats.dashCooldown;
-          }
-          if (state.idling) state.dashInputTimeRight = s.dashInputTimeout;
-          var force = state.airborne ? s.lateralSpeedJumping : s.lateralSpeed;
-          heroBody.ApplyForce(new b2Vec2(force, 0), heroBody.GetWorldCenter());
-        } else if (state.dashInputTimeRight) {
-          if (!state.dashCurrentCooldown) state.dashReadyRight = true;
-        }
-
-        if (!state.goingRight && !state.goingLeft) {
-          state.idling = true;
-          hero.brake()
-        } else {
-          state.idling = false;
-        }
-
-        if (state.isJumping && state.canAct) {
-          var s = stats;
-
-          if (!state.jumpWait) {
-
-            state.jumpWait = stats.jumpCooldown;
-            var force = state.airborne ? s.doubleJumpForce : s.jumpForce;
-            heroBody.ApplyForce(new b2Vec2(0, -force), heroBody.GetWorldCenter());
-
-          }
-        }
-
-        if (state.airborne && state.isCrouching) {
-          if (!state.usedGroundSmash) {
-            var force = stats.groundSmashPower;
-            heroBody.ApplyForce(new b2Vec2(0, stats.groundSmashPower), heroBody.GetWorldCenter());
-            state.usedGroundSmash = true;
-          }
-
-        }
-
-        if (state.isPunching && state.punchReleased) {
-          hero.attack("punch");
-          state.punchReleased = false;
-        };
-
-        if (!state.isPunching) state.punchReleased = true;
-
-        if (state.isKicking && state.kickReleased) {
-          hero.attack("kick");
-          state.kickReleased = false;
-        }
-
-        if (state.isAttacking) {
-          hero.brake();
-        }
-
-        if (!state.isKicking) state.kickReleased = true;
-
-        if (state.jumpWait) state.jumpWait--;
-        if (state.airborneGraceTime) state.airborneGraceTime--;
-        if (state.dashInputTimeRight) state.dashInputTimeRight--;
-        if (state.dashInputTimeLeft) state.dashInputTimeLeft--;
-        if (state.dashCurrentCooldown) state.dashCurrentCooldown--;
-        if (state.canComboTime) state.canComboTime--;
-        if (!state.canComboTime) {
-          state.canCombo = false;
-        }
-
-        if (state.canActCooldown) state.canActCooldown--;
-        if (!state.canActCooldown) {
-          state.canAct = true;
-        }
-
-        if (state.isAttackingCooldown) state.isAttackingCooldown--;
-        if (!state.isAttackingCooldown) {
-          state.isAttacking = false;
-        }
-
-        heroBody.SetAngle(0);
-
-      }
+    
 
       hero.attack = function(atk) {
         var attack;
@@ -300,7 +309,7 @@ angular.module('Calvin', ['Rectangular'])
           }
         }
 
-        var heroPos = heroBody.GetPosition();
+        var heroPos = body.GetPosition();
 
         var newPoint;
         if (state.facingRight) {
@@ -340,7 +349,7 @@ angular.module('Calvin', ['Rectangular'])
         if (attack.propel) {
           var propelForce = attack.propel * stats.muscle;
           if (state.facingLeft) propelForce *= -1;
-          heroBody.ApplyForce(new b2Vec2(propelForce, 0), heroBody.GetWorldCenter())
+          body.ApplyForce(new b2Vec2(propelForce, 0), body.GetWorldCenter())
         }
 
         state.currentAttack = attack;
