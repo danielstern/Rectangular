@@ -35,7 +35,9 @@ angular.module('ConfusionQuest')
                 function onSeeSomethingL(other) {
                     var otherData = other.m_body.GetUserData();
                     if (otherData && otherData.isHero) {
-                        console.log("hero is to my left");
+                        //console.log("hero is to my left");
+                        enemy.state.facingLeft = true;
+                        enemy.state.facingRight = false;
                     }
                 }
 
@@ -43,6 +45,8 @@ angular.module('ConfusionQuest')
                     var otherData = other.m_body.GetUserData();
                     if (otherData && otherData.isHero) {
                         console.log("hero is to my right");
+                        enemy.state.facingRight = true;
+                        enemy.state.facingLeft = false;
                     }
                 }
 
@@ -54,6 +58,13 @@ angular.module('ConfusionQuest')
                 var enemy = this;
                 if (!enemy.stats.frozen) enemy.body.SetType(2);
                 enemy.stats.hp = this.stats.health;
+
+                _.extend(enemy.state, {
+                    facingLeft: true,
+                    facingRight: false,
+                    isJumping: false,
+                    isAttacking: false,
+                })
 
                 enemy.body.onimpact(function(other) {
 
@@ -74,6 +85,7 @@ angular.module('ConfusionQuest')
                 if (enemy.state.dead) return;
                 if (enemy.body.sprite && enemy.body.sprite.animation) {
                     enemy.onhassprite();
+                    this.animate(enemy.state,enemy.body.sprite.animation);
                 };
 
                 if (enemy.state.hp <= 0) {
@@ -85,6 +97,18 @@ angular.module('ConfusionQuest')
                 }
 
                 this.faceHero();
+            }
+
+            Enemy.prototype.animate = function(state,anim) {
+                console.logOnce("animating",state,anim)
+                if (state.facingRight) {
+                  anim.scaleX = -Math.abs(anim.scaleX);
+                };
+
+                if (state.facingLeft) {
+                  anim.scaleX = Math.abs(anim.scaleX);
+                }
+
             }
 
             Enemy.prototype.onhassprite = function() {
