@@ -100,6 +100,8 @@ angular.module('Mahakana', ['Rectangular'])
             }
 
             this.oncreated();
+            this.ontick(this._tick);
+            this.ontick(this.tick);
 
         }
 

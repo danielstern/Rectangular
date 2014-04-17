@@ -20,6 +20,7 @@ angular.module('ConfusionQuest')
       
       var enemy = this;
       this.oncreated();
+      this.ontick(this._tick);
 
     }
 
