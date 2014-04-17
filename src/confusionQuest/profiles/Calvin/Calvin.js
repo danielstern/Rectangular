@@ -278,91 +278,96 @@ angular.module('Calvin', ['Rectangular'])
     }
 
 
-    function _Calvin(body, options) {
-      
 
     
 
-      hero.attack = function(atk) {
-        var attack;
-        if (!state.canAct) return;
-        if (atk == 'punch') {
-          if (state.canCombo) {
-            if (state.canComboTime > 18) {
-              attack = stats.attacks[state.currentAttack.nextPunch1]
-            } else {
-              attack = stats.attacks[state.currentAttack.nextPunch2]
-            }
+    calvin.attack = function(atk) {
+      var attack;
+      var state = this.state;
+      var body = this.body;
+      
+      if (!state.canAct) return;
+      if (atk == 'punch') {
+        if (state.canCombo) {
+          if (state.canComboTime > 18) {
+            attack = stats.attacks[state.currentAttack.nextPunch1]
           } else {
-            attack = stats.attacks["punch1"];
+            attack = stats.attacks[state.currentAttack.nextPunch2]
           }
-        };
-        if (atk == 'kick') {
-          if (state.canCombo) {
-            if (state.canComboTime > 18) {
-              attack = stats.attacks[state.currentAttack.nextKick1]
-            } else {
-              attack = stats.attacks[state.currentAttack.nextKick2]
-            }
-          } else {
-            attack = stats.attacks["kick1"];
-          }
-        }
-
-        var heroPos = body.GetPosition();
-
-        var newPoint;
-        if (state.facingRight) {
-          newPoint = heroPos.x + attack.range;
         } else {
-          newPoint = heroPos.x - attack.range;
+          attack = stats.attacks["punch1"];
         }
-
-        var p1 = new b2Vec2(heroPos.x, heroPos.y);
-        var p2 = new b2Vec2(newPoint, heroPos.y);
-
-        if (attack.effect) {
-
-          ngrGame.effect(attack.effect, p2);
-        }
-
-        function onhitsomething(other, point1, point2) {
-
-
-          var otherBody = other;
-          var force = stats.muscle * (attack.knockback || 0);
-          if (state.facingLeft) force *= -1;
-
-          if (otherBody.GetUserData() && otherBody.GetUserData().isEnemy) {
-            ngrGame.effect(ConfusionQuestSFX.explosion2, point1);
-          };
-
-          otherBody.ApplyForce(new b2Vec2(force, 0), otherBody.GetWorldCenter());
-
-          if (otherBody.GetUserData() && otherBody.GetUserData().isEnemy) {
-            other.profile.damage(attack.damage);
+      };
+      if (atk == 'kick') {
+        if (state.canCombo) {
+          if (state.canComboTime > 18) {
+            attack = stats.attacks[state.currentAttack.nextKick1]
+          } else {
+            attack = stats.attacks[state.currentAttack.nextKick2]
           }
-        }
-
-        ngrGame.aoe(p2, attack.splash || 0.3, onhitsomething);
-
-        if (attack.propel) {
-          var propelForce = attack.propel * stats.muscle;
-          if (state.facingLeft) propelForce *= -1;
-          body.ApplyForce(new b2Vec2(propelForce, 0), body.GetWorldCenter())
-        }
-
-        state.currentAttack = attack;
-        state.canActCooldown = attack.stunnedTime;
-        state.isAttackingCooldown = attack.duration;
-        state.canAct = false;
-        state.isAttacking = true;
-
-        if (attack.canComboTime) {
-          state.canCombo = true;
-          state.canComboTime = attack.canComboTime;
+        } else {
+          attack = stats.attacks["kick1"];
         }
       }
+
+      var heroPos = body.GetPosition();
+
+      var newPoint;
+      if (state.facingRight) {
+        newPoint = heroPos.x + attack.range;
+      } else {
+        newPoint = heroPos.x - attack.range;
+      }
+
+      var p1 = new b2Vec2(heroPos.x, heroPos.y);
+      var p2 = new b2Vec2(newPoint, heroPos.y);
+
+      if (attack.effect) {
+
+        ngrGame.effect(attack.effect, p2);
+      }
+
+      function onhitsomething(other, point1, point2) {
+
+
+        var otherBody = other;
+        var force = stats.muscle * (attack.knockback || 0);
+        if (state.facingLeft) force *= -1;
+
+        if (otherBody.GetUserData() && otherBody.GetUserData().isEnemy) {
+          ngrGame.effect(ConfusionQuestSFX.explosion2, point1);
+        };
+
+        otherBody.ApplyForce(new b2Vec2(force, 0), otherBody.GetWorldCenter());
+
+        if (otherBody.GetUserData() && otherBody.GetUserData().isEnemy) {
+          other.profile.damage(attack.damage);
+        }
+      }
+
+      ngrGame.aoe(p2, attack.splash || 0.3, onhitsomething);
+
+      if (attack.propel) {
+        var propelForce = attack.propel * stats.muscle;
+        if (state.facingLeft) propelForce *= -1;
+        body.ApplyForce(new b2Vec2(propelForce, 0), body.GetWorldCenter())
+      }
+
+      state.currentAttack = attack;
+      state.canActCooldown = attack.stunnedTime;
+      state.isAttackingCooldown = attack.duration;
+      state.canAct = false;
+      state.isAttacking = true;
+
+      if (attack.canComboTime) {
+        state.canCombo = true;
+        state.canComboTime = attack.canComboTime;
+      }
+    }
+
+
+    function _Calvin(body, options) {
+      
     }
 
     ConfusionQuestDefaults.addDefault(CalvinStats.defaults);
