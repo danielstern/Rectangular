@@ -6,103 +6,104 @@ angular.module('Calvin', ['Rectangular'])
     var stats = _.clone(CalvinStats.stats);
     var state = _.clone(CalvinStats.state);
 
-  //  var Calvin = new Entity(stats);
+    var Calvin = new Entity(stats);
+    var calvin = Calvin.prototype;
+    calvin.stateChangeListeners = [];
 
-    function Calvin(body, options) {
+    calvin.onstatechange = function(l) {
+      this.stateChangeListeners.push(l);
+    }
 
-      body.profile = this;
-      var hero = this;
-      var heroBody = body;
-
-
-
-      this.body = heroBody;
-
-      var stateChangeListeners = [];
-
-      this.onstatechange = function(l) {
-        stateChangeListeners.push(l);
-      }
+    calvin.init = function(hero) {
+      var body = this.body;
 
       body.SetUserData({
         isHero: true
       });
 
-      CalvinAnimations.animate(hero);
 
-      hero.init = function() {
-        state.health = stats.hp;
+      CalvinAnimations.animate(this);
+
+    }
+
+
+
+    calvin.damage = function(dmg, attacker) {
+      var enemyPosX = 0;
+      var heroPosX;
+
+      console.error("Damaging");
+      return;
+
+      if (state.invincible) return;
+      state.health -= reduceByDefense(dmg);
+
+      state.invincibleTimeout = stats.invincibilityTime;
+      state.invincible = true;
+
+      var heroPosX = body.GetPosition().x;
+      if (attacker) enemyPosX = attacker.body.GetPosition().x;
+
+      body.SetLinearVelocity(new b2Vec2(0, 0));
+
+      if (enemyPosX > heroPosX) hero.flinchLeft();
+      if (enemyPosX < heroPosX) hero.flinchRight();
+
+      _.call(stateChangeListeners, state);
+
+      function reduceByDefense(dmg) {
+        dmg -= stats.defense;
+        return dmg;
       }
+    }
 
-      hero.init();
-
-      hero.changeStat = function(stat, boost) {
-        var percentChange = 1 + (boost / 100)
-        switch (stat) {
-          case "speed":
-            stats.lateralSpeed *= percentChange;
-            stats.lateralSpeedJumping *= percentChange;
-            stats.maxSpeed *= percentChange;
-            break;
-          case "jump":
-            stats.jumpForce *= percentChange;
-            break;
-          case "hp":
-            stats.hp *= percentChange;
-            break;
-          case "defense":
-            stats.defense *= percentChange;
-            break;
-          default:
-            console.warn("Dont know how to use this powerup...", stat);
-            break;
-        }
+    calvin.changeStat = function(stat, boost) {
+      var percentChange = 1 + (boost / 100)
+      switch (stat) {
+        case "speed":
+          this.stats.lateralSpeed *= percentChange;
+          this.stats.lateralSpeedJumping *= percentChange;
+          this.stats.maxSpeed *= percentChange;
+          break;
+        case "jump":
+          this.stats.jumpForce *= percentChange;
+          break;
+        case "hp":
+          this.stats.hp *= percentChange;
+          break;
+        case "defense":
+          this.stats.defense *= percentChange;
+          break;
+        default:
+          console.warn("Dont know how to use this powerup...", stat);
+          break;
       }
+    }
 
-      hero.getState = function() {
-        return state;
-      }
 
-      hero.damage = function(dmg, attacker) {
-        var enemyPosX = 0;
-        var heroPosX;
+    calvin.die = function() {
+      var calvin = this;
+      this.setSensor(true);
+      this.state.dead = true;
 
-        if (state.invincible) return;
-        state.health -= reduceByDefense(dmg);
+      _.call(stateChangeListeners, calvin.state);
+    }
 
-        state.invincibleTimeout = stats.invincibilityTime;
-        state.invincible = true;
+    calvin.flinchRight = function() {
+      var body = this.body;
+      var stats = this.stats;
+      body.ApplyForce(new b2Vec2(stats.flinchForceX, stats.flinchForceY), body.GetWorldCenter());
+    }
 
-        var heroPosX = body.GetPosition().x;
-        if (attacker) enemyPosX = attacker.body.GetPosition().x;
 
-        body.SetLinearVelocity(new b2Vec2(0, 0));
+    calvin.flinchLeft = function() {
+      body.ApplyForce(new b2Vec2(-stats.flinchForceX, stats.flinchForceY), body.GetWorldCenter());
+    }
 
-        if (enemyPosX > heroPosX) hero.flinchLeft();
-        if (enemyPosX < heroPosX) hero.flinchRight();
 
-        _.call(stateChangeListeners, state);
+    function _Calvin(body, options) {
 
-        function reduceByDefense(dmg) {
-          dmg -= stats.defense;
-          return dmg;
-        }
-      }
 
-      hero.die = function() {
-        body.setSensor(true);
-        state.dead = true;
-
-        _.call(stateChangeListeners, state);
-      }
-
-      this.flinchRight = function() {
-        body.ApplyForce(new b2Vec2(stats.flinchForceX, stats.flinchForceY), body.GetWorldCenter());
-      }
-
-      this.flinchLeft = function() {
-        body.ApplyForce(new b2Vec2(-stats.flinchForceX, stats.flinchForceY), body.GetWorldCenter());
-      }
 
       this.brake = function() {
 
