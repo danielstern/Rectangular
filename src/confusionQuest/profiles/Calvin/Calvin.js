@@ -1,7 +1,12 @@
 angular.module('Calvin', ['Rectangular'])
-  .service('Calvin', function (ngrGame, ngrWorld, ConfusionQuestDefaults,
-    ConfusionQuestSFX,
+  .service('Calvin', function(ngrGame, ngrWorld, ConfusionQuestDefaults,
+    ConfusionQuestSFX, Entity,
     CalvinAnimations, CalvinStats) {
+
+    var stats = _.clone(CalvinStats.stats);
+    var state = _.clone(CalvinStats.state);
+
+  //  var Calvin = new Entity(stats);
 
     function Calvin(body, options) {
 
@@ -9,14 +14,13 @@ angular.module('Calvin', ['Rectangular'])
       var hero = this;
       var heroBody = body;
 
-      var stats = _.clone(CalvinStats.stats);
-      var state = _.clone(CalvinStats.state);
+
 
       this.body = heroBody;
 
       var stateChangeListeners = [];
 
-      this.onstatechange = function (l) {
+      this.onstatechange = function(l) {
         stateChangeListeners.push(l);
       }
 
@@ -26,40 +30,40 @@ angular.module('Calvin', ['Rectangular'])
 
       CalvinAnimations.animate(hero);
 
-      hero.init = function () {
+      hero.init = function() {
         state.health = stats.hp;
       }
 
       hero.init();
 
-      hero.changeStat = function (stat, boost) {
+      hero.changeStat = function(stat, boost) {
         var percentChange = 1 + (boost / 100)
         switch (stat) {
-        case "speed":
-          stats.lateralSpeed *= percentChange;
-          stats.lateralSpeedJumping *= percentChange;
-          stats.maxSpeed *= percentChange;
-          break;
-        case "jump":
-          stats.jumpForce *= percentChange;
-          break;
-        case "hp":
-          stats.hp *= percentChange;
-          break;
-        case "defense":
-          stats.defense *= percentChange;
-          break;
-        default:
-          console.warn("Dont know how to use this powerup...", stat);
-          break;
+          case "speed":
+            stats.lateralSpeed *= percentChange;
+            stats.lateralSpeedJumping *= percentChange;
+            stats.maxSpeed *= percentChange;
+            break;
+          case "jump":
+            stats.jumpForce *= percentChange;
+            break;
+          case "hp":
+            stats.hp *= percentChange;
+            break;
+          case "defense":
+            stats.defense *= percentChange;
+            break;
+          default:
+            console.warn("Dont know how to use this powerup...", stat);
+            break;
         }
       }
 
-      hero.getState = function () {
+      hero.getState = function() {
         return state;
       }
 
-      hero.damage = function (dmg, attacker) {
+      hero.damage = function(dmg, attacker) {
         var enemyPosX = 0;
         var heroPosX;
 
@@ -85,22 +89,22 @@ angular.module('Calvin', ['Rectangular'])
         }
       }
 
-      hero.die = function () {
+      hero.die = function() {
         body.setSensor(true);
         state.dead = true;
-        
+
         _.call(stateChangeListeners, state);
       }
 
-      this.flinchRight = function () {
+      this.flinchRight = function() {
         body.ApplyForce(new b2Vec2(stats.flinchForceX, stats.flinchForceY), body.GetWorldCenter());
       }
 
-      this.flinchLeft = function () {
+      this.flinchLeft = function() {
         body.ApplyForce(new b2Vec2(-stats.flinchForceX, stats.flinchForceY), body.GetWorldCenter());
       }
 
-      this.brake = function () {
+      this.brake = function() {
 
         if (state.dead) return;
 
@@ -110,7 +114,7 @@ angular.module('Calvin', ['Rectangular'])
         heroBody.ApplyTorque(-n * 10);
       };
 
-      this.tick = function () {
+      this.tick = function() {
 
         if (state.health <= 0) {
           hero.die();
@@ -269,7 +273,7 @@ angular.module('Calvin', ['Rectangular'])
 
       }
 
-      hero.attack = function (atk) {
+      hero.attack = function(atk) {
         var attack;
         if (!state.canAct) return;
         if (atk == 'punch') {
@@ -314,7 +318,7 @@ angular.module('Calvin', ['Rectangular'])
 
         function onhitsomething(other, point1, point2) {
 
-          
+
           var otherBody = other;
           var force = stats.muscle * (attack.knockback || 0);
           if (state.facingLeft) force *= -1;

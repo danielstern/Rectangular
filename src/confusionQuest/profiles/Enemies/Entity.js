@@ -14,17 +14,6 @@ angular.module("ConfusionQuest")
                 var entity = this;
                 entity.body = body;
                 body.profile = this;
-                this.tickFunctions = [];
-                this.createdListeners = [];
-
-                this.ontick = function(l){
-                  this.tickFunctions.push(l);
-                }
-
-/*                this.oncreated = function(l) {
-
-                	this.createdListeners.push(l);
-                }*/
 
                 this.state = {
                     facingLeft: true,
@@ -43,8 +32,8 @@ angular.module("ConfusionQuest")
                     return entity.state;
                 };
 
-                this.init();
-                this.oncreated();
+                if (this.init) this.init();
+                if (this.oncreated) this.oncreated();
                 ngrLoop.addHook(entity.__tick);
 
                 /*

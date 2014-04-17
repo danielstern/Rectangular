@@ -65,10 +65,7 @@ angular.module('Mahakana', ['Rectangular'])
                 mahakana.throttleSpeed();
 
                 mahakana.body.SetAngle(0);
-
             }
-
-
 
             mahakana.throttleSpeed = function() {
                 var currentSpeedY = body.GetLinearVelocity().y;
@@ -80,6 +77,7 @@ angular.module('Mahakana', ['Rectangular'])
                     body.SetLinearVelocity(new b2Vec2(currentSpeedX, -mahakana.stats.maxVelocityY));
                 }
             }
+
             mahakana.balanceY = function() {
                 var currentSpeedY = body.GetLinearVelocity().y;
                 body.ApplyForce(new b2Vec2(0, -currentSpeedY * body.GetMass() * body.GetInertia()), body.GetWorldCenter());
@@ -98,7 +96,6 @@ angular.module('Mahakana', ['Rectangular'])
             }
 
         }
-
 
         var defaults = {
             name: 'Mahakana',

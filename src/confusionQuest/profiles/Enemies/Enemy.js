@@ -22,19 +22,17 @@ angular.module('ConfusionQuest')
 
             Enemy.prototype.oncreated = function() {
                 var enemy = this;
-                console.log("Oncreated")
-                this.body.SetType(2);
-                this.stats.hp = this.stats.health;
+                enemy.body.SetType(2);
+                enemy.stats.hp = this.stats.health;
 
-                this.body.onimpact(function(other) {
+                enemy.body.onimpact(function(other) {
 
                     if (other.GetUserData() && other.GetUserData().isHero) {
                         var hero = other.profile;
-                        if (this.stats.dangerTouch) hero.damage(this.stats.attack, enemy);
+                        if (enemy.stats.dangerTouch) hero.damage(enemy.stats.attack, enemy);
                     }
 
                 });
-
             }
 
             Enemy.prototype._tick = function(enemy) {
