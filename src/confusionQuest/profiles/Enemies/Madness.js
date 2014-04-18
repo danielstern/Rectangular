@@ -19,6 +19,7 @@ angular.module('ConfusionQuest')
     Madness.prototype.init = function () {
       
       var enemy = this;
+      console.log("Madness initing");
       
 
     }

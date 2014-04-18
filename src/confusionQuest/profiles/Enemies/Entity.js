@@ -36,13 +36,6 @@ angular.module("ConfusionQuest")
                 if (this.oncreated) this.oncreated();
                 ngrLoop.addHook(entity.__tick);
 
-                /*
-                ngrGame.control(entity, {
-                    'a': 'goingLeft',
-                    'd': 'goingRight',
-                    'w': 'isJumping',
-                    'p': 'isAttacking',
-                })*/
             };
 
             Entity.prototype.hooks = [];

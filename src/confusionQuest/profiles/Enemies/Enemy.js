@@ -80,11 +80,13 @@ angular.module('ConfusionQuest')
                 });
             }
 
-            Enemy.prototype.init = function() {
+            Enemy.prototype._init = function() {
 
             }
 
             Enemy.prototype._tick = function(enemy) {
+
+                console.log("Enemy tick",enemy);
 
                 if (enemy.state.dead) return;
                 if (enemy.body.sprite && enemy.body.sprite.animation) {
