@@ -18,7 +18,10 @@ angular.module('ConfusionQuest')
       };
 
       enemy.damage = function(dmg) {
+        var enemy = this;
         this.state.hp -= dmg;
+        enemy.state.justDamaged = true;
+        enemy.state.justDamagedCooldown = enemy.stats.justDamagedCooldown || 1;
       };
 
 
@@ -29,10 +32,20 @@ angular.module('ConfusionQuest')
         var rayLength = this.stats.vision || 100;
         var enemyPos = body.GetPosition();
 
+        var enemyBottomPoint = {
+          x: enemyPos.x,
+          y: enemyPos.y + enemy.body.options.height / 0.75
+        }
+
         var pL = new b2Vec2(enemyPos.x - rayLength, enemyPos.y);
-        var pR = new b2Vec2(enemyPos.x + rayLength, enemyPos.y);
+        var pL2 = new b2Vec2(enemyBottomPoint.x - rayLength, enemyPos.y);
+        var pR = new b2Vec2(enemyPos.x + rayLength, enemyBottomPoint.y);
+        var pR2 = new b2Vec2(enemyBottomPoint.x + rayLength, enemyBottomPoint.y);
+
         ngrWorld.getWorld().RayCast(onSeeSomethingL, enemyPos, pL);
+        ngrWorld.getWorld().RayCast(onSeeSomethingL, enemyBottomPoint, pL2);
         ngrWorld.getWorld().RayCast(onSeeSomethingR, enemyPos, pR);
+        ngrWorld.getWorld().RayCast(onSeeSomethingR, enemyBottomPoint, pR2);
 
         function onSeeSomethingL(other) {
           var otherData = other.m_body.GetUserData();
@@ -98,7 +111,7 @@ angular.module('ConfusionQuest')
           enemy.die();
         }
 
-        
+
 
         function onSeeSomething(other) {
           var otherData = other.m_body.GetUserData();
@@ -107,7 +120,7 @@ angular.module('ConfusionQuest')
           }
         }
 
-         var newX;
+        var newX;
         if (enemy.state.facingLeft) {
           newX = enemyPos.x - rayLength;
         } else {
@@ -127,7 +140,7 @@ angular.module('ConfusionQuest')
 
         ngrWorld.getWorld().RayCast(onSeeSomething, enemyPos, p2);
         ngrWorld.getWorld().RayCast(onSeeSomething, enemyPos, p2H);
-         ngrWorld.getWorld().RayCast(onSeeSomething, enemyBottomPoint, p2L);
+        ngrWorld.getWorld().RayCast(onSeeSomething, enemyBottomPoint, p2L);
 
         enemy.faceHero();
 
@@ -148,15 +161,22 @@ angular.module('ConfusionQuest')
           if (enemy.state.canAttack) enemy.attack();
         }
 
-       // if (!enemy.state.isMoving) enemy.brake();
+        // if (!enemy.state.isMoving) enemy.brake();
 
         enemy.state.canSeeHero = false;
         if (enemy.state.attackCooldown) enemy.state.attackCooldown--;
         if (enemy.state.attackDuration) enemy.state.attackDuration--;
-        
+        if (enemy.state.justDamagedCooldown) enemy.state.justDamagedCooldown--;
+
         if (!enemy.state.attackDuration) {
           enemy.state.isAttacking = false;
         }
+
+        if (!enemy.state.justDamagedCooldown) {
+          enemy.state.justDamaged = false;
+        }
+
+        enemy.body.SetAngle(0);
       }
 
       enemy.attack = function() {
@@ -169,7 +189,7 @@ angular.module('ConfusionQuest')
         enemy.state.attackDuration = attack.duration;
         enemy.state.canAttack = false;
 
-        console.log("Attack?",attack)
+        console.log("Attack?", attack)
 
         if (attack.animation) {
           enemy.state.attackAnimation = attack.animation;
@@ -208,7 +228,7 @@ angular.module('ConfusionQuest')
             otherBody.ApplyForce(new b2Vec2(force, 0), otherBody.GetWorldCenter());
 
             if (otherBody.GetUserData() && otherBody.GetUserData().isHero) {
-              other.profile.damage(attack.damage,enemy);
+              other.profile.damage(attack.damage, enemy);
             }
           }
 
@@ -218,12 +238,12 @@ angular.module('ConfusionQuest')
           state.currentAttack = attack;
 
         }
-          if (attack.propel) {
-            var propelForce = attack.propel * stats.muscle;
-            var propelForceY = (attack.propelY || 0 )* stats.muscle;
-            if (state.facingLeft) propelForce *= -1;
-            body.ApplyForce(new b2Vec2(propelForce, -propelForceY), body.GetWorldCenter())
-          }
+        if (attack.propel) {
+          var propelForce = attack.propel * stats.muscle;
+          var propelForceY = (attack.propelY || 0) * stats.muscle;
+          if (state.facingLeft) propelForce *= -1;
+          body.ApplyForce(new b2Vec2(propelForce, -propelForceY), body.GetWorldCenter())
+        }
 
       }
 
@@ -242,12 +262,35 @@ angular.module('ConfusionQuest')
           if (anim.currentAnimation != animation) anim.gotoAndPlay(animation);
         }
 
+        if (!state.isAttacking && !state.isJumping) {
+          if (anim.currentAnimation != "stand") anim.gotoAndPlay("stand");
+        }
+
+        if (state.justDamaged) {
+          console.log("just damaged");
+          //        var blurFilter = new createjs.BlurFilter(3, 3, 0);
+          anim.filters = filters = [
+            new createjs.ColorFilter(0, 0, 0, 1, 255, 255, 255)
+          ];
+        } else {
+          anim.filters = [];
+        }
+
+        var bounds = {
+          width: 400,
+          height: 400,
+          x: -200,
+          y: -200,
+
+        }
+        anim.cache(-50 + bounds.x, -50 + bounds.y, 100 + bounds.width, 100 + bounds.height);
 
 
       }
 
       enemy.onhassprite = function() {
         var anim = this.body.sprite.animation;
+        window._anim = anim;
 
         _.each(anim.spriteSheet.getAnimations(), function(animation) {
           anim.spriteSheet.getAnimation(animation).speed = 0.4;

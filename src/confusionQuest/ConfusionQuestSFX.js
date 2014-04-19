@@ -101,6 +101,13 @@ angular.module("ConfusionQuest")
   }
 
   this.explosion3Big = _.clone(this.explosion3);
+  this.explosion3Big.skin = _.clone(this.explosion3Big.skin)
   this.explosion3Big.skin.frameWidth = 50;
   this.explosion3Big.skin.frameHeight = 50;
+
+  this.explosion1Huge = _.clone(this.explosion1);
+  this.explosion1Huge.skin = _.clone(this.explosion1.skin)
+  this.explosion1Huge.skin.frameWidth = 25;
+  this.explosion1Huge.skin.frameHeight = 25;
+
 })

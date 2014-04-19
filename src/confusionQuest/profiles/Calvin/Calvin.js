@@ -37,6 +37,8 @@ angular.module('Calvin', ['Rectangular'])
       var body = this.body;
       var hero = this;
 
+      console.log("Taking damage", dmg)
+
 
       if (state.invincible) return;
       state.health -= reduceByDefense(dmg);
@@ -49,7 +51,6 @@ angular.module('Calvin', ['Rectangular'])
 
       body.SetLinearVelocity(new b2Vec2(0, 0));
 
-      console.log("Enemy pos?,hero pos?",enemyPosX,heroPosX)
 
       if (enemyPosX > heroPosX) hero.flinchLeft();
       if (enemyPosX < heroPosX) hero.flinchRight();
@@ -96,7 +97,6 @@ angular.module('Calvin', ['Rectangular'])
     }
 
     calvin.flinchRight = function() {
-      console.log("Flinchright")
       var body = this.body;
       var stats = this.stats;
       body.ApplyForce(new b2Vec2(stats.flinchForceX, stats.flinchForceY), body.GetWorldCenter());
@@ -104,7 +104,6 @@ angular.module('Calvin', ['Rectangular'])
 
 
     calvin.flinchLeft = function() {
-      console.log("Flinchleft")
       var body = this.body;
       var stats = this.stats;
       body.ApplyForce(new b2Vec2(-stats.flinchForceX, stats.flinchForceY), body.GetWorldCenter());
