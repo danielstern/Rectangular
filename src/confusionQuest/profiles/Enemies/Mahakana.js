@@ -3,7 +3,7 @@ angular.module('Mahakana', ['Rectangular'])
 
         var stats = {
             id: "Mahakana",
-            health: 20,
+            health: 50,
             damage: 15,
             speed: 0.2,
             minFloatHeight: 5,

@@ -98,9 +98,7 @@ angular.module('ConfusionQuest')
           enemy.die();
         }
 
-        if (enemy.state.isAttacking) {
-          console.log("enemy attack!");
-        }
+        
 
         function onSeeSomething(other) {
           var otherData = other.m_body.GetUserData();
@@ -122,18 +120,96 @@ angular.module('ConfusionQuest')
         enemy.faceHero();
 
         if (enemy.state.canSeeHero) {
-          if (enemy.stats.attacks) {
+          if (enemy.stats.attacks && enemy.stats.attacks[0]) {
             enemy.state.isAttacking = true;
           }
         } else {
           enemy.state.isAttacking = false;
         }
 
+
+        if (!enemy.state.attackCooldown) {
+          enemy.state.canAttack = true;
+        }
+
+        if (enemy.state.isAttacking) {
+          if (enemy.state.canAttack) enemy.attack();
+        }
+
         enemy.state.canSeeHero = false;
+        if (enemy.state.attackCooldown) enemy.state.attackCooldown--;
+        if (enemy.state.attackDuration) enemy.state.attackDuration--;
+        
+        if (!enemy.state.attackDuration) {
+          enemy.state.isAttacking = false;
+        }
       }
 
       enemy.attack = function() {
-        console.log("I'm attacking!");
+        var enemy = this;
+        var body = enemy.body;
+        var attack = _.sample(enemy.stats.attacks);
+        var state = enemy.state;
+
+        enemy.state.attackCooldown = attack.cooldown;
+        enemy.state.attackDuration = attack.duration;
+        enemy.state.canAttack = false;
+
+        console.log("Attack?",attack)
+
+        if (attack.animation) {
+          enemy.state.attackAnimation = attack.animation;
+        } else {
+          enemy.state.attackAnimation = null;
+        }
+
+        if (!attack.isProjectile && attack.range) {
+
+          var enemyPos = body.GetPosition();
+
+          var newPoint;
+          if (state.facingRight) {
+            newPoint = enemyPos.x + attack.range;
+          } else {
+            newPoint = enemyPos.x - attack.range;
+          }
+
+          var p1 = new b2Vec2(enemyPos.x, enemyPos.y);
+          var p2 = new b2Vec2(newPoint, enemyPos.y);
+
+          if (attack.effect) {
+            ngrGame.effect(attack.effect, p2);
+          }
+
+          function onhitsomething(other, point1, point2) {
+
+            var otherBody = other;
+            var force = stats.muscle * (attack.knockback || 0);
+            if (state.facingLeft) force *= -1;
+
+            if (otherBody.GetUserData() && otherBody.GetUserData().isHero) {
+              ngrGame.effect(ConfusionQuestSFX.explosion2, point1);
+            };
+
+            otherBody.ApplyForce(new b2Vec2(force, 0), otherBody.GetWorldCenter());
+
+            if (otherBody.GetUserData() && otherBody.GetUserData().isHero) {
+              other.profile.damage(attack.damage,enemy);
+            }
+          }
+
+          ngrGame.aoe(p2, attack.splash || 0.3, onhitsomething);
+
+          if (attack.propel) {
+            var propelForce = attack.propel * stats.muscle;
+            if (state.facingLeft) propelForce *= -1;
+            body.ApplyForce(new b2Vec2(propelForce, 0), body.GetWorldCenter())
+          }
+
+          state.currentAttack = attack;
+
+        }
+
       }
 
       enemy.animate = function(state, anim) {
@@ -146,8 +222,12 @@ angular.module('ConfusionQuest')
         }
 
         if (state.isAttacking) {
-          if (anim.currentAnimation != 'attack') anim.gotoAndPlay('attack');
+          var animation = "attack";
+          if (state.attackAnimation) animation = state.attackAnimation;
+          if (anim.currentAnimation != animation) anim.gotoAndPlay(animation);
         }
+
+
 
       }
 

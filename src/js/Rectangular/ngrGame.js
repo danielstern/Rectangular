@@ -120,7 +120,7 @@ angular.module("GameAgent", ['Rectangular', 'ngAudio'])
           return;
         };
         var entity = new profile(body);
-        console.log("Got profile",entity);
+        //console.log("Got profile",entity);
         entity.type = body.options.profile;
         entity.constructor = profile;
 
@@ -277,7 +277,7 @@ angular.module("GameAgent", ['Rectangular', 'ngAudio'])
     createjs.Sound.addEventListener("fileload", createjs.proxy(soundtrack.loadHandler, (soundtrack)));
 
     this.registerSounds = function (sounds) {
-      console.log("registering sounds", sounds);
+      //console.log("registering sounds", sounds);
       _.each(sounds, function (sound) {
          //createjs.Sound.registerSound(sound.src, sound.id, 4);
       })

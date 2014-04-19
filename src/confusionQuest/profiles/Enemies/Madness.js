@@ -1,28 +1,42 @@
 angular.module('ConfusionQuest')
-  .service('Madness', function (ngrGame, ngrLoop, Enemy, ngrWorld, ConfusionQuestSFX, ConfusionQuestDefaults) {
+  .service('Madness', function(ngrGame, ngrLoop, Enemy, ngrWorld, ConfusionQuestSFX, ConfusionQuestDefaults) {
 
 
-   var stats = {
-          id: "enemy2",
-          name: "enemy",
-          health: 20,
-          damage: 15,
-          speed: 0.2,
-          attack: 15,
-          attackSpeed: 15,
-          attacks: true,
-          img: 'img/unbalance.png',
-          name: "Unbalance",
-          description: "A shadowy and dangerous being.",
-          flavor: "Not as friendly as you'd think.",
-        };
+    var stats = {
+      id: "enemy2",
+      name: "enemy",
+      health: 35,
+      damage: 15,
+      speed: 0.2,
+      muscle: 100,
+      attacks: [{
+        name: "Madness Swipe",
+        damage: 12,
+        cooldown: 150,
+        duration: 15,
+        effect: ConfusionQuestSFX.explosion2,
+        knockback: 3,
+        propel: 1,
+        range: 5,
+        animation: "attack",
+      }, {
+        name: "Do Nothing",
+        damage: 0,
+        cooldown: 60,
+        duration: 35,
+        animation: "stand",
+      }],
+      img: 'img/unbalance.png',
+      name: "Madness",
+      description: "A shadowy and dangerous being.",
+      flavor: "Not as friendly as you'd think.",
+    };
 
     var Madness = new Enemy(stats);
-    Madness.prototype.init = function () {
-      
+    Madness.prototype.init = function() {
+
       var enemy = this;
       console.log("Madness initing");
-      
 
     }
 
@@ -43,8 +57,8 @@ angular.module('ConfusionQuest')
         frameHeight: 325,
         animations: {
           stand: [0, 47],
-          jump: [48, 71,],
-          attack: [72, 79, 79, 77]
+          jump: [48, 71],
+          attack: [72, 79, "stand"]
         }
       },
       presets: {
