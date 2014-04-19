@@ -74,6 +74,7 @@ angular.module("GameAgent", ['Rectangular', 'ngAudio'])
       var hitBodies = [];
 
       effectDef.shapeKind = 'circle';
+      effectDef.radius = range;
       effectDef.x = point.x;
       effectDef.y = point.y;
       effectDef.userData = {

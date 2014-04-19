@@ -85,7 +85,7 @@ angular.module('ConfusionQuest')
       enemy._tick = function(enemy) {
 
         var body = enemy.body;
-        var rayLength = this.stats.vision || 100;
+        var rayLength = this.stats.vision || 50;
         var enemyPos = body.GetPosition();
 
         if (enemy.state.dead) return;
@@ -114,8 +114,20 @@ angular.module('ConfusionQuest')
           newX = enemyPos.x + rayLength;
         }
 
+        //console.log("Enemy height?",enemy.body.options.height)
+
         var p2 = new b2Vec2(newX, enemyPos.y);
+        var p2H = new b2Vec2(newX, enemyPos.y + enemy.body.options.height / 4);
+        var p2L = new b2Vec2(newX, enemyPos.y - enemy.body.options.height / 2);
+
+        var enemyBottomPoint = {
+          x: enemyPos.x,
+          y: enemyPos.y + enemy.body.options.height
+        }
+
         ngrWorld.getWorld().RayCast(onSeeSomething, enemyPos, p2);
+        ngrWorld.getWorld().RayCast(onSeeSomething, enemyPos, p2H);
+         ngrWorld.getWorld().RayCast(onSeeSomething, enemyBottomPoint, p2L);
 
         enemy.faceHero();
 
@@ -135,6 +147,8 @@ angular.module('ConfusionQuest')
         if (enemy.state.isAttacking) {
           if (enemy.state.canAttack) enemy.attack();
         }
+
+       // if (!enemy.state.isMoving) enemy.brake();
 
         enemy.state.canSeeHero = false;
         if (enemy.state.attackCooldown) enemy.state.attackCooldown--;
@@ -200,15 +214,16 @@ angular.module('ConfusionQuest')
 
           ngrGame.aoe(p2, attack.splash || 0.3, onhitsomething);
 
-          if (attack.propel) {
-            var propelForce = attack.propel * stats.muscle;
-            if (state.facingLeft) propelForce *= -1;
-            body.ApplyForce(new b2Vec2(propelForce, 0), body.GetWorldCenter())
-          }
 
           state.currentAttack = attack;
 
         }
+          if (attack.propel) {
+            var propelForce = attack.propel * stats.muscle;
+            var propelForceY = (attack.propelY || 0 )* stats.muscle;
+            if (state.facingLeft) propelForce *= -1;
+            body.ApplyForce(new b2Vec2(propelForce, -propelForceY), body.GetWorldCenter())
+          }
 
       }
 

@@ -9,7 +9,7 @@ angular.module('ConfusionQuest')
     ngrEnvironment, ngrLoop, ngrDisplay,ngrCamera, ngrData, ngrState, ngrWorld, ngrInterface, ngrStage,
     ConfusionQuestDefaults, ConfusionQuestLevels,
     Calvin, 
-    spikes, Mahakana,Madness,
+    spikes, Mahakana,Madness,Insanity,
     confCoin, ruby, keyRed, doorRed,
     devLevel,
     boots1, helmet1

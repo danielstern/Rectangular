@@ -110,17 +110,7 @@ angular.module('Calvin', ['Rectangular'])
       body.ApplyForce(new b2Vec2(-stats.flinchForceX, stats.flinchForceY), body.GetWorldCenter());
     }
 
-    calvin.brake = function() {
-
-      if (this.state.dead) return;
-      var body = this.body;
-
-      var y = body.GetLinearVelocity().x * body.GetInertia();
-      var n = body.GetAngularVelocity() * body.GetInertia();
-      body.ApplyForce(new b2Vec2(-y * 10, 0), body.GetWorldCenter());
-      body.ApplyTorque(-n * 10);
-    };
-
+    
     calvin.tick = function(_calvin) {
 
       var state = _calvin.getState();
