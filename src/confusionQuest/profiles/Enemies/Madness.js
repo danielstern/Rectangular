@@ -9,6 +9,8 @@ angular.module('ConfusionQuest')
           damage: 15,
           speed: 0.2,
           attack: 15,
+          attackSpeed: 15,
+          attacks: true,
           img: 'img/unbalance.png',
           name: "Unbalance",
           description: "A shadowy and dangerous being.",

@@ -22,9 +22,6 @@ angular.module('ConfusionQuest')
       };
 
 
-
-
-
       enemy.faceHero = function() {
         var enemy = this;
         var body = this.body;
@@ -32,10 +29,10 @@ angular.module('ConfusionQuest')
         var rayLength = this.stats.vision || 100;
         var enemyPos = body.GetPosition();
 
-        var pL = new b2Vec2(enemyPos.x + rayLength, enemyPos.y);
-        var pR = new b2Vec2(enemyPos.x - rayLength, enemyPos.y);
-        ngrWorld.getWorld().RayCast(onSeeSomethingL, enemyPos, pR);
-        ngrWorld.getWorld().RayCast(onSeeSomethingR, enemyPos, pL);
+        var pL = new b2Vec2(enemyPos.x - rayLength, enemyPos.y);
+        var pR = new b2Vec2(enemyPos.x + rayLength, enemyPos.y);
+        ngrWorld.getWorld().RayCast(onSeeSomethingL, enemyPos, pL);
+        ngrWorld.getWorld().RayCast(onSeeSomethingR, enemyPos, pR);
 
         function onSeeSomethingL(other) {
           var otherData = other.m_body.GetUserData();
@@ -106,22 +103,30 @@ angular.module('ConfusionQuest')
         }
 
         function onSeeSomething(other) {
-          //console.log("I see something",other);
           var otherData = other.m_body.GetUserData();
           if (otherData && otherData.isHero) {
-            console.log("I can see hero");
             enemy.state.canSeeHero = true;
           }
         }
 
-        var p2 = new b2Vec2(enemyPos.x + enemy.state.facingLeft ? rayLength : -rayLength, enemyPos.y);
-        ngrWorld.getWorld().RayCast(onSeeSomething, enemyPos, p2);
+         var newX;
+        if (enemy.state.facingLeft) {
+          newX = enemyPos.x - rayLength;
+        } else {
+          newX = enemyPos.x + rayLength;
+        }
 
+        var p2 = new b2Vec2(newX, enemyPos.y);
+        ngrWorld.getWorld().RayCast(onSeeSomething, enemyPos, p2);
 
         enemy.faceHero();
 
         if (enemy.state.canSeeHero) {
-          if (enemy.canAttack) enemy.attack();
+          if (enemy.stats.attacks) {
+            enemy.state.isAttacking = true;
+          }
+        } else {
+          enemy.state.isAttacking = false;
         }
 
         enemy.state.canSeeHero = false;
@@ -132,13 +137,16 @@ angular.module('ConfusionQuest')
       }
 
       enemy.animate = function(state, anim) {
-        console.logOnce("animating", state, anim)
         if (state.facingRight) {
           anim.scaleX = -Math.abs(anim.scaleX);
         };
 
         if (state.facingLeft) {
           anim.scaleX = Math.abs(anim.scaleX);
+        }
+
+        if (state.isAttacking) {
+          if (anim.currentAnimation != 'attack') anim.gotoAndPlay('attack');
         }
 
       }
