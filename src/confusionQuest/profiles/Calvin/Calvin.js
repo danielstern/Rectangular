@@ -138,6 +138,13 @@ angular.module('Calvin', ['Rectangular'])
         state.invincible = false;
       }
 
+      if (state.isPunching && state.isOnDoor || state.isJumping && state.isOnDoor) {
+        console.log("Going into door");
+        state.currentDoor.goInside();
+        return;
+
+      }
+
       var contacts = body.GetContactList();
       if (!state.airborneGraceTime) state.airborne = true;
       while (contacts) {
