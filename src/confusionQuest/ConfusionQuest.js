@@ -1,7 +1,7 @@
 angular.module('ConfusionQuest', [
   'Rectangular',
   'Calvin', 'Mahakana'
-]);
+])
 
 angular.module('ConfusionQuest')
   .service("ConfusionQuest", function(

@@ -1,5 +1,5 @@
-angular.module("ConfusionQuestDemo", ['ConfusionQuest', 'Rectangular'])
-  .controller("ConfusionQuest", function ($scope, ConfusionQuest,
+angular.module("ConfusionQuestDemo", ['ConfusionQuest', 'Rectangular','GameAgent'])
+  .controller("ConfusionQuestDemo", function ($scope, ConfusionQuest,
    ConfusionQuestSplashMenu, ngrGame, ConfusionQuestHud, ConfusionQuestSoundtrack, ngrEnvironment, ngrInterface, ngrStage, ngrCamera) {
 
     console.log("initing controller");
