@@ -108,6 +108,10 @@ angular.module("GameAgent", ['Rectangular', 'ngAudio'])
       if (data1.isEffect || data2.isEffect) {
         contact.SetEnabled(false);
       }
+
+      if (data1.isEnemy && data2.isHero || data1.isHero && data2.isEnemy) {
+        contact.SetEnabled(false)
+      }
     }
     }
 

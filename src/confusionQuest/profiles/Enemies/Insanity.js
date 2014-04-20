@@ -5,8 +5,8 @@ angular.module('ConfusionQuest')
       id: "Insanity",
       name: "enemy",
       health: 1000,
-      attack: 15,
-      dangerTouch: false,
+      attack: 8,
+      dangerTouch: true,
       muscle: 10000,
       vision: 100,
       attacks: [{
@@ -35,8 +35,23 @@ angular.module('ConfusionQuest')
         duration: 25,
         propel: 12,
         propelY: 20,
+        onLand: [{
+          damage: 20,
+          effect: ConfusionQuestSFX.explosion1Huge,
+          knockback: 3,
+          y: 3,
+          range: 7,
+          splash: 2,
+        }, {
+          damage: 20,
+          effect: ConfusionQuestSFX.explosion1Huge,
+          knockback: 3,
+          y: 3,
+          range: -7,
+          splash: 2,
+        }],
         animation: "jump",
-      },{
+      }, {
         name: "Small Leap",
         damage: 0,
         cooldown: 60,
@@ -86,7 +101,8 @@ angular.module('ConfusionQuest')
         restitution: 0.05,
         density: 0.7,
         friction: 0.2,
-        gravityScale: 0.4
+        gravityScale: 0.4,
+        //collisionGroup: -1,
       }
 
     };

@@ -120,16 +120,9 @@ angular.module('ConfusionQuest')
           }
         }
 
-        //var newX;
-        //if (enemy.state.facingLeft) {
-        //  newX = enemyPos.x - rayLength;
-        //} else {
-        //  newX = enemyPos.x + rayLength;
-        //}
-
         var numRays = 20;
 
-        for (var i = 0; i <numRays; i++) {
+        for (var i = 0; i < numRays; i++) {
           var percentComplete = i / numRays;
           var radiansInCircle = Math.PI * 2;
           var p2X = Math.cos(percentComplete * radiansInCircle) * rayLength;
@@ -138,21 +131,6 @@ angular.module('ConfusionQuest')
 
           ngrWorld.getWorld().RayCast(onSeeSomething, enemyPos, p2);
         }
-
-        //console.log("Enemy height?",enemy.body.options.height)
-
-      //  var p2 = new b2Vec2(newX, enemyPos.y);
-       // var p2H = new b2Vec2(newX, enemyPos.y + enemy.body.options.height / 4);
-       // var p2L = new b2Vec2(newX, enemyPos.y - enemy.body.options.height / 2);
-
-        //var enemyBottomPoint = {
-        //  x: enemyPos.x,
-        //  y: enemyPos.y + enemy.body.options.height
-        //}
-
-       // ngrWorld.getWorld().RayCast(onSeeSomething, enemyPos, p2);
-       // ngrWorld.getWorld().RayCast(onSeeSomething, enemyPos, p2H);
-       // ngrWorld.getWorld().RayCast(onSeeSomething, enemyBottomPoint, p2L);
 
         enemy.faceHero();
 
@@ -172,8 +150,6 @@ angular.module('ConfusionQuest')
         if (enemy.state.isAttacking) {
           if (enemy.state.canAttack) enemy.attack();
         }
-
-        // if (!enemy.state.isMoving) enemy.brake();
 
         enemy.state.canSeeHero = false;
         if (enemy.state.attackCooldown) enemy.state.attackCooldown--;
@@ -214,43 +190,7 @@ angular.module('ConfusionQuest')
           ngrLoop.wait(attack.delay || 0)
             .then(function() {
 
-              var enemyPos = body.GetPosition();
-
-              var newPoint;
-              if (state.facingRight) {
-                newPoint = enemyPos.x + attack.range;
-              } else {
-                newPoint = enemyPos.x - attack.range;
-              }
-
-              var p1 = new b2Vec2(enemyPos.x, enemyPos.y + attack.y || 0);
-              var p2 = new b2Vec2(newPoint, enemyPos.y + attack.y || 0);
-
-              if (attack.effect) {
-                ngrGame.effect(attack.effect, p2);
-              }
-
-              function onhitsomething(other, point1, point2) {
-                console.log("I hit something");
-
-                var otherBody = other;
-                var force = stats.muscle * (attack.knockback || 0);
-                if (state.facingLeft) force *= -1;
-
-                if (otherBody.GetUserData() && otherBody.GetUserData().isHero) {
-                  ngrGame.effect(ConfusionQuestSFX.explosion2, point1);
-                };
-
-                otherBody.ApplyForce(new b2Vec2(force, 0), otherBody.GetWorldCenter());
-
-                if (otherBody.GetUserData() && otherBody.GetUserData().isHero) {
-                  other.profile.damage(attack.damage, enemy);
-                }
-              }
-
-              console.log("AOE",attack.splash);
-
-              ngrGame.aoe(p2, attack.splash || 0.3, onhitsomething);
+              enemy.strike(attack);
 
 
               state.currentAttack = attack;
@@ -264,6 +204,80 @@ angular.module('ConfusionQuest')
           if (state.facingLeft) propelForce *= -1;
           body.ApplyForce(new b2Vec2(propelForce, -propelForceY), body.GetWorldCenter())
         }
+
+        var landed = false;
+
+        if (attack.onLand) {
+          ngrLoop.wait(5)
+            .then(function() {
+              function contactHandler(contact, _oldManifold) {
+                //   console.log("contact handler");
+                if (landed) return;
+                var body1 = contact.GetFixtureA().GetBody();
+                var body2 = contact.GetFixtureB().GetBody();
+
+                var data1 = body1.GetUserData() || {};
+                var data2 = body2.GetUserData() || {};
+
+                if (data1.isFloor || data2.isFloor) {
+                  var id = enemy.body.id;
+                  if (body1.id == id || body2.id == id) {
+                    //     console.log("Enemy landed.");
+                    landed = true;
+                    _.each(attack.onLand,function(attack) {
+                      console.log("Striking,",attack);
+                       enemy.strike(attack);
+                    })
+                  }
+                }
+              }
+              ngrWorld.getWorld().onbegincontact(contactHandler);
+            })
+        }
+
+      }
+
+      enemy.strike = function(attack) {
+        var enemy = this;
+        var body = enemy.body;
+        var state = enemy.state;
+        var enemyPos = body.GetPosition();
+
+        var newPoint;
+        if (state.facingRight) {
+          newPoint = enemyPos.x + attack.range;
+        } else {
+          newPoint = enemyPos.x - attack.range;
+        }
+
+        var p1 = new b2Vec2(enemyPos.x, enemyPos.y + (attack.y || 0));
+        var p2 = new b2Vec2(newPoint, enemyPos.y + (attack.y || 0));
+
+        if (attack.effect) {
+            ngrGame.effect(attack.effect, p2);
+        }
+
+        function onhitsomething(other, point1, point2) {
+
+          var otherBody = other;
+          var force = stats.muscle * (attack.knockback || 0);
+          if (state.facingLeft) force *= -1;
+
+          if (otherBody.GetUserData() && otherBody.GetUserData().isHero) {
+            ngrGame.effect(ConfusionQuestSFX.explosion2, point1);
+          };
+
+          otherBody.ApplyForce(new b2Vec2(force, 0), otherBody.GetWorldCenter());
+
+          if (otherBody.GetUserData() && otherBody.GetUserData().isHero) {
+            other.profile.damage(attack.damage, enemy);
+          }
+        }
+
+        console.log("AOE", attack.splash);
+
+       // ngrGame.aoe(p2, attack.splash || 0.3, onhitsomething);
+
 
       }
 

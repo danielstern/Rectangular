@@ -197,6 +197,7 @@ angular.module("Calvin")
       width: 1.24,
       restitution: 0.1,
       density: 0.07,
+      //collisionGroup: -1,
       friction: 0.2,
       gravityScale: 0.4
     }

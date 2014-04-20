@@ -92,6 +92,10 @@ angular.module('Rectangular')
           f.filter.groupIndex = -1;
         }
 
+        if (options.collisionGroup) {
+          f.filter.groupIndex = options.collisionGroup;
+        }
+
         return f;
       }
     }
