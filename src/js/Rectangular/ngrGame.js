@@ -266,7 +266,9 @@ angular.module("GameAgent", ['Rectangular', 'ngAudio'])
     this.registerSounds = function(sounds) {
       console.log("registering sounds", sounds);
       _.each(sounds, function(sound) {
-        createjs.Sound.registerSound(sound.src, sound.id, 4);
+        var maxtimes = 1;
+        if (sound.kind = 'effect') maxTimes = 10;
+        createjs.Sound.registerSound(sound.src, sound.id, maxtimes);
       })
     }
 

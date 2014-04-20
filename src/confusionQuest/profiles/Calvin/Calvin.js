@@ -145,6 +145,14 @@ angular.module('Calvin', ['Rectangular'])
 
       }
 
+
+      if (state.isPunching && state.isOnNPC || state.isJumping && state.isOnNPC) {
+        state.currentNPC.interact();
+        return;
+
+      }
+
+
       var contacts = body.GetContactList();
       if (!state.airborneGraceTime) state.airborne = true;
       while (contacts) {

@@ -73,6 +73,12 @@ angular.module("ConfusionQuest")
       src: 'audio/fight/Snare 003.wav',
       family: 'hurt',
       kind: 'effect',
+    },{
+      id: 'woman-laugh-1',
+      defaultVolume: 0.3,
+      src: 'audio/speech/witch-laugh-04.mp3',
+      family: 'speech-female',
+      kind: 'speech',
     }];
 
 		var ConfusionQuestSoundtrack = this
@@ -95,6 +101,10 @@ angular.module("ConfusionQuest")
 
         if (behavior == 'hurt') {
           ConfusionQuestSoundtrack.playFamily('hurt');
+        }
+
+        if (behavior == 'speech-female') {
+          ConfusionQuestSoundtrack.playFamily('speech-female');
         }
     	})
     });

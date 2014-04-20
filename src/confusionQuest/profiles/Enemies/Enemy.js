@@ -19,6 +19,7 @@ angular.module('ConfusionQuest')
 
       enemy.damage = function(dmg) {
         var enemy = this;
+        if (enemy.stats.invulnerable) return;
         this.state.hp -= dmg;
         enemy.state.justDamaged = true;
         enemy.state.justDamagedCooldown = enemy.stats.justDamagedCooldown || 1;
