@@ -219,11 +219,13 @@ angular.module('Calvin', ['Rectangular'])
       if (state.isJumping && state.canAct) {
         var s = stats;
 
-        if (!state.jumpWait) {
+        if (!state.jumpWait && !state.airborne) {
 
           state.jumpWait = stats.jumpCooldown;
           var force = state.airborne ? s.doubleJumpForce : s.jumpForce;
           body.ApplyForce(new b2Vec2(0, -force), body.GetWorldCenter());
+
+          _.call(calvin.behaviorListeners,"jump");
 
         }
       }

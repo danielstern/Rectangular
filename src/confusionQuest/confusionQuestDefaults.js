@@ -6,6 +6,7 @@ angular.module("ConfusionQuest")
     ConfusionQuestDefaults.enemy = {
       userData: {
         isEnemy: true,
+        isFloor: true,
       }
     }
 

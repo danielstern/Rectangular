@@ -40,6 +40,11 @@ angular.module('ConfusionQuest')
 
     }
 
+    Madness.prototype.tick - function() {
+      this.brake();
+      console.log("braking")
+    }
+
     var defaults = {
       name: 'Madness',
       shape: 'box',

@@ -47,8 +47,26 @@ angular.module("ConfusionQuest")
       id: 'swing3',
       defaultVolume: 0.3,
       src: 'audio/fight/Air Swing 3.wav',
+      family: 'jump',
+      kind: 'effect',
+    },{
+      id: 'swing4',
+      defaultVolume: 0.3,
+      src: 'audio/fight/Air Swing 4.wav',
       family: 'swing',
       kind: 'effect',
+    },{
+      id: 'swing5',
+      defaultVolume: 0.3,
+      src: 'audio/fight/Air Swing 5.wav',
+      family: 'swing',
+      kind: 'effect',
+    },{
+      id: 'swing6',
+      defaultVolume: 0.3,
+      src: 'audio/fight/PK_swing1.wav',
+      family: 'jump',
+      kind: 'swing',
     }];
 
 		var ConfusionQuestSoundtrack = this
@@ -63,6 +81,10 @@ angular.module("ConfusionQuest")
 
         if (behavior == 'attack-swing') {
           ConfusionQuestSoundtrack.playFamily('swing');
+        }
+
+        if (behavior == 'jump') {
+          ConfusionQuestSoundtrack.playFamily('jump');
         }
     	})
     });
