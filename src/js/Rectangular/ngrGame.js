@@ -84,7 +84,7 @@ angular.module("GameAgent", ['Rectangular', 'ngAudio'])
       var effect = ngrWorld.addElement(effectDef);
       effect.SetType(0);
 
-      ngrLoop.wait(duration || 1)
+      ngrLoop.wait(duration || 5)
         .then(function () {
           effect.crumble();
         });
