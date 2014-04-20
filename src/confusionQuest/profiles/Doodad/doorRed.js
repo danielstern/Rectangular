@@ -5,11 +5,31 @@ angular.module('ConfusionQuest')
 
       //  body.setSensor(true);
       var door = this;
-      ngrWorld.getWorld().onbegincontact(contactHandler);
+      ngrWorld.getWorld().onbegincontact(beginContactHandler);
       ngrWorld.getWorld().onpresolve(contactHandler);
       ngrWorld.getWorld().onendcontact(endContactHandler);
+      ngrWorld.getWorld().onpostsolve(endContactHandler);
+
+      function beginContactHandler(contact) {
+        var body1 = contact.GetFixtureA().GetBody();
+        var body2 = contact.GetFixtureB().GetBody();
+
+        var data1 = body1.GetUserData() || {};
+        var data2 = body2.GetUserData() || {};
+
+
+        if (data1.isDoor && data2.isHero || data1.isHero && data2.isDoor) {
+         
+          if (data1.isHero) hero = body1.profile;
+          if (data2.isHero) hero = body2.profile;
+          hero.getState().isOnDoor = true;
+          hero.getState().currentDoor = door;
+        }
+
+      }
 
       function contactHandler(contact, _oldManifold) {
+        //console.log("prevsolve")
         var body1 = contact.GetFixtureA().GetBody();
         var body2 = contact.GetFixtureB().GetBody();
 
@@ -19,12 +39,6 @@ angular.module('ConfusionQuest')
 
         if (data1.isDoor && data2.isHero || data1.isHero && data2.isDoor) {
           contact.SetEnabled(false);
-          var hero;
-          if (data1.isHero) hero = body1.profile;
-          if (data2.isHero) hero = body2.profile;
-          hero.getState().isOnDoor = true;
-          hero.getState().currentDoor = door;
-
         }
       }
 
@@ -39,12 +53,13 @@ angular.module('ConfusionQuest')
         var data1 = body1.GetUserData() || {};
         var data2 = body2.GetUserData() || {};
 
-
         if (data1.isDoor && data2.isHero || data1.isHero && data2.isDoor) {
+        console.log("POST")
           var hero;
           if (data1.isHero) hero = body1.profile;
           if (data2.isHero) hero = body2.profile;
           hero.getState().isOnDoor = false;
+          console.log("Hero state?",hero.getState())
         }
       }
 

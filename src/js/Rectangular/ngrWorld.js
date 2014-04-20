@@ -160,6 +160,7 @@ angular.module('Rectangular')
     world.onCreateBodyListeners = [];
     world.beginContactListeners = [];
     world.presolveListeners = [];
+    world.postsolveListeners = [];
     world.endContactListeners = [];
 
     //Add listeners for contact
@@ -175,6 +176,7 @@ angular.module('Rectangular')
     }
 
     listener.PostSolve = function(contact, impulse) {
+      _.call(world.postsolveListeners,contact);
 
        
     }
@@ -196,6 +198,11 @@ angular.module('Rectangular')
 
     world.onendcontact = function(l) {
       world.endContactListeners.push(l)
+    }
+
+
+    world.onpostsolve = function(l) {
+      world.postsolveListeners.push(l)
     }
 
 
