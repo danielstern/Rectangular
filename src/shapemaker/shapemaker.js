@@ -1,7 +1,8 @@
 angular.module("shapemaker", ['ngAudio', 'Rectangular', 'GameAgent', 'ConfusionQuest']);
 
 angular.module("shapemaker")
-  .controller('myDemoCtrl', function ($scope, ngrGame, ConfusionQuestDefaults, ConfusionQuestHud, ConfusionQuest, shapemakerDefaults, $element, ngrStage, ngrData, ngrRoom, ngrCamera, ngrData, ngrDefaults, ngrLoop, ngrWorld, ngrInterface, ngrEnvironment, ngrState, ngAudio, $compile) {
+  .controller('myDemoCtrl', function ($scope, ngrGame,
+   ConfusionQuestDefaults, ConfusionQuestSoundtrack, ConfusionQuestHud, ConfusionQuest, shapemakerDefaults, $element, ngrStage, ngrData, ngrRoom, ngrCamera, ngrData, ngrDefaults, ngrLoop, ngrWorld, ngrInterface, ngrEnvironment, ngrState, ngAudio, $compile) {
 
     var contextMenu;
     var contextPin;

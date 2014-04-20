@@ -196,8 +196,6 @@ angular.module('ConfusionQuest')
         enemy.state.attackDuration = attack.duration;
         enemy.state.canAttack = false;
 
-        console.log("Attack?", attack)
-
         if (attack.animation) {
           enemy.state.attackAnimation = attack.animation;
         } else {
@@ -230,7 +228,6 @@ angular.module('ConfusionQuest')
           ngrLoop.wait(5)
             .then(function() {
               function contactHandler(contact, _oldManifold) {
-                //   console.log("contact handler");
                 if (landed) return;
                 var body1 = contact.GetFixtureA().GetBody();
                 var body2 = contact.GetFixtureB().GetBody();
@@ -241,11 +238,10 @@ angular.module('ConfusionQuest')
                 if (data1.isFloor || data2.isFloor) {
                   var id = enemy.body.id;
                   if (body1.id == id || body2.id == id) {
-                    //     console.log("Enemy landed.");
                     landed = true;
                     _.each(attack.onLand,function(_attack) {
                  //     console.log("Striking,",_attack);
-                       enemy.strike(_attack);
+                  //     enemy.strike(_attack);
                     })
                   }
                 }
@@ -264,9 +260,9 @@ angular.module('ConfusionQuest')
 
         var newPoint;
         if (state.facingRight) {
-          newPoint = enemyPos.x + attack.range;
+          newPoint = enemyPos.x + attack.range || 5;
         } else {
-          newPoint = enemyPos.x - attack.range;
+          newPoint = enemyPos.x - attack.range || 5;
         }
 
         var p1 = new b2Vec2(enemyPos.x, enemyPos.y + (attack.y || 0));
@@ -293,7 +289,7 @@ angular.module('ConfusionQuest')
           }
         }
 
-        console.log("AOE", attack.splash);
+  
 
         ngrGame.aoe(p2, attack.splash || 0.3, onhitsomething);
 

@@ -9,9 +9,14 @@ angular.module('Calvin', ['Rectangular'])
     var Calvin = new Entity(stats);
     var calvin = Calvin.prototype;
     calvin.stateChangeListeners = [];
+    calvin.behaviorListeners = [];
 
     calvin.onstatechange = function(l) {
       this.stateChangeListeners.push(l);
+    }
+
+    calvin.onbehavior = function(l) {
+      this.behaviorListeners.push(l);
     }
 
     calvin.init = function() {
@@ -37,7 +42,7 @@ angular.module('Calvin', ['Rectangular'])
       var body = this.body;
       var hero = this;
 
-      console.log("Taking damage", dmg)
+      //aconsole.log("Taking damage", dmg)
 
 
       if (state.invincible) return;
@@ -278,6 +283,7 @@ angular.module('Calvin', ['Rectangular'])
       var attack;
       var state = this.state;
       var body = this.body;
+      var calvin = this;
 
       if (!state.canAct) return;
       if (atk == 'punch') {
@@ -322,7 +328,6 @@ angular.module('Calvin', ['Rectangular'])
 
       function onhitsomething(other, point1, point2) {
 
-
         var otherBody = other;
         var force = stats.muscle * (attack.knockback || 0);
         if (state.facingLeft) force *= -1;
@@ -336,6 +341,8 @@ angular.module('Calvin', ['Rectangular'])
         if (otherBody.GetUserData() && otherBody.GetUserData().isEnemy) {
           other.profile.damage(attack.damage);
         }
+
+        _.call(calvin.behaviorListeners,"hit-punch");
       }
 
       ngrGame.aoe(p2, attack.splash || 0.3, onhitsomething);
@@ -356,6 +363,8 @@ angular.module('Calvin', ['Rectangular'])
         state.canCombo = true;
         state.canComboTime = attack.canComboTime;
       }
+
+      _.call(calvin.behaviorListeners,"attack-swing");
     }
 
     ConfusionQuestDefaults.addDefault(CalvinStats.defaults);

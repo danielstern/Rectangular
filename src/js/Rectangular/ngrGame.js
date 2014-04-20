@@ -1,5 +1,5 @@
 angular.module("GameAgent", ['Rectangular', 'ngAudio'])
-  .service('ngrGame', function (ngrWorld, ngrStage, ngrDisplay, ngrInterface, ngrCamera, ngrLoop, ngrDefaults, $q) {
+  .service('ngrGame', function(ngrWorld, ngrStage, ngrDisplay, ngrInterface, ngrCamera, ngrLoop, ngrDefaults, $q) {
 
     var w = ngrWorld;
     var g = this;
@@ -11,22 +11,22 @@ angular.module("GameAgent", ['Rectangular', 'ngAudio'])
     var events = [];
     var createEntityListeners = [];
 
-    this.oncreateentity = function (f) {
+    this.oncreateentity = function(f) {
       createEntityListeners.push(f);
     }
 
-    this.getEvents = function () {
-      _.each(events, function (event) {
+    this.getEvents = function() {
+      _.each(events, function(event) {
         events[event] = true;
       })
       return events;
     }
 
-    this.setEvent = function (event) {
+    this.setEvent = function(event) {
       events.push(event);
     }
 
-    this.effect = function (effect, point) {
+    this.effect = function(effect, point) {
       var effectDef = _.clone(ngrDefaults.body);
       //effectDef.radius = 0.3;
       effectDef.skin = effect.skin;
@@ -46,30 +46,31 @@ angular.module("GameAgent", ['Rectangular', 'ngAudio'])
       effect.SetType(0);
       effect.setSensor(true);
       ngrLoop.wait(300)
-        .then(function () {
+        .then(function() {
           effect.crumble();
         })
-        
-        ngrWorld.getWorld().onbegincontact(contactHandler);
-    ngrWorld.getWorld().onpresolve(contactHandler);
 
-    function contactHandler(contact,_oldManifold){
-      var body1 = contact.GetFixtureA().GetBody();
-      var body2 = contact.GetFixtureB().GetBody();
+      ngrWorld.getWorld().onbegincontact(contactHandler);
+      ngrWorld.getWorld().onpresolve(contactHandler);
 
-      var data1 = body1.GetUserData() || {};
-      var data2 = body2.GetUserData() || {};
+      function contactHandler(contact, _oldManifold) {
+        var body1 = contact.GetFixtureA().GetBody();
+        var body2 = contact.GetFixtureB().GetBody();
 
-      if (data1.isEffect || data2.isEffect) {
-        contact.SetEnabled(false);
+        var data1 = body1.GetUserData() || {};
+        var data2 = body2.GetUserData() || {};
+
+        if (data1.isEffect || data2.isEffect) {
+          contact.SetEnabled(false);
+        }
       }
-    }
 
     }
 
-    
 
-    this.aoe = function (point, range, callback, duration) {
+
+    this.aoe = function(point, range, callback, duration) {
+      
       var effectDef = _.clone(ngrDefaults.body);
       var hitBodies = [];
 
@@ -80,24 +81,24 @@ angular.module("GameAgent", ['Rectangular', 'ngAudio'])
       effectDef.userData = {
         isEffect: true,
       }
-      
+
       var effect = ngrWorld.addElement(effectDef);
       effect.SetType(0);
 
       ngrLoop.wait(duration || 5)
-        .then(function () {
+        .then(function() {
           effect.crumble();
         });
 
-      effect.onimpact(function (j, p1, p2, manifold) {
+      effect.onimpact(function(j, p1, p2, manifold) {
         if (hitBodies.indexOf(j.id) > -1) return;
         hitBodies.push(j.id);
         callback(j, p1, p2);
       })
-   
+
     }
 
-    ngrWorld.oncreatebody(function (body) {
+    ngrWorld.oncreatebody(function(body) {
 
       if (body.options.profile) {
 
@@ -115,7 +116,7 @@ angular.module("GameAgent", ['Rectangular', 'ngAudio'])
       }
     })
 
-    this.score = function (points) {
+    this.score = function(points) {
       //console.log("You scored " + points + " points dog");
     }
 
@@ -124,18 +125,18 @@ angular.module("GameAgent", ['Rectangular', 'ngAudio'])
     this.pause = ngrLoop.stop;
     this.unpause = ngrLoop.start;
 
-    this.dragToPan = function (enable) {
-      ngrInterface.onclick(function (r) {
+    this.dragToPan = function(enable) {
+      ngrInterface.onclick(function(r) {
         panning = r.body == undefined;
         panStartPoint = _.clone(r);
         ngrCamera.unfollow();
       })
 
-      ngrInterface.onmouseup(function (r) {
+      ngrInterface.onmouseup(function(r) {
         panning = false;
       })
 
-      ngrInterface.onmove(function (r) {
+      ngrInterface.onmove(function(r) {
         if (panning) {
           var focus = ngrCamera.getFocus();
           var dif = {
@@ -151,41 +152,41 @@ angular.module("GameAgent", ['Rectangular', 'ngAudio'])
       })
     }
 
-    this.control = function (hero, map) {
+    this.control = function(hero, map) {
 
       var state = hero.getState();
 
-      _.each(map, function (value, key) {
-        Mousetrap.bind(key, function () {
+      _.each(map, function(value, key) {
+        Mousetrap.bind(key, function() {
           state[value] = true;
         }, 'keydown');
 
-        Mousetrap.bind(key, function () {
+        Mousetrap.bind(key, function() {
           state[value] = false;
         }, 'keyup');
       })
     };
 
-    this.godMode = function (enable) {
+    this.godMode = function(enable) {
       var cursorJoint = undefined;
 
-      ngrInterface.onclick(function (r) {
+      ngrInterface.onclick(function(r) {
         if (r.body) {
           cursorJoint = ngrWorld.addMouseJoint(r.body, r);
         }
       })
 
-      ngrInterface.onmouseup(function (r) {
+      ngrInterface.onmouseup(function(r) {
         if (cursorJoint) cursorJoint = ngrWorld.destroyJoint(cursorJoint);
       })
 
-      ngrInterface.onmove(function (r) {
+      ngrInterface.onmove(function(r) {
         if (cursorJoint) cursorJoint.SetTarget(new b2Vec2(r.worldPosX, r.worldPosY))
 
       })
     }
 
-    this.explode = function (thing) {
+    this.explode = function(thing) {
 
       if (thing.crumbled) return;
       var posX = thing.GetPosition().x;
@@ -211,7 +212,7 @@ angular.module("GameAgent", ['Rectangular', 'ngAudio'])
 
     }
 
-    this.tag = function (body, img) {
+    this.tag = function(body, img) {
 
       var tagOptions = _.clone(body.options);
 
@@ -226,10 +227,10 @@ angular.module("GameAgent", ['Rectangular', 'ngAudio'])
 
     }
 
-    this.screen = function (options) {
+    this.screen = function(options) {
       var r = $q.defer();
       var c = ngrDisplay.overlay(options.bg);
-      ngrInterface.onescape(function () {
+      ngrInterface.onescape(function() {
         endScreen();
       });
 
@@ -247,31 +248,34 @@ angular.module("GameAgent", ['Rectangular', 'ngAudio'])
 
     var controlLoop;
 
-    this.addProfile = function (name, def) {
+    this.addProfile = function(name, def) {
       profiles[name] = def;
     }
 
-    this.turnToCannonball = function (thing, volatility) {
+    this.turnToCannonball = function(thing, volatility) {
       thing.onimpact(g.explode);
     }
 
   })
-  .service('ngrSoundtrack', function () {
+  .service('ngrSoundtrack', function() {
 
     var soundtrack = this;
 
-    createjs.Sound.alternateExtensions = ["mp3"];
-    createjs.Sound.addEventListener("fileload", createjs.proxy(soundtrack.loadHandler, (soundtrack)));
+    createjs.Sound.addEventListener("fileload", loadHandler);
 
-    this.registerSounds = function (sounds) {
-      //console.log("registering sounds", sounds);
-      _.each(sounds, function (sound) {
-         //createjs.Sound.registerSound(sound.src, sound.id, 4);
+    this.registerSounds = function(sounds) {
+      console.log("registering sounds", sounds);
+      _.each(sounds, function(sound) {
+        createjs.Sound.registerSound(sound.src, sound.id, 4);
       })
     }
 
-    this.loadHandler = function(e) {
-      console.log("Loaded",e);
+    this.play = function(id) {
+      createjs.Sound.play(id);
+    }
+
+    function loadHandler(e) {
+      console.log("Loaded", e);
     }
 
   })

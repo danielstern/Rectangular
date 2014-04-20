@@ -35,16 +35,6 @@ angular.module('ConfusionQuest')
 
 
 
-    ngrSoundtrack.registerSounds([{
-        name: 'punch1',
-        defaultVolume: 0.3,
-        src: 'audio/fight/Punch1.wav',
-        family: 'punch',
-        kind: 'effect',
-      }
-
-    ])
-
     ngrGame.init = function() {
       CQState = {
         lives: 3,
