@@ -94,25 +94,7 @@ angular.module("GameAgent", ['Rectangular', 'ngAudio'])
         hitBodies.push(j.id);
         callback(j, p1, p2);
       })
-      
-      ngrWorld.getWorld().onbegincontact(contactHandler);
-    ngrWorld.getWorld().onpresolve(contactHandler);
-
-    function contactHandler(contact,_oldManifold){
-      var body1 = contact.GetFixtureA().GetBody();
-      var body2 = contact.GetFixtureB().GetBody();
-
-      var data1 = body1.GetUserData() || {};
-      var data2 = body2.GetUserData() || {};
-
-      if (data1.isEffect || data2.isEffect) {
-        contact.SetEnabled(false);
-      }
-
-      if (data1.isEnemy && data2.isHero || data1.isHero && data2.isEnemy) {
-        contact.SetEnabled(false)
-      }
-    }
+   
     }
 
     ngrWorld.oncreatebody(function (body) {

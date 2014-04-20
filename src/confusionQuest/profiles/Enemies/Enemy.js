@@ -92,6 +92,25 @@ angular.module('ConfusionQuest')
       }
 
       enemy._init = function() {
+        
+        ngrWorld.getWorld().onbegincontact(contactHandler);
+        ngrWorld.getWorld().onpresolve(contactHandler);
+
+        function contactHandler(contact, _oldManifold) {
+          var body1 = contact.GetFixtureA().GetBody();
+          var body2 = contact.GetFixtureB().GetBody();
+
+          var data1 = body1.GetUserData() || {};
+          var data2 = body2.GetUserData() || {};
+
+          if (data1.isEffect || data2.isEffect) {
+            contact.SetEnabled(false);
+          }
+
+          if (data1.isEnemy && data2.isHero || data1.isHero && data2.isEnemy) {
+            contact.SetEnabled(false)
+          }
+        }
 
       }
 
@@ -224,9 +243,9 @@ angular.module('ConfusionQuest')
                   if (body1.id == id || body2.id == id) {
                     //     console.log("Enemy landed.");
                     landed = true;
-                    _.each(attack.onLand,function(attack) {
-                      console.log("Striking,",attack);
-                       enemy.strike(attack);
+                    _.each(attack.onLand,function(_attack) {
+                 //     console.log("Striking,",_attack);
+                       enemy.strike(_attack);
                     })
                   }
                 }
@@ -276,7 +295,7 @@ angular.module('ConfusionQuest')
 
         console.log("AOE", attack.splash);
 
-       // ngrGame.aoe(p2, attack.splash || 0.3, onhitsomething);
+        ngrGame.aoe(p2, attack.splash || 0.3, onhitsomething);
 
 
       }

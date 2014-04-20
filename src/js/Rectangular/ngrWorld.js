@@ -69,9 +69,17 @@ angular.module('Rectangular')
 
     var def = ngrBox.shape(options);
     var id = options.id || guid();
+    
+    
 
     var b = world.CreateBody(def.getBodyDef());
     var f = def.getFixtureDef()
+    if (!b) {
+      console.log("Buggy definition?",options);
+      return;
+    } else {
+      //console.log("Good definition",options);
+    }
     b.CreateFixture(f);
 
     
