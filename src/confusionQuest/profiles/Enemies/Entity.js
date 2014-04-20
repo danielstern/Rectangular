@@ -24,6 +24,7 @@ angular.module("ConfusionQuest")
         }
 
         this.__tick = function() {
+     //     console.log("Entity tick",entity.tick)
           if (entity.tick) entity.tick(entity);
           if (entity._tick) entity._tick(entity);
         }
@@ -34,7 +35,7 @@ angular.module("ConfusionQuest")
 
         if (this.init) this.init();
         if (this.oncreated) this.oncreated();
-        ngrLoop.addHook(entity.__tick);
+        ngrLoop.addHook(entity.__tick,entity);
 
       };
 

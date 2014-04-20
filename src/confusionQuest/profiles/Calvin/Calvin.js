@@ -61,6 +61,8 @@ angular.module('Calvin', ['Rectangular'])
       if (enemyPosX < heroPosX) hero.flinchRight();
 
       _.call(hero.stateChangeListeners, state);
+      _.call(calvin.behaviorListeners,"hurt");
+
 
       function reduceByDefense(dmg) {
         dmg -= stats.defense;

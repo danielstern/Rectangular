@@ -66,7 +66,13 @@ angular.module("ConfusionQuest")
       defaultVolume: 0.3,
       src: 'audio/fight/PK_swing1.wav',
       family: 'jump',
-      kind: 'swing',
+      kind: 'effect',
+    },{
+      id: 'damage1',
+      defaultVolume: 0.3,
+      src: 'audio/fight/Snare 003.wav',
+      family: 'hurt',
+      kind: 'effect',
     }];
 
 		var ConfusionQuestSoundtrack = this
@@ -85,6 +91,10 @@ angular.module("ConfusionQuest")
 
         if (behavior == 'jump') {
           ConfusionQuestSoundtrack.playFamily('jump');
+        }
+
+        if (behavior == 'hurt') {
+          ConfusionQuestSoundtrack.playFamily('hurt');
         }
     	})
     });
