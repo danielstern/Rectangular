@@ -10,6 +10,7 @@ angular.module('ConfusionQuest')
     ConfusionQuestDefaults, ConfusionQuestLevels,
     Calvin,
     spikes, Mahakana, Madness, Insanity,
+    Sara,
     confCoin, ruby, keyRed, doorRed,
     devLevel,
     boots1, helmet1

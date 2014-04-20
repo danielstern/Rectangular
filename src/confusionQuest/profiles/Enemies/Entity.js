@@ -34,6 +34,7 @@ angular.module("ConfusionQuest")
         };
 
         if (this.init) this.init();
+        if (this._init) this._init();
         if (this.oncreated) this.oncreated();
         ngrLoop.addHook(entity.__tick,entity);
 

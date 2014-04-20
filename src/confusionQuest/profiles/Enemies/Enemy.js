@@ -96,6 +96,8 @@ angular.module('ConfusionQuest')
         ngrWorld.getWorld().onbegincontact(contactHandler);
         ngrWorld.getWorld().onpresolve(contactHandler);
 
+        console.log("Enemy init");
+
         function contactHandler(contact, _oldManifold) {
           var body1 = contact.GetFixtureA().GetBody();
           var body2 = contact.GetFixtureB().GetBody();
