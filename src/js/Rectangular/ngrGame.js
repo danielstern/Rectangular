@@ -277,7 +277,7 @@ angular.module("GameAgent", ['Rectangular', 'ngAudio'])
     }
 
     function loadHandler(e) {
-      console.log("Loaded", e);
+   //   console.log("Loaded", e);
     }
 
   })

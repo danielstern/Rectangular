@@ -1,7 +1,6 @@
 angular.module('ConfusionQuest')
   .service('Madness', function(ngrGame, ngrLoop, Enemy, ngrWorld, ConfusionQuestSFX, ConfusionQuestDefaults) {
 
-
     var stats = {
       id: "enemy2",
       name: "enemy",
@@ -32,18 +31,17 @@ angular.module('ConfusionQuest')
       flavor: "Not as friendly as you'd think.",
     };
 
-    var Madness = new Enemy(stats);
-    Madness.prototype.init = function() {
-
-      var enemy = this;
-      console.log("Madness initing");
-
-    }
-
-    Madness.prototype.tick = function() {
-      this.brake();
-    //  console.log("braking")
-    }
+    var Madness = Enemy.fullExtend({
+      init:function(){
+        var enemy = this;
+        console.log("Madness initing");
+        this._super.init(enemy);
+      },
+      tick:function(){
+        this._super.tick();
+        this.brake();
+      }
+    })
 
     var defaults = {
       name: 'Madness',

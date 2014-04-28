@@ -1,3 +1,5 @@
+
+
 angular.module('ConfusionQuest', [
   'Rectangular',
   'Calvin', 'Mahakana'
@@ -8,9 +10,11 @@ angular.module('ConfusionQuest')
     ngrGame, ngrSoundtrack,
     ngrEnvironment, ngrLoop, ngrDisplay, ngrCamera, ngrData, ngrState, ngrWorld, ngrInterface, ngrStage,
     ConfusionQuestDefaults, ConfusionQuestLevels,
-    Calvin,
-    spikes, Mahakana, Madness, Insanity,
-    Sara,
+    Enemy,
+    Madness,
+    //Calvin,
+    //spikes, Mahakana, Madness, Insanity,
+    //Sara,
     confCoin, ruby, keyRed, doorRed,
     devLevel,
     boots1, helmet1

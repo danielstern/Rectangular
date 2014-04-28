@@ -1,32 +1,21 @@
 angular.module('ConfusionQuest')
   .service('Enemy', function(ngrGame, ngrLoop, ngrWorld, Entity, ConfusionQuestSFX, ConfusionQuestDefaults) {
 
-    function Enemy(stats) {
-      return newEnemy(stats);
-    }
-
-    function newEnemy(stats) {
-
-      var Enemy = Entity(stats);
-      var enemy = Enemy.prototype;
-
-      enemy.die = function() {
+    var Enemy = Entity.fullExtend({
+      die: function() {
         var pos = this.body.GetPosition();
         ngrGame.effect(ConfusionQuestSFX.explosion3Big, pos);
         this.body.crumble();
         this.state.dead = true;
-      };
-
-      enemy.damage = function(dmg) {
+      },
+      damage: function(dmg) {
         var enemy = this;
         if (enemy.stats.invulnerable) return;
         this.state.hp -= dmg;
         enemy.state.justDamaged = true;
         enemy.state.justDamagedCooldown = enemy.stats.justDamagedCooldown || 1;
-      };
-
-
-      enemy.faceHero = function() {
+      },
+      faceHero:function() {
         var enemy = this;
         var body = this.body;
 
@@ -63,10 +52,8 @@ angular.module('ConfusionQuest')
             enemy.state.facingLeft = false;
           }
         }
-      }
-
-
-      enemy.oncreated = function() {
+      },
+      oncreated: function() {
         var enemy = this;
         if (!enemy.stats.frozen) enemy.body.SetType(2);
         enemy.stats.hp = this.stats.health;
@@ -90,14 +77,14 @@ angular.module('ConfusionQuest')
           }
 
         });
-      }
+      },
+      init: function() {
 
-      enemy._init = function() {
-        
+        var enemy = this;
+        this.super.init(enemy)
+
         ngrWorld.getWorld().onbegincontact(contactHandler);
         ngrWorld.getWorld().onpresolve(contactHandler);
-
-        console.log("Enemy init");
 
         function contactHandler(contact, _oldManifold) {
           var body1 = contact.GetFixtureA().GetBody();
@@ -115,9 +102,10 @@ angular.module('ConfusionQuest')
           }
         }
 
-      }
+      },
+      tick: function(enemy) {
 
-      enemy._tick = function(enemy) {
+        this._super.tick(enemy);
 
         var body = enemy.body;
         var rayLength = this.stats.vision || 50;
@@ -187,9 +175,8 @@ angular.module('ConfusionQuest')
         }
 
         enemy.body.SetAngle(0);
-      }
-
-      enemy.attack = function() {
+      },
+      attack: function() {
         var enemy = this;
         var body = enemy.body;
         var attack = _.sample(enemy.stats.attacks);
@@ -242,9 +229,9 @@ angular.module('ConfusionQuest')
                   var id = enemy.body.id;
                   if (body1.id == id || body2.id == id) {
                     landed = true;
-                    _.each(attack.onLand,function(_attack) {
-                 //     console.log("Striking,",_attack);
-                  //     enemy.strike(_attack);
+                    _.each(attack.onLand, function(_attack) {
+                      //     console.log("Striking,",_attack);
+                      //     enemy.strike(_attack);
                     })
                   }
                 }
@@ -253,9 +240,8 @@ angular.module('ConfusionQuest')
             })
         }
 
-      }
-
-      enemy.strike = function(attack) {
+      },
+      strike: function(attack) {
         var enemy = this;
         var body = enemy.body;
         var state = enemy.state;
@@ -272,7 +258,7 @@ angular.module('ConfusionQuest')
         var p2 = new b2Vec2(newPoint, enemyPos.y + (attack.y || 0));
 
         if (attack.effect) {
-            ngrGame.effect(attack.effect, p2);
+          ngrGame.effect(attack.effect, p2);
         }
 
         function onhitsomething(other, point1, point2) {
@@ -292,14 +278,13 @@ angular.module('ConfusionQuest')
           }
         }
 
-  
+
 
         ngrGame.aoe(p2, attack.splash || 0.3, onhitsomething);
 
 
-      }
-
-      enemy.animate = function(state, anim) {
+      },
+      animate:function(state, anim) {
         if (state.facingRight) {
           anim.scaleX = -Math.abs(anim.scaleX);
         };
@@ -338,9 +323,9 @@ angular.module('ConfusionQuest')
         anim.cache(-50 + bounds.x, -50 + bounds.y, 100 + bounds.width, 100 + bounds.height);
 
 
-      }
+      },
 
-      enemy.onhassprite = function() {
+      onhassprite:function() {
         var anim = this.body.sprite.animation;
         window._anim = anim;
 
@@ -349,9 +334,10 @@ angular.module('ConfusionQuest')
         });
       }
 
-      return Enemy;
 
-    }
+
+
+    }, {});
 
     return Enemy;
   })
