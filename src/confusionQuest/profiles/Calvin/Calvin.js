@@ -139,7 +139,6 @@ angular.module('Calvin', ['Rectangular'])
       }
 
       if (state.isPunching && state.isOnDoor || state.isJumping && state.isOnDoor) {
-        console.log("Going into door");
         state.currentDoor.goInside();
         return;
 
