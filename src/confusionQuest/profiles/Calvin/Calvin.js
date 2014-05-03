@@ -6,20 +6,8 @@ angular.module('Calvin', ['Rectangular'])
     var stats = _.clone(CalvinStats.stats);
     var state = _.clone(CalvinStats.state);
 
-    var Calvin = new Entity(stats);
-    var calvin = Calvin.prototype;
-    calvin.stateChangeListeners = [];
-    calvin.behaviorListeners = [];
-
-    calvin.onstatechange = function(l) {
-      this.stateChangeListeners.push(l);
-    }
-
-    calvin.onbehavior = function(l) {
-      this.behaviorListeners.push(l);
-    }
-
-    calvin.init = function() {
+    var Calvin = new Entity.fullExtend({
+      init:function() {
       var body = this.body;
 
       body.SetUserData({
@@ -33,42 +21,11 @@ angular.module('Calvin', ['Rectangular'])
       CalvinAnimations.animate(this);
 
     }
+    },{
 
-    calvin.damage = function(dmg, attacker) {
-      var enemyPosX = 0;
-      var heroPosX;
-      var state = this.state;
-      var stats = this.stats;
-      var body = this.body;
-      var hero = this;
+    })
 
-      //aconsole.log("Taking damage", dmg)
-
-
-      if (state.invincible) return;
-      state.health -= reduceByDefense(dmg);
-
-      state.invincibleTimeout = stats.invincibilityTime;
-      state.invincible = true;
-
-      var heroPosX = body.GetPosition().x;
-      if (attacker) enemyPosX = attacker.body.GetPosition().x;
-
-      body.SetLinearVelocity(new b2Vec2(0, 0));
-
-
-      if (enemyPosX > heroPosX) hero.flinchLeft();
-      if (enemyPosX < heroPosX) hero.flinchRight();
-
-      _.call(hero.stateChangeListeners, state);
-      _.call(calvin.behaviorListeners,"hurt");
-
-
-      function reduceByDefense(dmg) {
-        dmg -= stats.defense;
-        return dmg;
-      }
-    }
+    calvin
 
     calvin.changeStat = function(stat, boost) {
       var percentChange = 1 + (boost / 100)

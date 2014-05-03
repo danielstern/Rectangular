@@ -41,7 +41,7 @@ angular.module('ConfusionQuest')
         this._super.tick();
         this.brake();
       }
-    })
+    },stats)
 
     var defaults = {
       name: 'Madness',

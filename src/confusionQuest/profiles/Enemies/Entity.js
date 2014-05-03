@@ -10,7 +10,10 @@ angular.module("ConfusionQuest")
           isJumping: false,
           isAttacking: false,
           hp: 1
-        }
+        },
+        stateChangeListeners: [],
+        behaviorListeners: []
+
       },
       tick: function() {
 
@@ -19,7 +22,10 @@ angular.module("ConfusionQuest")
         return this.state;
       },
       init: function(context) {
-        ngrLoop.addHook(this.tick)
+        console.log("Entity initing,",this);
+        ngrLoop.addHook(this.tick);
+        this.behaviorListeners = [];
+        this.stateChangeListeners = [];
       },
       brake: function() {
 
@@ -30,6 +36,13 @@ angular.module("ConfusionQuest")
         var n = body.GetAngularVelocity() * body.GetInertia();
         body.ApplyForce(new b2Vec2(-y * 10, 0), body.GetWorldCenter());
         body.ApplyTorque(-n * 10);
+      },
+      onstatechange: function(l) {
+        this.stateChangeListeners.push(l);
+      },
+
+      onbehavior: function(l) {
+        this.behaviorListeners.push(l);
       }
     })
 
