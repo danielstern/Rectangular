@@ -1,35 +1,68 @@
 <doctype HTML>
 
-    <html>
+    <html ng-app='shapemaker' ng-controller='myDemoCtrl'>
 
     <head>
-        <title>Rectangular JS 0.2</title>
+        <title>Shapemaker: Enjoy Shapes</title>
 
-        <script src="lib/angular.js"></script>
-        <script src="lib/jquery.js"></script>
-        <script src="lib/underscore.js"></script>
-        <script src="lib/Box2dWeb-2.1.a.3.js"></script>
-        <script src="js/Rectangular.js"></script>
-        <script src="js/ngrModel.js"></script>
-        <script src="js/ngrStage.js"></script>
-        <script src="js/ngrWorld.js"></script>
-        <script src="js/ngrDebug.js"></script>
+        <script src="js/lib/angular.js"></script>
+        <script src="js/lib/jquery.js"></script>
+        <script src="js/lib/underscore.js"></script>
+        <script src="js/lib/mousetrap.js"></script>
+        <script src="js/lib/Backbone.js"></script>
+        <script src="js/lib/Box2dWeb-2.1.a.3.js"></script>
+        <script src="js/util.js"></script>
 
-        <script type="text/javascript" src="lib/easel.js"></script>
-        <script type="text/javascript" src="lib/create.js"></script>
+        <script src="js/Rectangular/Rectangular.js"></script>
+        <script src="js/Rectangular/ngrStage.js"></script>
+        <script src="js/Rectangular/ngrState.js"></script>
+        <script src="js/Rectangular/ngrWorld.js"></script>
+        <script src="js/Rectangular/ngrRoom.js"></script>
+        <script src="js/Rectangular/ngrSkin.js"></script>
+        <script src="js/Rectangular/ngrLoop.js"></script>
+        <script src="js/Rectangular/ngrActor.js"></script>
+        <script src="js/Rectangular/ngrGame.js"></script>
+        <script src="js/Rectangular/ngrCamera.js"></script>
+        <script src="js/Rectangular/ngrDefaults.js"></script>
+        <script src="js/Rectangular/ngrData.js"></script>
+        <script src="js/Rectangular/ngrEnvironment.js"></script>
+        <script src="js/Rectangular/ngrModels.js"></script>
+        <script src="js/Rectangular/ngrBody.js"></script>
+        <script src="js/Rectangular/ngrDebug.js"></script>
+        <script src="js/Rectangular/ngrInterface.js"></script>
+        <script src="js/Rectangular/ngrBox.js"></script>
 
-        <script>
-        </script>
+        <script src="js/lib/angular.audio.js"></script>
+        <script type="text/javascript" src="js/lib/easel.js"></script>
+        <script type="text/javascript" src="js/lib/create.js"></script>
+
+        <script src='shapemaker/shapemaker.js'></script>
+        <script src="shapemaker/shapemakerDefaults.js"></script>
+        <script src='shapemaker/clickput.directive.js'></script>
+        <script src="shapemaker/shapecreator.directive.js"></script>
+        <script src="shapemaker/contextmenu.directive.js"></script>
+        <script src="shapemaker/slider.directive.js"></script>
+        <script src="shapemaker/worldcontroller.directive.js"></script>
+
+        <link rel="stylesheet" type="text/css" href="styles/shapemaker.css">
+
+        <link href='http://fonts.googleapis.com/css?family=Playfair+Display+SC:400,400italic,700' rel='stylesheet' type='text/css'>
+
 
     </head>
 
     <body>
 
-        <h2>RectAngular.js</h2>
 
-        <div class='main'>
-            <a href='shapemaker.html'>DEMO 1 - SHAPEMAKER</a>
-            <a href='confusionQuest.html'>DEMO 2 - CONFUSION QUESTION DEMO</a>
+        <div class='main' contextmenu='shapemakercontext'>
+            <canvas ng-stage id='gameCanvas' width='750' height='500'></canvas>
+        </div>
+        <worldcontroller></worldcontroller>
+        <creationPanel>
+            <makers>
+                <shapemaker shape='box'></shapemaker>
+            </makers>
+        </creationPanel>
     </body>
 
     </html>

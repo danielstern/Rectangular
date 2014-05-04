@@ -91,3 +91,30 @@ worldcontroller div {
 	
 	background: rgba(218, 199, 199, 1);
 }
+
+#debugcanvas {
+	position: absolute;
+	top: 0;
+	opacity: 1;
+	pointer-events: none;
+
+	background-color: rgba(200, 200, 200, 0.1);
+	left: 0;
+	width: 750px;
+	height: 500px;
+}
+
+canvas {
+	position: absolute;
+	top: 0;
+	opacity: 1;
+	left: 0;
+	width: 750px;  -webkit-user-select: none;  -khtml-user-select: none;  -moz-user-select: none;  -ms-user-select: none;  user-select: none;
+	webkit-user-select: none;
+	height: 500;
+}
+
+.overlay {
+	position: absolute;
+	z-index: 5;
+}
