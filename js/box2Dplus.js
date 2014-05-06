@@ -1,32 +1,31 @@
-
 var b2QuickStart = function(canvas) {
-	canvas = canvas || document.getElementById('canvas');
-	console.log("B2 Quickstart");
-	var world = new b2World()
-	console.log("Creating world", world);
-	
-	var definition = new b2Definition(b2HandyDandy.bodyProperties);
-	definition.addFixture(b2HandyDandy.fixtureProperties);
-	console.log("Creating serializable definition",definition);
+  canvas = canvas || document.getElementById('canvas');
+  console.log("B2 Quickstart");
+  var world = new b2World()
+  console.log("Creating world", world);
 
-	var bodyDef = definition.getBodyDef();
-	var body = world.CreateBody(bodyDef);
+  var definition = new b2Definition(b2HandyDandy.bodyProperties);
+  definition.addFixture(b2HandyDandy.fixtureProperties);
+  console.log("Creating serializable definition", definition);
 
-	body.definition = definition;
+  var bodyDef = definition.getBodyDef();
+  var body = world.CreateBody(bodyDef);
 
-	var fixDef = definition.getFixtureDefinitions()[0];
-	//b2HandyDandy.fixtureProperties
+  body.definition = definition;
 
-	body.CreateFixture(fixDef);
-	
-	console.log("Creating test body,",body);
-	world.Debug(canvas);
-	console.log("Debugging");
+  var fixDef = definition.getFixtureDefinitions()[0];
+  //b2HandyDandy.fixtureProperties
 
-	var t = world.timer.init(25);
-	console.log("Initing timer...");
+  body.CreateFixture(fixDef);
 
-	console.log("Quick start succesful");
+  console.log("Creating test body,", body);
+  world.Debug(canvas);
+  console.log("Debugging");
+
+  var t = world.timer.init(25);
+  console.log("Initing timer...");
+
+  console.log("Quick start succesful");
 }
 
 //quickstart properties
@@ -56,10 +55,11 @@ var b2HandyDandy = {
   }
 }
 
+
 // box2d World awesome
 var b2World = function(gravity, draw, scale) {
-	gravity = gravity || b2HandyDandy.world.gravity;
-	scale = scale || 60;
+  gravity = gravity || b2HandyDandy.world.gravity;
+  scale = scale || 60;
   var world = new Box2D.Dynamics.b2World(gravity, draw);
   var b2Listener = Box2D.Dynamics.b2ContactListener;
 
@@ -149,7 +149,7 @@ var b2World = function(gravity, draw, scale) {
    *		Shortcut for debugging.
    *
    */
- 
+
 
   world.Debug = function(canvas) {
     var p = $(canvas).parent();
@@ -190,6 +190,7 @@ var b2World = function(gravity, draw, scale) {
 
   world.CreateBody = function(b2BodyDef) {
     var body = this._CreateBody(b2BodyDef);
+    box2dPlusBody(body, world);
     body.id = guid();
     this.bodies.push(body);
     return body;
@@ -223,92 +224,152 @@ var b2World = function(gravity, draw, scale) {
       s4() + '-' + s4() + s4() + s4();
   }
 
+  function box2dPlusBody(body, world) {
+
+    body.crumbleListeners = [];
+    body.impactListeners = [];
+
+    body.oncrumble = function(func) {
+      this.crumbleListeners.push(func);
+    }
+
+    body.onimpact = function(func) {
+      this.impactListeners.push({
+        func: func
+      });
+    }
+
+    body.setSensor = function(bool) {
+      var f = this.GetFixtureList();
+      if (f) f.SetSensor(bool);
+    }
+
+
+    body.freeze = function() {
+      if (body) body.SetType(0);
+    }
+
+    body.unfreeze = function() {
+      body.SetType(2);
+    }
+
+    body.crumble = function() {
+      ngrLoop.removeHook(bodyLoop);
+      body.crumbled = true;
+      _.each(this.crumbleListeners, function(l) {
+        l(body);
+      })
+    }
+
+    world.OnPresolve(contactHandler)
+
+    function contactHandler(contact, _oldManifold) {
+      var body1 = contact.GetFixtureA().GetBody();
+      var body2 = contact.GetFixtureB().GetBody();
+
+      var data1 = body1.GetUserData() || {};
+      var data2 = body2.GetUserData() || {};
+
+      var id = body.id;
+      if (!id) console.error("Warning, body does not have ID");
+
+      if (body1.id == id || body2.id == id) {
+        var other = (body1.id == id) ? body1 : body2;
+        _.each(impactListeners, function(l) {
+          l(other);
+        })
+      }
+    }
+
+    return body;
+  }
+
 
   function Timer(freq) {
-  	  var l = this;
-  	  var speed = 60;
-  	  var loop;
-  	  var world;
-  	  var hooks = [];
-  	  var permanentHooks = [];
+    var l = this;
+    var speed = 60;
+    var loop;
+    var world;
+    var hooks = [];
+    var permanentHooks = [];
 
-  	  this.tick = function () {
+    this.tick = function() {
 
-  	    _.each(hooks, function (hook) {
-  	      hook.func(hook.arg);
-  	    })
+      _.each(hooks, function(hook) {
+        hook.func(hook.arg);
+      })
 
-  	    _.each(permanentHooks, function (hook) {
-  	      hook();
-  	    })
-  	  }
+      _.each(permanentHooks, function(hook) {
+        hook();
+      })
+    }
 
-  	  this.addHook = function (func, arg) {
-  	    var id = guid();
+    this.addHook = function(func, arg) {
+      var id = guid();
 
-  	    var hook = {
-  	      func: func,
-  	      id: id,
-  	      arg:arg,
-  	    }
+      var hook = {
+        func: func,
+        id: id,
+        arg: arg,
+      }
 
-  	    hooks.push(hook);
-  	    return hook;
-  	  };
+      hooks.push(hook);
+      return hook;
+    };
 
-  	  this.wait = function (duration) {
-  	    var r = $q.defer();
+    this.wait = function(duration) {
+      var r = $q.defer();
 
-  	    duration = duration || 1;
+      duration = duration || 1;
 
-  	    var h = l.addHook(function () {
-  	      duration--;
-  	      if (duration < 1) {
-  	        l.removeHook(h);
-  	        r.resolve();
+      var h = l.addHook(function() {
+        duration--;
+        if (duration < 1) {
+          l.removeHook(h);
+          r.resolve();
 
-  	      }
-  	    })
+        }
+      })
 
-  	    return r.promise;
-  	  }
+      return r.promise;
+    }
 
-  	  this.removeHook = function (_hook) {
-  	    hooks = _.without(hooks, _hook);
-  	  }
+    this.removeHook = function(_hook) {
+      hooks = _.without(hooks, _hook);
+    }
 
-  	  /**
-  	  *
-  	  * Add a hook not removed by removeHooks (call removeHook with the hook's hadnle to remove it)
-  	  * @func - a function you want to be executed every world tick
-  	  *
-  	  */
-  	  this.addPermanentHook = function (func) {
-  	    permanentHooks.push(func);
-  	  };
+    /**
+     *
+     * Add a hook not removed by removeHooks (call removeHook with the hook's hadnle to remove it)
+     * @func - a function you want to be executed every world tick
+     *
+     */
+    this.addPermanentHook = function(func) {
+      permanentHooks.push(func);
+    };
 
-  	  this.clearHooks = function () {
-  	    hooks = [];
-  	  }
+    this.clearHooks = function() {
+      hooks = [];
+    }
 
-  	  this.stop = function () {
-  	    clearInterval(loop);
-  	  }
+    this.stop = function() {
+      clearInterval(loop);
+    }
 
-  	  this.setSpeed = function (_speed) {
-  	    speed = _speed;
-  	    if (loop) l.initWorld();
-  	  }
+    this.setSpeed = function(_speed) {
+      speed = _speed;
+      if (loop) l.initWorld();
+    }
 
-  	  this.init = function (_speed) {
-  	    speed = _speed || speed;
-  	    clearInterval(loop);
-  	    loop = setInterval(l.tick, 1000 / speed);
-  	  };
+    this.init = function(_speed) {
+      speed = _speed || speed;
+      clearInterval(loop);
+      loop = setInterval(l.tick, 1000 / speed);
+    };
 
-  	  this.init;
-  	  this.start = this.init;
-  	}
+    this.init;
+    this.start = this.init;
+  }
 
   return world;
 };
@@ -321,10 +382,10 @@ var b2World = function(gravity, draw, scale) {
  **/
 var b2Definition = function(options) {
 
-	if (!options) {
-		console.warn("You did not pass any options. Going with default options");
-		options = b2HandyDandy.bodyProperties;
-	}
+  if (!options) {
+    console.warn("You did not pass any options. Going with default options");
+    options = b2HandyDandy.bodyProperties;
+  }
 
   if (options.isShape) {
     return options;
@@ -336,7 +397,7 @@ var b2Definition = function(options) {
   this.fixtures = [];
   this.isShape = true;
   this.fixtureOptions = [];
- // this.fixtureOptions.push(options);
+  // this.fixtureOptions.push(options);
 
   this.getBodyDef = function() {
 
@@ -398,7 +459,7 @@ var b2Definition = function(options) {
           console.warn("Triangles are not supported.");
           break;
         default:
-          throw new Error("You must defind a shape in your options.",options);
+          throw new Error("You must defind a shape in your options.", options);
           break;
       }
 
@@ -464,7 +525,7 @@ _.without = function(arr, el) {
   return arr;
 }
 
-setTimeout(function(){
+setTimeout(function() {
 
-b2QuickStart();
+  b2QuickStart();
 })
