@@ -1,0 +1,236 @@
+#debugcanvas {
+	position: absolute;
+	top: 0;
+	opacity: 1;
+	pointer-events: none;
+
+	background-color: rgba(200, 200, 200, 0.1);
+	left: 0;
+	width: 750px;
+	height: 500px;
+}
+
+canvas {
+	position: absolute;
+	top: 0;
+	opacity: 1;
+	left: 0;
+	width: 750px;  -webkit-user-select: none;  -khtml-user-select: none;  -moz-user-select: none;  -ms-user-select: none;  user-select: none;
+	webkit-user-select: none;
+	height: 500;
+}
+
+.overlay {
+	position: absolute;
+	
+	z-index: 5;
+}
+
+.modal {
+	width: 500px;
+	height: 400px;
+	padding: 15px;
+	background-color: #FFFFFF;
+	border-radius: 5;
+	z-index: 10000;
+	position: absolute;
+	margin: auto;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	font-family: 'Playfair Display SC', serif;
+	border: 1px solid rgb(235, 235, 235);
+	box-shadow: 2px 2px 2px 1px rgba(0,0,0,0.5), 0px 0px 1px 1px rgba(0,0,0,0.3);
+}
+
+.modal h1 {
+	margin: auto;
+	text-align: center;
+	margin-top: 25px;
+	font-size: 30px;
+}
+
+.health {
+	position: absolute;
+	width: 350px;
+	height: 30px;
+	bottom: 20px;
+	left: 20px;
+	z-index: 3;
+	border: 0px solid transparent;
+		pointer-events: none;
+}
+
+
+.score {
+	position: absolute;
+	width: 300px;
+	height: 30px;
+	bottom: 20px;
+	right: 20px;
+	z-index: 3;
+	border: 0px solid;
+		pointer-events: none;
+}
+
+.coins-container {
+	font-family: 'Playfair Display SC', serif;
+	color: white;
+	
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	right: 0;
+	margin: auto;
+	text-shadow: 2px 2px rgba(0,0,0,0.3);
+}
+
+.coins {
+	font-size: 24px;
+	float: right;
+}
+
+.legend {
+	position: static;
+	left: 0;
+	width:35px;
+	height: 35px;
+	float: left;
+	background: url('../img/coinGold.png');
+	background-size: cover;
+}
+
+.message {
+	position: absolute;
+	color: white;
+	font-family: 'Playfair Display SC', serif;
+	height: 0;
+	min-height: 0;
+	font-size: 46px;
+	width: 100%;
+	text-align: center;
+	margin: auto;
+	top: 0;
+	bottom: 0;
+		text-shadow: 2px 2px rgba(0,0,0,0.3);
+			pointer-events: none;
+	
+	z-index: 10;
+}
+
+.bar-outer {
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: 10px;
+	margin: auto;
+	width: 250px;
+	height: 10px;
+	border: 1px solid rgba(0,0,0,0.5);
+	border-radius: 3px;
+	box-shadow: 2px 2px 2px 1px rgba(0,0,0,0.3), 0px 0px 2px 1px rgba(0,0,0,0.3);
+	background-color: #1d5132;
+}
+
+.bar-inner {
+	position: absolute;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: #5cc248;
+	transition: 0.2s all;
+}
+
+.modal img {
+	width: 20%;
+	margin: auto;
+	display: block;
+}
+
+.modal p {
+	text-align: center;
+	font-size: 22px;
+	
+	width: 80%;
+	margin: auto;
+	margin-bottom: 26px;
+}
+
+.modal p.flavor {
+	font-size: 12px;
+	font-family: 'Playfair Display SC', serif;
+	font-style: italic;
+}
+
+.modal .button {
+	width: 80%;
+	margin: auto;
+	text-align: center;
+	border: 1px solid green;
+	padding: 10px;
+	border-radius: 10px;
+	font-size: 30px;
+	background-color: #eeffee;
+	color: black;
+	cursor: pointer;	
+	
+	margin-bottom: 10px;
+}
+
+
+.untouchable {
+	pointer-events: none;
+}
+
+clickput input {
+	width: 50px;
+	padding: 3px;	
+	font-size: 15px;
+	border-radius: 3px;
+}
+
+.blocker {
+	width: 750px;
+	height: 500;
+	background-color: transparent;
+	overflow:hidden;
+	position: absolute;
+	top:0;
+	left:0;
+	pointer-events: none;
+	z-index: 2;
+}
+
+.blocker-inner.block {
+
+	margin-left: -300px;
+	transition: all 0.5s;
+	
+}
+
+.blocker-inner.slide-out {
+
+	margin-left: 1250px;
+	transition: all 0.5s;
+	
+}
+
+.main {
+	position: relative;
+	/* margin: 20px; */
+}
+
+.blocker-inner {
+	width: 1250px;
+	height: 600px;
+	margin-left: -1250px;
+	background: linear-gradient(to right, rgba(0,0,0,0) 0%,rgba(0,0,0,0.8) 15%,rgba(0,0,0,1) 19%,rgba(0,0,0,1) 20%,rgba(0,0,0,1) 50%,rgba(0,0,0,1) 80%,rgba(0,0,0,1) 81%,rgba(0,0,0,0.8) 85%,rgba(0,0,0,0) 100%); /* W3C */
+	transition: all 0s;
+}
+
+
+
+.invisible {
+	display: none !important;
+}

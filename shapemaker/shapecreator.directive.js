@@ -19,7 +19,7 @@ angular.module('shapemaker')
 
         $scope.$watchCollection('preset', function () {
           var pre = $scope.preset;
-          if (!pre.shape) return;
+          if (!pre || !pre.shape) return;
 
           _.each(pre.presets, function (_pre, key) {
             $scope.params[key] = _pre;

@@ -13,7 +13,6 @@ angular.module('Rectangular')
     }
 
 
-
     var _bodyP = b2Body.prototype;
     _bodyP.hello = "Hello";
 

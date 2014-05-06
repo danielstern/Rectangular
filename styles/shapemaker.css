@@ -1,0 +1,93 @@
+shapemaker div {
+	border: 2px solid black;
+	display: inline-block;
+}
+
+
+
+html * {
+    font-size: 12px;
+
+}
+
+body {
+	background-color: #6F6F68;
+}
+
+.addContext input {
+	width: 50px;
+	
+}
+canvas {
+	cursor: pointer;
+}
+
+creationPanel {
+	position: absolute;
+	bottom: 50px;
+	width: 850px
+;
+	/* height: 350px; */
+}
+
+shapemaker div {
+	opacity: 1;
+	border: 1px solid #323;
+	padding: 1em;
+	font-size: 8px;
+	border-radius: 0.3em;
+	background-color: #fffeff;
+	font-family: Arial;
+		-webkit-animation: fadeIn 0.2s ease-in;
+}
+
+worldcontroller {
+	position: absolute;
+	right: 25;
+	top: 50px;
+}
+
+worldcontroller div {
+	margin-top:10px;
+	margin-bottom: 10px;
+}
+
+.main {
+	width: 750px;
+	height: 500px;
+	/* overflow: hidden; */
+}
+
+[customcontextmenu] {
+	position: absolute;
+	border: 1px solid #323;
+	padding: 0.3em;
+	width: 10rem;
+	font-size: 11px;
+	border-radius: 0.3em;
+	background-color: #fef;
+	font-family: Arial;
+		-webkit-animation: fadeIn 0.2s ease-in;
+}
+
+[customcontextmenu] ul {
+	list-style: none;
+	padding-left: 10px;
+	padding-right: P;
+	PADDING: 0;
+}
+
+[customcontextmenu] li {
+	margin-left: 0px;
+	text-align: center;
+	padding: 0.4rem;
+	transition: 0.2s all;
+	background: rgb(218, 199, 199, 0);
+	cursor: pointer;
+	margin: 0;
+}
+
+[customcontextmenu] li:hover {
+	
+	background: rgba(218, 199, 199, 1);
+}
