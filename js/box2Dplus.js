@@ -7,10 +7,12 @@ var b2QuickStart = function(canvas) {
 	
 	var definition = new b2Definition(b2HandyDandy.bodyProperties);
 	definition.addFixture(b2HandyDandy.fixtureProperties);
-	console.log("Creating serializable definition",definition)
+	console.log("Creating serializable definition",definition);
 
 	var bodyDef = definition.getBodyDef();
 	var body = world.CreateBody(bodyDef);
+
+	body.definition = definition;
 
 	var fixDef = definition.getFixtureDefinitions()[0];
 	//b2HandyDandy.fixtureProperties
@@ -22,7 +24,9 @@ var b2QuickStart = function(canvas) {
 	console.log("Debugging");
 
 	var t = world.timer.init(25);
-	console.log("Initing timer...",t);
+	console.log("Initing timer...");
+
+	console.log("Quick start succesful");
 }
 
 //quickstart properties
