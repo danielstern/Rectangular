@@ -15,8 +15,10 @@ angular.module("shapemaker")
     $scope.stats = {};
 
     $scope.game = ngrGame;
+    console.log("Adding defaults")
 
   //  shapemakerDefaults.addDefaults(ConfusionQuestDefaults.defaults);
+    shapemakerDefaults.addDefaults(shapemakerDefaults.defaults);
 
     ngrEnvironment.init($scope.context);
     ngrInterface.init();
