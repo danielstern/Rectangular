@@ -5,32 +5,17 @@
     <head>
         <title>Shapemaker: Enjoy Shapes</title>
 
-        <script src="js/lib/angular.js"></script>
+     <!--   <script src="js/lib/angular.js"></script>-->
         <script src="js/lib/jquery.js"></script>
         <script src="js/lib/underscore.js"></script>
         <script src="js/lib/mousetrap.js"></script>
         <script src="js/lib/Backbone.js"></script>
         <script src="js/lib/Box2dWeb-2.1.a.3.js"></script>
-        <script src="js/util.js"></script>
 
-        <script src="js/Rectangular/Rectangular.js"></script>
-        <script src="js/Rectangular/ngrStage.js"></script>
-        <script src="js/Rectangular/ngrState.js"></script>
-        <script src="js/Rectangular/ngrWorld.js"></script>
-        <script src="js/Rectangular/ngrRoom.js"></script>
-        <script src="js/Rectangular/ngrSkin.js"></script>
-        <script src="js/Rectangular/ngrLoop.js"></script>
-        <script src="js/Rectangular/ngrActor.js"></script>
-        <script src="js/Rectangular/ngrGame.js"></script>
-        <script src="js/Rectangular/ngrCamera.js"></script>
-        <script src="js/Rectangular/ngrDefaults.js"></script>
-        <script src="js/Rectangular/ngrData.js"></script>
-        <script src="js/Rectangular/ngrEnvironment.js"></script>
-        <script src="js/Rectangular/ngrModels.js"></script>
-        <script src="js/Rectangular/ngrBody.js"></script>
-        <script src="js/Rectangular/ngrDebug.js"></script>
-        <script src="js/Rectangular/ngrInterface.js"></script>
-        <script src="js/Rectangular/ngrBox.js"></script>
+        <script src="js/util.js"></script>
+        <script src="js/box2DPlus.js"></script>
+
+
 
         <link rel="stylesheet" type="text/css" href="styles/ngr.css">
 
@@ -43,11 +28,7 @@
     </body>
 
     <script>
-        angular.module("Rectangular")
-        .controller('RectangularDemo',function(ngrWorld,ngrEnvironment){
-            console.log("Hello from Rectangular", ngrWorld);
-            ngrEnvironment.init($('canvas'));
-        })
+        
 
     </script>
 

@@ -11,6 +11,26 @@ angular.module("GameAgent", ['Rectangular', 'ngAudio'])
     var events = [];
     var createEntityListeners = [];
 
+    this.bullet = {
+      shapeKind: 'circle',
+      radius: 0.15,
+      density: 600,
+      bullet: true,
+      src: 'img/box-red.png',
+      bg: 'tiled',
+      hidden: false,
+      userData: {
+        igniter: true,
+      },
+      restitution: 0.99,
+      friction: 0,
+      gravityScale: 0,
+      timedLife: true,
+      lifeTime: 15,
+      type: 'dynamic',
+    }
+
+
     this.oncreateentity = function(f) {
       createEntityListeners.push(f);
     }
@@ -70,7 +90,7 @@ angular.module("GameAgent", ['Rectangular', 'ngAudio'])
 
 
     this.aoe = function(point, range, callback, duration) {
-      
+
       var effectDef = _.clone(ngrDefaults.body);
       var hitBodies = [];
 
@@ -277,7 +297,7 @@ angular.module("GameAgent", ['Rectangular', 'ngAudio'])
     }
 
     function loadHandler(e) {
-   //   console.log("Loaded", e);
+      //   console.log("Loaded", e);
     }
 
   })

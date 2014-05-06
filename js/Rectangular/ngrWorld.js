@@ -15,9 +15,7 @@ angular.module('Rectangular')
     return w.getBodiesByAttribute('id', _id)[0];
   }
 
-  this.oncreatebody = function(l) {
-    onCreateBodyListeners.push(l);
-  }
+
 
   this.addMouseJoint = function (body, target) {
 
@@ -51,26 +49,10 @@ angular.module('Rectangular')
     }) || [];
   }
 
-  this.createMouseJoint = function (body) {
-    
-  }
-
-  this.getBodyByUserData = function (key, val) {
-    return w.getBodiesByUserData(key, val)[0];
-  }
-
-  this.getBodiesByUserData = function (key, val) {
-    return _.filter(bodies, function (body) {
-      if (body.GetUserData() && body.GetUserData()[key] == val) return true;
-    })
-  }
-
   this.addElement = function (options) {
 
     var def = ngrBox.shape(options);
     var id = options.id || guid();
-    
-    
 
     var b = world.CreateBody(def.getBodyDef());
     var f = def.getFixtureDef()
@@ -117,30 +99,6 @@ angular.module('Rectangular')
   }
 
 
-  this.removeElement = function (body) {
-
-    var elId = body.id;
-    world.DestroyBody(body);
-
-    bodies = _.chain(bodies)
-      .map(function (_body) {
-        if (_body.id != elId) return _body;
-      })
-      .compact()
-      .value();
-
-    
-
-  }
-
-  this.clearAll = function () {
-    _.each(bodies, function (body) {
-      body.crumble();
-    });
-
-    bodies = [];
-  }
-
   this.setGravity = function (grav) {
     world.SetGravity(new b2Vec2(0, grav))
   };
@@ -152,63 +110,6 @@ angular.module('Rectangular')
     world.DrawDebugData();
 
   }
-
-  var b2World = function(gravity,draw) {
-    var world = new Box2D.Dynamics.b2World(gravity,draw);
-    var b2Listener = Box2D.Dynamics.b2ContactListener;
-
-    world.onCreateBodyListeners = [];
-    world.beginContactListeners = [];
-    world.presolveListeners = [];
-    world.postsolveListeners = [];
-    world.endContactListeners = [];
-
-    //Add listeners for contact
-    var listener = new b2Listener;
-
-    listener.BeginContact = function(contact) {
-
-       _.call(world.beginContactListeners,contact);
-    }
-
-    listener.EndContact = function(contact) {
-      _.call(world.endContactListeners,contact);
-    }
-
-    listener.PostSolve = function(contact, impulse) {
-      _.call(world.postsolveListeners,contact);
-
-       
-    }
-
-    listener.PreSolve = function(contact, oldManifold) {
-        _.call(world.presolveListeners,contact,oldManifold);
-    }
-
-
-
-
-    world.onbegincontact = function(l) {
-      world.beginContactListeners.push(l);
-    }
-
-    world.onpresolve = function(l) {
-      world.presolveListeners.push(l);
-    }
-
-    world.onendcontact = function(l) {
-      world.endContactListeners.push(l)
-    }
-
-
-    world.onpostsolve = function(l) {
-      world.postsolveListeners.push(l)
-    }
-
-
-    world.SetContactListener(listener);
-    return world;
-  };
 
   this.init = function (gravityX, gravityY, sleep) {
 

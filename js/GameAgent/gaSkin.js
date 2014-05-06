@@ -1,19 +1,29 @@
 angular.module('Rectangular')
-  .service('ngrSkin', function (ngrState, ngrCamera, ngrDefaults, $q, ngrActor) {
+  .service('ngrSkin', function(ngrState, ngrCamera, ngrDefaults, $q, ngrActor) {
 
     var nd = this;
     var _body;
 
-    this.skin = function (body, options) {
+    this.skin = function(body, options) {
       _body = body;
 
       var scale = ngrState.getScale();
       var _container = new createjs.Container();
-      var defaults = _.clone(ngrDefaults.skin);
+      var skin = {
+        height: 1,
+        width: 1,
+        snapToPixel: true,
+        mouseEnabled: false,
+        y: 1,
+        x: 10,
+        angle: 0,
+        src: ''
+      }
+      var defaults = _.clone(skin);
       var actor = undefined;
       var imgData;
       var r = {};
-      
+
 
       options = _.extend(defaults, options);
 
@@ -33,33 +43,33 @@ angular.module('Rectangular')
       actor = ngrActor.newActor(body, _container);
 
       loadBitmap(options.src)
-        .then(function (imgData) {
+        .then(function(imgData) {
 
           var img = imgData.image;
 
-          
+
 
           if (options.bg == 'tiled') {
 
             _container.addChild(nd.tile(img, options));
 
           } else if (options.bg == 'spritesheet') {
-            
+
             var data = {
               images: [options.src],
               frames: options.frames,
               framerate: options.framerate,
               animations: options.animations,
-              speed:0.4,
+              speed: 0.4,
             };
 
-           // console.log("Spritesheet,",data);
+            // console.log("Spritesheet,",data);
             var spriteSheet = new createjs.SpriteSheet(data);
             window.charSprite = spriteSheet;
             r.animation = new createjs.Sprite(spriteSheet, options.startAt || "stand");
 
             var animScale = options.spriteHeight / options.frameHeight * 2;
-            
+
             r.animation.scaleX = r.animation.scaleY = animScale;
 
             _container.addChild(r.animation);
@@ -101,7 +111,7 @@ angular.module('Rectangular')
 
     };
 
-    this.tile = function (img, options) {
+    this.tile = function(img, options) {
 
       var container = new createjs.Container();
       var scale = ngrState.getScale();
@@ -149,7 +159,7 @@ angular.module('Rectangular')
         }
       }
 
-      _.each(config.tiles, function (tile) {
+      _.each(config.tiles, function(tile) {
         var _imgData = new createjs.Bitmap(tile.src || 'img/null.png');
 
         _imgData.regY = tile.y;
@@ -198,7 +208,7 @@ angular.module('Rectangular')
 
     }
 
-    this.background = function (src, parallax) {
+    this.background = function(src, parallax) {
 
       var sprite = {
         container: new createjs.Container(),
@@ -227,8 +237,8 @@ angular.module('Rectangular')
       }
     }
 
-    this.coverCanvas = function (src, parallax) {
-        
+    this.coverCanvas = function(src, parallax) {
+
       var canvas = $('canvas');
 
       var sprite = {
@@ -266,7 +276,7 @@ angular.module('Rectangular')
         }
       };
 
-      var awaitImageInterval = setInterval(function () {
+      var awaitImageInterval = setInterval(function() {
         if (checkImageReady()) {
 
           clearInterval(awaitImageInterval);

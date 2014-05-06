@@ -13,10 +13,6 @@ angular.module('Rectangular')
     }
 
 
-    var _bodyP = b2Body.prototype;
-    _bodyP.hello = "Hello";
-
-
     ngrBody.prototype.Body = function (_body) {
       window.__body = _body;
       var body = _body;
@@ -71,12 +67,6 @@ angular.module('Rectangular')
           edge = edge.next;
         }
 
-
-        if (body.GetPosition().y - bodyOriginalY > 2) {
-          _.call(body.fallListeners);
-        }
-
-        if (body.GetPosition().y > 500) body.crumble();
       })
 
       body.oncrumble = function (func) {
@@ -92,18 +82,14 @@ angular.module('Rectangular')
       body.setSensor = function(bool) {
         var f = body.GetFixtureList();
         if (f) f.SetSensor(bool);
-      }
-
-      
+      } 
 
       body.onfall = function (func) {
         fallListeners.push(func);
       }
 
       body.freeze = function () {
-
         if (body) body.SetType(0);
-
       }
 
       body.unfreeze = function () {
@@ -117,8 +103,6 @@ angular.module('Rectangular')
           l(body);
         })
       }
-
-      //console.log("Returning",body);
 
       return body;
     }

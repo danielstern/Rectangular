@@ -17,8 +17,6 @@ angular.module('Rectangular')
         hook();
       })
 
-      //console.log("Tick");
-
     }
 
     this.addHook = function (func, arg) {
@@ -37,8 +35,6 @@ angular.module('Rectangular')
     this.wait = function (duration) {
       var r = $q.defer();
 
-//      console.log("Waiting",duration);
-
       duration = duration || 1;
 
       var h = l.addHook(function () {
@@ -46,7 +42,7 @@ angular.module('Rectangular')
         if (duration < 1) {
           l.removeHook(h);
           r.resolve();
-  //        console.log("Wait over",duration);
+
         }
       })
 
@@ -57,6 +53,12 @@ angular.module('Rectangular')
       hooks = _.without(hooks, _hook);
     }
 
+    /**
+    *
+    * Add a hook not removed by removeHooks (call removeHook with the hook's hadnle to remove it)
+    * @func - a function you want to be executed every world tick
+    *
+    */
     this.addPermanentHook = function (func) {
       permanentHooks.push(func);
     };
@@ -75,12 +77,14 @@ angular.module('Rectangular')
       if (loop) l.initWorld();
     }
 
-    this.initWorld = function (_speed) {
+    this.init = function (_speed) {
 
       speed = _speed || speed;
       clearInterval(loop);
       loop = setInterval(l.tick, 1000 / speed);
     };
 
-    this.start = this.initWorld;
+    this.init;
+
+    this.start = this.init;
   })

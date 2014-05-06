@@ -14,7 +14,6 @@ angular.module('Rectangular')
         def.options.x = pos.x;
         def.options.y = pos.y;
         
-
         return def;
       })
 

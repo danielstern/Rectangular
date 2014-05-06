@@ -1,14 +1,29 @@
 angular.module('Rectangular')
-  .service("ngrBox", function (ngrDefaults) {
+  .service("ngrBox", function(ngrDefaults) {
 
-    this.shape = function (options) {
+    this.shape = function(options) {
 
       if (!_.isObject(options)) throw new Error("You must define options to create a shape.")
 
-      var defaults = _.clone(ngrDefaults.body);
+      var defaults = {
+        height: 0.5,
+        width: 0.5,
+        x: 10,
+        y: 1,
+        radius: 1.5,
+        density: 0.5,
+        'friction': 0.2,
+        'restitution': 0.1,
+        'linearDamping': 0.0,
+        'angularDamping': 0.0,
+        gravityScale: 1.0,
+        type: 'dynamic',
+        angle: 0,
+
+      };
 
       options = _.extend(defaults, options);
-      options = _.each(options, function (value, key) {
+      options = _.each(options, function(value, key) {
         if (!isNaN(Number(value))) options[key] = Number(value);
       })
 
@@ -26,7 +41,7 @@ angular.module('Rectangular')
       this.options = options;
       this.isShape = true;
 
-      this.getBodyDef = function () {
+      this.getBodyDef = function() {
 
         var b = new b2BodyDef();
 
@@ -40,46 +55,46 @@ angular.module('Rectangular')
         b.gravityScale = options.gravityScale;
 
         switch (this.options.type) {
-        case 'dynamic':
-        case b2Body.b2_dynamicBody:
-          b.type = b2Body.b2_dynamicBody;
-          break;
-        case 'static':
-        case b2Body.b2_staticBody:
-          b.type = b2Body.b2_staticBody;
-          break;
-        default:
-          throw new Error("You must define a body type in your options", this.options);
-          break;
+          case 'dynamic':
+          case b2Body.b2_dynamicBody:
+            b.type = b2Body.b2_dynamicBody;
+            break;
+          case 'static':
+          case b2Body.b2_staticBody:
+            b.type = b2Body.b2_staticBody;
+            break;
+          default:
+            throw new Error("You must define a body type in your options", this.options);
+            break;
         }
 
         return b;
 
       }
 
-      this.getFixtureDef = function () {
+      this.getFixtureDef = function() {
         var f = new b2FixtureDef;
 
         if (options.effect) {
-          
+
           options.radius = 0;
         }
 
         switch (options.shapeKind) {
-        case 'box':
-          f.shape = new b2PolygonShape();
-          f.shape.SetAsBox(Number(options.width), Number(options.height));
-          break;
-        case 'circle':
-          f.shape = new b2CircleShape();
-          f.shape.SetRadius(Number(options.radius));
-          break;
-        case 'triangle':
-          console.warn("Triangles are not supported.");
-          break;
-        default:
-          throw new Error("You must defind a shapeKind in your options.");
-          break;
+          case 'box':
+            f.shape = new b2PolygonShape();
+            f.shape.SetAsBox(Number(options.width), Number(options.height));
+            break;
+          case 'circle':
+            f.shape = new b2CircleShape();
+            f.shape.SetRadius(Number(options.radius));
+            break;
+          case 'triangle':
+            console.warn("Triangles are not supported.");
+            break;
+          default:
+            throw new Error("You must defind a shapeKind in your options.");
+            break;
         }
 
 
