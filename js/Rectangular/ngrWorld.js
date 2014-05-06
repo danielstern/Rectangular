@@ -210,13 +210,12 @@ angular.module('Rectangular')
     return world;
   };
 
-  this.setWorld = function (gravityX, gravityY, sleep) {
+  this.init = function (gravityX, gravityY, sleep) {
 
     var gravity = new b2Vec2(gravityX, gravityY);
     var doSleep = sleep;
 
     world = world || new b2World(gravity, false);
-
 
     return world;
   }
