@@ -17,7 +17,7 @@ angular.module('shapemaker')
       this.presets = this.presets.concat(_presets);
     }
 
-    
+
     this.defaults = [{
       name: 'Wooden Box',
       shape: 'box',
@@ -36,25 +36,8 @@ angular.module('shapemaker')
         density: 0.2
       }
 
-    }, {
-      name: 'Density-Less Platform',
-      shape: 'box',
-      skin: {
-        src: 'img/box.png',
-        bg: 'tiled'
-      },
-      userData: {
-        isFloor: true,
-      },
-      presets: {
-        height: 0.5,
-        width: 5,
-        restitution: 0.1,
-        density: 0,
-        friction: 0.2,
-        gravityScale: 0
-      }
-    }, {
+    },
+    {
       name: 'Circle',
       shape: 'circle',
       skin: {

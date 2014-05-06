@@ -85,8 +85,8 @@
   }
 
   window.epicId = function() {
-    var a = "infusive paleobotany telecourse lauenburg braird interwreathed humpless dogcatcher debutante perilaus excluded polyvoltine chemosmotic coadventuring ephah buncombe reconcentrate".split(" ");
-    var b = "brevetted jobyna ashkhabad trophozoite concentrate galopade mucking alcoholizing lud cystoid unreassuring monocarpous equestrienne shrimplike significative resystematizing freeing".split(" ");
+    var a = "tarantino alphanumeric math bradley finn jake mordecai rigby optimus claptrap bayonetta".split(" ");
+    var b = "hadoken ryu ken zangief blanka guile excalibur excalipar gilgamesh odin".split(" ");
     return _.sample(a) + "-" + _.sample(b);
   }
 
